@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html>
+<link href="sources/indexmain.css" rel="stylesheet" type="text/css" />
+
+<!--Java Script-->
+<script type="text/javascript" src="sources/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="sources/js/script.js"></script>
+<!--Boostrap-->
+
+<!-- Latest compiled and minified CSS boostrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional addon from boostrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<style type="text/css">
+  .navBtn {
+      border: none;
+      outline: none;
+      background-color: #001a33;
+      color:white;
+      padding-top: 1%;
+      padding-bottom: 1%;
+      width: 80px;
+  }
+
+  .navBar {
+      background-color: #001a33;
+      height:auto;
+      position: relative;
+  }
+  .firstHeader{
+    padding-top: 2px;
+    padding-left: 5%;
+ border-bottom:1pt solid #F0F0F0;
+  }
+
+.divUnderline {
+   margin-left: 1px;
+   border-bottom:1pt solid #F0F0F0;
+   padding-left: 10px;
+   padding-top:10px;
+   padding-bottom: 10px;
+}
+  
+  .underLineGeneral {
+     border-bottom:1pt solid #F0F0F0;
+  }
+   .notificationDetail ul{
+    list-style: none;
+    margin-left: -40px;
+   }
+   .fontStyle{
+    margin-left: -15px;
+   }
+
+   .notificationBtn {
+    top: -10px;
+    position: relative;
+   }
+
+   .aStyle {
+    color: black;
+   }
+   
+   button:active {
+    background-color:#323299;
+   }
+   button:focus {
+    background-color:#323299;
+   }
+
+   .frameStyle {
+    margin-left: auto;
+   }
+
+   .btnDelete {
+    top: 20px;
+    position: relative;
+    left: 100px;
+    width: 80px;
+   }
+
+   .btnView, .btnEdit {
+     top: 20px;
+    position: relative;
+    left: 20px;
+    width: 80px;
+   }
+
+   .btnTs {
+    top: 20px;
+    position: relative;
+    left: 20px;
+    width: 110px;
+   }
+
+   .btnSch {
+    width: 120px;
+     top: 20px;
+    position: relative;
+    left: 20px;
+
+   }
+
+   .headerJob {
+    
+    padding-bottom: 5%;
+   }
+
+   .outputBody{
+    background-color: black;
+    color:white;
+    padding-left: 1%;
+   }
+   .outputBody p {
+    color:white;
+   }
+   .outputBody h1 {
+    color:#DAA520;
+   }
+
+   .tableStyle th, tr, td{
+    padding-left: 1%;
+        width: 10px;
+   }
+   .tableStyle th {
+    padding-top: 5%;
+   }
+
+   .noTd {
+    width: 20px !important;
+   }
+
+   .endTd {
+     width: 20px !important;
+   }
+</style>
+<head>
+  <title>Corn Screen</title>
+</head>
+<body>
+    <div class="container">
+        <div class="col-md-12 navBar">
+            <button class="navBtn" onclick="openTab('Executions')">Executions</button>
+            <button class="navBtn" onclick="openTab('Jobs')">Jobs</button>
+            <button class="navBtn" onclick="openTab('Hosts')">Hosts</button>
+        </div>
+         <div class="col-md-3">
+          <div class ="row firstHeader">
+            <h5> <strong>Recent Job Executions</strong> </h5>
+            </div>
+            <div class ="notificationDetail">
+            <ul>
+           
+              <li>
+                <div class ="row">
+                  <!-- notification with x icon -->
+                <div>
+                    <div class = "row divUnderline">
+                  <a class="aStyle" href="#">
+                <div class="col-xs-10 fontStyle">Notification details</div>
+                <div class="col-xs-10 fontStyle">"time" minutes ago on "device" </div> 
+                <div class="col-xs-2 notificationBtn">
+                   <button type="button" class="btn btn-danger btn-xs">
+                    <span class="glyphicon glyphicon-remove"></span>
+                   </button>
+                 </div>
+                  </a>
+                </div>
+                </div>
+          
+                  <!-- End notification with x icon -->
+
+                    <!-- notification with check icon -->
+                    <div class = "row divUnderline">
+                  <a class="aStyle" href="#">
+                <div class="col-xs-10 fontStyle">Notification details</div>
+                <div class="col-xs-10 fontStyle">"time" minutes ago on "device" </div> 
+                <div class="col-xs-2 notificationBtn">
+                   <button type="button" class="btn btn-success btn-xs">
+                    <span class="glyphicon glyphicon-ok"></span>
+                   </button>
+                 </div>
+                  </a>
+               </div>
+                  <!-- End notification with check icon -->
+
+                     <!-- notification with thunder icon -->
+                    <div class = "row divUnderline">
+                  <a class="aStyle" href="#">
+                <div class="col-xs-10 fontStyle">Notification details</div>
+                <div class="col-xs-10 fontStyle">"time" minutes ago on "device" </div> 
+                <div class="col-xs-2 notificationBtn">
+                   <button type="button" class="btn btn-warning btn-xs">
+                    <span class="glyphicon glyphicon-flash"></span>
+                   </button>
+                 </div>
+                  </a>
+               </div>
+                  <!-- End notification with thunder icon -->
+
+                  <!--   may delete from here onward, it is repeatation -->
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+                     <!-- notification with thunder icon -->
+                    <div class = "row divUnderline">
+                  <a class="aStyle" href="#">
+                <div class="col-xs-10 fontStyle">Notification details</div>
+                <div class="col-xs-10 fontStyle">"time" minutes ago on "device" </div> 
+                <div class="col-xs-2 notificationBtn">
+                   <button type="button" class="btn btn-warning btn-xs">
+                    <span class="glyphicon glyphicon-flash"></span>
+                   </button>
+                 </div>
+                  </a>
+               </div>
+                  <!-- End notification with thunder icon -->
+
+   <!-- notification with thunder icon -->
+                    <div class = "row divUnderline">
+                  <a class="aStyle" href="#">
+                <div class="col-xs-10 fontStyle">Notification details</div>
+                <div class="col-xs-10 fontStyle">"time" minutes ago on "device" </div> 
+                <div class="col-xs-2 notificationBtn">
+                   <button type="button" class="btn btn-warning btn-xs">
+                    <span class="glyphicon glyphicon-flash"></span>
+                   </button>
+                 </div>
+                  </a>
+               </div>
+
+
+                  <!-- notification with thunder icon -->
+                    <div class = "row divUnderline">
+                  <a class="aStyle" href="#">
+                <div class="col-xs-10 fontStyle">Notification details</div>
+                <div class="col-xs-10 fontStyle">"time" minutes ago on "device" </div> 
+                <div class="col-xs-2 notificationBtn">
+                   <button type="button" class="btn btn-warning btn-xs">
+                    <span class="glyphicon glyphicon-flash"></span>
+                   </button>
+                 </div>
+                  </a>
+               </div>
+                  <!-- End notification with thunder icon -->
+
+
+                     <!-- notification with thunder icon -->
+                    <div class = "row divUnderline">
+                  <a class="aStyle" href="#">
+                <div class="col-xs-10 fontStyle">Notification details</div>
+                <div class="col-xs-10 fontStyle">"time" minutes ago on "device" </div> 
+                <div class="col-xs-2 notificationBtn">
+                   <button type="button" class="btn btn-warning btn-xs">
+                    <span class="glyphicon glyphicon-flash"></span>
+                   </button>
+                 </div>
+                  </a>
+               </div>
+                  <!-- End notification with thunder icon -->
+                  <!-- End notification with thunder icon -->
+                    <div class = "row divUnderline">
+                  <a class="aStyle" href="#">
+                <div class="col-xs-10 fontStyle">Notification details</div>
+                <div class="col-xs-10 fontStyle">"time" minutes ago on "device" </div> 
+                <div class="col-xs-2 notificationBtn">
+                   <button type="button" class="btn btn-warning btn-xs">
+                    <span class="glyphicon glyphicon-flash"></span>
+                   </button>
+                 </div>
+                  </a>
+               </div>
+                 <div class = "row divUnderline">
+                  <a class="aStyle" href="#">
+                <div class="col-xs-10 fontStyle">Notification details</div>
+                <div class="col-xs-10 fontStyle">"time" minutes ago on "device" </div> 
+                <div class="col-xs-2 notificationBtn">
+                   <button type="button" class="btn btn-warning btn-xs">
+                    <span class="glyphicon glyphicon-flash"></span>
+                   </button>
+                 </div>
+                  </a>
+               </div>
+                 <div class = "row divUnderline">
+                  <a class="aStyle" href="#">
+                <div class="col-xs-10 fontStyle">Notification details</div>
+                <div class="col-xs-10 fontStyle">"time" minutes ago on "device" </div> 
+                <div class="col-xs-2 notificationBtn">
+                   <button type="button" class="btn btn-warning btn-xs">
+                    <span class="glyphicon glyphicon-flash"></span>
+                   </button>
+                 </div>
+                  </a>
+               </div>
+                 <div class = "row divUnderline">
+                  <a class="aStyle" href="#">
+                <div class="col-xs-10 fontStyle">Notification details</div>
+                <div class="col-xs-10 fontStyle">"time" minutes ago on "device" </div> 
+                <div class="col-xs-2 notificationBtn">
+                   <button type="button" class="btn btn-warning btn-xs">
+                    <span class="glyphicon glyphicon-flash"></span>
+                   </button>
+                 </div>
+                  </a>
+               </div>
+<!-- ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+                 <!--  end of repeatation -->
+
+               </div>
+                 </li>
+
+            </ul>
+          </div>
+          
+        </div>
+        <div class="col-md-9">
+         <!--  //////////////////////////////////////// execution tab /////////////////////////////////////////////////////////// -->
+          <div id="Executions" class="container tab">
+              <div class="row">
+                <div class="col-sm-6">
+             <h2>Execution #100</h2>
+              <br>
+           </div>
+           <div class="col-md-3">
+
+             <button type="button" class="btn btn-danger btn-sm btnDelete">DELETE</button>
+           </div>
+           <div class="col-md-8 underLineGeneral"></div>
+            </div>
+
+           <br>
+            <div class="row">
+             <form class="form-horizontal frameStyle">
+           
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Created At</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Started At</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Finished At</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Exit Status</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+
+          </form>
+           </div>
+
+            <div class="row">
+                <div class="col-sm-6">
+             <h2 class="headerJob">Job</h2>
+           </div>
+           <div class="col-md-3">
+
+             <button type="button" class="btn btn-primary btn-sm btnView">View</button>
+             <button type="button" class="btn btn-warning btn-sm btnEdit">Edit</button>
+           </div>
+
+          <div class="col-md-8 underLineGeneral"></div>
+            </div>
+
+              <br>
+              <div class="row">
+             <form class="form-horizontal frameStyle">
+           
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Command</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Host</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+          </form>
+           </div>
+
+           <div class="row">
+              <div class="col-sm-6">
+             <h2>Output</h2>
+              <br>
+            </div>
+             <div class="col-md-8 underLineGeneral"></div>
+             <div class="outputBody col-md-8">
+               <h1>title</h1>
+               <p>paragraph</p>
+               <p>random text</p>
+               <h1> h1 for gold </h1>
+               <p> p for white </p>
+               <br>
+               <br>
+             </div>
+           </div>
+
+
+          </div>
+      <!--     ////////////////////////////////////////  END execution tab /////////////////////////////////////////////////////////// -->
+
+
+    <!--   ////////////////////////////////////////  Jobs tab /////////////////////////////////////////////////////////// -->
+          <div id="Jobs" class="container tab" style="display:none">
+             <div class="row">
+                <div class="col-sm-6">
+             <h2 class="headerJob">Job 'Name'</h2>
+           </div>
+           <div class="col-md-3">
+
+             <button type="button" class="btn btn-warning btn-sm btnView">Edit</button>
+             <button type="button" class="btn btn-danger btn-sm btnEdit">Delete</button>
+           </div>
+
+          <div class="col-md-8 underLineGeneral"></div>
+            </div>
+              <br>
+             <div class="row">
+             <form class="form-horizontal frameStyle">
+           
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">User</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Command</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Host</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Created At</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Updated At</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+
+
+          </form>
+           </div>
+
+                 <div class="row">
+                <div class="col-sm-6">
+             <h2 class="headerJob">Schedule</h2>
+           </div>
+           <div class="col-md-3">
+
+             <button type="button" class="btn btn-success btn-sm btnSch">Add New Schedule</button>
+            
+           </div>
+
+          <div class="col-md-8 underLineGeneral"></div>
+            </div>
+
+              <div class="row">
+                <div class="col-md-8 ">
+                <table class="table table-striped">
+                  <thead>
+                  <tr>
+                    <th class="noTd">ID</th>
+                    <th>Schedule</th>
+                    <th class="endTd">Actions</th>
+                  </tr>
+                  </thead>
+                  <tbody>
+                  <tr>
+                    <td class="noTd">1</td>
+                    <td>*****</td>
+                    <td class="endTd"> 
+                    <button type="button" class="btn btn-primary btn-xs" style="width:50px">View</button>
+                    <button type="button" class="btn btn-warning btn-xs" style="width:50px">Edit</button>
+                  </td>
+                  </tr>
+                  </tbody>
+                
+                </table>
+              </div>
+                
+              </div>
+
+          </div>
+<!--   //////////////////////////////////////// END Jobs tab /////////////////////////////////////////////////////////// -->
+
+ <!-- ////////////////////////////////////////  Hosts tab /////////////////////////////////////////////////////////// -->
+          <div id="Hosts" class="container tab" style="display:none">
+              <div class="row">
+                <div class="col-md-5">
+             <h2 class="headerJob">Host 'Device Name'</h2>
+           </div>
+           <div class="col-md-4">
+             <button type="button" class="btn btn-primary btn-sm btnTs">Test Connection</button>
+             <button type="button" class="btn btn-warning btn-sm btnView">Edit</button>
+             <button type="button" class="btn btn-danger btn-sm btnEdit">Delete</button>
+           </div>
+
+          <div class="col-md-8 underLineGeneral"></div>
+            </div>
+              <br>
+
+               <div class="row">
+             <form class="form-horizontal frameStyle">
+           
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">FQDN</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">User</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Host</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Port</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Public Key</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Created At</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+            <div class="form-group">
+              <label class="col-sm-2 control-label">Updated At</label>
+            <div class="col-sm-6"> <input type="text" class="form-control" style="width:100%"></div>
+            </div>
+
+          </form>
+           </div>
+
+
+            <div class="row">
+                <div class="col-sm-6">
+             <h2 class="headerJob">Jobs</h2>
+           </div>
+           <div class="col-md-3">
+
+             <button type="button" class="btn btn-success btn-sm btnSch">Add New Job</button>
+            
+           </div>
+
+          <div class="col-md-8 underLineGeneral"></div>
+            </div>
+
+           <div class="row">
+               <div class="col-md-8">
+                <table class="table table-striped tableStyle">
+                  <thead>
+                  <tr>
+                    <th class="noTd">ID</th>
+                    <th>Name</th>
+                    <th>Host</th>
+                    <th >Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="noTd">1</td>
+                    <td>Mysql Backup</td>
+                    <td>Macbook Air</td>
+                    <td > 
+                    <button type="button" class="btn btn-primary btn-xs" style="width:50px">View</button>
+                    <button type="button" class="btn btn-warning btn-xs" style="width:50px">Edit</button>
+                  </td>
+                  </tr>
+
+                   <tr>
+                    <td class="noTd">2</td>
+                    <td>Coloured Output</td>
+                    <td>Macbook Air</td>
+                    <td> 
+                    <button type="button" class="btn btn-primary btn-xs" style="width:50px">View</button>
+                    <button type="button" class="btn btn-warning btn-xs" style="width:50px">Edit</button>
+                  </td>
+                  </tr>
+
+                   <tr>
+                    <td class="noTd">3</td>
+                    <td>Failed job test</td>
+                    <td >Macbook Air</td>
+                    <td> 
+                    <button type="button" class="btn btn-primary btn-xs" style="width:50px">View</button>
+                    <button type="button" class="btn btn-warning btn-xs" style="width:50px">Edit</button>
+                  </td>
+                  </tr>
+
+                   <tr>
+                    <td class="noTd">4</td>
+                    <td>Long running job</td>
+                    <td>Macbook Air</td>
+                    <td> 
+                    <button type="button" class="btn btn-primary btn-xs" style="width:50px">View</button>
+                    <button type="button" class="btn btn-warning btn-xs" style="width:50px">Edit</button>
+                  </td>
+                  </tr>
+                </tbody>
+                </table>
+                </div>
+              </div>
+
+          </div>
+          <!--  //////////////////////////////////////// End Hosts tab /////////////////////////////////////////////////////////// -->
+        </div>
+              
+    </div>
+    <script>
+            
+
+function openTab(tabName) {
+    var i;
+    var btn = document.getElementsByClassName("navBtn");
+    var x = document.getElementsByClassName("tab");
+    for (i = 0; i < x.length; i++) {
+       x[i].style.display = "none";  
+    }
+    document.getElementById(tabName).style.display = "block";  
+}
+
+
+
+</script>
+</body>
+<!-- Javascript & jQuery for bootstrap framework -->
+<!-- Script requirement for bootstrap -->
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> -->
+<!-- end of the boostrap requirement -->
+
+</html>

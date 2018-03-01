@@ -1,0 +1,12 @@
+/home/joshua/martian/kvworkspace/etl/etl-dataaccess/src/main/java/com/kollect/etl/dataaccess/DataSource.java
+/home/joshua/martian/kvworkspace/etl/etl-dataaccess/src/main/java/com/kollect/etl/query/processor/DeleteQueryStrategy.java
+/home/joshua/martian/kvworkspace/etl/etl-dataaccess/src/main/java/com/kollect/etl/query/processor/QueryStrategyRunner.java
+/home/joshua/martian/kvworkspace/etl/etl-dataaccess/src/main/java/com/kollect/etl/dataaccess/IAbstractSqlSessionProvider.java
+/home/joshua/martian/kvworkspace/etl/etl-dataaccess/src/main/java/com/kollect/etl/query/processor/QueryContext.java
+/home/joshua/martian/kvworkspace/etl/etl-dataaccess/src/main/java/com/kollect/etl/query/processor/UpdateQueryStrategy.java
+/home/joshua/martian/kvworkspace/etl/etl-dataaccess/src/main/java/com/kollect/etl/query/processor/IQueryStrategy.java
+/home/joshua/martian/kvworkspace/etl/etl-dataaccess/src/main/java/com/kollect/etl/query/processor/AbstractQueryStrategy.java
+/home/joshua/martian/kvworkspace/etl/etl-dataaccess/src/main/java/com/kollect/etl/query/processor/ListQueryStrategy.java
+/home/joshua/martian/kvworkspace/etl/etl-dataaccess/src/main/java/com/kollect/etl/dataaccess/AbstractSqlSessionProvider.java
+/home/joshua/martian/kvworkspace/etl/etl-dataaccess/src/main/java/com/kollect/etl/query/processor/SelectQueryStrategy.java
+/home/joshua/martian/kvworkspace/etl/etl-dataaccess/src/main/java/com/kollect/etl/dataaccess/MyBatisConnectionFactoryProvider.java

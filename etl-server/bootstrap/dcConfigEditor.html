@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<head>
+<link href="sources/indexmain.css" rel="stylesheet" type="text/css" />
+
+<!--Java Script-->
+<script type="text/javascript" src="sources/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="sources/js/script.js"></script>
+<!--Boostrap-->
+
+<!-- Latest compiled and minified CSS boostrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional addon from boostrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+
+<!--End of Boostrap -->	
+<style type="text/css">
+    .firstrow{
+      padding-top: 2%;
+    }
+    .panelTitle {
+      padding:1%;
+      background-color: #337AB7;
+      color:white;
+    }
+
+    .panelSize{
+      font-size: 16px;
+      padding: 4%;
+      padding-left: 6%;
+    }
+
+    .firstpanel h1 {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .firsttextgroup {
+     padding-top: 10%;
+     padding-left: 8%;
+    }
+
+    .tablestyle{
+      padding-top: 8%;
+    }
+
+
+    .table tr, .table td, .table th {
+     border:0 !important; 
+     border-bottom:0px !important;
+     padding-left: 20px !important;
+    }
+
+    .tableConfig td{
+      padding-right:10%;
+    }
+
+/*    .row2 .table2 {
+      padding:20px;
+      border: 1px solid !important;
+    }
+
+    .table2 tr, .table2 td {
+       border: 1px solid !important;
+    }*/
+
+    /* .table tr, .table td {
+       border: 1px solid !important;
+    }*/
+
+    .table2 td{
+      padding-left: 5px;
+      padding-top: 10px;
+    }
+
+    .table3 td, .table3 th, .table3 tr{
+       padding-left: 5px;
+       padding-right: 5px;
+      padding-top: 10px;
+      border: 1px solid !important;
+    }
+
+    .table3 {
+      padding-top: 12px;
+    }
+
+    .loadPropertyLine {
+      border: 1px solid;
+    }
+    .thirdColBorder h1 {
+      height:0.1em;
+      font-size: 24px;
+      width:100%;
+
+    }
+
+    .thirdColBorder h1 span {
+     background: #ffffff;
+     padding: 0 10px;
+    }
+
+    .paginationPosition {
+     height: 0.01em;
+    }
+   .pageLabel{
+      padding-top: 8px;
+    }
+
+    .rowBtn {
+      padding-left: 70%;
+    }
+    .spanBtn {
+     padding-top: 5px;
+    }
+    .saveBtn {
+      height: 33px;
+    }
+
+    .scrollMenu {
+      overflow: auto;
+    }
+</style>
+</head>
+
+<body>
+
+
+    <div class = "container">
+
+
+<div class = "title">
+
+           <div class="panelTitle">Dataconnector Configuation Editor</div>
+        
+
+<!-- new table template row -->
+<div class="form-group row firstrow">
+  
+  <div class="col-md-3"> 
+      <div class="dcTitle"> 
+        <div class="panel panel-primary panel1">
+           <div class="panel-heading">DC XML Config</div>
+        <div class="panel-body firstpanel">
+          <form>  
+            <div class="input-group">
+            <span class="input-group-addon" id="basic-addon1"> <span class="glyphicon glyphicon-search"></span></span>
+          <input type="text" class="form-control" id="searchbar" class="searchbarcss" placeholder="Search...">
+        </div>
+
+        <div class = "firsttextgroup">
+        <p><strong>Customers</strong> <a href="#">customer.xml</a></p>
+        <p><strong>Payments</strong> <a href="#">payment.xml</a></p>
+        <p><strong>Invoice</strong> <a href="#">invoice.xml</a></p>
+        <p><strong>Credit Note</strong> <a href="#">creditnote.xml</a></p>
+        </div>
+
+        <div class="scrollMenu">
+        <h1><a href="#">DC Properties Files</a></h1>
+        <h1><a href="#">Item Three </a></h1>
+        <h1><a href="#">Item Four </a></h1>
+
+         <h1><a href="#">Item five </a></h1>
+          <h1><a href="#">Item six </a></h1>
+           <h1><a href="#">Item seven </a></h1>
+            <h1><a href="#">Item eight </a></h1>
+             <h1><a href="#">Item nine </a></h1>
+              <h1><a href="#">Item ten </a></h1>
+            </div>
+
+          </form>
+        </div> 
+         
+          </div>
+      </div>
+       <!--  test -->
+    <div class="panelTitle panelSize">Modification History</div>
+    <table class="table3">
+              <tr>
+                <th>Name</th>
+                <th>Updated</th>
+                <th>Remarks</th>
+              </tr>
+
+              <tr>
+                <td>Justin</td>
+                <td>2017-11-06</td>
+                <td>Updated start and end</td>
+              </tr>
+
+               <tr>
+                <td>Jeff</td>
+                <td>2017-10-06</td>
+                <td>Added regex</td>
+              </tr>
+
+               <tr>
+                <td>Justin</td>
+                <td>2017-05-19</td>
+                <td>Updated delimiter</td>
+              </tr>
+
+               <tr>
+                <td>Jaden</td>
+                <td>2017-02-30</td>
+                <td>Initial commit</td>
+              </tr>
+
+             </table>
+       <!--  test -->
+  </div>
+
+  <div class ="row">
+  <div class="col-md-5 row2"> 
+      <div class="form-group row">
+         <div class="table-responsive tablestyle">
+   <table class="table2"> 
+        <thead>
+      <tr>
+        <td><label for="AccNo"> Field Name</label></td>
+        <td colspan="3"><input type="text" id="AccNo" placeholder="Account No" style="width:300px"></td>
+      </tr>
+
+      <tr>
+        <td><label for="AccNo"> Default Val</label></td>
+        <td colspan="3"><input type="text" id="DefVal" placeholder="DefaultValue" style="width:300px"></td>
+      </tr>
+
+      <tr>
+        <td><label for="AccNo"> Default Val</label></td>
+        <td colspan="3"><select id="DataHandler"  style="width:300px" >
+            <option selected >Select</option>
+            <option value="#">com.profitera.dc.handler.LongHandler</option>
+            <option value="#">#</option>
+        </select></td>
+      </tr>
+
+      <tr>
+        <td><input type="checkbox" id="#"><label for="IsKey">&nbsp Is Key</label></td>
+      </tr>
+
+       <tr>
+        <td><input type="checkbox" id="#"><label for="isExternal">&nbsp Is External</label></td>
+      </tr>
+
+       <tr>
+        <td><input type="checkbox" id="#"><label for="isOptional">&nbsp Is Optional</label></td>
+      </tr>
+
+       <tr>
+        <td><input type="checkbox" id="#"><label for="isLookUp">&nbsp Is Lookup</label></td>
+      </tr>
+
+      <tr>
+        <td><label for="startPosition"> Start Position</label></td>
+        <td><input type="text" id="startPosition" placeholder="0"  size="10"></td>
+        <td><label for="endVal"> End</label></td>
+        <td><input type="text" id="endVal" placeholder="0" size="10"></td>
+      </tr>
+          </thead>
+   </table>
+ </div>
+</div>
+  </div>
+<div class="col-md-3 thirdColBorder">
+  <h1><span>Load Properties</span></h1> 
+ <div id = "topform">
+      <form>
+  <div class="form-group row loadPropertyLine"">
+    <!-- <div class="form-group"> -->
+       <div class="table-responsive tablestyle">      
+      <table class="table">
+      <!--  <thead> -->
+           <tr>
+
+        <td><label for="Destination_Name"> Destination Name</label></td>
+         <td> <input type="text" id="Destination_Name" placeholder="customers" style="width:150px"></td>
+       </tr>
+       <tr>
+         <td><label for="Sequence Name">Sequence Name</label></td>
+         <td> <input type="text" id="Customer_Name" placeholder="customer_id" style="width:150px"></td>
+       </tr>
+       <tr>
+         <td>  <label for="Sequence Name">Delimiter</label></td>
+         <td> <select id="inputDelimiter" style="width: 150px">
+            <option selected>Select</option>
+            <option value="1">,</option>
+            <option value="2">|</option>
+        </select></td>
+       </tr>
+       <tr>
+         <td>  <label for="Generated Key">Generated Key</label></td>
+         <td> <input type="text" id="Generated_Key" placeholder="Generated Key" style="width:150px"></td>
+       </tr>
+       <tr>
+         <td>   <label for="Date Format">Date Format</label></td>
+         <td>   <input type="datetime-local" value="2018-01-19T00:00:00" style="width:150px"></td>
+       </tr>
+       <!--  </thead> -->
+        </table>
+      </div>
+       <!--  </div> -->
+        </div>
+
+    </form> 
+
+    </div> <!-- end of form -->
+  </div>
+
+  <div class="row"> 
+      <div class="form-group row belowfirstrow">
+  
+
+<div class="col-md-8">
+     
+    <a href="javascript:void(0)" id="hidetable" data-toggle="collapse" data-target="#showtable" value="showtable" class="btn btn-info btn-sm">
+          <span class="glyphicon glyphicon-plus"></span> Table
+        </a>
+      <a href="javascript:void(0)" id="add1" onclick="add_row();" class="btn btn-info btn-sm">
+          <span class="glyphicon glyphicon-plus"></span> Row
+        </a>
+     <div id="showtable" class ="collapse">
+    <div class="table-responsive col-md-12 col-lg-12 col-sm-12 ">
+  <table class="table" id="data_table">
+       <thead>
+      <tr>
+        <th>isExternal</th>
+        <th>isKey</th>
+        <th>isOptional</th>
+        <th>name</th>
+        <th>defaultValueOutput</th>
+        <th>locationStart</th>
+        <th>handlerName</th>
+        <th>lookUpQuery</th>
+        <th>isLookUp</th>
+        <th>isIncluded</th>
+     </tr>
+    </thead>
+     <tbody>
+      <tr id ="row1">
+
+      </tr> 
+      </tbody>
+  </table>
+  </div>
+
+   
+<!--    <div class="pull-right">
+    <label>Page :</label>
+    <ul class="pagination paginationPosition">
+    <li><a href="#">1</a></li>
+    <li><a href="#">2</a></li>
+  </ul>
+      
+    
+      <a href="#" id="" onclick="" class="btn btn-info btn-sm">
+          <span class="glyphicon glyphicon-save"></span> SAVE
+        </a>
+      
+   </div> -->
+
+   <!-- test -->
+   
+      <div class = "row rowBtn">
+          <div> </div>
+            <div>
+              <label class="pageLabel">Page :</label>
+              <ul class="pagination pagination-sm paginationPosition">
+    <li><a href="#">1</a></li>
+  </ul>
+  <a href="#" id="" onclick="" class="btn btn-info btn-xs saveBtn">
+          <span class="glyphicon glyphicon-save spanBtn"></span> SAVE
+        </a>
+      
+            </div>
+      </div>
+  
+  
+
+  </div>
+</div>
+  <!--end of col-md-9 -->
+</div>
+  </div>
+
+
+</div> <!-- end of row -->
+
+
+  
+  </div>
+  </div>
+
+ 
+
+
+
+
+ <!--  <div class="form-group row belowfirstrow">
+    <div class="col-md-3">
+  <div class="panel panel-primary">
+           <div class="panel-heading">Modification History</div>
+            <div class="panel-body firstpanel">
+             <table class="table3">
+              <tr>
+                <th>Name</th>
+                <th>Updated</th>
+                <th>Remarks</th>
+              </tr>
+
+              <tr>
+                <td>Justin</td>
+                <td>2017-11-06</td>
+                <td>Updated start and end</td>
+              </tr>
+
+               <tr>
+                <td>Jeff</td>
+                <td>2017-10-06</td>
+                <td>Added regex</td>
+              </tr>
+
+               <tr>
+                <td>Justin</td>
+                <td>2017-05-19</td>
+                <td>Updated delimiter</td>
+              </tr>
+
+               <tr>
+                <td>Jaden</td>
+                <td>2017-02-30</td>
+                <td>Initial commit</td>
+              </tr>
+
+             </table>
+            </div>
+         </div>
+       </div>
+  </div>
+ -->
+</div>
+
+
+<!-- end of table template row -->
+
+
+
+ 
+
+</body>
+
+<!-- Javascript & jQuery for bootstrap framework -->
+<!-- Script requirement for bootstrap -->
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+
+<!-- <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script> -->
+<!-- end of the boostrap requirement -->
+
+<script type="text/javascript">
+
+	function add_row()
+{
+
+ var table=document.getElementById("data_table");
+ var table_len=(table.rows.length)-1;
+ var row = table.insertRow(table_len).outerHTML="<tr id ='row"+table_len+"'><td><input type='checkbox' value='true'id='isExternal"+table_len+"' disabled></p></td><td><input type='checkbox' value='true' id='isKey"+table_len+"' disabled></p></td><td><input type='checkbox' value='true' id='isOptional"+table_len+"' disabled></p></td><td><p id='Name"+table_len+"'></p></td><td><p id='defaultValueOutput"+table_len+"'></p></td><td><p id='locationStart"+table_len+"'></p></td><td><p id='handlerName"+table_len+"'></p></td><td><p id='lookUpQuery"+table_len+"'></p></td><td><input type='checkbox' value='true' id='isLookUp"+table_len+"' disabled></p></td><td><input type='checkbox' value='true' id='isIncluded"+table_len+"' disabled></p></td><td> <a href='javascript:void(0);' id='remove"+table_len+"' onclick='delete_row("+table_len+");'><span class='glyphicon glyphicon-remove'></span></a></td> <td> <a href='javascript:void(0);'  id='edit"+table_len+"' onclick='edit_row("+table_len+");'><span class='glyphicon glyphicon-pencil'></span></a></td><td> <a href='javascript:void(0);'  id='save"+table_len+"' style='display:none' onclick='save_row("+table_len+");'><span class='glyphicon glyphicon-ok'></span></a></td></tr> ";
+ 
+}
+
+function delete_row(no)
+{
+ document.getElementById("row"+no+"").outerHTML="";
+}
+
+function edit_row(no)
+{
+
+
+ document.getElementById("isExternal"+no).disabled = false;
+ document.getElementById("isKey"+no).disabled = false;
+ document.getElementById("isOptional"+no).disabled = false;
+ document.getElementById("isLookUp"+no).disabled = false;
+ document.getElementById("isIncluded"+no).disabled = false;
+ document.getElementById("edit"+no).style.display="none";
+ document.getElementById("save"+no).style.display="block";
+
+
+var isExternal=document.getElementById("isExternal"+no);	
+var isKey=document.getElementById("isKey"+no);	
+var isOptional=document.getElementById("isOptional"+no);
+
+var Name=document.getElementById("Name"+no);
+var locationStart=document.getElementById("locationStart"+no);
+var handlerName=document.getElementById("handlerName"+no);
+var lookUpQuery=document.getElementById("lookUpQuery"+no);
+
+var isLookUp=document.getElementById("isLookUp"+no);
+var isIncluded=document.getElementById("isIncluded"+no);	
+var defaultValueOutput=document.getElementById("defaultValueOutput"+no);
+ 
+var external=isExternal.innerHTML;
+var Key=isKey.innerHTML;
+var Optional=isOptional.innerHTML;
+var LookUp=isLookUp.innerHTML;
+var Included=isIncluded.innerHTML;
+var name_data=defaultValueOutput.innerHTML;
+
+var nm=Name.innerHTML;
+var locationSt=locationStart.innerHTML;
+var handler=handlerName.innerHTML;
+var lookUp=lookUpQuery.innerHTML;
+  
+ 
+isExternal.innerHTML="<input type='checkbox' id='external_check"+no+"' value='"+external+"'>";
+isKey.innerHTML="<input type='checkbox' id='isKey_check"+no+"' value='"+Key+"'>";	
+isOptional.innerHTML="<input type='checkbox' id='isOptional_check"+no+"' value='"+Optional+"'>";	
+isLookUp.innerHTML="<input type='checkbox' id='isLookUp_check"+no+"' value='"+LookUp+"'>";	
+isIncluded.innerHTML="<input type='checkbox' id='isIncluded_check"+no+"' value='"+Included+"'>";		
+defaultValueOutput.innerHTML="<input type='text' id='default_text"+no+"' value='"+name_data+"'>";	
+
+Name.innerHTML="<input type='text' id='name_text"+no+"' value='"+nm+"'>";	
+locationStart.innerHTML="<input type='text' id='location_text"+no+"' value='"+locationSt+"'>";	
+handlerName.innerHTML="<input type='text' id='handler_text"+no+"' value='"+handler+"'>";	
+lookUpQuery.innerHTML="<input type='text' id='look_text"+no+"' value='"+lookUp+"'>";	
+
+	
+
+}
+
+
+function save_row(no)
+{
+ document.getElementById("isExternal"+no).disabled = true;
+ document.getElementById("isKey"+no).disabled = true;
+ document.getElementById("isOptional"+no).disabled = true;
+ document.getElementById("isLookUp"+no).disabled = true;
+ document.getElementById("isIncluded"+no).disabled = true;
+var isexternal_val=document.getElementById("external_check"+no).value;
+var isKey_val=document.getElementById("isKey_check"+no).value;
+var isOptional_val=document.getElementById("isOptional_check"+no).value;
+var isLookUp_val=document.getElementById("isLookUp_check"+no).value;
+var isIncluded_val=document.getElementById("isIncluded_check"+no).value;
+var defaultValueOutput_val=document.getElementById("default_text"+no).value;
+
+var name_val=document.getElementById("name_text"+no).value;
+var locationStart_val=document.getElementById("location_text"+no).value;
+var handlerName_val=document.getElementById("handler_text"+no).value;
+var lookUpQuery_val=document.getElementById("look_text"+no).value;
+ 
+ document.getElementById("isExternal"+no).innerHTML=isexternal_val;
+ document.getElementById("isKey"+no).innerHTML=isKey_val;
+ document.getElementById("isOptional"+no).innerHTML=isOptional_val;
+ document.getElementById("isLookUp"+no).innerHTML=isLookUp_val;
+ document.getElementById("isIncluded"+no).innerHTML=isIncluded_val;
+ document.getElementById("defaultValueOutput"+no).innerHTML=defaultValueOutput_val;
+
+ document.getElementById("Name"+no).innerHTML=name_val;
+ document.getElementById("locationStart"+no).innerHTML=locationStart_val;
+ document.getElementById("handlerName"+no).innerHTML=handlerName_val;
+ document.getElementById("lookUpQuery"+no).innerHTML=lookUpQuery_val;
+
+ document.getElementById("edit"+no).style.display="block";
+ document.getElementById("save"+no).style.display="none";
+
+}
+
+document.getElementById("hidetable").value="Hide";
+
+</script>
+</html>

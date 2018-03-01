@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AdhocQueryService">
+
+
+ <resultMap type="java.util.HashMap" id="getUpdatedCustomer">
+  <result property="customer_name" column="customer_name"
+   javaType="java.lang.String" />
+  <result property="customer_no" column="customer_no" javaType="java.lang.String" />
+  <result property="created_at" column="created_at" javaType="java.sql.Timestamp" />
+  <result property="updated_at" column="updated_at" javaType="java.sql.Timestamp" />
+ </resultMap>
+
+ <select id="getUpdatedCustomer" resultMap="getUpdatedCustomer">
+  select
+  customer_name,
+  customer_no,
+  created_at,
+  updated_at
+  from customers
+  limit 20
+ </select>
+
+ <select id="getAllCustomer" resultMap="getUpdatedCustomer">
+  select
+  customer_name,
+  customer_no,
+  created_at,
+  updated_at
+  from customers
+  limit 20
+ </select>
+
+ <select id="getCustomerById" resultMap="getUpdatedCustomer">
+  select
+  customer_name,
+  customer_no,
+  created_at,
+  updated_at
+  from customers
+  where id = #{id}
+ </select>
+
+
+ <resultMap type="java.util.HashMap" id="getUpdateSequence">
+  <result property="id" column="id" javaType="java.lang.Long" />
+ </resultMap>
+
+ <select id="getUpdateCustomerSequence" resultMap="getUpdateSequence">
+  select
+  setval('customers_id', (select max(id) from customers))
+ </select>
+
+
+ <select id="getUpdateAccountSequence" resultMap="getUpdateSequence">
+  select
+  setval('accounts_id', (select max(id) from accounts))
+ </select>
+
+
+ <select id="getUpdateInvoiceSequence" resultMap="getUpdateSequence">
+  select
+  setval('invoices_id', (select max(id) from invoices));
+ </select>
+
+ <select id="getUpdatePaymentTrnxSequence" resultMap="getUpdateSequence">
+  select
+  setval('transactions_id', (select max(id) from transactions));
+ </select>
+
+ <select id="getUpdateCustomerPicSequence" resultMap="getUpdateSequence">
+  select
+  setval('customers_person_incharge_id', (select max(id) from
+  customers_person_incharge));
+ </select>
+
+ <select id="getUpdateCustomerPhoneNumberSequence" resultMap="getUpdateSequence">
+  select setval('customers_phone_nos_id', (select max(id) from
+  customers_phone_nos));
+ </select>
+
+ <select id="getUpdateCustomerAddressSequence" resultMap="getUpdateSequence">
+  select
+  setval('customers_addresses_id', (select max(id) from
+  customers_addresses));
+ </select>
+
+ <select id="getUpdateCustomerEmailSequence" resultMap="getUpdateSequence">
+  select
+  setval('customers_emails_id', (select max(id) from
+  customers_emails));
+ </select>
+
+ <delete id="deleteDuplicateCustomer">
+  delete from customers where id in (
+  select x.id from
+  (select count(*), min(id) as id, subsidiary_id, tenant_id,customer_no
+  from customers
+  where tenant_id = 65
+  group by subsidiary_id, tenant_id,customer_no having count(*) > 1) x
+  )
+ </delete>
+
+
+ <update id="updateCosecLineOfBusiness">
+  update invoices set line_of_business = 'CO SEC'
+  where subsidiary_id = (select id from subsidiaries where code = 'CO SEC')
+  and tenant_id = 65
+ </update>
+
+ <update id="updateTaxLineOfBusiness">
+  update invoices set line_of_business = 'TAX'
+  where subsidiary_id = (select id from subsidiaries where code = 'TAX')
+  and tenant_id = 65;
+ </update>
+
+ <update id="updateAuditLineOfBusiness">
+  update invoices set line_of_business = 'AUDIT'
+  where subsidiary_id = (select id from subsidiaries where code = 'AUDIT')
+  and tenant_id = 65;
+ </update>
+
+
+ <update id="updateTransactionGst">
+  update transactions set debit =
+  coalesce(debit_before_gst,0) + coalesce(gst,0)
+  WHERE GST &gt; 0 and tenant_id = 65
+  and debit_before_gst is not null
+ </update>
+
+ 
+
+</mapper>

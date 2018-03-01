@@ -1,0 +1,89 @@
+
+<div th:fragment="sidebar" id="sidebar-menu"
+ class="main_menu_side hidden-print main_menu">
+ <div class="menu_section">
+
+  <ul class="nav side-menu">
+   <li><a><i class="fa fa-home"></i> Home <span
+     class="fa fa-chevron-down"></span></a>
+    <ul class="nav child_menu">
+     <li><a href="/index">Dashboard</a></li>
+     <li><a href="/index2">Dashboard2</a></li>
+     <li><a href="/index3">Dashboard3</a></li>
+    </ul></li>
+   <li sec:authorize="hasRole('ADMIN')"><a><i class="fa fa-edit"></i> Admin Panel<span
+     class="fa fa-chevron-down"></span></a>
+    <ul class="nav child_menu">
+     <li><a href="/usermanagement">User Management</a></li>
+     <li><a href="/adminSftp">SFTP Settings</a></li>
+     <li><a href="/adminEmailSettings">Email Settings</a></li>
+     <li><a href="/adminDatabase">Database Settings</a></li>
+     <li><a href="">Parameter Settings</a></li>
+     <li><a href="/host">Hosts</a></li>
+    </ul></li>
+
+   <li><a><i class="fa fa-edit"></i> Data Visualiser <span
+     class="fa fa-chevron-down"></span></a>
+    <ul class="nav child_menu">
+     <li><a href="/dsv">Viewer</a></li>
+     <li><a href="">Search Record</a></li>
+     <li><a href="">Bookmarks</a></li>
+    </ul></li>
+
+   <li><a><i class="fa fa-edit"></i> DataConnector <span
+     class="fa fa-chevron-down"></span></a>
+    <ul class="nav child_menu">
+     <li><a href="/dctablesettings">Table Settings</a></li>
+     <li><a href="">Settings - Management</a></li>
+     <li><a href="">Settings - History</a></li>
+     <li><a href="">Generate Sample Data</a></li>
+     <li><a href="">Query Parser</a></li>
+    </ul></li>
+    
+       <li><a><i class="fa fa-edit"></i> Miscellaneous <span
+     class="fa fa-chevron-down"></span></a>
+    <ul class="nav child_menu">
+     <li><a href="/misc">Misc</a></li>
+    </ul></li>
+    
+           <li><a><i class="fa fa-edit"></i> Batches <span
+     class="fa fa-chevron-down"></span></a>
+    <ul class="nav child_menu">
+     <li><a href="/allbatches">All Batches</a></li>
+    </ul></li>
+    
+
+ <!--   <li><a><i class="fa fa-edit"></i> Log Visualizer <span
+     class="fa fa-chevron-down"></span></a>
+    <ul class="nav child_menu">
+     <li><a href="">Search Record</a></li>
+     <li><a href="">Bookmarks</a></li>
+    </ul></li>
+
+   <li><a><i class="fa fa-edit"></i> Batch Management <span
+     class="fa fa-chevron-down"></span></a>
+    <ul class="nav child_menu">
+     <li><a href="">Search Record</a></li>
+     <li><a href="">Bookmarks</a></li>
+    </ul></li>
+
+   <li><a><i class="fa fa-edit"></i> Notification Services <span
+     class="fa fa-chevron-down"></span></a>
+    <ul class="nav child_menu">
+     <li><a href="">Configure Notification Templates</a></li>
+     <li><a href="">Adhoc Emails</a></li>
+     <li><a href="">Daily/Weekly/Monthly Notification</a></li>
+    </ul></li>
+
+  <li><a><i class="fa fa-bar-chart-o"></i> BI/Analytics <span
+     class="fa fa-chevron-down"></span></a>
+    <ul class="nav child_menu">
+     <li><a href="chartjs.html">Chart JS</a></li>
+     <li><a href="chartjs2.html">Chart JS2</a></li>
+     <li><a href="morisjs.html">Moris JS</a></li>
+     <li><a href="echarts.html">ECharts</a></li>
+     <li><a href="other_charts.html">Other Charts</a></li>
+    </ul></li> -->
+  </ul>
+ </div>
+</div>

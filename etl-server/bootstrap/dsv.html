@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kollect Valley Dashboard | DSV & Fixed-Length Data Visualizer</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style type="text/css">
+    .file {
+        visibility: hidden;
+        position: absolute;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <h4 class = 'text-center'>Delimeter Separated Values (DSV) & Fixed-Length Data Visualizer</h4>
+      <div class = "row">
+        <div class = "col-md-8 offset-md-2">
+        <div class="form-group">
+    <input type="file" class="file">
+    <div class="input-group input-group-sm">
+      <span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+      <input type="text" class="form-control input-lg" disabled placeholder="Upload Image">
+      <span class="input-group-btn">
+        <button class="browse btn btn-primary input-lg btn-sm" type="button"><i class="glyphicon glyphicon-search"></i> Browse</button>
+      </span>
+    </div>
+    </div>
+    </div>
+    </div>
+    <div class = 'row text-center'>
+      <div class = "col-md-3" >
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Search By
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">Customer ID</a>
+            <a class="dropdown-item" href="#">Invoice ID</a>
+            <a class="dropdown-item" href="#">Customer Name</a>
+          </div>
+        </div>
+
+      </div>
+      <div class = "col-md-3" >
+    <div class="input-group input-group-sm">
+      <input type="text" class="form-control" placeholder="Search for...">
+      <span class="input-group-btn">
+        <button class="btn btn-primary btn-sm" type="button">Go!</button>
+      </span>
+    </div>
+
+      </div>
+      <div class = "col-md-3">
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Sort By
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">Customer ID</a>
+            <a class="dropdown-item" href="#">Invoice ID</a>
+            <a class="dropdown-item" href="#">Customer Name</a>
+          </div>
+        </div>
+
+      </div>
+      <div class = "col-md-3" >
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Items Per Page
+          </button>
+          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">10</a>
+            <a class="dropdown-item" href="#">50</a>
+            <a class="dropdown-item" href="#">100</a>
+            <a class="dropdown-item" href="#">200</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+      <div class = 'row'>
+        <div class = 'col-md-10 offset-md-1'><br>
+        <table class="table table-sm table-hover">
+          <thead>
+            <tr>
+              <th scope="col">Number</th>
+              <th scope="col">Customer ID</th>
+              <th scope="col">Customer Name</th>
+              <th scope="col">Start Date</th>
+              <th scope="col">Last Invoice ID</th>
+              <th scope="col">Last Invoice Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">1</th>
+              <td>abc1234</td>
+              <td>Mark Kennedy</td>
+              <td>2017-01-10</td>
+              <td>inv2345er4</td>
+              <td>2018-01-10</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>kkj1213</td>
+              <td>Thornton Maina</td>
+              <td>2017-10-10</td>
+              <td>inv0092j</td>
+              <td>2018-01-20</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>kdsjh2</td>
+              <td>Mary Alice</td>
+              <td>2016-10-10</td>
+              <td>inv1212j</td>
+              <td>2018-10-10</td>
+            </tr>
+                        <tr>
+              <th scope="row">4</th>
+              <td>kjaoh2</td>
+              <td>Ashton Alfred</td>
+              <td>2015-10-10</td>
+              <td>inv3412j</td>
+              <td>2018-10-10</td>
+            </tr>
+                        <tr>
+              <th scope="row">5</th>
+              <td>2dslvs</td>
+              <td>Ali Mandi</td>
+              <td>2014-10-01</td>
+              <td>inv13432</td>
+              <td>2018-10-11</td>
+            </tr>
+                        <tr>
+              <th scope="row">6</th>
+              <td>kpppsd</td>
+              <td>Peter Parker</td>
+              <td>2014-10-10</td>
+              <td>inv123fg</td>
+              <td>2017-10-12</td>
+            </tr>
+                        <tr>
+              <th scope="row">7</th>
+              <td>app2093</td>
+              <td>Mary Alice</td>
+              <td>2017-12-10</td>
+              <td>inv1fgfw</td>
+              <td>2017-12-10</td>
+            </tr>
+                        <tr>
+              <th scope="row">8</th>
+              <td>090nkndf</td>
+              <td>Alison Burgers</td>
+              <td>2015-10-10</td>
+              <td>inv65653</td>
+              <td>2017-11-12</td>
+            </tr>
+                        <tr>
+              <th scope="row">9</th>
+              <td>2121sds</td>
+              <td>Eric Anderson</td>
+              <td>2014-11-12</td>
+              <td>inv1343d</td>
+              <td>2018-10-10</td>
+            </tr>
+                        <tr>
+              <th scope="row">10</th>
+              <td>asalld</td>
+              <td>John Walker</td>
+              <td>2017-010-0</td>
+              <td>invfgfw</td>
+              <td>2018-10-10</td>
+            </tr>
+          </tbody>
+        </table>
+
+        </div>
+      </div>
+      <div class = 'row'>
+        <div class = "col-md-5 offset-md-6">
+        <nav aria-label="Page navigation example">
+          <ul class="pagination justify-content-end pagination-sm">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1">Previous</a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">Next</a>
+            </li>
+          </ul>
+        </nav>
+        </div>
+      </div>
+    </div>
+    <script src="https://unpkg.com/vue@2.0.3/dist/vue.js"></script>
+ <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  <script>
+    var app = new Vue({
+      el: '#app',
+      data: {
+      }
+    })
+    $(document).on('click', '.browse', function(){
+      var file = $(this).parent().parent().parent().find('.file');
+      file.trigger('click');
+    });
+    $(document).on('change', '.file', function(){
+      $(this).parent().find('.form-control').val($(this).val().replace(/C:\\fakepath\\/i, ''));
+    });
+  </script>
+   </body>
+</html>

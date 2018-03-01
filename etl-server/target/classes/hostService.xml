@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="hostService">
+  
+<insert id="insertHost">
+<selectKey keyProperty="id" resultType="int" order="BEFORE" >
+select nextval('kvhost_id')
+</selectKey>
+insert into kvhost 
+(id, name, fqdn, username, host, port, publicKey, createdAt, updatedAt) 
+values 
+(#{id}, #{name}, #{fqdn}, #{username}, #{host}, #{port}, #{publicKey}, #{createdAt}, #{updatedAt})
+</insert>
+
+<resultMap type="java.util.HashMap" id="viewHost-map" >
+<result property="id" column="id" javaType="java.lang.Long" />
+<result property="name" column="name" javaType="java.lang.String" />
+<result property="fqdn" column="fqdn" javaType="java.lang.String" />
+<result property="username" column="username" javaType="java.lang.String" />
+<result property="host" column="host" javaType="java.lang.String" />
+<result property="port" column="port" javaType="java.lang.String" />
+<result property="publicKey" column="publicKey" javaType="java.lang.String" />
+<result property="createdAt" column="createdAt" javaType="java.lang.String" />
+<result property="updatedAt" column="updatedAt" javaType="java.lang.String" />
+
+</resultMap>
+
+<select id = "viewHost" resultMap = "viewHost-map">
+select 
+id, name, fqdn, username, host, port, publicKey, createdAt, updatedAt 
+from kvhost
+
+</select>
+  <resultMap type="java.util.HashMap" id="getHostById-map">
+  <result property="id" column="id" javaType="java.lang.Long" />
+  <result property="name" column="name" javaType="java.lang.String" />
+  <result property="fqdn" column="fqdn" javaType="java.lang.String" />
+  <result property="username" column="username" javaType="java.lang.String" />
+  <result property="host" column="host" javaType="java.lang.String" />
+  <result property="port" column="port" javaType="java.lang.String" />
+  <result property="publicKey" column="publicKey" javaType="java.lang.String" />
+  <result property="createdAt" column="createdAt" javaType="java.lang.String" />
+  <result property="updatedAt" column="updatedAt" javaType="java.lang.String" />
+ </resultMap>
+
+ <select id="getHostById" resultMap="getHostById-map">
+ select
+ id, 
+ name, 
+ fqdn, 
+ username,
+ host, 
+ port, 
+ publicKey, 
+ createdAt, 
+ updatedAt 
+ from kvhost 
+ where id = #{id}
+ </select>
+
+<update id="updateHost">
+UPDATE kvhost
+SET
+name =  #{name},
+fqdn = #{fqdn},
+username = #{username},
+host = #{host}, 
+port = #{port}, 
+publicKey = #{publicKey}, 
+createdAt = #{createdAt}, 
+updatedAt = #{updatedAt}
+where id = #{id}
+</update>
+
+<delete id="deleteHost">
+DELETE from kvhost *
+where id = #{id}
+</delete>
+
+</mapper>

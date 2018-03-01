@@ -1,0 +1,2 @@
+https://devcenter.heroku.com/articles/heroku-postgresql#connecting-in-java
+https://devcenter.heroku.com/articles/connecting-to-relational-databases-on-heroku-with-java#using-the-database_url-in-spring-with-java-configuration

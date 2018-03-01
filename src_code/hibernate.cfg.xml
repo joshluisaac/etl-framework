@@ -1,0 +1,121 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+        
+        <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        <property name="hibernate.connection.driver_class">org.postgresql.Driver</property>
+  
+        <!--
+        <property name="hibernate.connection.username">postgres</property>
+        <property name="hibernate.connection.password">password</property> 
+        
+        
+        <property name="hibernate.connection.url">jdbc:postgresql://127.0.0.1:8888/kvalley</property>
+        -->
+
+        <!--
+        <property name="hibernate.connection.url">jdbc:postgresql://101.99.78.15:6778/kollectvalley</property>
+        -->
+         
+                 
+        
+         <!--
+         <property name="hibernate.connection.username">kollectvalley</property>
+         <property name="hibernate.connection.password">kollect1234</property>
+         -->
+
+        
+         <!--
+         <property name="hibernate.connection.username">kollectvalley</property>
+         <property name="hibernate.connection.password">kollect1234</property>
+     
+         <property name="hibernate.connection.url">jdbc:postgresql://192.168.2.11:5432/kollectvalley_uat</property>
+         -->
+         
+         <!--
+         <property name="hibernate.connection.username">kollectvalley</property>
+         <property name="hibernate.connection.password">kollect1234</property>
+     
+         <property name="hibernate.connection.url">jdbc:postgresql://192.168.2.12:5432/kvalleymahb_uat</property>
+         -->
+
+         <!--
+         <property name="hibernate.connection.username">kollectvalley</property>
+         <property name="hibernate.connection.password">kollect1234</property>
+     
+         <property name="hibernate.connection.url">jdbc:postgresql://192.168.2.12:5432/kvalley2</property>
+         -->
+
+         
+         <!--
+         <property name="hibernate.connection.username">kollectvalley</property>
+         <property name="hibernate.connection.password">kollect1234</property>
+     
+         <property name="hibernate.connection.url">jdbc:postgresql://192.168.1.13:5432/kvmahb_prodloading1</property>
+         -->
+         
+         <!--
+         <property name="hibernate.connection.username">kollectvalley</property>
+         <property name="hibernate.connection.password">kollect1234</property>
+     
+         <property name="hibernate.connection.url">jdbc:postgresql://192.168.1.13:5432/kvalley_temp2</property>
+         -->
+
+         
+         <property name="hibernate.connection.username">kollectvalley</property>
+         <property name="hibernate.connection.password">kollect1234</property>
+     
+         <property name="hibernate.connection.url">jdbc:postgresql://127.0.0.1:5432/kollectvalley_prod</property>
+         
+
+         <!--
+         <property name="hibernate.connection.username">kollectvalley</property>
+         <property name="hibernate.connection.password">kollect1234</property>
+     
+         <property name="hibernate.connection.url">jdbc:postgresql://127.0.0.1:5432/dailyloadtest</property>
+         -->
+
+        
+         <!--
+         <property name="hibernate.connection.username">kollectvalley</property>
+         <property name="hibernate.connection.password">kollect1234</property>
+     
+         <property name="hibernate.connection.url">jdbc:postgresql://192.168.1.13:5432/kvalley_temp2</property>
+         -->
+
+         <!--
+         <property name="hibernate.connection.username">kollectvalley</property>
+         <property name="hibernate.connection.password">kollect1234</property>
+     
+         <property name="hibernate.connection.url">jdbc:postgresql://192.168.1.15:5432/kollectvalley_uat1</property>
+         -->
+
+         <!--
+         <property name="hibernate.connection.username">kollectvalley</property>
+         <property name="hibernate.connection.password">kollect1234</property>
+     
+         <property name="hibernate.connection.url">jdbc:postgresql://192.168.1.25:5432/kv_dailyloadtesting</property>
+         -->     
+         
+
+        <property name="hibernate.jdbc.batch_size">500</property>
+        <property name="connection_pool_size">30</property>
+        <property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+        
+        <property name="hbm2ddl.auto">update</property>
+        
+        <property name="show_sql">false</property>
+        <property name="format_sql">false</property>
+        <property name="use_sql_comments">false</property>
+    
+
+ 
+
+       <mapping resource="Customer.hbm.xml"/>
+
+
+    </session-factory>
+</hibernate-configuration>

@@ -1,0 +1,26 @@
+[
+	{
+		"fileName": "VENDORTRXCLOSEDLIST",
+		"fileCount": 28,
+		"recordCount": 1111,
+		"numberOfBytes": 228780
+	},
+	{
+		"fileName": "VENDORTRXOPENLIST",
+		"fileCount": 1,
+		"recordCount": 464,
+		"numberOfBytes": 96507
+	},
+	{
+		"fileName": "TRXOPENLIST",
+		"fileCount": 1,
+		"recordCount": 1108,
+		"numberOfBytes": 221757
+	},
+	{
+		"fileName": "TRXCLOSEDLIST",
+		"fileCount": 28,
+		"recordCount": 3594,
+		"numberOfBytes": 768478
+	}
+]

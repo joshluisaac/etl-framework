@@ -1,0 +1,9 @@
+//1. Never mix a class logic and it's presentation or cosmetics of a class together
+//2. 
+
+// Every class should be designed in such a way as would evolve with changing requirements or business rules
+
+
+
+
+https://springframework.guru/principles-of-object-oriented-design/single-responsibility-principle/

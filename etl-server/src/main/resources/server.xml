@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<properties resource="server.properties" />
+
+<!-- 	<typeAliases> -->
+<!-- 		<typeAlias alias="customer" type="com.kollect.etl.model.Customer" /> -->
+<!-- 	</typeAliases> -->
+
+	<environments default="postgres">
+		<!--<environment id="aed_elegant">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${DRIVER}" />
+				<property name="url" value="${aed_elegant_url}" />
+				<property name="username" value="${aed_elegant_username}" />
+				<property name="password" value="${aed_elegant_password}" />
+			</dataSource>
+		</environment>
+
+		<environment id="aed_yyc">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${DRIVER}" />
+				<property name="url" value="${aed_yyc_url}" />
+				<property name="username" value="${aed_yyc_username}" />
+				<property name="password" value="${aed_yyc_password}" />
+			</dataSource>
+		</environment>
+
+		<environment id="aed_yyc_8">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${DRIVER}" />
+				<property name="url" value="${aed_yyc8_url}" />
+				<property name="username" value="${aed_yyc8_username}" />
+				<property name="password" value="${aed_yyc8_password}" />
+			</dataSource>
+		</environment>
+
+		<environment id="aed_yyc_12">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${DRIVER}" />
+				<property name="url" value="${aed_yyc12_url}" />
+				<property name="username" value="${aed_yyc12_username}" />
+				<property name="password" value="${aed_yyc12_password}" />
+			</dataSource>
+		</environment> -->
+
+		<environment id="postgres">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${postgres_driver}" />
+				<property name="url" value="${postgres_url}" />
+				<property name="username" value="${postgres_username}" />
+				<property name="password" value="${postgres_password}" />
+			</dataSource>
+		</environment>
+		
+				<environment id="postgres_pbk">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${postgres_driver}" />
+				<property name="url" value="${postgres_pbk_url}" />
+				<property name="username" value="${postgres_username}" />
+				<property name="password" value="${postgres_password}" />
+			</dataSource>
+		</environment>
+	</environments>
+
+	<mappers>
+		<mapper resource="AdhocQueryService.xml" />	
+		<mapper resource="dcSettingService.xml" />
+		<mapper resource="emailSettingService.xml" />	
+		<mapper resource="sftpSettingService.xml" />
+		<mapper resource="databaseSettingService.xml" />	
+		<mapper resource="hostService.xml" />	
+		<mapper resource="userManagementService.xml" />	
+		<mapper resource="calcOutstandingService.xml" />
+		<mapper resource="lumpSumPayment.xml" />			
+	</mappers>
+
+</configuration>

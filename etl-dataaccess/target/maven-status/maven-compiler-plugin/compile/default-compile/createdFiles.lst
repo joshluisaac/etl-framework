@@ -1,0 +1,12 @@
+com/kollect/etl/dataaccess/IAbstractSqlSessionProvider.class
+com/kollect/etl/query/processor/DeleteQueryStrategy.class
+com/kollect/etl/query/processor/IQueryStrategy.class
+com/kollect/etl/query/processor/UpdateQueryStrategy.class
+com/kollect/etl/dataaccess/MyBatisConnectionFactoryProvider.class
+com/kollect/etl/dataaccess/DataSource.class
+com/kollect/etl/query/processor/QueryStrategyRunner.class
+com/kollect/etl/dataaccess/AbstractSqlSessionProvider.class
+com/kollect/etl/query/processor/QueryContext.class
+com/kollect/etl/query/processor/SelectQueryStrategy.class
+com/kollect/etl/query/processor/AbstractQueryStrategy.class
+com/kollect/etl/query/processor/ListQueryStrategy.class

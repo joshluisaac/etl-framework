@@ -1,0 +1,800 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC
+"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+ 
+<hibernate-mapping>
+  
+<class name="Customer" table="customers" entity-name="Customer">
+ 
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id>
+
+<property name="tenant_id" column="tenant_id" />
+<property name="import_id" column="import_id" />
+<property name="created_at" column="created_at" />
+<property name="updated_at" column="updated_at" />
+<property name="customer_no" column="customer_no" />
+<property name="customer_name" column="customer_name" />
+<property name="payment_term" column="payment_term" />
+<property name="status_id" column="status_id" />
+<property name="created_by" column="created_by" />
+<property name="updated_by" column="updated_by" />
+<property name="import_status_id" column="import_status_id" />
+<property name="import_note" column="import_note" /> 
+<property name="fye" column="fye" />
+<property name="group_code" column="customer_group" />
+
+</class>
+
+<class name="CustomerGroup" table="customer_grouping" entity-name="CustomerGroup">
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id>
+
+<property name="group_code" column="group_code" />
+<property name="group_name" column="group_name" />
+<property name="group_type" column="group_type" />
+
+
+</class>
+
+<class name="Address" table="customers_addresses" entity-name="Address">
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id>
+
+<property name="tenant_id" column="tenant_id" />
+<property name="import_id" column="import_id" />
+
+<property name="created_at" column="created_at" />
+<property name="updated_at" column="updated_at" />
+
+<property name="created_by" column="created_by" />
+<property name="updated_by" column="updated_by" />
+
+
+<property name="customer_id" column="customer_id" />
+
+
+<!--
+<many-to-one
+  name="customer_id"
+  column="customer_id"
+  class="Address"
+  unique="true"
+  insert="false"
+  update="false"
+   />
+-->
+<!--
+  <set
+        name="customer_id" 
+        table="customers_addresses_temp" 
+        cascade="save-update" 
+        inverse="true"> 
+        <key column="id"/> 
+        <one-to-many class="Address"/> 
+  </set> 
+-->
+
+<property name="person_incharge_id" column="person_incharge_id" />
+
+<property name="address_1" column="address_1" />
+<property name="address_2" column="address_2" />
+
+
+<property name="priority" column="priority" />
+<property name="status_id" column="status_id" />
+<property name="is_primary" column="is_primary" />
+
+</class>
+
+<class name="PersonInCharge" table="customers_person_incharge" entity-name="PersonInCharge">
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id>
+
+<property name="tenant_id" column="tenant_id" />
+<property name="import_id" column="import_id" />
+
+<property name="created_at" column="created_at" />
+<property name="updated_at" column="updated_at" />
+
+<property name="created_by" column="created_by" />
+<property name="updated_by" column="updated_by" />
+
+
+<property name="customer_id" column="customer_id" />
+
+
+<property name="person_incharge" column="person_incharge" />
+
+<property name="remarks" column="remarks" />
+<property name="status_id" column="status_id" />
+<property name="is_primary" column="is_primary" />
+
+<property name="account_no" column="account_no" />
+
+<property name="sap" column="sap" />
+
+</class>
+
+
+<class name="AddressDelimited" table="customers_addresses" entity-name="AddressDelimited">
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id>
+
+<property name="tenant_id" column="tenant_id" />
+<property name="import_id" column="import_id" />
+
+<property name="created_at" column="created_at" />
+<property name="updated_at" column="updated_at" />
+
+<property name="created_by" column="created_by" />
+<property name="updated_by" column="updated_by" />
+
+
+<property name="customer_id" column="customer_id" />
+
+<property name="account_no" column="account_no" />
+
+
+<property name="person_incharge_id" column="person_incharge_id" />
+
+<property name="address_1" column="address_1" />
+<property name="address_2" column="address_2" />
+
+<property name="address_3" column="address_3" />
+<property name="address_4" column="address_4" />
+<property name="postcode" column="postcode" />
+<property name="city" column="city" />
+<property name="state" column="state" />
+<property name="country" column="country" />
+
+<property name="priority" column="priority" />
+<property name="status_id" column="status_id" />
+<property name="is_primary" column="is_primary" />
+
+<property name="sap" column="sap" />
+
+</class>
+
+
+<class name="Invoice" table="invoices" entity-name="Invoice">
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id>
+
+<property name="tenant_id" column="tenant_id" />
+<property name="import_id" column="import_id" />
+<property name="account_id" column="account_id" />
+<property name="invoice_date" column="invoice_date" />
+<property name="invoice_no" column="invoice_no" />
+<property name="invoice_description" column="invoice_description" />
+<property name="invoice_amount" column="invoice_amount" />
+<property name="invoice_outstanding" column="invoice_outstanding" />
+<property name="dpd" column="dpd" />
+<property name="mpd" column="mpd" />
+<property name="status_id" column="status_id" />
+
+
+<property name="created_at" column="created_at" />
+<property name="updated_at" column="updated_at" />
+
+<property name="created_by" column="created_by" />
+<property name="updated_by" column="updated_by" />
+
+<property name="invoice_status_id" column="invoice_status_id" />
+<property name="invoice_outstanding_with_interest" column="invoice_outstanding_with_interest" />
+<property name="gst" column="gst" />
+<property name="import_status_id" column="import_status_id" />
+<property name="branch_id" column="branch_id" />
+<property name="in_aging" column="in_aging" />
+
+<property name="invoice_pic_code" column="invoice_pic_code" />
+<property name="invoice_pic_name" column="invoice_pic_name" />
+<property name="invoice_due_date" column="invoice_due_date" />
+<property name="branch_code" column="branch_code" />
+<property name="line_of_business" column="line_of_business" />
+<property name="invoice_id" column="invoice_id" />
+
+
+
+<property name="document_id" column="document_id" />
+<property name="tax_id" column="tax_id" />
+<property name="tax_amount" column="tax_amount" />
+<property name="reference" column="reference" />
+<property name="clearing_doc" column="clearing_doc" />
+<property name="assignment" column="assignment" />
+<property name="item_no" column="item_no" />
+
+<property name="tax_code" column="tax_code" />
+<property name="recon_acct" column="recon_acct" />
+<property name="business_area_id" column="business_area_id" />
+
+<property name="contract_id" column="contract_id" />
+
+
+
+
+</class>
+
+<class name="InvoiceMX" table="kv_invoices" entity-name="InvoiceMX">
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id>
+
+<property name="tenant_id" column="tenant_id" />
+<property name="import_id" column="import_id" />
+<property name="account_id" column="account_id" />
+<property name="invoice_date" column="invoice_date" />
+<property name="invoice_no" column="invoice_no" />
+<property name="invoice_description" column="invoice_description" />
+<property name="invoice_amount" column="invoice_amount" />
+<property name="invoice_outstanding" column="invoice_outstanding" />
+<property name="dpd" column="dpd" />
+<property name="mpd" column="mpd" />
+<property name="status_id" column="status_id" />
+
+
+<property name="created_at" column="created_at" />
+<property name="updated_at" column="updated_at" />
+
+<property name="created_by" column="created_by" />
+<property name="updated_by" column="updated_by" />
+
+<property name="invoice_status_id" column="invoice_status_id" />
+<property name="invoice_outstanding_with_interest" column="invoice_outstanding_with_interest" />
+<property name="gst" column="gst" />
+<property name="import_status_id" column="import_status_id" />
+<property name="branch_id" column="branch_id" />
+<property name="in_aging" column="in_aging" />
+
+<property name="invoice_pic_code" column="invoice_pic_code" />
+<property name="invoice_pic_name" column="invoice_pic_name" />
+<property name="invoice_due_date" column="invoice_due_date" />
+<property name="branch_code" column="branch_code" />
+<property name="line_of_business" column="line_of_business" />
+<property name="invoice_id" column="invoice_id" />
+
+
+
+<property name="document_id" column="document_id" />
+<property name="tax_id" column="tax_id" />
+<property name="tax_amount" column="tax_amount" />
+<property name="reference" column="reference" />
+<property name="clearing_doc" column="clearing_doc" />
+<property name="assignment" column="assignment" />
+<property name="item_no" column="item_no" />
+
+<property name="tax_code" column="tax_code" />
+<property name="recon_acct" column="recon_acct" />
+<property name="business_area_id" column="business_area_id" />
+
+<property name="contract_id" column="contract_id" />
+
+<property name="payment_id" column="payment_id" />
+<property name="balance" column="balance" />
+<property name="payment_reference" column="payment_reference" />
+
+<property name="transaction_no" column="document_no" />
+<property name="mode" column="mode" />
+<property name="spglind" column="spec_gl_ind" />
+<property name="amount" column="amount_dc" />
+<property name="currency" column="currency" />
+<property name="posting_key" column="post_key" />
+<property name="trx_date" column="trx_date" />
+
+<property name="invref" column="inv_ref" />
+<property name="billdoc" column="bill_doc" />
+
+<property name="payment_term" column="payment_term" />
+<property name="baseline_date" column="baseline_date" />
+
+
+</class>
+
+
+<class name="InvoiceDupMX" table="kv_invoices_dup_ref" entity-name="InvoiceDupMX">
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id>  
+
+<property name="account_id" column="account_id" />
+<property name="amount" column="amount" />
+<property name="transaction_no" column="transaction_no" />
+
+<property name="business_area_id" column="business_area_id" />
+<property name="dup_count" column="dup_count" />
+<property name="description" column="description" />
+
+</class>
+
+
+<class name="PaymentMX" table="kv_payments" entity-name="PaymentMX">
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id>
+
+<property name="tenant_id" column="tenant_id" />
+<property name="import_id" column="import_id" />
+<property name="account_id" column="account_id" />
+<property name="invoice_date" column="payment_date" />
+<property name="invoice_no" column="payment_no" />
+<property name="invoice_description" column="payment_description" />
+<property name="invoice_amount" column="payment_amount" />
+<property name="invoice_outstanding" column="payment_outstanding" />
+<property name="dpd" column="dpd" />
+<property name="mpd" column="mpd" />
+<property name="status_id" column="status_id" />
+
+
+<property name="created_at" column="created_at" />
+<property name="updated_at" column="updated_at" />
+
+<property name="created_by" column="created_by" />
+<property name="updated_by" column="updated_by" />
+
+<property name="invoice_status_id" column="invoice_status_id" />
+<property name="invoice_outstanding_with_interest" column="payment_outstanding_with_interest" />
+<property name="gst" column="gst" />
+<property name="import_status_id" column="import_status_id" />
+<property name="branch_id" column="branch_id" />
+<property name="in_aging" column="in_aging" />
+
+<property name="invoice_pic_code" column="invoice_pic_code" />
+<property name="invoice_pic_name" column="invoice_pic_name" />
+<property name="invoice_due_date" column="payment_due_date" />
+<property name="branch_code" column="branch_code" />
+<property name="line_of_business" column="line_of_business" />
+<property name="invoice_id" column="invoice_id" />
+
+
+
+<property name="document_id" column="document_id" />
+<property name="tax_id" column="tax_id" />
+<property name="tax_amount" column="tax_amount" />
+<property name="reference" column="reference" />
+<property name="clearing_doc" column="clearing_doc" />
+<property name="assignment" column="assignment" />
+<property name="item_no" column="item_no" />
+
+<property name="tax_code" column="tax_code" />
+<property name="recon_acct" column="recon_acct" />
+<property name="business_area_id" column="business_area_id" />
+
+<property name="contract_id" column="contract_id" />
+
+<property name="invoice_reference" column="invoice_reference" />
+<property name="balance" column="balance" />
+
+<property name="transaction_no" column="document_no" />
+<property name="mode" column="mode" />
+<property name="spglind" column="spec_gl_ind" />
+<property name="amount" column="amount_dc" />
+<property name="currency" column="currency" />
+<property name="posting_key" column="post_key" />
+<property name="trx_date" column="trx_date" />
+
+<property name="invref" column="inv_ref" />
+<property name="billdoc" column="bill_doc" />
+
+<property name="payment_term" column="payment_term" />
+<property name="baseline_date" column="baseline_date" />
+
+</class>
+
+<class name="InvoiceTransaction" table="transactions" entity-name="InvoiceTransaction">
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id>
+
+<property name="tenant_id" column="tenant_id" />
+<property name="import_id" column="import_id" />
+<property name="invoice_id" column="invoice_id" />
+<property name="transaction_no" column="transaction_no" />
+<property name="transaction_code" column="transaction_code" />
+<property name="transaction_date" column="transaction_date" />
+<property name="debit" column="debit" />
+<property name="credit" column="credit" />
+<property name="status_id" column="status_id" />
+<property name="created_at" column="created_at" />
+<property name="updated_at" column="updated_at" />
+<property name="created_by" column="created_by" />
+<property name="updated_by" column="updated_by" />
+<property name="transaction_description" column="transaction_description" />
+<property name="import_status_id" column="import_status_id" />
+<property name="account_id" column="account_id" />
+<property name="total_amount" column="total_amount" />
+<property name="initial_debit" column="initial_debit" />
+
+<property name="document_id" column="document_id" />
+<property name="tax_id" column="tax_id" />
+<property name="tax_amount" column="tax_amount" />
+<property name="reference" column="reference" />
+<property name="clearing_doc" column="clearing_doc" />
+<property name="assignment" column="assignment" />
+<property name="item_no" column="item_no" />
+
+</class>
+
+<class name="Account" table="accounts" entity-name="Account">
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id>
+
+<property name="tenant_id" column="tenant_id" />
+<property name="import_id" column="import_id" />
+<property name="customer_id" column="customer_id" />
+<property name="subsidiary_id" column="subsidiary_id" />
+<property name="account_no" column="account_no" />
+<property name="host_account_no" column="host_account_no" />
+<property name="status_id" column="status_id" />
+<property name="created_at" column="created_at" />
+<property name="updated_at" column="updated_at" />
+<property name="created_by" column="created_by" />
+<property name="updated_by" column="updated_by" />
+
+<property name="company_code" column="company_code" />
+
+<property name="account_group_id" column="account_group_id" />
+
+</class>  
+
+<class name="Contract" table="kvcontract" entity-name="Contract">
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id>
+
+<property name="tenant_id" column="tenant_id" />
+<property name="account_id" column="account_id" />
+<property name="company_id" column="company_id" />
+<property name="contract_type" column="contract_type_id" />
+<property name="contract_no" column="contract_num" />
+<property name="contract_name" column="contract_name" />
+<property name="business_area" column="business_area_id" />
+<property name="contr_start_date" column="contract_start_date" />
+<property name="first_contr_end" column="first_contract_end_date" />
+<property name="contr_end_date" column="contract_end_date" />
+<property name="termin_months" column="terms_in_month" />
+<property name="security_deposit" column="security_deposit" />
+<property name="utility_deposit" column="utilities_deposit" />
+<property name="operation_deposit" column="operational_deposit" />
+
+</class>    
+
+<class name="DunnHistory" table="kv_dunning_history" entity-name="DunnHistory">
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id>
+
+<property name="inv_ref" column="inv_ref" />
+<property name="bill_doc" column="bill_doc" />
+
+<property name="dunn_date" column="dunn_date" />
+<property name="bal_date" column="bal_date" />
+
+<property name="balance" column="balance" />
+
+<property name="dunn_lvl" column="dunn_lev" />
+<property name="action_by" column="action_by" />
+<property name="account_id" column="account_id" />
+<property name="invoice_id" column="invoice_id" />
+ 
+<property name="tenant_id" column="tenant_id" />
+<property name="document_no" column="document_no" />
+<property name="assignment" column="assignment" />
+
+<property name="invoice_type" column="invoice_type" />
+</class>
+
+
+
+<class name="InvoiceCharge" table="kv_invoice_charges" entity-name="InvoiceCharge">
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id>
+
+<property name="tenant_id" column="tenant_id" />
+<property name="account_id" column="account_id" />
+<property name="invoice_id" column="invoice_id" />
+<property name="bill_doc" column="bill_doc" />
+<property name="inv_ref" column="inv_ref" />
+<property name="material_id" column="material_id" />
+<property name="condition_id" column="condition_id" />
+<property name="document_no" column="document_no" />
+<property name="item_no" column="item_no" />
+<property name="amount" column="amount" />
+<property name="description" column="description" />
+<property name="transaction_mode" column="transaction_mode" />
+<property name="mode" column="mode" />
+
+</class>
+
+<class name="InvoiceTransactionDeposit" table="kv_deposit_ar" entity-name="InvoiceTransactionDeposit">
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id>
+
+<property name="tenant_id" column="tenant_id" />
+<property name="import_id" column="import_id" />
+<property name="transaction_no" column="transaction_no" />
+<property name="transaction_code" column="transaction_code" />
+<property name="transaction_date" column="transaction_date" />
+<property name="credit" column="credit" />
+<property name="created_at" column="created_at" />
+<property name="updated_at" column="updated_at" />
+<property name="created_by" column="created_by" />
+<property name="updated_by" column="updated_by" />
+<property name="transaction_description" column="transaction_description" />
+<property name="import_status_id" column="import_status_id" />
+<property name="account_id" column="account_id" />
+
+<property name="document_id" column="document_id" />
+<property name="tax_id" column="tax_id" />
+<property name="tax_amount" column="tax_amount" />
+<property name="reference" column="reference" />
+<property name="clearing_doc" column="clearing_doc" />
+<property name="assignment" column="assignment" />
+<property name="item_no" column="item_no" />
+<property name="special_gl_indicator" column="special_gl_indicator" />
+
+
+</class>
+
+<class name="InvoiceTransactionUnallocated" table="kv_unallocated_transactions" entity-name="InvoiceTransactionUnallocated">
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id>
+
+<property name="tenant_id" column="tenant_id" />
+<property name="import_id" column="import_id" />
+<property name="transaction_no" column="transaction_no" />
+<property name="transaction_code" column="transaction_code" />
+<property name="transaction_date" column="transaction_date" />
+<property name="credit" column="credit" />
+<property name="created_at" column="created_at" />
+<property name="updated_at" column="updated_at" />
+<property name="created_by" column="created_by" />
+<property name="updated_by" column="updated_by" />
+<property name="transaction_description" column="transaction_description" />
+<property name="import_status_id" column="import_status_id" />
+<property name="account_id" column="account_id" />
+
+<property name="document_id" column="document_id" />
+<property name="tax_id" column="tax_id" />
+<property name="tax_amount" column="tax_amount" />
+<property name="reference" column="reference" />
+<property name="clearing_doc" column="clearing_doc" />
+<property name="assignment" column="assignment" />
+<property name="item_no" column="item_no" />
+
+</class>
+
+
+<class name="SalesOrder" table="kv_sales_order" entity-name="SalesOrder">
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id> 
+
+<property name="tenant_id" column="tenant_id" />
+<property name="account_id" column="account_id" />
+<property name="invoice_id" column="invoice_id" />
+<property name="material_id" column="material_id" />
+
+
+<property name="bill_doc" column="bill_doc" />
+
+<property name="service_date" column="service_date" />
+<property name="bill_date" column="bill_date" />
+
+<property name="shipping_point" column="shipping_point" />
+<property name="sales_org" column="sales_org" />
+<property name="flight_no" column="flight_no" />
+<property name="dom_pax" column="dom_pax" />
+<property name="int_pax" column="int_pax" />
+<property name="ltt_pax" column="ltt_pax" />
+
+<property name="aircraft_type" column="aircraft_type" />
+
+<property name="net_value" column="net_value" />
+
+
+</class>
+
+<class name="InvoiceVendorMX" table="kv_vendor_invoices" entity-name="InvoiceVendorMX">
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id> 
+
+<property name="tenant_id" column="tenant_id" />
+<property name="import_id" column="import_id" />
+<property name="account_id" column="account_id" />
+
+<property name="invoice_date" column="invoice_date" />
+<property name="invoice_no" column="invoice_no" />
+<property name="invoice_description" column="invoice_description" />
+<property name="invoice_due_date" column="invoice_due_date" />
+<!--
+<property name="invoice_amount" column="invoice_amount" />
+-->
+<property name="invoice_outstanding" column="invoice_outstanding" />
+<property name="dpd" column="dpd" />
+<property name="mpd" column="mpd" />
+<property name="status_id" column="status_id" />
+<property name="created_at" column="created_at" />
+<property name="updated_at" column="updated_at" />
+<property name="created_by" column="created_by" />
+<property name="updated_by" column="updated_by" />
+<property name="invoice_status_id" column="invoice_status_id" />
+<property name="invoice_outstanding_with_interest" column="invoice_outstanding_with_interest" />
+<property name="gst" column="gst" />
+<property name="import_status_id" column="import_status_id" />
+
+
+<property name="branch_id" column="branch_id" />
+<property name="branch_code" column="branch_code" />
+<property name="in_aging" column="in_aging" />
+<property name="invoice_pic_code" column="invoice_pic_code" />
+<property name="invoice_pic_name" column="invoice_pic_name" />
+<property name="line_of_business" column="line_of_business" />
+<property name="vendor_no" column="vendor_no" />
+<property name="tax_code" column="tax_code" />
+
+
+<property name="tax_id" column="tax_id" />
+<property name="clearing_doc" column="clearing_doc" />
+<property name="reference" column="reference" />
+<property name="assignment" column="assignment" />
+
+
+<property name="item_no" column="item_no" />
+<property name="document_id" column="document_id" />
+<property name="business_area_id" column="business_area_id" />
+
+
+<property name="tax_amount" column="tax_amount" />
+<property name="payment_reference" column="payment_reference" />
+
+<property name="transaction_no" column="document_no" />
+
+
+<property name="mode" column="mode" />
+
+
+
+<property name="amount" column="amount_dc" />
+
+
+<property name="invoice_amount" column="amount_lc" />
+
+
+<property name="purchase_order_no" column="purchase_order_no" />
+<property name="gst_code" column="gst_code" />
+<property name="document_status_id" column="document_status_id" />
+
+
+<property name="cheque_no" column="cheque_no" />
+<property name="currency_code" column="currency_code" />
+
+<property name="transaction_date" column="transaction_date" />
+<property name="entered_date" column="entered_date" />
+
+<property name="payment_term" column="payment_term" />
+<property name="baseline_date" column="baseline_date" />
+ 
+<property name="alternate_payee" column="alt_payee" />
+
+</class>
+
+<class name="PaymentVendorMX" table="kv_vendor_payments" entity-name="PaymentVendorMX">
+
+<id name="id" type="long" column="id"  >
+<generator class="increment" />
+</id> 
+
+<property name="tenant_id" column="tenant_id" />
+<property name="import_id" column="import_id" />
+<property name="account_id" column="account_id" />
+
+<property name="invoice_date" column="invoice_date" />
+<property name="invoice_no" column="invoice_no" />
+<property name="invoice_description" column="invoice_description" />
+<property name="invoice_due_date" column="invoice_due_date" />
+<!--
+<property name="invoice_amount" column="invoice_amount" />
+-->
+<property name="invoice_outstanding" column="invoice_outstanding" />
+<property name="dpd" column="dpd" />
+<property name="mpd" column="mpd" />
+<property name="status_id" column="status_id" />
+<property name="created_at" column="created_at" />
+<property name="updated_at" column="updated_at" />
+<property name="created_by" column="created_by" />
+<property name="updated_by" column="updated_by" />
+<property name="invoice_status_id" column="invoice_status_id" />
+<property name="invoice_outstanding_with_interest" column="invoice_outstanding_with_interest" />
+<property name="gst" column="gst" />
+<property name="import_status_id" column="import_status_id" />
+
+
+<property name="branch_id" column="branch_id" />
+<property name="branch_code" column="branch_code" />
+<property name="in_aging" column="in_aging" />
+<property name="invoice_pic_code" column="invoice_pic_code" />
+<property name="invoice_pic_name" column="invoice_pic_name" />
+<property name="line_of_business" column="line_of_business" />
+<property name="vendor_no" column="vendor_no" />
+<property name="tax_code" column="tax_code" />
+
+
+<property name="tax_id" column="tax_id" />
+<property name="clearing_doc" column="clearing_doc" />
+<property name="reference" column="reference" />
+<property name="assignment" column="assignment" />
+
+<property name="item_no" column="item_no" />
+<property name="document_id" column="document_id" />
+<property name="business_area_id" column="business_area_id" />
+
+
+
+<property name="tax_amount" column="tax_amount" />
+
+
+<property name="invoice_reference" column="invoice_reference" />
+
+
+
+<property name="transaction_no" column="document_no" />
+
+
+
+<property name="mode" column="mode" />
+
+<property name="amount" column="amount_dc" />
+<property name="invoice_amount" column="amount_lc" />
+
+
+<property name="purchase_order_no" column="purchase_order_no" />
+<property name="gst_code" column="gst_code" />
+<property name="document_status_id" column="document_status_id" />
+<property name="transaction_date" column="transaction_date" />
+<property name="entered_date" column="entered_date" />
+<property name="clearing_date" column="clearing_date" />
+<property name="payment_type_id" column="payment_type_id" />
+
+<property name="cheque_no" column="cheque_no" />
+<property name="currency_code" column="currency_code" />
+
+<property name="payment_term" column="payment_term" />
+<property name="baseline_date" column="baseline_date" />
+
+<property name="alternate_payee" column="alt_payee" />
+
+
+
+</class>
+
+</hibernate-mapping>

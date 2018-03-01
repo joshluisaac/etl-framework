@@ -1,0 +1,45 @@
+package com.kollect.etl.util;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class FakeInvoiceData {
+  
+  List<String> customerInvPrev, customerInvoiceCurr;
+  
+  public Map<String, List<String>> loadData() {
+    Map<String, List<String>> map = new HashMap<>();
+    customerInvPrev = new ArrayList<>();
+    customerInvPrev.add("30C-0001|I-000001|2011-12-31 00:00:00.0|2011-12-31 00:00:00.0|1584.00|0.00|0.00|2012-01-30 17:10:05.68|2012-02-03 07:47:34.357|BALANCE|AED_YYC_8");
+    customerInvPrev.add("30C-0008|I-000002|2011-12-31 00:00:00.0|2011-12-31 00:00:00.0|474.00|0.00|0.00|2012-01-30 17:17:34.79|2012-12-07 08:07:31.437|BALANCE|AED_YYC_8");
+    customerInvPrev.add("300-0076|I-000022|2011-12-31 00:00:00.0|2011-12-31 00:00:00.0|1004.00|0.00|0.00|2012-01-31 09:21:44.95|2012-03-22 17:32:42.327|BALANCE|AED_YYC_8");
+    customerInvPrev.add("30C-0595|I-000165|2011-12-31 00:00:00.0|2011-12-31 00:00:00.0|421.00|0.00|0.00|2012-01-31 13:06:52.153|2012-02-03 08:32:30.75|BALANCE|AED_YYC_8");
+    customerInvPrev.add("30C-0261|I-000066|2011-12-31 00:00:00.0|2011-12-31 00:00:00.0|2379.00|0.00|0.00|2012-01-31 11:12:44.06|2012-02-03 10:30:10.107|BALANCE|AED_YYC_8");
+    customerInvPrev.add("30C-0261|I-000066|2011-12-31 00:00:00.0|2011-12-31 00:00:00.0|2379.00|0.00|0.00|2012-01-31 11:12:44.06|2012-02-03 10:30:10.108|BALANCE|AED_YYC_8");
+
+    customerInvoiceCurr = new ArrayList<>();
+    customerInvoiceCurr.add("30C-0001|I-000001|2011-12-31 00:00:00.0|2011-12-31 00:00:00.0|1584.00|0.00|0.00|2012-01-30 17:10:05.68|2012-02-03 07:47:34.357|BALANCE|AED_YYC_8");
+    customerInvoiceCurr.add("30C-0001|I-000001|2011-12-31 00:00:00.0|2011-12-31 00:00:00.0|1584.00|0.00|0.00|2012-01-30 17:10:05.68|2012-02-03 07:47:34.358|BALANCE|AED_YYC_8");
+    customerInvoiceCurr.add("30C-0008|I-000002|2011-12-31 00:00:00.0|2011-12-31 00:00:00.0|474.00|0.00|0.00|2012-01-30 17:17:34.79|2012-12-07 08:07:31.437|BALANCE|AED_YYC_8");
+    customerInvoiceCurr.add("300-0076|I-000022|2011-12-31 00:00:00.0|2011-12-31 00:00:00.0|1004.00|0.00|0.00|2012-01-31 09:21:44.95|2012-03-22 17:32:42.327|BALANCE|AED_YYC_8");
+    customerInvoiceCurr.add("30C-0595|I-000165|2011-12-31 00:00:00.0|2011-12-31 00:00:00.0|421.00|0.00|0.00|2012-01-31 13:06:52.153|2012-02-03 08:32:30.75|BALANCE|AED_YYC_8");
+    customerInvoiceCurr.add("30C-0261|I-000066|2011-12-31 00:00:00.0|2011-12-31 00:00:00.0|2379.00|0.00|0.00|2012-01-31 11:12:44.06|2012-02-03 10:30:10.107|BALANCE|AED_YYC_8");
+    customerInvoiceCurr.add("30C-0261|I-000066|2011-12-31 00:00:00.0|2011-12-31 00:00:00.0|2379.00|0.00|0.00|2012-01-31 11:12:44.06|2012-02-03 10:30:10.109|BALANCE|AED_YYC_8");
+    customerInvoiceCurr.add("30C-0325|I-000087|2011-12-31 00:00:00.0|2011-12-31 00:00:00.0|1222.00|0.00|0.00|2012-01-31 11:26:23.34|2012-03-14 10:18:18.247|BALANCE|AED_YYC_8");
+    map.put("prevInvListKey", customerInvPrev);
+    map.put("currInvListKey", customerInvoiceCurr);
+    return map;
+  }
+  
+  
+  public List<String> expectatedList(){
+    List<String> expected = new ArrayList<>();
+    expected.add("30C-0001|I-000001|2011-12-31 00:00:00.0|2011-12-31 00:00:00.0|1584.00|0.00|0.00|2012-01-30 17:10:05.68|2012-02-03 07:47:34.358|BALANCE|AED_YYC_8");
+    expected.add("30C-0261|I-000066|2011-12-31 00:00:00.0|2011-12-31 00:00:00.0|2379.00|0.00|0.00|2012-01-31 11:12:44.06|2012-02-03 10:30:10.109|BALANCE|AED_YYC_8");
+    expected.add("30C-0325|I-000087|2011-12-31 00:00:00.0|2011-12-31 00:00:00.0|1222.00|0.00|0.00|2012-01-31 11:26:23.34|2012-03-14 10:18:18.247|BALANCE|AED_YYC_8");
+    return expected;
+  }
+  
+}

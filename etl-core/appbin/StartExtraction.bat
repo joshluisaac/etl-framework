@@ -1,0 +1,1 @@
+java -classpath .;..\config;..\lib\dataextractor.jar;..\lib\joda-time-2.9.9.jar;..\lib\etlutil.jar;..\lib\commons-vfs2-2.1.jar;..\lib\commons-logging-1.2.jar;..\lib\slf4j-api-1.7.5.jar;..\lib\slf4j-log4j12-1.7.5.jar;..\lib\log4j-1.2.17.jar;..\lib\jtds-1.3.1.jar;..\lib\jsch-0.1.54.jar com.kollect.etl.dataextractor.EtlExtractor

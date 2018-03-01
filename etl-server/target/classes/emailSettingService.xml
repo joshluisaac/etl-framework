@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="emailSettingService">
+
+<insert id="insertEmailSettings">
+insert into kvemail_settings
+(sendEmail, userAuthentication, userName, pass, host, recipient, port, subject, msg, subjectErr, msgErr) 
+values 
+(#{sendEmail}, #{userAuthentication}, #{userName}, #{pass}, #{host}, #{recipient}, #{port}, #{subject}, #{msg}, #{subjErr}, #{msgErr}  )
+</insert>
+
+<resultMap type="java.util.HashMap" id="getEmailSettings-map" >
+<result property="sendEmail" column="sendEmail" javaType="java.lang.Boolean"/>
+<result property="userAuthentication" column="userAuthentication" javaType="java.lang.String"/>
+<result property="userName" column="userName" javaType="java.lang.String"/>
+<result property="pass" column="pass" javaType="java.lang.String"/>
+<result property="host" column="host" javaType="java.lang.String"/>
+<result property="recipient" column="recipient" javaType="java.lang.String"/>
+<result property="port" column="port" javaType="java.lang.Integer"/>
+<result property="subject" column="subject" javaType="java.lang.String"/>
+<result property="msg" column="msg" javaType="java.lang.String"/>
+<result property="subjectErr" column="subjectErr" javaType="java.lang.String"/>
+<result property="msgErr" column="msgErr" javaType="java.lang.String"/>
+</resultMap>
+
+<select id="getEmailSettings" resultMap="getEmailSettings-map">
+select
+sendEmail,
+userAuthentication,
+userName,
+pass,
+host,
+recipient,
+port,
+subject,
+coalesce (msg, '') as msg,
+subjectErr,
+msgErr
+from kvemail_settings
+
+</select>
+
+<resultMap type="HashMap" id="getEmailCounter-map">
+<result property = "emailCounter" column="emailCounter" javaType="Integer" />
+</resultMap>
+
+<select id="getEmailCounter" resultMap="getEmailCounter-map"> 
+select count (*) as emailCounter from kvemail_settings 
+</select>
+
+<update id="updateEmailSettings">
+update kvemail_settings set 
+sendEmail = #{sendEmail},
+userAuthentication = #{userAuthentication},
+userName = #{userName},
+pass = #{pass},
+host = #{host},
+recipient = #{recipient},
+port = #{port},
+subject = #{subject},
+msg = #{msg},
+subjectErr = #{subjErr},
+msgErr = #{msgErr}
+</update>
+
+</mapper>

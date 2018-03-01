@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dcSettingService">
+
+<insert id="insertDcConfigProp">
+<selectKey keyProperty="id" resultType="int" order="BEFORE" >
+select nextval('kvdataconnector_config_global_id')
+</selectKey>
+insert into kvdataconnector_config_global 
+(id, description, sourceFileName, destination_table, table_sequence_name, generated_key, column_delimiter, date_format, descriptorFileName, includeLoadExecution, disable) 
+values 
+(#{id}, #{description}, #{sourceFileName}, #{destinationTable}, #{tableSequenceName}, 
+#{generatedKey}, #{columnDelimiter}, #{dateFormat} , #{descriptorFileName}, #{includeLoadExecution}, #{delOption} )
+</insert>
+
+<update id="updateDcConfigProp">
+UPDATE kvdataconnector_config_global
+SET
+description =  #{description},
+sourceFileName = #{sourceFileName},
+destination_table = #{destinationTable},
+table_sequence_name = #{tableSequenceName}, 
+generated_key = #{generatedKey}, 
+column_delimiter = #{columnDelimiter}, 
+date_format = #{dateFormat}, 
+descriptorFileName = #{descriptorFileName}, 
+includeLoadExecution = #{includeLoadExecution},
+disable = #{delOption}
+WHERE id = #{id}
+</update>
+
+<resultMap type="java.util.HashMap" id="getDcConfigParent">
+  <result property="id" column="id" javaType="java.lang.Long" />
+  <result property="global_config_id" column="global_config_id" javaType="java.lang.Long" />
+  <result property="delOption" column="delOption" javaType="java.lang.Boolean" />
+  <result property="destinationTable" column="destinationTable" javaType="java.lang.String" />
+   <result property="sequenceName" column="sequenceName" javaType="java.lang.String" />
+  <result property="generatedKey" column="generatedKey" javaType="java.lang.String" />
+  <result property="delimiter" column="delimiter" javaType="java.lang.Long" />
+  <result property="dateFormat" column="dateFormat" javaType="java.lang.Long" />
+  <result property="description" column="description" javaType="java.lang.String" />
+  <result property="sourceFileName" column="sourceFileName" javaType="java.lang.String" />
+  <result property="descriptorFileName" column="descriptorFileName" javaType="java.lang.String" />
+  <result property="includeLoadExecution" column="includeLoadExecution" javaType="java.lang.Boolean" />
+  <result property="delimiterDesc" column="delimiterDesc" javaType="java.lang.String" />
+  <result property="dateFormatDesc" column="dateFormatDesc" javaType="java.lang.String" />
+  <result property="updatedDate" column="updatedDate" javaType="java.sql.Timestamp" />
+</resultMap>
+
+ <select id="getDcConfigParent" resultMap="getDcConfigParent">
+ select
+ id, 
+ id as global_config_id,
+ coalesce(destination_table,'-') as destinationTable, 
+ table_sequence_name as sequenceName, 
+ generated_key as generatedKey, 
+ column_delimiter as delimiter, 
+ date_format as dateFormat,
+ coalesce(description,'N/A') as description,
+ coalesce(sourceFileName,'N/A') as sourceFileName,
+ coalesce(descriptorFileName,destination_table) as descriptorFileName,
+ coalesce(includeLoadExecution, false) as includeLoadExecution,
+ coalesce(disable, false) as disable,
+ case 
+ when column_delimiter = 1 then 'PSV'
+ when column_delimiter = 2 then 'CSV'
+ when column_delimiter = 3 then 'TSV'
+ when column_delimiter = 4 then 'Fixed' else '' end as delimiterDesc,
+ case
+ when date_format = 1 then 'ddMMyyyy'
+  when date_format = 2 then 'yyyy-MM-dd HH:mm:ss'
+ when date_format = 3 then 'yyyy/MM/dd HH:mm:ss'
+ when date_format = 4 then 'yyyy-dd-MM HH:mm:ss'
+ when date_format = 5 then 'yyyy/dd/MM HH:mm:ss' else '' end as dateFormatDesc,
+ current_timestamp as updatedDate
+ from 
+ kvdataconnector_config_global 
+ <if test="id != null">
+  where id = #{id}
+ </if>
+<!--  order by sourceFileName asc -->
+ </select>
+
+
+<insert id="insertDcConfig">
+  <selectKey keyProperty="id" resultType="int" order="BEFORE">
+   select nextval('kvdataconnector_config_id')
+  </selectKey>
+  insert into kvdataconnector_config
+  (id, global_config_id, column_name, column_default_value,
+  column_start_position,column_end_position, column_data_handler, 
+  column_is_key, column_is_iexternal,column_is_optional, column_is_cached, lookup_query, look_insert_query, look_insert_key_query, disable, remark)
+  values
+  (#{id}, #{global_config_id}, #{column_name}, #{column_default_value},
+  #{column_start_position},#{column_end_position}, #{column_data_handler}, 
+  #{column_is_key}, #{column_is_iexternal},#{column_is_optional}, #{column_is_cached}, #{lookup_query}, #{look_insert_query}, #{look_insert_key_query}, #{disable} , #{remark})
+ </insert>
+ 
+ 
+ 
+  <resultMap type="java.util.HashMap" id="getDcConfigById">
+  <result property="id" column="id" javaType="java.lang.Long" />
+  <result property="global_config_id" column="global_config_id" javaType="java.lang.Long" />
+  <result property="column_name" column="column_name" javaType="java.lang.String" />
+  <result property="remark" column="remark" javaType="java.lang.String" />
+  <result property="column_default_value" column="column_default_value" javaType="java.lang.String" />
+  <result property="column_start_position" column="column_start_position" javaType="java.lang.Long" />
+  <result property="column_end_position" column="column_end_position" javaType="java.lang.Long" />
+  <result property="column_data_handler" column="column_data_handler" javaType="java.lang.Long" />
+  <result property="dataHandler" column="dataHandler" javaType="java.lang.String" />
+  <result property="column_is_key" column="column_is_key" javaType="java.lang.Boolean" />
+  <result property="column_is_iexternal" column="column_is_iexternal" javaType="java.lang.Boolean" />
+  <result property="column_is_optional" column="column_is_optional" javaType="java.lang.Boolean" />
+  <result property="column_is_cached" column="column_is_cached" javaType="java.lang.Boolean" />
+  <result property="lookup_query" column="lookup_query" javaType="java.lang.String" />
+  <result property="look_insert_query" column="look_insert_query" javaType="java.lang.String" />
+  <result property="look_insert_key_query" column="look_insert_key_query" javaType="java.lang.String" />
+  <result property="disable" column="disable" javaType="java.lang.Boolean" />
+ </resultMap>
+
+ <select id="getDcConfigById" resultMap="getDcConfigById">
+  select
+  id, 
+  global_config_id, 
+  column_name, 
+  coalesce(remark,'') as remark,
+  column_default_value,
+  column_start_position,
+  column_end_position, 
+  column_data_handler, 
+  case 
+  when column_data_handler = 1 then 'Long Handler' 
+  when column_data_handler = 2 then 'String Handler' 
+  when column_data_handler = 3 then 'Date Default Handler' 
+  when column_data_handler = 4 then 'Integer Handler' 
+  when column_data_handler = 5 then 'Boolean Handler' 
+  when column_data_handler = 6 then 'Currency Handler'
+  when column_data_handler = 7 then 'Pass Through Handler'
+  else '' end as dataHandler,
+  column_is_key, 
+  column_is_iexternal,
+  column_is_optional, 
+  column_is_cached, 
+  lookup_query,
+  look_insert_query,
+  look_insert_key_query,
+  coalesce(disable,false) as disable
+  from kvdataconnector_config 
+  where id = #{id}
+ </select>
+ 
+  <select id="getDcConfigByParentId" resultMap="getDcConfigById">
+  select
+  id, 
+  global_config_id, 
+  column_name,
+  coalesce(remark,'') as remark, 
+  column_default_value,
+  column_start_position,
+  column_end_position, 
+  column_data_handler, 
+  case 
+  when column_data_handler = 1 then 'Long Handler' 
+  when column_data_handler = 2 then 'String Handler' 
+  when column_data_handler = 3 then 'Date Default Handler' 
+  when column_data_handler = 4 then 'Integer Handler' 
+  when column_data_handler = 5 then 'Boolean Handler' 
+  when column_data_handler = 6 then 'Currency Handler'
+   when column_data_handler = 7 then 'Pass Through Handler'
+  else '' end as dataHandler,
+  column_is_key, 
+  column_is_iexternal,
+  column_is_optional, 
+  column_is_cached, 
+  lookup_query,
+  look_insert_query,
+  look_insert_key_query,
+  coalesce(disable,false) as disable 
+  from kvdataconnector_config 
+  where global_config_id = #{global_config_id}
+ </select>
+ 
+ 
+   <resultMap type="java.util.HashMap" id="getConfigListForExport">
+  <result property="destinationTable" column="destinationTable" javaType="java.lang.String" />
+  <result property="generatedKeySequence" column="generatedKeySequence" javaType="java.lang.String" />
+  <result property="generatedKey" column="generatedKey" javaType="java.lang.String" />
+  <result property="delimiter" column="delimiter" javaType="java.lang.String" />
+  <result property="dateFormat" column="dateFormat" javaType="java.lang.String" />
+  <result property="includeloadexecution" column="includeloadexecution" javaType="java.lang.String" />
+  <result property="fileName" column="fileName" javaType="java.lang.String" />
+  
+  <result property="fieldName" column="fieldName" javaType="java.lang.String" />
+  <result property="defaultValue" column="defaultValue" javaType="java.lang.String" />
+  <result property="locationStart" column="locationStart" javaType="java.lang.String" />
+  <result property="locationEnd" column="locationEnd" javaType="java.lang.String" />
+  <result property="handlerName" column="handlerName" javaType="java.lang.String" />
+  
+  <result property="isKey" column="isKey" javaType="java.lang.String" />
+  <result property="isExternal" column="isExternal" javaType="java.lang.String" />
+  <result property="isOptional" column="isOptional" javaType="java.lang.String" />
+  <result property="isCached" column="isCached" javaType="java.lang.String" />
+  <result property="isLookUp" column="isLookUp" javaType="java.lang.String" />
+  <result property="lookUpQuery" column="lookUpQuery" javaType="java.lang.String" />
+  <result property="lookUpInsert" column="lookUpInsert" javaType="java.lang.String" />
+  <result property="lookUpInsertKey" column="lookUpInsertKey" javaType="java.lang.String" />
+  <result property="disable" column="disable" javaType="java.lang.Boolean" />
+ </resultMap>
+ 
+ <select id="getConfigListForExport" resultMap="getConfigListForExport">
+select
+g.destination_table as destinationTable,
+g.table_sequence_name as generatedKeySequence,
+g.generated_key as generatedKey,
+case 
+when g.column_delimiter = 1 then '|'
+when g.column_delimiter = 2 then ','
+end as delimiter,
+
+case 
+when g.date_format = 1 then 'ddMMyyyy'
+  when g.date_format = 2 then 'yyyy-MM-dd HH:mm:ss'
+when g.date_format = 3 then 'yyyy/MM/dd HH:mm:ss'
+when g.date_format = 4 then 'yyyy-dd-MM HH:mm:ss'
+when g.date_format = 5 then 'yyyy/dd/MM HH:mm:ss' else '' end as dateFormat,
+
+g.includeloadexecution,
+g.descriptorFileName as fileName,
+
+column_name as fieldName, 
+column_default_value as defaultValue,
+column_start_position as locationStart,
+column_end_position as locationEnd, 
+
+case 
+when column_data_handler = 1 then 'long' 
+when column_data_handler = 2 then 'string' 
+when column_data_handler = 3 then 'date' 
+when column_data_handler = 4 then 'int' 
+when column_data_handler = 5 then 'bool' 
+when column_data_handler = 6 then 'currency'
+when column_data_handler = 7 then 'pass' else '' end as handlerName,
+
+case when column_is_key = true then 'true' else 'false' end as isKey, 
+case when column_is_iexternal = true then 'true' else 'false' end as isExternal, 
+case when column_is_optional = true then 'true' else 'false' end as isOptional, 
+case when column_is_cached = true then 'true' else 'false' end as isCached, 
+case when lookup_query is not null then 'true' else 'false' end as isLookUp,
+lookup_query as lookUpQuery,
+'insert into PTRDEMO_ACCOUNT_TYPE_REF (ID, CODE, DESCRIPTION) values (#ID#, #CODE#, ''New Account Type'')' as lookUpInsert,
+'VALUES nextval for PTRDEMO_ACCOUNT_TYPE_REF_ID' as lookUpInsertKey
+
+from kvdataconnector_config c
+inner join kvdataconnector_config_global g on c.global_config_id = g.id
+where g.id = #{id}
+ </select>
+ 
+ <delete id="deleteDcConfig">
+ delete from kvdataconnector_config where id = #{id}
+ </delete>
+
+
+
+</mapper>

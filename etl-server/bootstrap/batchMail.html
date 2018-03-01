@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<!--Java Script-->
+<script type="text/javascript" src="sources/js/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="sources/js/script.js"></script>
+<!--Boostrap-->
+
+<!-- Latest compiled and minified CSS boostrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<!-- Optional addon from boostrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+<!-- stylee CSS for JStree -->
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
+<style>
+	
+
+	.KollectFolder h1, .PowerAppFolder h1 {
+		font-size: 20px;
+		color:black;
+		
+	}
+
+	.folderTitle h1, .navigationTitle h1 {
+		font-size: 20px;
+		color:white;
+		padding-left: 5px;
+	}
+
+
+	.folderTitle, .navigationTitle {
+		padding: 0px;
+		background-color: #337AB7;
+		height: 5vh;
+
+	}
+
+	.folderTitle label, .navigationTitle label {
+		color: white;
+		padding-left: 10%;
+	}
+
+	.folderColumn {
+		/*border: 1px solid;*/
+		overflow: scroll;
+		height: 400px;
+	}
+
+	.emailController {
+		overflow: scroll;
+		height: 100vh;
+		width: 40vh;
+	}
+
+	.emailFontController p {
+		font-size: 8px;
+	}
+	
+	.leftPanel h1 {
+		font-size: 20px;
+		color:white;
+	}
+	.leftPanel a {
+		color:white;
+		padding-left: 5%;
+		width:160px
+
+	}
+
+	.leftPanel {
+	/*	background-color: #337AB7; 
+		height : 400px;*/
+	}
+
+</style>
+</head>
+<body>
+	<div class="container">
+		<div class = "row">
+			<div class ="col-md-2 folderTitle">
+				<table>
+					<tr>
+						<td><label  style="width: 90px" >Folder List</label></td>
+					</tr>
+				</table>
+				</div>
+
+				<div class="col-md-10 navigationTitle">
+
+					<div class="form-group col-md-1">
+						<table>
+							<tr>
+								<td><label for="lookFor" style="width: 90px">Look For</label></td>
+								<td><select id="lookFor" style="width: 100px">
+		    						<option>1</option>
+								    <option>2</option>
+								    <option>3</option>
+								    <option>4</option>
+							 		 </select></td>
+							 	<td>&nbsp</td>
+							 	<td><div class="dropdown"><label for="searchIn" style="width: 90px" data-toggle="dropdown">Search in &#8681;</label>
+							 		<ul class="dropdown-menu">
+							 			<li><a href="#">Option 1 </a></li>
+							 			<li><a href="#">Option 2 </a></li>
+							 		</ul></div>
+							 	</td>
+
+							 	<td><label for="inbox" style="width: 50px">inbox</label></td>
+							 	<td><select id="inboxId" style="width: 100px">
+		    						<option>inbox 1</option>
+								    <option>inbox 2</option>
+								    <option>inbox 3</option>
+								    <option>inbox 4</option>
+							 		 </select></td>
+
+							</tr>
+					  </table>
+					</div>
+
+				</div>
+
+		</div>
+		<div class = "row">
+
+			<div class="col-md-2">
+			
+				<div id="jstree" class="folderColumn">
+					 <ul>
+    				  <li>Kollect Valley
+       					 <ul>
+         					 <li id="child_node_1">inbox</li>
+         					  <li id="child_node_2">outbox</li>
+         					   <li id="child_node_3">sent items</li>
+         					    <li id="child_node_4">draft</li>
+         					     <li id="child_node_5">note</li>
+         					      <li id="child_node_6">delete items</li>
+          						
+						</ul>
+      				  </li>
+    				</ul>
+
+    				 <ul>
+    				  <li>PowerApps
+       					 <ul>
+         					 <li id="child_node_1_1">inbox</li>
+         					  <li id="child_node_1_2">outbox</li>
+         					   <li id="child_node_1_3">sent items</li>
+         					    <li id="child_node_1_4">draft</li>
+         					     <li id="child_node_1_5">note</li>
+         					      <li id="child_node_1_6">delete items</li>
+          						
+						</ul>
+      				  </li>
+    				</ul>
+
+				</div>
+				<!-- end of jstree folder -->
+
+				<div class="leftPanel"> 
+					
+					<a href="#" class="btn btn-info btn-lg">
+          			<span class="glyphicon glyphicon-folder-open"></span> Email
+        			</a>
+        			<a href="#" class="btn btn-info btn-lg">
+          			<span class="glyphicon glyphicon-calendar"></span> Calender
+        			</a>
+        			<a href="#" class="btn btn-info btn-lg">
+          			<span class="glyphicon glyphicon-earphone"></span> Contact
+        			</a>
+        			<a href="#" class="btn btn-info btn-lg">
+          			<span class="glyphicon glyphicon-th-large"></span> Task
+        			</a>
+        			<a href="#" class="btn btn-info btn-lg">
+          			<span class="glyphicon glyphicon-file"></span> Note
+        			</a>
+				</div>
+
+			</div>
+
+			
+
+					<div class="col-md-5 emailControllertitle"><h1>Inbox </h1>
+					<div class="row col-md-5 emailController">
+						<div class="col-md-5 emailFontController">
+							<p>Arrange By : <a>Date</a></p>
+						</div>
+						<div class="col-md-5 emailFontController">
+							<p>Newest on top</p>
+						</div>
+
+
+						<div class="col-md-12" style="border: 1px solid">
+						<p>Today</p>
+						</div>
+					<!-- 	database driven data -->
+					<a href="#">
+
+							<table>
+								<tr>
+									<td>
+										<input type="checkbox" name="" value="">
+									</td>
+									<td>
+										<p>xyz@gmail.com</p>
+									</td>
+									<td>
+										<p>6.30 PM </p>
+									</td>
+								</tr>
+								<tr>
+									<td>
+									</td>
+									<td>
+										<p>HTML JAVASCRIPT TEMPLATE</p>
+									</td>
+								</tr>
+							</table>
+
+						</a>
+						<!-- end of database driven data -->
+						<div class="col-md-12" style="border: 1px solid">
+						<p>Yesterday</p>
+						</div>
+
+							<!-- 	database driven data -->
+
+						<a href="#">
+
+							<table>
+								<tr>
+									<td>
+										<input type="checkbox" name="" value="">
+									</td>
+									<td>
+										<p>toin.chang31@gmail.com</p>
+									</td>
+									<td>
+										<p>6.30 PM </p>
+									</td>
+								</tr>
+								<tr>
+									<td>
+									</td>
+									<td>
+										<p>HTML JAVASCRIPT TEMPLATE</p>
+									</td>
+								</tr>
+							</table>
+								<a>
+							<table>
+
+								<tr>
+									<td>
+										<input type="checkbox" name="" value="">
+									</td>
+									<td>
+										<p>xyz@gmail.com</p>
+									</td>
+									<td>
+										<p>6.30 PM </p>
+									</td>
+								</tr>
+								<tr>
+									<td>
+									</td>
+									<td>
+										<p>HTML JAVASCRIPT TEMPLATE</p>
+									</td>
+								</tr>
+
+							</table>
+
+						</a>
+						<!-- end of database driven data -->
+					</div>
+
+					
+
+					</div>
+
+					<div class="col-md-5"><p>Email Body</p>
+						<p>every body of email, text, content is here</p></div>
+
+		</div>
+	</div>
+
+
+<!-- Javascript & jQuery for bootstrap framework -->
+<!-- Script requirement for bootstrap -->
+<script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+<!-- end of the boostrap requirement -->
+<!-- jstree library  -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
+
+	  <script>
+  $(function () {
+    // 6 create an instance when the DOM is ready
+    $('#jstree').jstree();
+    // 7 bind to events triggered on the tree
+    $('#jstree').on("changed.jstree", function (e, data) {
+      // console.log(data.selected);
+      // window.location.href="http://www.google.com"
+      // if (data.selected.length) {
+      		$(data.selected).each(function (idNum) {
+
+      			var node = data.instance.get_node(data.selected[idNum]);
+      			console.log('The selected' + node.id);
+      			if(node.id == 'child_node_1' ) {
+      			
+      					window.location.href="http://www.google.com";
+      				}
+      			else if (node.id == 'child_node_2'){
+      					window.location.href="http://www.youtube.com";
+	      			}
+      		
+      		});
+      // }
+
+    });
+  });
+
+
+
+  </script>
+
+</body>
+
+</html>

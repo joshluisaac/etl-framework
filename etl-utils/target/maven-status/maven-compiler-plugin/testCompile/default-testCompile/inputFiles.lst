@@ -1,0 +1,7 @@
+/home/joshua/martian/kvworkspace/etl/etl-utils/src/test/java/com/kollect/etl/util/FileUtilsTest.java
+/home/joshua/martian/kvworkspace/etl/etl-utils/src/test/java/com/kollect/etl/util/FileConcatenatorTest.java
+/home/joshua/martian/kvworkspace/etl/etl-utils/src/test/java/com/kollect/etl/util/TextFileDiffResolverTest.java
+/home/joshua/martian/kvworkspace/etl/etl-utils/src/test/java/com/kollect/etl/util/ListUtilsTest.java
+/home/joshua/martian/kvworkspace/etl/etl-utils/src/test/java/com/kollect/etl/util/PropertiesUtilsTest.java
+/home/joshua/martian/kvworkspace/etl/etl-utils/src/test/java/com/kollect/etl/util/DateUtilsTest.java
+/home/joshua/martian/kvworkspace/etl/etl-utils/src/test/java/com/kollect/etl/util/FakeInvoiceData.java

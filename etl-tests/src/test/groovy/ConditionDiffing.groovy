@@ -1,0 +1,4 @@
+class ConditionDiffing extends Specification {
+
+
+}
