@@ -19,6 +19,7 @@ public class LumpSumPaymentController {
   @Autowired
   private LumpSumPaymentService lumpSumPaymentService;
 
+
   @PostMapping(value ="/lumpSumPayment")
   @SuppressWarnings("unchecked")
   @ResponseBody
