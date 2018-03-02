@@ -1,2 +1,27 @@
 https://devcenter.heroku.com/articles/heroku-postgresql#connecting-in-java
 https://devcenter.heroku.com/articles/connecting-to-relational-databases-on-heroku-with-java#using-the-database_url-in-spring-with-java-configuration
+
+http://www-igm.univ-mlv.fr/~lecroq/string/node31.html#SECTION00310
+http://www-igm.univ-mlv.fr/~lecroq/string/fdm.html#SECTION00220
+http://www-igm.univ-mlv.fr/~lecroq/string/node19.html#SECTION00190
+http://www-igm.univ-mlv.fr/~lecroq/string/tunedbm.html#SECTION00195
+Gsearch: boyer moore horspool algorithm
+https://www.geeksforgeeks.org/pattern-searching-set-7-boyer-moore-algorithm-bad-character-heuristic/
+http://www.inf.fh-flensburg.de/lang/algorithmen/pattern/bmen.htm
+http://www.personal.kent.edu/~rmuhamma/Algorithms/MyAlgorithms/StringMatch/boyerMoore.htm
+http://www.cs.utexas.edu/users/moore/best-ideas/string-searching/
+https://stackoverflow.com/questions/6207819/boyer-moore-algorithm-understanding-and-example
+Gsearch: boyer moore algorithm java
+http://www-igm.univ-mlv.fr/~lecroq/string/node18.html
+http://www.mathcs.emory.edu/~cheung/Courses/323/Syllabus/Text/Matching-Boyer-Moore2.html
+http://orion.lcg.ufrj.br/Dr.Dobbs/books/book5/chap10.htm
+
+
+https://aws.amazon.com/marketplace/pp/B01BUD6LAI/ref=mkt_ste_l2_analytics_f1?nc2=h_l3_al
+https://www.jaspersoft.com/quick-start
+https://www.jaspersoft.com/data-integration
+https://www.jaspersoft.com/
+https://www.tibco.com/press-releases/2014/tibco-software-acquires-jaspersoft
+https://community.jaspersoft.com/project/jasperreports-library
+https://www.jaspersoft.com/reporting-software
+https://www.tutorialspoint.com/jasper_reports/jasper_crosstabs.htm
