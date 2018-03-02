@@ -15,8 +15,15 @@ import com.kollect.etl.service.CalcOutstandingService;
 @Controller
 public class CalculateOutstandingController {
 
+
   @Autowired
   private CalcOutstandingService calcOutstandingService;
+
+  /**
+   * HTTP GET request to retrieve all batches
+   *
+   * @return allbatches - used to return the HTML for first time visit.
+   */
 
   @GetMapping("/allbatches")
   public String allBatches() {
@@ -24,7 +31,18 @@ public class CalculateOutstandingController {
     return "allbatches";
   }
 
-  @PostMapping(value = "/allbatches", produces="application/json")
+  /**
+   * HTTP POST request mapping to run the batch
+   *
+   * ResponseBody is used to return a json value to the URL needed as a result of the ajax
+   *
+   * @param tenant_id
+   *            this is the tenant id that determines the client, e.g. 63 for PBK
+   *
+   * @return returns the number of rows updated as json
+   */
+
+  @PostMapping(value = "/calcoutstanding", produces="application/json")
   @SuppressWarnings("unchecked")
   @ResponseBody
   public Object calcOutstanding (@RequestParam (required = false) Integer tenant_id) {
