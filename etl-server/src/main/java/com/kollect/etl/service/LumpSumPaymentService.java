@@ -9,6 +9,7 @@ import com.kollect.etl.dataaccess.LumpSumPaymentDao;
 
 @Service
 public class LumpSumPaymentService {
+
 	@Autowired
 	private LumpSumPaymentDao LumpSumPaymentDao;
 	public List<Object> getSumAmount(Object object) {
