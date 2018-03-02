@@ -18,6 +18,17 @@ public class HostController {
 	@Autowired
 	private HostService hostService;
 
+	/**
+	 * HTTP GET request to retrieve all hosts and hosts by id
+	 *
+	 * @param Integer id
+	 *					id of the host that is necessary when editing a host
+	 * @param Model
+	 *            a data structure of objects which needs to be rendered to view
+     *
+	 * @return hostForm pre-loaded with data for the id given
+	 */
+
 	@GetMapping("/host")
 	public String getHostById(@RequestParam(required = false) Integer id, Model model) {
 		model.addAttribute("pageTitle", "DataConnector");
@@ -30,12 +41,45 @@ public class HostController {
 
 		return "hostForm";
 	}
-	
+
+    /**
+     * HTTP GET request to delete host by id
+     *
+     * @param Integer id
+     *					id of the host that is necessary when editing a host
+     *
+     * @return redirects to the host URL.
+     */
 	@GetMapping("/deletehost")
-	public String deleteHostbyId(@RequestParam(required = false) Integer id, Model model) {
+	public String deleteHostbyId(@RequestParam(required = false) Integer id) {
 		this.hostService.deleteHost(id);
 		return "redirect:/host";
 	}
+
+    /**
+     * HTTP POST request mapping to create or update hosts
+     *
+     * @param id
+     *            primary key of host, needed during insert/update
+     * @param name
+     *            name of host
+     * @param fqdn
+     *            fully qualified domain name
+     * @param username
+     *            username of the host
+     * @param host
+     *            the host
+     * @param port
+     *            host server port
+     * @param publicKey
+     *            the public key for the host
+     * @param createdAt
+     *            timestamp for host creation
+     * @param updatedAt
+     *            timestamp for host edit
+     *
+     * @return redirects to the newly added host or edited host
+     */
 
 	@PostMapping("/host")
 	public String addHost(@RequestParam(required = false) Integer id, @RequestParam String name,
