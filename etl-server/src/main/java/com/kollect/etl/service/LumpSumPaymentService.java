@@ -9,18 +9,17 @@ import com.kollect.etl.dataaccess.LumpSumPaymentDao;
 
 @Service
 public class LumpSumPaymentService {
-	  @Autowired
-	  private LumpSumPaymentDao LumpSumPaymentDao;
-
-	  public List<Object> getSumAmount(Object object) {
-	    return this.LumpSumPaymentDao.getSumAmount(object);
-	  }
-	  
-	  public int updateGetSumAmount(Object object) {
-	    return this.LumpSumPaymentDao.updateGetSumAmount(object);
-	  }
-	  
-	  public int insertGetSumAmount(Object object) {
-	     return this.LumpSumPaymentDao.insertGetSumAmount(object);
-	   }
+	@Autowired
+	private LumpSumPaymentDao LumpSumPaymentDao;
+	public List<Object> getSumAmount(Object object) {
+		return this.LumpSumPaymentDao.getSumAmount(object);
 	}
+
+	public int updateGetSumAmount(Object object) {
+		return this.LumpSumPaymentDao.updateGetSumAmount(object);
+	}
+
+	public int insertGetSumAmount(Object object) {
+		return this.LumpSumPaymentDao.insertGetSumAmount(object);
+	}
+}
