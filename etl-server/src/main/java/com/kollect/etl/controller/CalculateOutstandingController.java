@@ -42,7 +42,7 @@ public class CalculateOutstandingController {
    * @return returns the number of rows updated as json
    */
 
-  @PostMapping(value = "/allbatches", produces="application/json")
+  @PostMapping(value = "/calcoutstanding", produces="application/json")
   @SuppressWarnings("unchecked")
   @ResponseBody
   public Object calcOutstanding (@RequestParam (required = false) Integer tenant_id) {
