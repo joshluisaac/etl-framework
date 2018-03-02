@@ -16,7 +16,6 @@ import com.kollect.etl.service.LumpSumPaymentService;
 @Controller
 public class LumpSumPaymentController {
 
-
   @Autowired
   private LumpSumPaymentService lumpSumPaymentService;
 

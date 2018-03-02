@@ -11,7 +11,6 @@ import com.kollect.etl.dataaccess.LumpSumPaymentDao;
 public class LumpSumPaymentService {
 	@Autowired
 	private LumpSumPaymentDao LumpSumPaymentDao;
-
 	public List<Object> getSumAmount(Object object) {
 		return this.LumpSumPaymentDao.getSumAmount(object);
 	}
