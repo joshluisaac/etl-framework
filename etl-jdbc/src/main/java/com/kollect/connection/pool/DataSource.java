@@ -28,7 +28,7 @@ public class DataSource implements IDataSource {
   
   
   /**
-   * Initiates connection to database URL.
+   * Initiates connection to database URL but does not cache the connection for reuse.
    * 
    * @param dbName
    *          database name to connect to
@@ -52,13 +52,14 @@ public class DataSource implements IDataSource {
    * @return returns <code>connection</code> object
    */
 
-  public synchronized Connection initiateAndCacheConnection(final String dbName) throws SQLException {
+  public synchronized Connection initiateAndCacheConnection(final String dbName, final  String currThread) throws SQLException {
     Connection conn = connCache.get("connect");
     if (conn != null) {
       return conn;
     } else {
       conn = DriverManager.getConnection(buildDbConnection(dbName), DB_USER, DB_PASSWORD);
-      LOG.info("Connection created and hashcode: {}", conn.hashCode());
+
+      LOG.info("Connection created and hashcode: {} by {}", conn.hashCode(), currThread);
       connCache.put("connect", conn);
       return conn;
     }
