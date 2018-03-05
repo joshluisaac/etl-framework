@@ -47,26 +47,27 @@ public class PlainJdbcConnection {
     }
   }
   
-  synchronized long getStartTime() {
+  private  long getEpoch() {
     return System.currentTimeMillis();
   }
+
+  volatile long queryStart, queryEnd;
   
   //this will execute queries in parallel, that is, simultaneously 
-  public void invokeAsynchronous(String sql) {
-    final Thread[] threads = new Thread[5];
+  public void invokeAsynchronous(String sql, int thread) {
+    final Thread[] threads = new Thread[thread];
     for(int p=0; p<threads.length; p++) {
       threads[p] = new Thread(new Runnable() {
         @Override
         public void run() {
-          long queryStart =  getStartTime();
-          
+          queryStart =  getEpoch();
           String currThreadName = Thread.currentThread().getName();
-          System.out.println(queryStart + ":" + currThreadName);
+          System.out.println("Start: " + queryStart + ":" + currThreadName);
           try {
             executeQuery(dataSource.initiateAndCacheConnection("kollectvalley"), sql);
             //dataSource.testSync(currThreadName);
-            long queryEnd =  getStartTime();
-            System.out.println(queryEnd + ":" + currThreadName);
+            queryEnd =  getEpoch();
+            System.out.println("End: " + queryEnd + ":" + currThreadName);
             LOG.info("Query timing {}ms using ({})", (queryEnd - queryStart), currThreadName);
           } catch (Exception e) {
             e.printStackTrace();
@@ -83,16 +84,20 @@ public class PlainJdbcConnection {
         e.printStackTrace();
       }
     }
-    
   }
 
   public static void main(String[] args) throws SQLException {
-    long start =  System.currentTimeMillis();
+    //long start =  System.currentTimeMillis();
     String sql = "select customer_name, customer_no, created_at,updated_at from customers limit 20";
+      String sql2 = "select customer_name, customer_no, created_at,updated_at from customers limit 20";
     PlainJdbcConnection app = new PlainJdbcConnection(new DataSource());
     //app.invokeSynchronous(sql);
-    app.invokeAsynchronous(sql);
-    app.invokeAsynchronous(sql);
+    long start = app.getEpoch();
+    app.invokeAsynchronous(sql,3);
+    System.out.println(app.getEpoch() - start);
+      start = app.getEpoch();
+    app.invokeAsynchronous(sql2, 7);
+      System.out.println(app.getEpoch() - start);
 //    app.invokeAsynchronous(sql);
 //    app.invokeAsynchronous(sql);
     //LOG.info("{}ms", (System.currentTimeMillis() - start));
