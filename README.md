@@ -6,6 +6,12 @@ Extraction, transformation and loading tool.
 
 
 
+[![codecov](https://codecov.io/gh/poweretl/poweretl-framework/branch/master/graph/badge.svg)](https://codecov.io/gh/poweretl/poweretl-framework)
+
+
+
+
+
 
 
 

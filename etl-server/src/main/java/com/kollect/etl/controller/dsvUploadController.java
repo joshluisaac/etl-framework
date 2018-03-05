@@ -26,6 +26,9 @@ public class dsvUploadController {
 
 	private static final Logger LOG = LoggerFactory.getLogger(dsvUploadController.class);
 
+	/**
+	 * Declare path as global for multiple methods multi usage
+	 */
 	public MultipartFile paths;
 	@Autowired
 	CsvUploadService csvUploadService;
@@ -42,8 +45,6 @@ public class dsvUploadController {
 			// return not supported file format.
 			RedAtt.addFlashAttribute("status", "Only CSV file format is allowed!");
 			return "redirect:/datavisualiser";
-		} else {
-			// csvUploadService.buildListOfMap(paths);
 		}
 		return "redirect:/dsv";
 	}
