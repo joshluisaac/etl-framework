@@ -21,9 +21,9 @@ public class HostController {
 	/**
 	 * HTTP GET request to retrieve all hosts and hosts by id
 	 *
-	 * @param Integer id
-	 *					id of the host that is necessary when editing a host
-	 * @param Model
+	 * @param id
+	 *			id of the host that is necessary when editing a host
+	 * @param model
 	 *            a data structure of objects which needs to be rendered to view
      *
 	 * @return hostForm pre-loaded with data for the id given
@@ -45,8 +45,8 @@ public class HostController {
     /**
      * HTTP GET request to delete host by id
      *
-     * @param Integer id
-     *					id of the host that is necessary when editing a host
+     * @param id
+     *			id of the host that is necessary when editing a host
      *
      * @return redirects to the host URL.
      */

@@ -28,11 +28,11 @@
       <scope>test</scope>
     </dependency>
 
-    <dependency>
+   <!-- <dependency>
       <groupId>ie.ucd</groupId>
       <artifactId>murmur</artifactId>
       <version>0.1.0</version>
-    </dependency>
+    </dependency> -->
 
     <!-- https://mvnrepository.com/artifact/org.scala-lang/scala-library -->
     <dependency>
