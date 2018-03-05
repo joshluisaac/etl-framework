@@ -29,11 +29,11 @@
    <scope>test</scope>
   </dependency>
 
-  <dependency>
-   <groupId>ie.ucd</groupId>
-   <artifactId>murmur</artifactId>
-   <version>0.1.0</version>
-  </dependency>
+<!--   <dependency> -->
+<!--    <groupId>ie.ucd</groupId> -->
+<!--    <artifactId>murmur</artifactId> -->
+<!--    <version>0.1.0</version> -->
+<!--   </dependency> -->
 
   <dependency>
    <groupId>com.kollect.etl</groupId>
