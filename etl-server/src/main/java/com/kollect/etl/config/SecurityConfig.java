@@ -12,7 +12,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	private static final String USER = "USER";
 	private static final String ADMIN = "ADMIN";
-	
+
+	/**
+	 * This is used in conjunction with Spring Boot Security for login
+	 * @param httpSecurity
+	 * 					calls the HTTPSecurity method from HttpSecurity.java class, necessary to add various configurations
+	 * @throws Exception
+	 * 					throws exception if any
+	 */
+
 	@Override
 	public void configure(HttpSecurity httpSecurity) throws Exception{
 		httpSecurity.csrf().disable();
@@ -27,7 +35,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		.exceptionHandling().accessDeniedPage("/403");
 		
 	}
-	
+
+	/**
+	 * This is used to create users (hardcoded)
+	 * @param auth
+	 * 				this calls the AuthenticationManagerBuilder.java class
+	 * @throws Exception
+	 * 					throws exception if any
+	 */
+
 	@Autowired
 	public void configureGlobal (AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication()

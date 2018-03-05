@@ -24,16 +24,10 @@ public class EmailSettingsController {
 	@Autowired
 	private EmailSettingsService emailSettingsService;
 
-	@RequestMapping("/adminEmailSettings")
-	public String adminEmailSettings(Model model) {
-		model.addAttribute("pageTitle", "Admin - Email Settings");
-		return "emailSettingsForm";
-	}
-
 	/**
 	 * HTTP GET request to retrieve email settings
 	 * 
-	 * @param Model
+	 * @param model
 	 *            a data structure of objects which needs to be rendered to view
 	 * @return emailSettingsForm pre-loaded with data
 	 */
@@ -59,7 +53,7 @@ public class EmailSettingsController {
 	 *            the user who's sending the email
 	 * @param pass
 	 *            user password
-	 * @param email
+	 * @param host
 	 *            SMTP server name
 	 * @param recipient
 	 *            a comma separated list of recipients
@@ -87,7 +81,7 @@ public class EmailSettingsController {
 		@SuppressWarnings("unchecked")
 		Map<String, Integer> counterMap = (Map<String, Integer>) emailSettingsService.getEmailCounter().get(0);
 
-		int numberOfRecAffected = ((int) counterMap.get("emailCounter") > 0)
+		int numberOfRecAffected = (counterMap.get("emailCounter") > 0)
 				? (emailSettingsService.updateEmailSettings(emailDto))
 				: (emailSettingsService.insertEmailSettings(emailDto));
 
