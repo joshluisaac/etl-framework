@@ -1,0 +1,7 @@
+com/kollect/etl/util/TextFileDiffResolverTest.class
+com/kollect/etl/util/FakeInvoiceData.class
+com/kollect/etl/util/ListUtilsTest.class
+com/kollect/etl/util/FileConcatenatorTest.class
+com/kollect/etl/util/DateUtilsTest.class
+com/kollect/etl/util/PropertiesUtilsTest.class
+com/kollect/etl/util/FileUtilsTest.class

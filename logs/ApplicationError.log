@@ -1,0 +1,103 @@
+2018-03-05 18:41:22,032 INFO  Starting Server on Sayyiditows-Lenovo with PID 22578 (/home/sayyiditow/git-workspace/PowerETL/etl-server/target/classes started by sayyiditow in /home/sayyiditow/git-workspace/PowerETL/database)
+2018-03-05 18:41:22,043 INFO  No active profile set, falling back to default profiles: default
+2018-03-05 18:41:22,232 INFO  HV000001: Hibernate Validator 5.3.6.Final
+2018-03-05 18:41:24,772 INFO  SQL_SESSION_FACTORY: Created and cached postgres SqlSessionFactory instance successfully
+2018-03-05 18:41:24,860 INFO  SQL_SESSION_FACTORY: Created and cached postgres_pbk SqlSessionFactory instance successfully
+2018-03-05 18:41:26,171 ERROR 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Embedded servlet container failed to start. Port 8080 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 8080 or configure this application to listen on another port.
+
+2018-03-05 18:43:15,627 INFO  Starting Server on Sayyiditows-Lenovo with PID 22827 (/home/sayyiditow/git-workspace/PowerETL/etl-server/target/classes started by sayyiditow in /home/sayyiditow/git-workspace/PowerETL/database)
+2018-03-05 18:43:15,635 INFO  No active profile set, falling back to default profiles: default
+2018-03-05 18:43:15,718 INFO  HV000001: Hibernate Validator 5.3.6.Final
+2018-03-05 18:43:18,158 INFO  SQL_SESSION_FACTORY: Created and cached postgres SqlSessionFactory instance successfully
+2018-03-05 18:43:18,250 INFO  SQL_SESSION_FACTORY: Created and cached postgres_pbk SqlSessionFactory instance successfully
+2018-03-05 18:43:19,338 INFO  Started Server in 4.035 seconds (JVM running for 5.224)
+2018-03-05 18:50:54,458 INFO  Starting Server on Sayyiditows-Lenovo with PID 22827 (/home/sayyiditow/git-workspace/PowerETL/etl-server/target/classes started by sayyiditow in /home/sayyiditow/git-workspace/PowerETL/database)
+2018-03-05 18:50:54,460 INFO  No active profile set, falling back to default profiles: default
+2018-03-05 18:50:55,064 INFO  SQL_SESSION_FACTORY: Created and cached postgres SqlSessionFactory instance successfully
+2018-03-05 18:50:55,131 INFO  SQL_SESSION_FACTORY: Created and cached postgres_pbk SqlSessionFactory instance successfully
+2018-03-05 18:50:55,448 INFO  Started Server in 1.067 seconds (JVM running for 461.334)
+2018-03-05 18:53:10,331 INFO  Starting Server on Sayyiditows-Lenovo with PID 23638 (/home/sayyiditow/git-workspace/PowerETL/etl-server/target/classes started by sayyiditow in /home/sayyiditow/git-workspace/PowerETL/database)
+2018-03-05 18:53:10,335 INFO  No active profile set, falling back to default profiles: default
+2018-03-05 18:53:10,392 INFO  HV000001: Hibernate Validator 5.3.6.Final
+2018-03-05 18:53:12,549 INFO  SQL_SESSION_FACTORY: Created and cached postgres SqlSessionFactory instance successfully
+2018-03-05 18:53:12,627 INFO  SQL_SESSION_FACTORY: Created and cached postgres_pbk SqlSessionFactory instance successfully
+2018-03-05 18:53:13,753 INFO  Started Server in 3.693 seconds (JVM running for 4.768)
+2018-03-05 18:53:31,393 INFO  Query getDcConfigParent 213 ms using NONE (qtp1798875584-33)
+2018-03-05 18:53:33,936 INFO  Query getConfigListForExport 14 ms using NONE (qtp1798875584-27)
+2018-03-05 18:53:35,993 INFO  Query getDcConfigParent 7 ms using NONE (qtp1798875584-32)
+2018-03-05 18:53:38,839 INFO  Query getConfigListForExport 4 ms using NONE (qtp1798875584-28)
+2018-03-05 18:53:41,139 INFO  Query getDcConfigParent 6 ms using NONE (qtp1798875584-56)
+2018-03-05 18:53:56,843 INFO  Query getConfigListForExport 8 ms using NONE (qtp1798875584-31)
+2018-03-05 18:53:58,518 INFO  Query getDcConfigParent 6 ms using NONE (qtp1798875584-28)
+2018-03-05 18:54:55,803 INFO  Starting Server on Sayyiditows-Lenovo with PID 23847 (/home/sayyiditow/git-workspace/PowerETL/etl-server/target/classes started by sayyiditow in /home/sayyiditow/git-workspace/PowerETL/database)
+2018-03-05 18:54:55,810 INFO  No active profile set, falling back to default profiles: default
+2018-03-05 18:54:55,922 INFO  HV000001: Hibernate Validator 5.3.6.Final
+2018-03-05 18:54:58,317 INFO  SQL_SESSION_FACTORY: Created and cached postgres SqlSessionFactory instance successfully
+2018-03-05 18:54:58,403 INFO  SQL_SESSION_FACTORY: Created and cached postgres_pbk SqlSessionFactory instance successfully
+2018-03-05 18:54:59,589 INFO  Started Server in 4.091 seconds (JVM running for 5.162)
+2018-03-05 18:55:34,059 INFO  Starting Server on Sayyiditows-Lenovo with PID 24041 (/home/sayyiditow/git-workspace/PowerETL/etl-server/target/classes started by sayyiditow in /home/sayyiditow/git-workspace/PowerETL/database)
+2018-03-05 18:55:34,065 INFO  No active profile set, falling back to default profiles: default
+2018-03-05 18:55:34,160 INFO  HV000001: Hibernate Validator 5.3.6.Final
+2018-03-05 18:55:36,431 INFO  SQL_SESSION_FACTORY: Created and cached postgres SqlSessionFactory instance successfully
+2018-03-05 18:55:36,517 INFO  SQL_SESSION_FACTORY: Created and cached postgres_pbk SqlSessionFactory instance successfully
+2018-03-05 18:55:37,655 INFO  Started Server in 3.861 seconds (JVM running for 4.879)
+2018-03-05 18:57:48,031 INFO  Starting Server on Sayyiditows-Lenovo with PID 24266 (/home/sayyiditow/git-workspace/PowerETL/etl-server/target/classes started by sayyiditow in /home/sayyiditow/git-workspace/PowerETL/database)
+2018-03-05 18:57:48,036 INFO  No active profile set, falling back to default profiles: default
+2018-03-05 18:57:48,106 INFO  HV000001: Hibernate Validator 5.3.6.Final
+2018-03-05 18:57:50,375 INFO  SQL_SESSION_FACTORY: Created and cached postgres SqlSessionFactory instance successfully
+2018-03-05 18:57:50,466 INFO  SQL_SESSION_FACTORY: Created and cached postgres_pbk SqlSessionFactory instance successfully
+2018-03-05 18:57:51,589 INFO  Started Server in 3.836 seconds (JVM running for 4.854)
+2018-03-05 19:05:11,433 INFO  Starting Server on Sayyiditows-Lenovo with PID 24266 (/home/sayyiditow/git-workspace/PowerETL/etl-server/target/classes started by sayyiditow in /home/sayyiditow/git-workspace/PowerETL/database)
+2018-03-05 19:05:11,433 INFO  No active profile set, falling back to default profiles: default
+2018-03-05 19:05:12,351 INFO  SQL_SESSION_FACTORY: Created and cached postgres SqlSessionFactory instance successfully
+2018-03-05 19:05:12,633 INFO  SQL_SESSION_FACTORY: Created and cached postgres_pbk SqlSessionFactory instance successfully
+2018-03-05 19:05:13,309 INFO  Started Server in 1.959 seconds (JVM running for 446.573)
+2018-03-05 19:05:34,148 INFO  Starting Server on Sayyiditows-Lenovo with PID 24266 (/home/sayyiditow/git-workspace/PowerETL/etl-server/target/classes started by sayyiditow in /home/sayyiditow/git-workspace/PowerETL/database)
+2018-03-05 19:05:34,149 INFO  No active profile set, falling back to default profiles: default
+2018-03-05 19:05:34,765 INFO  SQL_SESSION_FACTORY: Created and cached postgres SqlSessionFactory instance successfully
+2018-03-05 19:05:34,824 INFO  SQL_SESSION_FACTORY: Created and cached postgres_pbk SqlSessionFactory instance successfully
+2018-03-05 19:05:35,080 INFO  Started Server in 0.985 seconds (JVM running for 468.344)
+2018-03-05 19:05:52,742 INFO  Starting Server on Sayyiditows-Lenovo with PID 24266 (/home/sayyiditow/git-workspace/PowerETL/etl-server/target/classes started by sayyiditow in /home/sayyiditow/git-workspace/PowerETL/database)
+2018-03-05 19:05:52,743 INFO  No active profile set, falling back to default profiles: default
+2018-03-05 19:05:53,747 INFO  SQL_SESSION_FACTORY: Created and cached postgres SqlSessionFactory instance successfully
+2018-03-05 19:05:53,855 INFO  SQL_SESSION_FACTORY: Created and cached postgres_pbk SqlSessionFactory instance successfully
+2018-03-05 19:05:54,402 INFO  Started Server in 1.721 seconds (JVM running for 487.666)
+2018-03-05 19:06:22,444 INFO  Starting Server on Sayyiditows-Lenovo with PID 24875 (/home/sayyiditow/git-workspace/PowerETL/etl-server/target/classes started by sayyiditow in /home/sayyiditow/git-workspace/PowerETL/database)
+2018-03-05 19:06:22,449 INFO  No active profile set, falling back to default profiles: default
+2018-03-05 19:06:22,485 INFO  HV000001: Hibernate Validator 5.3.6.Final
+2018-03-05 19:06:24,944 INFO  SQL_SESSION_FACTORY: Created and cached postgres SqlSessionFactory instance successfully
+2018-03-05 19:06:25,077 INFO  SQL_SESSION_FACTORY: Created and cached postgres_pbk SqlSessionFactory instance successfully
+2018-03-05 19:06:26,440 INFO  Started Server in 4.316 seconds (JVM running for 5.342)
+2018-03-05 19:09:09,082 INFO  Starting Server on Sayyiditows-Lenovo with PID 24875 (/home/sayyiditow/git-workspace/PowerETL/etl-server/target/classes started by sayyiditow in /home/sayyiditow/git-workspace/PowerETL/database)
+2018-03-05 19:09:09,083 INFO  No active profile set, falling back to default profiles: default
+2018-03-05 19:09:10,171 INFO  SQL_SESSION_FACTORY: Created and cached postgres SqlSessionFactory instance successfully
+2018-03-05 19:09:10,304 INFO  SQL_SESSION_FACTORY: Created and cached postgres_pbk SqlSessionFactory instance successfully
+2018-03-05 19:09:11,001 INFO  Started Server in 1.978 seconds (JVM running for 169.903)
+2018-03-05 19:09:16,893 INFO  Query getDcConfigParent 98 ms using NONE (qtp1183073587-65)
+2018-03-05 19:09:21,473 INFO  Query getConfigListForExport 16 ms using NONE (qtp1183073587-64)
+2018-03-05 19:09:23,949 INFO  Query getDcConfigParent 10 ms using NONE (qtp1183073587-78)
+2018-03-05 19:11:07,239 INFO  Starting Server on Sayyiditows-Lenovo with PID 24875 (/home/sayyiditow/git-workspace/PowerETL/etl-server/target/classes started by sayyiditow in /home/sayyiditow/git-workspace/PowerETL/database)
+2018-03-05 19:11:07,240 INFO  No active profile set, falling back to default profiles: default
+2018-03-05 19:11:07,907 INFO  SQL_SESSION_FACTORY: Created and cached postgres SqlSessionFactory instance successfully
+2018-03-05 19:11:07,998 INFO  SQL_SESSION_FACTORY: Created and cached postgres_pbk SqlSessionFactory instance successfully
+2018-03-05 19:11:08,491 INFO  Started Server in 1.354 seconds (JVM running for 287.393)
+2018-03-05 19:11:12,227 INFO  Query getDcConfigParent 20 ms using NONE (qtp1819872096-87)
+2018-03-05 19:11:14,661 INFO  Query getConfigListForExport 18 ms using NONE (qtp1819872096-90)
+2018-03-05 19:11:18,091 INFO  Query getDcConfigParent 8 ms using NONE (qtp1819872096-99)
+2018-03-05 19:11:24,276 INFO  Query getConfigListForExport 3 ms using NONE (qtp1819872096-91)
+2018-03-05 19:11:29,426 INFO  Query getDcConfigParent 11 ms using NONE (qtp1819872096-84)
+2018-03-05 19:13:57,785 INFO  Query getConfigListForExport 3 ms using NONE (qtp1819872096-84)
+2018-03-05 19:13:59,305 INFO  Query getDcConfigParent 7 ms using NONE (qtp1819872096-90)
+2018-03-05 19:14:02,684 INFO  Query getConfigListForExport 3 ms using NONE (qtp1819872096-87)

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="kvalley_pbk1@192.168.1.17" uuid="e73afbb7-d479-4542-b673-df94c5b87da0">
+      <database-info product="PostgreSQL" version="9.6.6" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.1">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>kollectvalley</user-name>
+      <introspection-schemas>kvalley_pbk1:public</introspection-schemas>
+    </data-source>
+    <data-source name="kollectvalley_uat8@192.168.1.15" uuid="a2a07db2-348b-47f1-9d7e-6510e9fc5ce0">
+      <database-info product="PostgreSQL" version="9.6.6" jdbc-version="4.2" driver-name="PostgreSQL JDBC Driver" driver-version="42.2.1">
+        <identifier-quote-string>&quot;</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="lower" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>kollectvalley</user-name>
+      <introspection-schemas>kollectvalley_uat8:public</introspection-schemas>
+    </data-source>
+  </component>
+</project>

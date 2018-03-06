@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/.." charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../etl-core" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../etl-dataaccess" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../etl-incubation" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../etl-jdbc" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../etl-reports" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../etl-server" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../etl-services" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../etl-tests" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/../etl-utils" charset="UTF-8" />
+  </component>
+</project>

@@ -1,5 +1,6 @@
 package com.kollect.etl.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -90,8 +91,10 @@ public class DcConfigController {
     DcConfigGenerator xmlGen = new DcConfigGenerator(list);
     DcXml dcXml = xmlGen.generate();
     String fileName = dcXml.getFileName();
-    
-    Path path = Paths.get("uploads/" + fileName);
+
+    String uploadDir = "./uploads/";
+    String uploadDirFinale = new File(uploadDir).getAbsolutePath();
+    Path path = Paths.get(uploadDirFinale + fileName);
     Files.write(path, dcXml.getRawByte());
     response.setContentType("application/xml");
     

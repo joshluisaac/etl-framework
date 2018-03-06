@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="lumpSumPaymentService">
+
+<resultMap type="java.util.HashMap" id="getSumAmount-map" >
+<result property="account_id" column="invoice_id" javaType="java.lang.Integer"/>
+<result property="net_lump_sum_amount" column="total_transactions" javaType="java.lang.Double"/>
+</resultMap>
+
+<select id="getSumAmount" resultMap="getSumAmount-map">
+select sum(amount) as net_lump_sum_amount, account_id  from kv_lump_sum_payment  where  item_series_id in ('CUPOA')
+group by account_id having sum(amount) > 0 order by net_lump_sum_amount asc;
+</select>
+
+<update id="updateGetSumAmount">
+UPDATE kv_net_lump_sum_payment SET net_lump_sum_amount = #{net_lump_sum_amount} WHERE account_id = #{account_id};
+</update>
+
+<insert id="insertGetSumAmount">
+<selectKey keyProperty="id" resultType="int" order="BEFORE" >
+SELECT nextval('seq')
+</selectKey>
+INSERT INTO kv_net_lump_sum_payment (id, account_id, net_lump_sum_amount ) VALUES (#{id} , #{account_id} , #{net_lump_sum_amount});
+</insert>
+</mapper>
