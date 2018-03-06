@@ -17,8 +17,10 @@ import com.kollect.etl.util.FileUtils;
 
 @Service
 public class CsvUploadService {
-	private static final String UPLOAD_DIR = "uploads/";
 
+	private static final String UPLOAD_DIR = "./uploads/";
+
+    //private static final String UPLOAD_DIR = "/home/hplinux/gitworkspace/PowerETL/etl-server/uploads/";
 	public int arrSize;
 
 	private List<String> readCsv(String paths) throws IOException {
@@ -27,9 +29,9 @@ public class CsvUploadService {
 	}
 
 	public List<Map<String, String>> buildListOfMap(MultipartFile file) throws IOException {
-
+        String uploadDirFinale = new File(UPLOAD_DIR).getAbsolutePath();
 		byte[] bytes = file.getBytes();
-		Path path = Paths.get(UPLOAD_DIR + file.getOriginalFilename());
+		Path path = Paths.get(uploadDirFinale + file.getOriginalFilename());
 		Files.write(path, bytes);
 
 		System.out.println(path);
