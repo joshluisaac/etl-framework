@@ -30,3 +30,9 @@ pom.properties
 *.iml
 etl-parent.iml
 */.idea/*
+
+
+# Template files
+*.html
+*.css
+*.js
