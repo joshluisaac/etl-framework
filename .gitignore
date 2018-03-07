@@ -29,10 +29,10 @@ hs_err_pid*
 pom.properties
 *.iml
 etl-parent.iml
-*/.idea/*
-
+/.idea/
 
 # Template files
 *.html
 *.css
 *.js
+*.class
