@@ -12,7 +12,7 @@ public class UpdateQueryStrategy extends AbstractQueryStrategy {
 
   @Override
   public void execute( IAbstractSqlSessionProvider iSqlSessionProvider, String queryName, Object object ) {
-    iSqlSessionProvider.update(queryName, object);
+    //iSqlSessionProvider.update(queryName, object);
   }
   
   

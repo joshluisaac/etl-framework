@@ -12,7 +12,7 @@ public class SelectQueryStrategy extends AbstractQueryStrategy {
 
   @Override
   public void execute( IAbstractSqlSessionProvider iSqlSessionProvider, String queryName, Object object ) {
-    iSqlSessionProvider.querySingleObject(queryName, object);
+    //iSqlSessionProvider.querySingleObject(queryName, object);
     
   }
 
