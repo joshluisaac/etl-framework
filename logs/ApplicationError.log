@@ -28176,3 +28176,44 @@ Caused by: java.lang.ClassNotFoundException: Cannot find class: java.lang.Date
 2018-03-12 03:12:20,121 DEBUG Trying to load META-INF/validation.xml via Hibernate Validator's class loader
 2018-03-12 03:12:20,121 DEBUG No META-INF/validation.xml found. Using annotation based configuration only.
 2018-03-12 03:12:20,928 INFO  Started Server in 4.089 seconds (JVM running for 5.214)
+2018-03-12 03:18:27,651 INFO  Starting Server on Sayyiditows-Lenovo with PID 5229 (/home/sayyiditow/git-workspace/PowerETL/etl-server/target/classes started by sayyiditow in /home/sayyiditow/git-workspace/PowerETL/database)
+2018-03-12 03:18:27,651 DEBUG Running with Spring Boot v1.5.9.RELEASE, Spring v4.3.13.RELEASE
+2018-03-12 03:18:27,651 INFO  No active profile set, falling back to default profiles: default
+2018-03-12 03:18:27,958 DEBUG Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2018-03-12 03:18:27,959 DEBUG Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2018-03-12 03:18:27,960 DEBUG Setting custom MessageInterpolator of type org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator
+2018-03-12 03:18:27,960 DEBUG Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+2018-03-12 03:18:27,960 DEBUG Setting custom ParameterNameProvider of type com.sun.proxy.$Proxy53
+2018-03-12 03:18:27,960 DEBUG Trying to load META-INF/validation.xml for XML based Validator configuration.
+2018-03-12 03:18:27,960 DEBUG Trying to load META-INF/validation.xml via user class loader
+2018-03-12 03:18:27,960 DEBUG Trying to load META-INF/validation.xml via TCCL
+2018-03-12 03:18:27,960 DEBUG Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2018-03-12 03:18:27,960 DEBUG No META-INF/validation.xml found. Using annotation based configuration only.
+2018-03-12 03:18:28,056 DEBUG PooledDataSource forcefully closed/removed all connections.
+2018-03-12 03:18:28,057 DEBUG PooledDataSource forcefully closed/removed all connections.
+2018-03-12 03:18:28,057 DEBUG PooledDataSource forcefully closed/removed all connections.
+2018-03-12 03:18:28,057 DEBUG PooledDataSource forcefully closed/removed all connections.
+2018-03-12 03:18:28,116 INFO  SQL_SESSION_FACTORY: Created and cached postgres SqlSessionFactory instance successfully
+2018-03-12 03:18:28,130 DEBUG PooledDataSource forcefully closed/removed all connections.
+2018-03-12 03:18:28,130 DEBUG PooledDataSource forcefully closed/removed all connections.
+2018-03-12 03:18:28,131 DEBUG PooledDataSource forcefully closed/removed all connections.
+2018-03-12 03:18:28,131 DEBUG PooledDataSource forcefully closed/removed all connections.
+2018-03-12 03:18:28,188 INFO  SQL_SESSION_FACTORY: Created and cached postgres_pbk SqlSessionFactory instance successfully
+2018-03-12 03:18:28,190 DEBUG SQL_SESSION_FACTORY: Obtained postgres from cache
+2018-03-12 03:18:28,194 DEBUG SQL_SESSION_FACTORY: Obtained postgres from cache
+2018-03-12 03:18:28,199 DEBUG SQL_SESSION_FACTORY: Obtained postgres from cache
+2018-03-12 03:18:28,205 DEBUG SQL_SESSION_FACTORY: Obtained postgres from cache
+2018-03-12 03:18:28,213 DEBUG SQL_SESSION_FACTORY: Obtained postgres_pbk from cache
+2018-03-12 03:18:28,217 DEBUG SQL_SESSION_FACTORY: Obtained postgres from cache
+2018-03-12 03:18:28,221 DEBUG SQL_SESSION_FACTORY: Obtained postgres_pbk from cache
+2018-03-12 03:18:28,265 DEBUG Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2018-03-12 03:18:28,266 DEBUG Cannot find javax.persistence.Persistence on classpath. Assuming non JPA 2 environment. All properties will per default be traversable.
+2018-03-12 03:18:28,266 DEBUG Setting custom MessageInterpolator of type org.springframework.validation.beanvalidation.LocaleContextMessageInterpolator
+2018-03-12 03:18:28,266 DEBUG Setting custom ConstraintValidatorFactory of type org.springframework.validation.beanvalidation.SpringConstraintValidatorFactory
+2018-03-12 03:18:28,266 DEBUG Setting custom ParameterNameProvider of type com.sun.proxy.$Proxy53
+2018-03-12 03:18:28,266 DEBUG Trying to load META-INF/validation.xml for XML based Validator configuration.
+2018-03-12 03:18:28,267 DEBUG Trying to load META-INF/validation.xml via user class loader
+2018-03-12 03:18:28,267 DEBUG Trying to load META-INF/validation.xml via TCCL
+2018-03-12 03:18:28,267 DEBUG Trying to load META-INF/validation.xml via Hibernate Validator's class loader
+2018-03-12 03:18:28,267 DEBUG No META-INF/validation.xml found. Using annotation based configuration only.
+2018-03-12 03:18:28,488 INFO  Started Server in 0.877 seconds (JVM running for 372.775)

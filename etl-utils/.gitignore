@@ -1,1 +1,6 @@
 /target/
+*.class
+
+target/classes/com/kollect/etl/util/*.class
+
+*/target/*

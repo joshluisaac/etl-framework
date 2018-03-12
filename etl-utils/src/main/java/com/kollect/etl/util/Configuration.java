@@ -35,6 +35,10 @@ public class Configuration {
     return p.getProperty(CONCAT +impl.toLowerCase()+ ".cloneBeforeUnique");
   }
   
+  public String getHashIndicator(String impl) {
+    return p.getProperty(CONCAT +impl.toLowerCase()+ ".generateHash");
+  }
+  
   public String getDirPath() {
     return p.getProperty("concatenator.dirPath");
   }
