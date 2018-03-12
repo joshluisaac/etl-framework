@@ -36,3 +36,5 @@ etl-parent.iml
 *.css
 *.js
 *.class
+
+/logs/
