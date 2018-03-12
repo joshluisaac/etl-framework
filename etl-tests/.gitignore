@@ -1,2 +1,5 @@
 /target/
 */target/*
+*.iml
+*.csv
+*.xml
