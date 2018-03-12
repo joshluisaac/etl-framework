@@ -1,0 +1,17 @@
+Extraction File Name,Tables,,
+ACCTLIST_20171118003141.csv ,accounts,AR,
+CONTFULLLIST_20171118003112.csv , ,AR,This is the pic contact
+CONTRLIST_20171118003144.csv ,"kvcontract, kv_contract_lot",AR,One contract could have multiple lots
+CURRLIST_20171118015308.csv ,unused,AR,unused
+CUSTLIST_20171118003004.csv ,,AR,contains company contact
+DUNNHISTOPENLIST_20171118015308.csv ,,AR,
+INVCHMATRLIST_20171118014935.csv,kv_invoice_charges,AR,
+INVCONDCHLIST_20171118013705.csv,kv_invoice_charges,AR,
+TRXCLOSEDLIST_20171118013645_6001_9999_1_3000.csv ,kv_invoices and kv_payments,AR,
+TRXOPENLIST_20171118003147.csv ,kv_invoices and kv_payments,AR,
+VENDORBANKLIST_20171118015319.csv ,kv_vendors_acc_info,AP,
+VENDORCOMPLIST_20171118015441.csv ,vendors_acc,AP,
+VENDORLIST_20171118015310.csv ,vendors,AP,
+VENDORTRXCLOSEDLIST_20171118020920_6001_9999_1_3000.csv ,kv_vendor_invoices and kv_vendor_payments,AP,
+VENDORTRXOPENLIST_20171118015500.csv ,kv_vendor_invoices and kv_vendor_payments,AP,
+VIMLIST_20171118020921.csv ,kv_vims_invoices,,
