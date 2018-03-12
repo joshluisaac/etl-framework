@@ -12,7 +12,7 @@ public class ListQueryStrategy extends AbstractQueryStrategy {
 
   @Override
   public void execute( IAbstractSqlSessionProvider iSqlSessionProvider, String queryName, Object object ) {
-    iSqlSessionProvider.queryMultipleObjects(queryName, object);
+    //iSqlSessionProvider.queryMultipleObjects(queryName, object);
     
   }
 

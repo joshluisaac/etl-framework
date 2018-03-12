@@ -24,8 +24,10 @@ public class LumpSumPaymentController {
   @SuppressWarnings("unchecked")
   @ResponseBody
   public Object selectLumSumPayment () {
+    int deleteCount = this.lumpSumPaymentService.deleteNetLumpSum(null);
     List<Object> selectLumSumPaymentList = this.lumpSumPaymentService.getSumAmount(null);
     int numberOfRows = selectLumSumPaymentList.size();
+    System.out.println("Number of rows: "+numberOfRows);
     for ( int x = 0; x<selectLumSumPaymentList.size(); x++) {
 
       Map<Object, Object> map = (Map<Object, Object>) selectLumSumPaymentList.get(x);

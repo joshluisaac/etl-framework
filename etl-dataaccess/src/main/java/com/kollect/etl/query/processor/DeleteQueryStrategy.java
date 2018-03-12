@@ -14,7 +14,7 @@ public class DeleteQueryStrategy extends AbstractQueryStrategy {
 
   @Override
   public void execute( IAbstractSqlSessionProvider iSqlSessionProvider, String queryName, Object object ) {
-    iSqlSessionProvider.delete(queryName, object);
+    //iSqlSessionProvider.delete(queryName, object);
     
   }
 
