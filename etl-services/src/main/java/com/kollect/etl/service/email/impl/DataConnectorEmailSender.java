@@ -13,6 +13,7 @@ public class DataConnectorEmailSender {
 
   public static void main(String[] args) throws IOException {
     Properties emailProp = new PropertiesUtils().loadPropertiesFileResource("/server.properties");
+    System.out.println(emailProp.toString());
     String user = emailProp.getProperty("email.user");
     String userAuth = emailProp.getProperty("email.userAuthentication");
     String password = emailProp.getProperty("email.pass");
@@ -21,9 +22,12 @@ public class DataConnectorEmailSender {
     String emailMsg = emailProp.getProperty("email.msgLoading");
     int port = Integer.parseInt(emailProp.getProperty("email.port"));
     String[] recipient = emailProp.getProperty("email.recipient").split("\\s*,\\s*");
-    DataConnectorEmailNotification notify = new DataConnectorEmailNotification();
+    
+    String srcFilePrefix = emailProp.getProperty("email.filePrefix");
+    DataConnectorEmailNotification notify = new DataConnectorEmailNotification(srcFilePrefix);
     Regex r = new Regex();
-    List<TotalLoaded> bodyList = r.getMatchedTokens(args[0], Integer.parseInt(emailProp.getProperty("email.daysAgo")));
+    String daysAgo = emailProp.getProperty("email.daysAgo");
+    List<TotalLoaded> bodyList = r.getMatchedTokens(args[0], Integer.parseInt(daysAgo));
     String htmlTemplate = notify.generateHtmlTemplate(emailMsg, bodyList);
     if (!bodyList.isEmpty()) notify.sendEmail(user, password, host, subject, htmlTemplate, userAuth, port, recipient);
   }

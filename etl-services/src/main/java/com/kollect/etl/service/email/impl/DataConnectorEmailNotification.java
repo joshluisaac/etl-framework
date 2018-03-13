@@ -12,9 +12,23 @@ import com.kollect.etl.util.dataconnector.TotalLoaded;
 public class DataConnectorEmailNotification extends AbstractEmailService {
   
   private static final Map<String, ConfigDto> CONFIG_MAP = new HashMap<>();
-  
   private static final String ALL_DBS = "ALL DATABASES";
   private static final String CUSTOMER_CSV = "CUSTOMER.csv";
+  
+  public DataConnectorEmailNotification(final String str) {
+    String[] config = str.split("\\,");
+    
+    for(int i = 0; i < config.length; i++) {
+      loadConfigMap(config[i]);
+    }
+  }
+  
+  
+  public DataConnectorEmailNotification() {
+    loadConfigMap();
+  }
+  
+  
   
   void loadConfigMap() {
     CONFIG_MAP.put("CUSTOMER", new ConfigDto(ALL_DBS, CUSTOMER_CSV));
@@ -27,6 +41,11 @@ public class DataConnectorEmailNotification extends AbstractEmailService {
     CONFIG_MAP.put("INVOICE", new ConfigDto(ALL_DBS, "INVOICE.csv"));
     CONFIG_MAP.put("INVOICE_TRANS1", new ConfigDto(ALL_DBS, "INVOICE.csv"));
     CONFIG_MAP.put("TRANSACTIONS", new ConfigDto(ALL_DBS, "PAYMENT.csv"));
+  }
+  
+  
+  void loadConfigMap(final String s) {
+    CONFIG_MAP.put(s, new ConfigDto(ALL_DBS, s+".csv"));
   }
   
   
@@ -49,7 +68,6 @@ public class DataConnectorEmailNotification extends AbstractEmailService {
   }
   
   public String generateHtmlTemplate(String message, List<TotalLoaded> bodyList) {
-    loadConfigMap();
     String messageHeader = MessageFormat.format(message, new Object[]{new Date(),new Date()});
     StringBuilder template = new StringBuilder();
     template.append("<!DOCTYPE html>");
