@@ -8,7 +8,6 @@ public class FileConcatenator extends AbstractTextFileProcessor {
   public FileConcatenator(Configuration config) {
     super(config);
   }
-
   
   public static void main(String[] args) throws Exception {
     FileAppender.main(args);

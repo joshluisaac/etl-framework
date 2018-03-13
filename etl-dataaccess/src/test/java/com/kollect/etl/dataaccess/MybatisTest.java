@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.junit.Before;
-import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,12 +16,12 @@ public class MybatisTest {
   private static final Logger LOG = LoggerFactory.getLogger(MybatisTest.class);
   IAbstractSqlSessionProvider sqlSessionProvider;
 
-  @Before
+  //@Before
   public void run_one_per_method() {
     sqlSessionProvider = new AbstractSqlSessionProvider("as400iSeries");
   }
   
-  @Test
+  //@Test
   public void test_query_as400iseries() {
     List<Object> list= sqlSessionProvider.queryObject("getCfmastCustomer", null);
     for (Object object : list) {

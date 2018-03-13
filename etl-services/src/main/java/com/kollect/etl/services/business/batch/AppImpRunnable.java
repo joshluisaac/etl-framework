@@ -1,7 +1,5 @@
 package com.kollect.etl.services.business.batch;
 
-import java.sql.SQLException;
-import java.util.Iterator;
 
 import com.kollect.etl.dataaccess.AbstractSqlSessionProvider;
 import com.kollect.etl.dataaccess.IAbstractSqlSessionProvider;
@@ -17,11 +15,7 @@ public class AppImpRunnable {
   
   public void execute(final String dbInstance) {
     IAbstractSqlSessionProvider dataProvider = getSqlSessionProvider(dbInstance);
-    try {
-      dataProvider.query("getAllCustomer", null);
-    } catch (SQLException e) {
-      e.printStackTrace();
-    }
+    dataProvider.query("getAllCustomer", null);
     
   }
   
