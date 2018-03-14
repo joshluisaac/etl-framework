@@ -98,12 +98,12 @@ create sequence kvuser_id;
 ALTER TABLE kvdataconnector_config_global ADD disable boolean
 ALTER TABLE kvdataconnector_config ADD look_insert_query text
 ALTER TABLE kvdataconnector_config ADD look_insert_key_query text
-<<<<<<< .mine
+
 ALTER TABLE kvdataconnector_config ADD disable boolean
 
-select md5('hashim');=======
+select md5('hashim');
 ALTER TABLE kvdataconnector_config ADD disable boolean
-ALTER TABLE kvdataconnector_config ADD remark text>>>>>>> .r718
+ALTER TABLE kvdataconnector_config ADD remark text
 
 ALTER TABLE kvdataconnector_config ALTER COLUMN column_name TYPE varchar(40);
 
@@ -115,3 +115,18 @@ inner join transactions on invoices.id = transactions.invoice_id
 where invoices.tenant_id = 63 and transactions.initial_debit = false group by invoices.id, invoices.invoice_outstanding;
 
 update invoices set invoice_outstanding = invoice_plus_gst - total_transactions;
+
+create table kvbatch(
+  id bigint primary key not null,
+  code text,
+  name text,
+  description text,
+  disable boolean
+);
+
+create table kvbatch_history(
+  id bigint primary key not null,
+  batch_id bigint,
+  number_of_records_updated bigint,
+  updated_date timestamp
+);
