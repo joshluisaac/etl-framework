@@ -17,8 +17,7 @@ import com.kollect.etl.util.FileUtils;
 
 @Service
 public class CsvUploadService {
-
-	private static final String UPLOAD_DIR = "./uploads/";
+	private static final String UPLOAD_DIR = "./etl-server/uploads/";
 	public int arrSize;
 
 	private List<String> readCsv(String paths) throws IOException {
