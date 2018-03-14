@@ -28,7 +28,7 @@ public class AgeInvoiceController {
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object ageInvoice (@RequestParam(required = false) Integer tenant_id){
-        int numberOfRows = -1;
+        String numberOfRows = "Process is running, please wait";
         if (!lock) {
             lock = true;
             List<Object> ageInvoiceList = this.ageInvoiceService.getAgeInvoiceById(tenant_id);
@@ -42,7 +42,7 @@ public class AgeInvoiceController {
                 this.ageInvoiceService.updateAgeInvoice(args);
             }
             lock = false;
-            numberOfRows = numberOfRecords;
+            numberOfRows = String.valueOf(numberOfRecords);
         }
         return numberOfRows;
     }
