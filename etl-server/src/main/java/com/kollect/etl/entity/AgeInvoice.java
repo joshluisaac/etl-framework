@@ -12,4 +12,20 @@ public class AgeInvoice {
     public String getInvoice_due_date() {
         return invoice_due_date;
     }
+
+    private Integer tenant_id;
+
+    public Integer getTenant_id() {
+        return tenant_id;
+    }
+
+    public String getDpd() {
+        return dpd;
+    }
+
+    public void setDpd(String dpd) {
+        this.dpd = dpd;
+    }
+
+    private String dpd;
 }

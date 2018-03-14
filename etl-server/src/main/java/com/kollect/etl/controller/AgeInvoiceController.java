@@ -35,6 +35,7 @@ public class AgeInvoiceController {
             Map<Object, Object> args = new HashMap<>();
             args.put("invoice_due_date", map.get("invoice_due_date"));
             args.put("id", map.get("id"));
+            args.put("tenant_id", tenant_id);
             this.ageInvoiceService.updateAgeInvoice(args);
         }
         return numberOfRows;

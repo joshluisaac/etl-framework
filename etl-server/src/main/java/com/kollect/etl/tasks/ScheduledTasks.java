@@ -12,14 +12,11 @@ public class ScheduledTasks {
     @Autowired
     private LumpSumPaymentController lumpSumPaymentController;
     @Autowired
-    private CalculateOutstandingController calculateOutstandingController;
-    @Autowired
     private AgeInvoiceController ageInvoiceController;
 
     @Scheduled(cron = "0 0 5 * * *")
     public void runBatches (){
         this.lumpSumPaymentController.selectLumSumPayment();
-        this.calculateOutstandingController.calcOutstanding(63);
         this.ageInvoiceController.ageInvoice(63);
     }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 @Repository
 public class AgeInvoiceDao {
-    IAbstractSqlSessionProvider sqlSessionProvider;
+    private IAbstractSqlSessionProvider sqlSessionProvider;
 
     public AgeInvoiceDao(){
         sqlSessionProvider = new AbstractSqlSessionProvider("postgres_pbk");
