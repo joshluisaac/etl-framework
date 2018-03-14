@@ -22,7 +22,7 @@ public class CalculateOutstandingController {
   /**
    * HTTP GET request to retrieve all batches
    *
-   * @return runBatch - used to return the HTML for first time visit.
+   * @return allbatches - used to return the HTML for first time visit.
    */
 
   @GetMapping("/runbatch")
@@ -51,7 +51,7 @@ public class CalculateOutstandingController {
     for (int i=0;i<numberOfRows;i++) {
       Map<Object, Object> map = (Map<Object, Object>) outstandingList.get(i);
       Map<Object, Object> args = new HashMap<>();
-      args.put("invoice_plus_gst", map.get("invoice_plus_gst"));  
+      args.put("invoice_plus_gst", map.get("invoice_plus_gst"));
       args.put("total_transactions", map.get("total_transactions"));
       args.put("invoice_id", map.get("invoice_id"));
       this.calcOutstandingService.updateOutstanding(args);
