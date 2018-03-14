@@ -22,13 +22,13 @@ public class CalculateOutstandingController {
   /**
    * HTTP GET request to retrieve all batches
    *
-   * @return allbatches - used to return the HTML for first time visit.
+   * @return runBatch - used to return the HTML for first time visit.
    */
 
-  @GetMapping("/allbatches")
+  @GetMapping("/runbatch")
   public String allBatches() {
     
-    return "allbatches";
+    return "runBatch";
   }
 
   /**
