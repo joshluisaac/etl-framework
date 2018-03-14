@@ -130,3 +130,6 @@ create table kvbatch_history(
   number_of_records_updated bigint,
   updated_date timestamp
 );
+
+create sequence kvbatch_id;
+create SEQUENCE kvbatch_history_id;
