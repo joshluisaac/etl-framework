@@ -18,27 +18,33 @@ public class LumpSumPaymentController {
 
   @Autowired
   private LumpSumPaymentService lumpSumPaymentService;
-
+  private boolean lock = false;
 
   @PostMapping(value ="/lumpSumPayment")
   @SuppressWarnings("unchecked")
   @ResponseBody
   public Object selectLumSumPayment () {
-    int deleteCount = this.lumpSumPaymentService.deleteNetLumpSum(null);
-    List<Object> selectLumSumPaymentList = this.lumpSumPaymentService.getSumAmount(null);
-    int numberOfRows = selectLumSumPaymentList.size();
-    System.out.println("Number of rows: "+numberOfRows);
-    for ( int x = 0; x<selectLumSumPaymentList.size(); x++) {
+    int numberOfRows = -1;
+    if (!lock) {
+        lock = true;
+        this.lumpSumPaymentService.deleteNetLumpSum(null);
+        List<Object> selectLumSumPaymentList = this.lumpSumPaymentService.getSumAmount(null);
+        int numberOfRecords = selectLumSumPaymentList.size();
+        System.out.println("Number of rows: " + numberOfRows);
+        for (int x = 0; x < selectLumSumPaymentList.size(); x++) {
 
-      Map<Object, Object> map = (Map<Object, Object>) selectLumSumPaymentList.get(x);
-      Map<Object, Object> args = new HashMap<>();
-      args.put("account_id", map.get("account_id"));
-      args.put("net_lump_sum_amount", map.get("net_lump_sum_amount"));
-      System.out.println(args);
-      int updateCount = this.lumpSumPaymentService.updateGetSumAmount(args);
-      if (updateCount == 0) {
-        this.lumpSumPaymentService.insertGetSumAmount(args);
-      }
+            Map<Object, Object> map = (Map<Object, Object>) selectLumSumPaymentList.get(x);
+            Map<Object, Object> args = new HashMap<>();
+            args.put("account_id", map.get("account_id"));
+            args.put("net_lump_sum_amount", map.get("net_lump_sum_amount"));
+            System.out.println(args);
+            int updateCount = this.lumpSumPaymentService.updateGetSumAmount(args);
+            if (updateCount == 0) {
+                this.lumpSumPaymentService.insertGetSumAmount(args);
+            }
+        }
+        lock = false;
+        numberOfRows = numberOfRecords;
     }
     return numberOfRows;
   }
