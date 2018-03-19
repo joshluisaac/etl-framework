@@ -1,7 +1,6 @@
 package com.kollect.etl.tasks;
 
 import com.kollect.etl.controller.AgeInvoiceController;
-import com.kollect.etl.controller.CalculateOutstandingController;
 import com.kollect.etl.controller.LumpSumPaymentController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
