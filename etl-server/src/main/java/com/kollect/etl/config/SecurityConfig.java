@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(HttpSecurity httpSecurity) throws Exception{
 		httpSecurity.csrf().disable();
 		httpSecurity.authorizeRequests()
-		.antMatchers("/", "/index**", "/datavisualiser", "/dctablesettings", "/dsv", "/misc", "/allbatches").hasAnyRole(ADMIN, USER)
+		.antMatchers("/", "/index**", "/datavisualiser", "/dctablesettings", "/dsv", "/misc", "/addbatch", "/runbatch").hasAnyRole(ADMIN, USER)
 		.antMatchers("/adminEmailSettings", "/adminSftp", "/adminDatabase", "/host**", "/usermanagement**").hasRole(ADMIN)
 		.and()
 		.formLogin().loginPage("/login")
