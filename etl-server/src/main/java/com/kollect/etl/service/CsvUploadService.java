@@ -17,31 +17,49 @@ import com.kollect.etl.util.FileUtils;
 
 @Service
 public class CsvUploadService {
-	private static final String UPLOAD_DIR = "./etl-server/uploads/";
-	public int arrSize;
+    private static final String UPLOAD_DIR = "./etl-server/uploads/";
+    public int arrSize, MapSize, displaySizeLimit = 101;
+    private List<String> ListCSV;
+    private List<Map<String, String>> listMap;
 
-	private List<String> readCsv(String paths) throws IOException {
+    private List<String> readCsv(String paths) throws IOException {
 
-		return new FileUtils().readFile(new File(paths));
-	}
+        return new FileUtils().readFile(new File(paths));
+    }
 
-	public List<Map<String, String>> buildListOfMap(MultipartFile file) throws IOException {
+    /**
+     * Split List
+     * Mapping into Thymeleaf
+     */
+    public void RegexSplitter(int i) {
+        String[] array = ListCSV.get(i).split("\\|");
+        Map<String, String> map = new HashMap<>();
+        arrSize = array.length;
+        for (int k = 0; k < arrSize; k++) {
+            map.put("map" + k, array[k]);
+
+        }
+        listMap.add(map);
+    }
+
+    public List<Map<String, String>> buildListOfMap(MultipartFile file) throws IOException {
         String uploadDirFinale = new File(UPLOAD_DIR).getAbsolutePath();
-		byte[] bytes = file.getBytes();
-		Path path = Paths.get(uploadDirFinale + "/" + file.getOriginalFilename());
-		Files.write(path, bytes);
-		List<Map<String, String>> listMap = new ArrayList<>();
-		List<String> ListCSV = readCsv(path.toString());
-		for (int i = 0; i < ListCSV.size(); i++) {
-			String[] array = ListCSV.get(i).split("\\|");
-			arrSize = array.length;
-			Map<String, String> map = new HashMap<>();
-			for (int k = 0; k < arrSize; k++) {
-				map.put("map" + k, array[k]);
-			}
-			listMap.add(map);
+        byte[] bytes = file.getBytes();
+        Path path = Paths.get(uploadDirFinale + "/" + file.getOriginalFilename());
+        Files.write(path, bytes);
+        listMap =new ArrayList<>();
+        ListCSV = readCsv(path.toString());
+        MapSize = ListCSV.size();
+        if (MapSize < displaySizeLimit) {
+            for (int i = 0; i < MapSize; i++) {
+                RegexSplitter(i);
+            }
+        } else {
+            for (int i = 0; i < displaySizeLimit; i++) {
+                RegexSplitter(i);
+            }
+        }
 
-		}
-		return listMap;
-	}
+        return listMap;
+    }
 }
