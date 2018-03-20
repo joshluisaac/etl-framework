@@ -37,7 +37,6 @@ public class LumpSumPaymentController {
             Map<Object, Object> args = new HashMap<>();
             args.put("account_id", map.get("account_id"));
             args.put("net_lump_sum_amount", map.get("net_lump_sum_amount"));
-            System.out.println(args);
             int updateCount = this.lumpSumPaymentService.updateGetSumAmount(args);
             if (updateCount == 0) {
                 this.lumpSumPaymentService.insertGetSumAmount(args);
