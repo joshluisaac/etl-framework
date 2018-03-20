@@ -38,3 +38,5 @@ etl-parent.iml
 *.class
 
 /logs/
+
+resources
