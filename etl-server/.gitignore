@@ -4,5 +4,4 @@
 *.iml
 *.csv
 *.xml
-*/resources/
-resources/
+resources
