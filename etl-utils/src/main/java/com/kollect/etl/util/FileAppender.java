@@ -27,10 +27,12 @@ public class FileAppender  extends AbstractTextFileProcessor {
     final long rowsWritten, bytesWritten;
     long[] dwStats = null;
     final String destFileName = fileNamePrefix.toLowerCase() + ".csv";
+    final String badFileName = fileNamePrefix.toLowerCase() + "_bad.csv";
+    final String duplicateFileName = fileNamePrefix.toLowerCase() + "_duplicate.csv";
     final String regex = config.getRegex(fileNamePrefix).trim();
     final boolean isClonable = Boolean.parseBoolean(config.getCloneFlag(fileNamePrefix));
     final boolean isHashAble = Boolean.parseBoolean(config.getHashIndicator(fileNamePrefix));
-    
+    final int columnSize = Integer.parseInt(config.getExpectedLength(fileNamePrefix));
     final String cloneAs = config.getCloneAs(fileNamePrefix);
     final String replacement = config.getReplacement(fileNamePrefix);
     final String[] keyArr = config.getUniqueKeyIndex(fileNamePrefix).split("\\,");
@@ -42,12 +44,16 @@ public class FileAppender  extends AbstractTextFileProcessor {
     } else {
       LOG.debug("Skipping REGX replacment step for {}", fileNamePrefix);
     }
-    appendedList = retainUniqueEntries(appendedList, keyArr, isHashAble);
+    appendedList = retainUniqueEntries(appendedList, keyArr, isHashAble, columnSize);
     dwStats = deleteAndWriteToDisk(appendedList, rootPath, destFileName);
+    deleteAndWriteToDisk(BAD_ROWS, rootPath, badFileName);
+    deleteAndWriteToDisk(DUPLICATE_ROWS, rootPath, duplicateFileName);
+    
     rowsWritten = dwStats[0];
     bytesWritten = dwStats[1];
     stat.setRecordCount(rowsWritten);
     stat.setNumberOfBytes(bytesWritten);
+    LOG.info("Final size of appended list: {}", appendedList.size());
     LOG.info("Appended files starting with {} to {}", new Object[] { fileNamePrefix, destFileName });
   }
   
@@ -56,6 +62,7 @@ public class FileAppender  extends AbstractTextFileProcessor {
   public static void main(String[] args) throws Exception {
     Configuration configr = new Configuration();
     FileAppender appender = new FileAppender(configr);
+    
     String rootPath = args[0];
     if (rootPath == null) {
       LOG.debug("Directory path is null, will check dirPath property in util.properties");

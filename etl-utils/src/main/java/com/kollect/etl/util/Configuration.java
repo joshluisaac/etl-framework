@@ -39,6 +39,11 @@ public class Configuration {
     return p.getProperty(CONCAT +impl.toLowerCase()+ ".generateHash");
   }
   
+  public String getExpectedLength(String impl) {
+    return p.getProperty(CONCAT +impl.toLowerCase()+ ".expectedLength");
+  }
+  
+ 
   public String getDirPath() {
     return p.getProperty("concatenator.dirPath");
   }

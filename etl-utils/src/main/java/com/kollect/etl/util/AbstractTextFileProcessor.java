@@ -17,16 +17,17 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class AbstractTextFileProcessor {
-  
+
   private static final Logger LOG = LoggerFactory.getLogger(AbstractTextFileProcessor.class);
-  
+
   public Configuration config;
-  
+  public static List<String> BAD_ROWS;
+  public static List<String> DUPLICATE_ROWS;
+
   public AbstractTextFileProcessor(Configuration config) {
     this.config = config;
   }
- 
-  
+
   /**
    * Abstracted the dirPath property to the source files
    * 
@@ -47,8 +48,7 @@ public abstract class AbstractTextFileProcessor {
   public String[] splitFilePrefix(String regex) {
     return config.getFilePrefix().split(regex);
   }
-  
-  
+
   /**
    * Will remove duplicates from a list either based on a single unique key or
    * composite key leaving behind unique entries
@@ -59,33 +59,31 @@ public abstract class AbstractTextFileProcessor {
    *          the list of unique key or keys
    * 
    */
-  public List<String> retainUniqueEntries(List<String> appendedList, String[] keyArr, boolean isHashAble) {
+  public List<String> retainUniqueEntries(List<String> appendedList, String[] keyArr, boolean isHashAble, int columnSize) {
     int uniqueKeyColumn = -1;
     int keyLength = keyArr.length;
     if (keyLength == 1) {
       uniqueKeyColumn = Integer.parseInt(keyArr[0]);
       if (uniqueKeyColumn >= 0) {
         int uniqueKeyIndex = uniqueKeyColumn - 1;
-        if(isHashAble) {
-          Composite comp = incorporateHashedKey(appendedList, keyArr);
+        if (isHashAble) {
+          Composite comp = incorporateHashedKey(appendedList, keyArr, columnSize);
           List<String> compList = comp.getCompositeList();
           appendedList = uniqueOnKey(compList, uniqueKeyIndex);
-        }
-        else {
+        } else {
           appendedList = uniqueOnKey(appendedList, uniqueKeyIndex);
         }
       } else {
         LOG.info("Skipping unique step for {}, since unique column is set to {}th column", uniqueKeyColumn);
       }
     } else if (keyLength > 1) {
-      Composite comp = incorporateHashedKey(appendedList, keyArr);
+      Composite comp = incorporateHashedKey(appendedList, keyArr, columnSize);
       int uniqueKeyIndex = comp.getLength();
       List<String> compList = comp.getCompositeList();
       appendedList = uniqueOnKey(compList, uniqueKeyIndex);
     }
     return appendedList;
   }
-
 
   /**
    * Builds a list based off the src list and then adds a new column to the nth
@@ -100,23 +98,41 @@ public abstract class AbstractTextFileProcessor {
    * 
    * @return returns a composite object
    */
-  public Composite incorporateHashedKey(List<String> src, String[] position) {
+  public Composite incorporateHashedKey(List<String> src, String[] position, int columnSize) {
+    BAD_ROWS = new ArrayList<String>();
     List<String> result = new ArrayList<>();
     for (String s : src) {
+      //System.out.println(s);
       StringBuffer token = new StringBuffer();
-      String[] columns = s.split("\\|");
-      for (int i = 0; i < position.length; i++) {
-        int index = Integer.parseInt(position[i]);
-        String str = columns[index - 1];
-        token.append(str);
+      String[] columns = s.split("\\|",-1);
+      
+      if (columns.length == columnSize) {
+        for (int i = 0; i < position.length; i++) {
+          int index = Integer.parseInt(position[i]);
+          String str = columns[index - 1];
+          token.append(str);
+        }
+        // System.out.println(s + "|" + hash(token.toString()));
+        result.add(s + "|" + hash(token.toString()));
       }
-      //System.out.println(s + "|" + hash(token.toString()));
-      result.add(s + "|" + hash(token.toString()));
+      else {
+        BAD_ROWS.add(s);
+      }
+      
     }
-    return new Composite(result, src.get(0).split("\\|").length);
+    return new Composite(result, columnSize);
   }
   
+  // will build a list of records that do not satisfy the expectedLength criteria
+  void isolateBadRecord() {
+    
+  }
   
+  // will build a list of duplicate rows
+  void isolateDuplicateRecord() {
+    
+  }
+
   /**
    * Removes duplicates in a list based off of a specified keyIndex
    *
@@ -127,31 +143,34 @@ public abstract class AbstractTextFileProcessor {
    * @return unique list
    */
   public List<String> uniqueOnKey(List<String> src, int keyIndex) {
+    DUPLICATE_ROWS = new ArrayList<String>();
     Map<String, String> tmp = new HashMap<>();
     List<String> result = new ArrayList<>();
     for (String s : src) {
       String[] columns = s.split("\\|");
-      //System.out.println(columns.length);
-      //System.out.println(keyIndex);
-      //System.out.println(s);
-      
-      if((columns.length) > keyIndex) {
+      // System.out.println(columns.length);
+      // System.out.println(keyIndex);
+      // System.out.println(s);
+
+      if ((columns.length) > keyIndex) {
         String key = columns[keyIndex];
         if (!tmp.containsKey(key)) {
           tmp.put(key, s);
           result.add(s);
-        } 
+        } else {
+          DUPLICATE_ROWS.add(s);
+        }
       }
 
     }
     return result;
   }
-  
-  void isolateBadRecord(){}
-  
-  
+
+
+
   public String hash(final String rawString) {
-    MessageDigest digest = null;;
+    MessageDigest digest = null;
+    ;
     try {
       digest = MessageDigest.getInstance("SHA-256");
     } catch (NoSuchAlgorithmException e) {
@@ -159,11 +178,10 @@ public abstract class AbstractTextFileProcessor {
     }
     byte[] hash = digest.digest(rawString.getBytes(StandardCharsets.UTF_8));
     String sha256hex = new String(Hex.encode(hash));
-    
+
     return sha256hex;
   }
-  
-  
+
   /**
    * Retrieves the list of files in a directory starting with the specified prefix
    * 
@@ -186,9 +204,6 @@ public abstract class AbstractTextFileProcessor {
       return Collections.emptyList();
     }
   }
-  
-  
-  
 
   /**
    * Replaces characters not within the boundaries of the regex expression to the
@@ -226,7 +241,7 @@ public abstract class AbstractTextFileProcessor {
    * @return returns an array of prefixes derived by splitting the file prefix
    *         property
    * @throws IllegalArgumentException
-   *         If <tt>fileSize</tt> is equal to zero
+   *           If <tt>fileSize</tt> is equal to zero
    */
   public List<String> append(String rootPath, String fileNamePrefix, ICsvAppenderReport stat) throws IOException {
     List<String> fileList = retrieveFilesStartingWith(new File(rootPath), fileNamePrefix);
@@ -246,6 +261,7 @@ public abstract class AbstractTextFileProcessor {
     stat.setFileCount(fileSize);
     stat.setFileName(fileNamePrefix);
     stat.setRecordCount(target.size());
+    LOG.info("Initial size of appended list: {}", target.size());
     return target;
   }
 
