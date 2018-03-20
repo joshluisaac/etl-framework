@@ -133,3 +133,5 @@ create table kvbatch_history(
 
 create sequence kvbatch_id;
 create SEQUENCE kvbatch_history_id;
+
+create UNIQUE INDEX kv_vendor_invoices_idx1 on kv_vendor_invoices (load_id);
