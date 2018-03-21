@@ -1,7 +1,6 @@
 package com.kollect.etl.service;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,13 +17,26 @@ import com.kollect.etl.util.FileUtils;
 @Service
 public class CsvUploadService {
     private static final String UPLOAD_DIR = "./etl-server/uploads/";
-    public int arrSize, MapSize, displaySizeLimit = 101;
+    public int arrSize, MapSize;
     private List<String> ListCSV;
     private List<Map<String, String>> listMap;
 
     private List<String> readCsv(String paths) throws IOException {
+        List<String> list;
+        try (BufferedReader bufReader = new BufferedReader(
+                new InputStreamReader(new FileInputStream(new File(paths))));) {
+            String line;
+            list = new ArrayList<>();
+            while ((line = bufReader.readLine()) != null) {
+                if (list.size() <= 100) {
+                    list.add(line);
+                } else {
+                    break;
+                }
+            }
 
-        return new FileUtils().readFile(new File(paths));
+        }
+        return list;
     }
 
     /**
@@ -47,17 +59,11 @@ public class CsvUploadService {
         byte[] bytes = file.getBytes();
         Path path = Paths.get(uploadDirFinale + "/" + file.getOriginalFilename());
         Files.write(path, bytes);
-        listMap =new ArrayList<>();
+        listMap = new ArrayList<>();
         ListCSV = readCsv(path.toString());
         MapSize = ListCSV.size();
-        if (MapSize < displaySizeLimit) {
-            for (int i = 0; i < MapSize; i++) {
-                RegexSplitter(i);
-            }
-        } else {
-            for (int i = 0; i < displaySizeLimit; i++) {
-                RegexSplitter(i);
-            }
+        for (int i = 0; i < MapSize; i++) {
+            RegexSplitter(i);
         }
 
         return listMap;
