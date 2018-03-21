@@ -24,27 +24,13 @@ public class LumpSumPaymentController {
   @SuppressWarnings("unchecked")
   @ResponseBody
   public Object selectLumSumPayment () {
-    int numberOfRows = -1;
+    int numberOfUpdate = 0;
     if (!lock) {
         lock = true;
         this.lumpSumPaymentService.deleteNetLumpSum(null);
-        List<Object> selectLumSumPaymentList = this.lumpSumPaymentService.getSumAmount(null);
-        int numberOfRecords = selectLumSumPaymentList.size();
-        System.out.println("Number of rows: " + numberOfRows);
-        for (int x = 0; x < selectLumSumPaymentList.size(); x++) {
-
-            Map<Object, Object> map = (Map<Object, Object>) selectLumSumPaymentList.get(x);
-            Map<Object, Object> args = new HashMap<>();
-            args.put("account_id", map.get("account_id"));
-            args.put("net_lump_sum_amount", map.get("net_lump_sum_amount"));
-            int updateCount = this.lumpSumPaymentService.updateGetSumAmount(args);
-            if (updateCount == 0) {
-                this.lumpSumPaymentService.insertGetSumAmount(args);
-            }
-        }
+        numberOfUpdate = this.lumpSumPaymentService.numbOfRowsFunction();
         lock = false;
-        numberOfRows = numberOfRecords;
     }
-    return numberOfRows;
+    return numberOfUpdate;
   }
 }
