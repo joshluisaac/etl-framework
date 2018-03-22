@@ -15,6 +15,7 @@ public class LumpSumPaymentService {
 
     @Autowired
     private LumpSumPaymentDao LumpSumPaymentDao;
+    private boolean lock;
 
     public List<Object> getSumAmount(Object object) {
         return this.LumpSumPaymentDao.getSumAmount(object);
@@ -42,23 +43,28 @@ public class LumpSumPaymentService {
         return -1;
     }
 
-    public int numbOfRowsFunction(){
-        int numberOfRecords = -1;
-        List<Object> selectLumSumPaymentList = this.getSumAmount(null);
-        numberOfRecords = selectLumSumPaymentList.size();
-        System.out.println("Number of rows: " + numberOfRecords);
-        for (int x = 0; x < selectLumSumPaymentList.size(); x++) {
+    public int combinedLumpSumPaymentService(){
+        int numberOfRows = -1;
+        if (!lock) {
+            lock = true;
+            List<Object> selectLumSumPaymentList = this.getSumAmount(null);
+            this.deleteNetLumpSum(null);
+            int numberOfRecords = selectLumSumPaymentList.size();
+            for (int x = 0; x < numberOfRecords; x++) {
 
-            Map<Object, Object> map = (Map<Object, Object>) selectLumSumPaymentList.get(x);
-            Map<Object, Object> args = new HashMap<>();
-            args.put("account_id", map.get("account_id"));
-            args.put("net_lump_sum_amount", map.get("net_lump_sum_amount"));
-            int updateCount = this.updateGetSumAmount(args);
-            if (updateCount == 0) {
-                this.insertGetSumAmount(args);
+                Map<Object, Object> map = (Map<Object, Object>) selectLumSumPaymentList.get(x);
+                Map<Object, Object> args = new HashMap<>();
+                args.put("account_id", map.get("account_id"));
+                args.put("net_lump_sum_amount", map.get("net_lump_sum_amount"));
+                int updateCount = this.updateGetSumAmount(args);
+                if (updateCount == 0) {
+                    this.insertGetSumAmount(args);
+                }
             }
+            lock = false;
+            numberOfRows = numberOfRecords;
         }
-
-        return numberOfRecords;
+        System.out.println("LumpSumPayment - Number of rows updated: " + numberOfRows);
+        return numberOfRows;
     }
 }

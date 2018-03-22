@@ -18,19 +18,11 @@ public class LumpSumPaymentController {
 
   @Autowired
   private LumpSumPaymentService lumpSumPaymentService;
-  private boolean lock = false;
 
   @PostMapping(value ="/lumpSumPayment")
   @SuppressWarnings("unchecked")
   @ResponseBody
   public Object selectLumSumPayment () {
-    int numberOfUpdate = 0;
-    if (!lock) {
-        lock = true;
-        this.lumpSumPaymentService.deleteNetLumpSum(null);
-        numberOfUpdate = this.lumpSumPaymentService.numbOfRowsFunction();
-        lock = false;
-    }
-    return numberOfUpdate;
+    return lumpSumPaymentService.combinedLumpSumPaymentService();
   }
 }

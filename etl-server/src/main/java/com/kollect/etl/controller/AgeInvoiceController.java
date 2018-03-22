@@ -16,7 +16,6 @@ import java.util.Map;
 public class AgeInvoiceController {
     @Autowired
     private AgeInvoiceService ageInvoiceService;
-    private boolean lock = false;
     /**
      * POST method to get the tenant_id from user to run the age invoice batch
      * @param tenant_id
@@ -29,23 +28,7 @@ public class AgeInvoiceController {
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object ageInvoice (@RequestParam(required = false) Integer tenant_id){
-        int numberOfRows = -1;
-        if (!lock) {
-            lock = true;
-            List<Object> ageInvoiceList = this.ageInvoiceService.getAgeInvoiceById(tenant_id);
-            int numberOfRecords = ageInvoiceList.size();
-            for (int i = 0; i < numberOfRecords; i++) {
-                Map<Object, Object> map = (Map<Object, Object>) ageInvoiceList.get(i);
-                Map<Object, Object> args = new HashMap<>();
-                args.put("invoice_due_date", map.get("invoice_due_date"));
-                args.put("id", map.get("id"));
-                args.put("tenant_id", tenant_id);
-                this.ageInvoiceService.updateAgeInvoice(args);
-            }
-            lock = false;
-            numberOfRows = numberOfRecords;
+        return this.ageInvoiceService.combinedAgeInvoiceService(tenant_id);
         }
-        return numberOfRows;
-    }
 
 }

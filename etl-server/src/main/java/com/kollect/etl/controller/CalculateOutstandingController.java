@@ -1,9 +1,5 @@
 package com.kollect.etl.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,17 +42,7 @@ public class CalculateOutstandingController {
   @SuppressWarnings("unchecked")
   @ResponseBody
   public Object calcOutstanding (@RequestParam (required = false) Integer tenant_id) {
-    List<Object> outstandingList = this.calcOutstandingService.getOutstandingByTenantId(tenant_id);
-    int numberOfRows = outstandingList.size();
-    for (int i=0;i<numberOfRows;i++) {
-      Map<Object, Object> map = (Map<Object, Object>) outstandingList.get(i);
-      Map<Object, Object> args = new HashMap<>();
-      args.put("invoice_plus_gst", map.get("invoice_plus_gst"));
-      args.put("total_transactions", map.get("total_transactions"));
-      args.put("invoice_id", map.get("invoice_id"));
-      this.calcOutstandingService.updateOutstanding(args);
-    }
-    return numberOfRows;
+    return this.calcOutstandingService.combinedCalcOutstanding(tenant_id);
   }
   
 }
