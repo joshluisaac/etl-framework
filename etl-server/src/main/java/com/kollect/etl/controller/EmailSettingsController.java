@@ -1,10 +1,5 @@
 package com.kollect.etl.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,13 +8,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.kollect.etl.entity.EmailSettings;
 import com.kollect.etl.service.EmailSettingsService;
 
 @Controller
 public class EmailSettingsController {
-
-	private static final Logger LOG = LoggerFactory.getLogger(EmailSettingsController.class);
 
 	@Autowired
 	private EmailSettingsService emailSettingsService;
@@ -32,14 +24,8 @@ public class EmailSettingsController {
 	 * @return emailSettingsForm pre-loaded with data
 	 */
 	@GetMapping(value = "/adminEmailSettings")
-	public String viewEmailSettings(Model model) {
-		List<Object> list = this.emailSettingsService.getTemplateSettings(null);
-		if (list.size() > 0) {
-			@SuppressWarnings("unchecked")
-			Map<String, Object> map = (Map<String, Object>) list.get(0);
-			model.addAttribute("result", map);
-		}
-		return "emailSettingsForm";
+	public Object viewEmailSettings(Model model) {
+	    return this.emailSettingsService.getEmailSettings(model);
 	}
 
 	/**
@@ -70,22 +56,11 @@ public class EmailSettingsController {
 	 * @return redirects requests to GET /adminEmailSettings
 	 */
 	@RequestMapping(value = "/adminEmailSettings", method = RequestMethod.POST)
-	public String addEmailSettings(@RequestParam (required = false) boolean sendEmail, @RequestParam String userAuthentication,
+	public Object addEmailSettings(@RequestParam (required = false) boolean sendEmail, @RequestParam String userAuthentication,
 			@RequestParam String userName, @RequestParam String pass, @RequestParam String host,
 			@RequestParam String recipient, @RequestParam Integer port, @RequestParam String subject,
 			@RequestParam String msg, @RequestParam String subjErr, @RequestParam String msgErr) {
-
-		EmailSettings emailDto = new EmailSettings(sendEmail, userAuthentication, userName, pass, host, recipient, port,
-				subject, msg, subjErr, msgErr);
-
-		@SuppressWarnings("unchecked")
-		Map<String, Integer> counterMap = (Map<String, Integer>) emailSettingsService.getEmailCounter().get(0);
-
-		int numberOfRecAffected = (counterMap.get("emailCounter") > 0)
-				? (emailSettingsService.updateEmailSettings(emailDto))
-				: (emailSettingsService.insertEmailSettings(emailDto));
-
-		LOG.debug("Number of records affected: {}", numberOfRecAffected);
-		return "redirect:/adminEmailSettings";
+	    return this.emailSettingsService.addUpdateEmailSettings(sendEmail, userAuthentication, userName, pass, host, recipient, port, subject,
+        msg, subjErr,msgErr);
 	}
 }
