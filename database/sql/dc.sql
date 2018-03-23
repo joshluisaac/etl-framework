@@ -135,3 +135,7 @@ create sequence kvbatch_id;
 create SEQUENCE kvbatch_history_id;
 
 create UNIQUE INDEX kv_vendor_invoices_idx1 on kv_vendor_invoices (load_id);
+
+alter table transaction_load add line_of_business varchar(50);
+alter table transaction_load add invoice_no varchar(255);
+alter table transaction_load add invoice_reference varchar(255);
