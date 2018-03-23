@@ -1,7 +1,9 @@
 package com.kollect.etl.dataaccess;
 
+import java.sql.SQLException;
 import java.util.List;
 
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.stereotype.Repository;
 
 
@@ -18,7 +20,11 @@ public class PostTransactionDao {
       return sqlSessionProvider.update(queryName, object);
   }
   
-  public List<Object> getAccount(final String queryName, Object args) {
+  public int updateQuery (final String queryName, Object object) throws PersistenceException {
+    return sqlSessionProvider.update(queryName, object);
+}
+  
+  public List<Object> executeQuery(final String queryName, Object args) {
     return sqlSessionProvider.queryObject(queryName, args);
   }
 

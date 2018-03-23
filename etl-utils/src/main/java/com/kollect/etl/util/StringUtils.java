@@ -12,10 +12,6 @@ public class StringUtils {
   public boolean hasMatch(final String candidate, final String pattern) {
     Pattern p = Pattern.compile(pattern);
     Matcher m = p.matcher(candidate);
-    return m.matches();
+    return m.find();
   }
-
-  //"^3[0-9]{8}"
-  
-
 }
