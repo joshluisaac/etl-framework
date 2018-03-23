@@ -13,44 +13,44 @@ public class TransactionUpdateDao {
         sqlSessionProvider = new AbstractSqlSessionProvider("mahb_prod");
     }
 
-    public int updateInvoices_AB(Object object) {
-        return sqlSessionProvider.insert("updateTransactionInvoiceAB", object);
+    public List<Object> getTransactionAB(Object object) {
+        return sqlSessionProvider.queryObject("getTransactionAB", object);
     }
 
-    public int updateInvoices_RG(Object object) {
-        return sqlSessionProvider.insert("updateTransactionInvoiceRG", object);
+    public List<Object> getTransactionRG(Object object) {
+        return sqlSessionProvider.queryObject("getTransactionRG", object);
     }
 
-    public int updateInvoices_YY(Object object) {
-        return sqlSessionProvider.insert("updateTransactionInvoiceYY", object);
+    public List<Object> getTransactionYY(Object object) {
+        return sqlSessionProvider.queryObject("getTransactionYY", object);
     }
 
-    public int updateInvoices_GI(Object object) {
-        return sqlSessionProvider.insert("updateTransactionInvoiceGI", object);
+    public List<Object> getTransactionGI(Object object) {
+        return sqlSessionProvider.queryObject("getTransactionGI", object);
     }
 
-    public int updateInvoices_RI(Object object) {
-        return sqlSessionProvider.insert("updateTransactionInvoiceRI", object);
+    public List<Object> getTransactionRI(Object object) {
+        return sqlSessionProvider.queryObject("getTransactionRI", object);
     }
 
-    public int updateInvoices_RM(Object object) {
-        return sqlSessionProvider.insert("updateTransactionInvoiceRM", object);
+    public List<Object> getTransactionRM(Object object) {
+        return sqlSessionProvider.queryObject("getTransactionRM", object);
     }
 
-    public int updateInvoices_RV(Object object) {
-        return sqlSessionProvider.insert("updateTransactionInvoiceRV", object);
+    public List<Object> getTransactionRV(Object object) {
+        return sqlSessionProvider.queryObject("getTransactionRV", object);
     }
 
-    public int updateInvoices_RY(Object object) {
-        return sqlSessionProvider.insert("updateTransactionInvoiceRY", object);
+    public List<Object> getTransactionRY(Object object) {
+        return sqlSessionProvider.queryObject("getTransactionRY", object);
     }
 
-    public int updateInvoices_YC(Object object) {
-        return sqlSessionProvider.insert("updateTransactionInvoiceYC", object);
+    public List<Object> getTransactionYC(Object object) {
+        return sqlSessionProvider.queryObject("getTransactionYC", object);
     }
 
-    public int updateInvoices_YD(Object object) {
-        return sqlSessionProvider.insert("updateTransactionInvoiceYD", object);
+    public List<Object> getTransactionYD(Object object) {
+        return sqlSessionProvider.queryObject("getTransactionYD", object);
     }
 
     public List<Object> getTransactionYH(Object object) {
