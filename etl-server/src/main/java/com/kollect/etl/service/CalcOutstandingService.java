@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class CalcOutstandingService {
     @Autowired
     private CalcOutstandingDao calcOutstandingDao;
+    @Autowired
+    private BatchHistoryService batchHistoryService;
     private boolean lock;
 
     public List<Object> getOutstandingByTenantId(Object object) {
@@ -26,7 +28,7 @@ public class CalcOutstandingService {
         return this.calcOutstandingDao.updateOutstanding(object);
     }
 
-    public int combinedCalcOutstanding(@RequestParam(required = false) Integer tenant_id) {
+    public int combinedCalcOutstanding(@RequestParam(required = false) Integer tenant_id, @RequestParam Integer batch_id) {
         int numberOfRows = -1;
         if (!lock) {
             lock = true;
@@ -42,6 +44,10 @@ public class CalcOutstandingService {
             }
             lock = false;
             numberOfRows = numberOfRecords;
+            Map<Object, Object> args = new HashMap<>();
+            args.put("batch_id", batch_id);
+            args.put("number_of_records_updated", numberOfRows);
+            this.batchHistoryService.insertBatchHistory(args);
         }
         return numberOfRows;
     }

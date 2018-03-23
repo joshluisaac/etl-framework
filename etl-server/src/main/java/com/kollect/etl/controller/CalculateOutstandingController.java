@@ -41,8 +41,8 @@ public class CalculateOutstandingController {
   @PostMapping(value = "/calcoutstanding", produces="application/json")
   @SuppressWarnings("unchecked")
   @ResponseBody
-  public Object calcOutstanding (@RequestParam (required = false) Integer tenant_id) {
-    return this.calcOutstandingService.combinedCalcOutstanding(tenant_id);
+  public Object calcOutstanding (@RequestParam (required = false) Integer tenant_id, @RequestParam Integer batch_id) {
+    return this.calcOutstandingService.combinedCalcOutstanding(tenant_id, batch_id);
   }
   
 }

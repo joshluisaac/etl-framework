@@ -62,8 +62,7 @@ public class HostService {
         int updateCount = this.updateHost(newHost);
 
         if (updateCount == 0) {
-            if (updateCount == 0)
-                this.insertHost(newHost);
+            this.insertHost(newHost);
             insertFlag = true;
         }
         if (insertFlag)
