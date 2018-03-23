@@ -17,6 +17,7 @@ public class PostTransactionController {
   
   @Autowired
   private PostTransactionService service;
+  private static final String REGEX_PATTERN = "^3[0-9]{8}";
   
   
   @PostMapping(value ="/updatePostTrx")
@@ -26,7 +27,7 @@ public class PostTransactionController {
     String[] postJobs = {"updateIsDepositTransaction","updateInvoiceTransactionType","updatePaymentTransactionType",
         "updateInvoiceStatusId","updateInvoiceInAging"};
     for (String string : postJobs) {
-      int updatedCount = service.updatePostTransaction(string,null);
+      int updatedCount = service.updateQuery(string,null);
     }
       
       return 0;
@@ -37,19 +38,17 @@ public class PostTransactionController {
   @ResponseBody
   public Object updateIsCommercialAccount() {
     List<Object> list = service.executeQuery("getAccount", null);
-    
     int rowCount = list.size();
     for (int i = 0; i < rowCount; i++) {
         Map<Object, Object> map = (Map<Object, Object>) list.get(i);
         Map<Object, Object> args = new HashMap<>();
         String accountNo = (String) map.get("account_no");
-        boolean isCommercial = service.isCommericalResolver(accountNo, "^3[0-9]{8}");
+        boolean isCommercial = service.isCommericalResolver(accountNo, REGEX_PATTERN);
         args.put("account_no", accountNo);
         args.put("load_id", map.get("load_id"));
         args.put("isCommercial", isCommercial);
         this.service.updateQuery("updateCommercialTransaction",args);
     }
-      
       return 0;
   }
   
