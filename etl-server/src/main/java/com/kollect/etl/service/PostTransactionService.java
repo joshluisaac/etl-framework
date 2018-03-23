@@ -20,11 +20,7 @@ public class PostTransactionService {
   private PostTransactionDao dao;
   
   private static final Logger LOG = LoggerFactory.getLogger(PostTransactionService.class);
-  
-  public int updatePostTransaction(final String queryName, Object object) {
-    return this.dao.updatePostTransaction(queryName, object);
-  }
-  
+
   public List<Object> executeQuery(final String queryName, Object args){
     return this.dao.executeQuery(queryName,args);
   }
@@ -38,6 +34,12 @@ public class PostTransactionService {
     }
   }
   
+  /** Will resolve the account as either commercial or non commercial
+   * 
+   * @param accountNo
+   * @param pattern
+   * @return boolean value of regex result
+   */
   public boolean isCommericalResolver(String accountNo, String pattern){
     return new StringUtils().hasMatch(accountNo, pattern) ? true:false;
     

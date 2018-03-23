@@ -1,6 +1,5 @@
 package com.kollect.etl.dataaccess;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import org.apache.ibatis.exceptions.PersistenceException;
@@ -14,10 +13,6 @@ public class PostTransactionDao {
 
   public PostTransactionDao() {
       sqlSessionProvider = new AbstractSqlSessionProvider("mahb_prod");
-  }
-
-  public int updatePostTransaction (final String queryName, Object object) {
-      return sqlSessionProvider.update(queryName, object);
   }
   
   public int updateQuery (final String queryName, Object object) throws PersistenceException {
