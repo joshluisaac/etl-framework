@@ -157,7 +157,6 @@ public class TransactionUpdateService {
             args.put("load_id", map.get("load_id"));
             this.updateTransactionLoad(args);
         }
-
         return rowCount;
     }
 
