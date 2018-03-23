@@ -15,7 +15,7 @@ import java.util.concurrent.Executor;
 
 @SpringBootApplication
 @EnableScheduling
-@EnableAsync
+/*@EnableAsync*/
 public class Server {
 
   @Bean
@@ -26,7 +26,7 @@ public class Server {
 
   
 
-    @Bean
+/*    @Bean
     public Executor asyncExecutor() {
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(2);
@@ -35,7 +35,7 @@ public class Server {
         executor.setThreadNamePrefix("PowerETL-");
         executor.initialize();
         return executor;
-    }
+    }*/
 
   public static void main(String[] args) {
     SpringApplication.run(Server.class, args);
