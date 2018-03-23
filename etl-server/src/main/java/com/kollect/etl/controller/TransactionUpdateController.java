@@ -254,7 +254,6 @@ public class TransactionUpdateController {
     }
 
     @PostMapping(value ="/loadinvoices_others")
-    @SuppressWarnings("unchecked")
     @ResponseBody
     public Object updateInvoicesOthers() {
         List<Object> transList =  service.getTransactionOthers(null);

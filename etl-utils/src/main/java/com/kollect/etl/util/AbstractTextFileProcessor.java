@@ -113,7 +113,8 @@ public abstract class AbstractTextFileProcessor {
           token.append(str);
         }
         // System.out.println(s + "|" + hash(token.toString()));
-        result.add(s + "|" + hash(token.toString()));
+        String k = s + "|" + hash(token.toString());
+        result.add(k);
       }
       else {
         BAD_ROWS.add(s);
