@@ -14,44 +14,44 @@ public class TransactionUpdateService {
     @Autowired
     private TransactionUpdateDao TransactionUpdateDao;
 
-    public int UpdateInvoices_AB(Object object) {
-        return this.TransactionUpdateDao.updateInvoices_AB(object);
+    public List<Object> getTransactionAB(Object object) {
+        return this.TransactionUpdateDao.getTransactionAB(object);
     }
 
-    public int updateInvoices_RG(Object object) {
-        return this.TransactionUpdateDao.updateInvoices_RG(object);
+    public List<Object> getTransactionRG(Object object) {
+        return this.TransactionUpdateDao.getTransactionRG(object);
     }
 
-    public int updateInvoices_YY(Object object) {
-        return this.TransactionUpdateDao.updateInvoices_YY(object);
+    public List<Object> getTransactionYY(Object object) {
+        return this.TransactionUpdateDao.getTransactionYY(object);
     }
 
-    public int updateInvoices_GI(Object object) {
-        return this.TransactionUpdateDao.updateInvoices_GI(object);
+    public List<Object> getTransactionGI(Object object) {
+        return this.TransactionUpdateDao.getTransactionGI(object);
     }
 
-    public int updateInvoices_RI(Object object) {
-        return this.TransactionUpdateDao.updateInvoices_RI(object);
+    public List<Object> getTransactionRI(Object object) {
+        return this.TransactionUpdateDao.getTransactionRI(object);
     }
 
-    public int updateInvoices_RM(Object object) {
-        return this.TransactionUpdateDao.updateInvoices_RM(object);
+    public List<Object> getTransactionRM(Object object) {
+        return this.TransactionUpdateDao.getTransactionRM(object);
     }
 
-    public int updateInvoices_RV(Object object) {
-        return this.TransactionUpdateDao.updateInvoices_RV(object);
+    public List<Object> getTransactionRV(Object object) {
+        return this.TransactionUpdateDao.getTransactionRV(object);
     }
 
-    public int updateInvoices_RY(Object object) {
-        return this.TransactionUpdateDao.updateInvoices_RY(object);
+    public List<Object> getTransactionRY(Object object) {
+        return this.TransactionUpdateDao.getTransactionRY(object);
     }
 
-    public int updateInvoices_YC(Object object) {
-        return this.TransactionUpdateDao.updateInvoices_YC(object);
+    public List<Object> getTransactionYC(Object object) {
+        return this.TransactionUpdateDao.getTransactionYC(object);
     }
 
-    public int updateInvoices_YD(Object object) {
-        return this.TransactionUpdateDao.updateInvoices_YD(object);
+    public List<Object> getTransactionYD(Object object) {
+        return this.TransactionUpdateDao.getTransactionYD(object);
     }
 
     public List<Object> getTransactionYH(Object object) {
@@ -157,7 +157,6 @@ public class TransactionUpdateService {
             args.put("load_id", map.get("load_id"));
             this.updateTransactionLoad(args);
         }
-
         return rowCount;
     }
 

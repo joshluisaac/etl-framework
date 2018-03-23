@@ -6,9 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class TransactionUpdateController {
@@ -19,70 +17,80 @@ public class TransactionUpdateController {
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object updateInvoices_AB() {
-        return service.UpdateInvoices_AB(null);
+        List<Object> transList =  service.getTransactionAB(null);
+        return this.service.processTransactionList(transList);
     }
 
     @PostMapping(value ="/loadinvoices_rg")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object updateInvoices_RG() {
-        return service.updateInvoices_RG(null);
+        List<Object> transList =  service.getTransactionRG(null);
+        return this.service.processTransactionList(transList);
     }
 
     @PostMapping(value ="/loadinvoices_yy")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object updateInvoices_YY() {
-        return service.updateInvoices_YY(null);
+        List<Object> transList =  service.getTransactionYY(null);
+        return this.service.processTransactionList(transList);
     }
 
     @PostMapping(value ="/loadinvoices_gi")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object updateInvoices_GI() {
-        return service.updateInvoices_GI(null);
+        List<Object> transList =  service.getTransactionGI(null);
+        return this.service.processTransactionList(transList);
     }
 
     @PostMapping(value ="/loadinvoices_ri")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object updateInvoices_RI() {
-        return service.updateInvoices_RI(null);
+        List<Object> transList =  service.getTransactionRI(null);
+        return this.service.processTransactionList(transList);
     }
 
     @PostMapping(value ="/loadinvoices_rm")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object updateInvoices_RM() {
-        return service.updateInvoices_RM(null);
+        List<Object> transList =  service.getTransactionRM(null);
+        return this.service.processTransactionList(transList);
     }
 
     @PostMapping(value ="/loadinvoices_rv")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object updateInvoices_RV() {
-        return service.updateInvoices_RV(null);
+        List<Object> transList =  service.getTransactionRV(null);
+        return this.service.processTransactionList(transList);
     }
 
     @PostMapping(value ="/loadinvoices_ry")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object updateInvoices_RY() {
-        return service.updateInvoices_RY(null);
+        List<Object> transList =  service.getTransactionRY(null);
+        return this.service.processTransactionList(transList);
     }
 
     @PostMapping(value ="/loadinvoices_yc")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object updateInvoices_YC() {
-        return service.updateInvoices_YC(null);
+        List<Object> transList =  service.getTransactionYC(null);
+        return this.service.processTransactionList(transList);
     }
 
     @PostMapping(value ="/loadinvoices_yd")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object updateInvoices_YD() {
-        return service.updateInvoices_YD(null);
+        List<Object> transList =  service.getTransactionYD(null);
+        return this.service.processTransactionList(transList);
     }
 
     @PostMapping(value ="/loadinvoices_yh")
