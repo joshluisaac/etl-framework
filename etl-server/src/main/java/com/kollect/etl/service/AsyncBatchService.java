@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kollect.etl.dataaccess.DaoProvider;
-import com.kollect.etl.dataaccess.IAbstractSqlSessionProvider;
-import com.kollect.etl.dataaccess.PostTransactionDao;
 import com.kollect.etl.util.IRecordDispenser;
 import com.kollect.etl.util.IteratorRecordDispenser;
 
@@ -38,14 +36,12 @@ public class AsyncBatchService {
       throw new IllegalStateException("Identifier not yet set for instance of " + this.getClass().getName());
     return identifier;
   }
-  
-  
- // public <T> void execute(IAbstractSqlSessionProvider daoProvider, Iterator<T> itr, final String queryName,  final int thread, final int commitSize) { 
+
   
   public <T> void execute(Iterator<T> itr, final String queryName,  final int thread, final int commitSize) {
     this.identifier = "asynchronous-batch";
-    //mQueryResults = dao.queryMultipleObjects("getBulkInvoices", null);
-    final IRecordDispenser dispenser = new IteratorRecordDispenser(itr, commitSize, getIdentifier());
+    @SuppressWarnings("unchecked")
+    final IRecordDispenser<Object> dispenser = new IteratorRecordDispenser(itr, commitSize, getIdentifier());
     Thread[] threads = new Thread[thread];
     for (int i = 0; i < threads.length; i++) {
       threads[i] = new Thread(new Runnable() {
@@ -71,6 +67,7 @@ public class AsyncBatchService {
             }
           }
         }
+        @SuppressWarnings("unused")
         private void logException(SQLException e) {
           LOG.error(
               getIdentifier() + " " + Thread.currentThread().getName()
@@ -90,13 +87,6 @@ public class AsyncBatchService {
       }
     }
     
-  }
-  
-
-  
-  public static void main(String[] args) {
-    AsyncBatchService asy = new AsyncBatchService();
-    //asy.execute();
   }
 
 }

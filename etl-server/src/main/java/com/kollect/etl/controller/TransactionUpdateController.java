@@ -254,13 +254,19 @@ public class TransactionUpdateController {
     }
 
     @PostMapping(value ="/loadinvoices_zz")
-    @SuppressWarnings("unchecked")
     @ResponseBody
     public Object updateInvoices_ZZ() {
         List<Object> transList =  service.getTransactionZZ(null);
         return this.service.processTransactionList(transList);
     }
-
+    
+    @PostMapping(value ="/loadCleaingDocBasedInvoices")
+    @ResponseBody
+    public Object updateInvClearingDocBasedTypes() {
+        List<Object> transList =  service.getTransactionClearingDocBasedTypes(null);
+        return this.service.processTransactionList(transList);
+    }
+    
     @PostMapping(value ="/loadinvoices_others")
     @ResponseBody
     public Object updateInvoicesOthers() {

@@ -79,22 +79,18 @@ public class PostTransactionController {
   }
   
   @SuppressWarnings("unchecked")
-  @PostMapping(value ="/isCommercial2")
+  @PostMapping(value ="/updateIsInvoiceAndIsCredit")
   @ResponseBody
-  public Object updateIsCommercialAccount2() {
-    List<Object> list = service.executeQuery("getAccount", null);
-    
-    
+  public Object updateIsInvoiceAndIsCredit() {
+    List<Object> list = service.executeQuery("getTrxByPostKey", null);
     int rowCount = list.size();
     for (int i = 0; i < rowCount; i++) {
         Map<Object, Object> map = (Map<Object, Object>) list.get(i);
         Map<Object, Object> args = new HashMap<>();
-        String accountNo = (String) map.get("account_no");
-        boolean isCommercial = service.isCommericalResolver(accountNo, REGEX_PATTERN);
-        args.put("account_no", accountNo);
+        args.put("invoice", map.get("invoice"));
         args.put("load_id", map.get("load_id"));
-        args.put("isCommercial", isCommercial);
-        this.service.updateQuery("updateCommercialTransaction",args);
+        args.put("credit_note", map.get("credit_note"));
+        this.service.updateQuery("updateIsInvoiceAndIsCredit",args);
     }
       return 0;
   }

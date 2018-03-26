@@ -136,6 +136,10 @@ public class TransactionUpdateDao {
     public List<Object> getTransactionZZ(Object object) {
         return sqlSessionProvider.queryObject("getTransactionZZ", object);
     }
+    
+    public List<Object> getTransactionClearingDocBasedTypes(Object object) {
+      return sqlSessionProvider.queryObject("getTrxClearingDocBasedTypes", object);
+  }
 
     public List<Object> getTransactionOthers (Object object) {
         return sqlSessionProvider.queryObject("getTransactionOthers", object);

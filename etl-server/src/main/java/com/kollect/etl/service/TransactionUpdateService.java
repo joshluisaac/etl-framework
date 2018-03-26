@@ -141,11 +141,15 @@ public class TransactionUpdateService {
     public List<Object> getTransactionOthers(Object object) {
         return this.TransactionUpdateDao.getTransactionOthers(object);
     }
+    
+    public List<Object> getTransactionClearingDocBasedTypes(Object object) {
+      return this.TransactionUpdateDao.getTransactionClearingDocBasedTypes(object);
+  }
 
     public int updateTransactionLoad(Object object) {
         return this.TransactionUpdateDao.updateTransactionLoad(object);
     }
-
+    
     public int processTransactionList(final List<Object> list){
         int rowCount = list.size();
         for (int i = 0; i < rowCount; i++) {
