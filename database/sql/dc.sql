@@ -128,7 +128,7 @@ create table kvbatch_history(
   id bigint primary key not null,
   batch_id bigint,
   number_of_records_updated bigint,
-  updated_date timestamp
+  updated_date timestamp(0)
 );
 
 create sequence kvbatch_id;

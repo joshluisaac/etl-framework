@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kollect.etl.dataaccess.LumpSumPaymentDao;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class LumpSumPaymentService {
@@ -16,6 +17,8 @@ public class LumpSumPaymentService {
     @Autowired
     private LumpSumPaymentDao LumpSumPaymentDao;
     private boolean lock;
+    @Autowired
+    private BatchHistoryService batchHistoryService;
 
     public List<Object> getSumAmount(Object object) {
         return this.LumpSumPaymentDao.getSumAmount(object);
@@ -43,7 +46,7 @@ public class LumpSumPaymentService {
         return -1;
     }
 
-    public int combinedLumpSumPaymentService(){
+    public int combinedLumpSumPaymentService(@RequestParam Integer batch_id){
         int numberOfRows = -1;
         if (!lock) {
             lock = true;
@@ -63,6 +66,7 @@ public class LumpSumPaymentService {
             }
             lock = false;
             numberOfRows = numberOfRecords;
+            this.batchHistoryService.runBatchHistory(batch_id, numberOfRows);
         }
         System.out.println("LumpSumPayment - Number of rows updated: " + numberOfRows);
         return numberOfRows;
