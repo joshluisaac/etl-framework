@@ -22,7 +22,12 @@ public class PostTransactionService {
   private static final Logger LOG = LoggerFactory.getLogger(PostTransactionService.class);
 
   public List<Object> executeQuery(final String queryName, Object args){
-    return this.dao.executeQuery(queryName,args);
+    try {
+      return this.dao.executeQuery(queryName,args);
+    } catch (PersistenceException persEx) {
+      LOG.error("Failed to execute statement: {}",queryName, persEx.getCause());
+      throw persEx;
+    }
   }
   
   public int updateQuery(final String queryName, Object args){

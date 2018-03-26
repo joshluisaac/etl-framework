@@ -3,6 +3,7 @@ package com.kollect.etl.dataaccess;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +34,7 @@ public class Service {
     daoProvider.queryMultipleObjects("getUpdatedCustomer", null);
   }
   
-  public void update(){
+  public void update() throws PersistenceException {
     daoProvider.update("updateCosecLineOfBusiness", 65);
   }
 

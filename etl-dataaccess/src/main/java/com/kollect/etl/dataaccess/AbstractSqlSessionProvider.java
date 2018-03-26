@@ -1,8 +1,11 @@
 package com.kollect.etl.dataaccess;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.slf4j.Logger;
@@ -171,6 +174,46 @@ public class AbstractSqlSessionProvider implements IAbstractSqlSessionProvider {
     }
   }
 
+  
+  public void batchInsert2(final List<Object> list, final String queryName) {
+    try (final SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH)) {
+      long queryStart = System.currentTimeMillis();
+      int rowCount = list.size();
+      for (int i = 0; i < rowCount; i++) {
+        Map<Object, Object> map = (Map<Object, Object>) list.get(i);
+        Map<Object, Object> args = new HashMap<>();
+        args.put("customer_name", map.get("customer_name"));
+        args.put("customer_no", map.get("customer_no"));
+        sqlSession.insert(queryName, args);
+      }
+        sqlSession.commit();
+        long queryEnd = System.currentTimeMillis();
+        logQueryStatistics("NONE", queryName, queryStart, queryEnd);
+    }
+}
+  
+  public void batchInsert(final List<Object> modelList, final String queryName) {
+    try (final SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false)) {
+      long queryStart = System.currentTimeMillis();
+      sqlSession.insert(queryName, modelList);
+      sqlSession.commit();
+      long queryEnd = System.currentTimeMillis();
+      logQueryStatistics("NONE", queryName, queryStart, queryEnd);
+    }
+}
+  
+  
+  public void batchUpdate(final List<Object> modelList, final String queryName) {
+    try (final SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false)) {
+      long queryStart = System.currentTimeMillis();
+      sqlSession.update(queryName, modelList);
+      sqlSession.commit();
+      long queryEnd = System.currentTimeMillis();
+      logQueryStatistics("NONE", queryName, queryStart, queryEnd);
+    }
+}
+  
+  
   private void logQueryStatistics(String strategy, String queryName, long queryStart, long queryEnd) {
     Logger log = getLog();
     log.info("Query {} {} ms using {} ({})",
