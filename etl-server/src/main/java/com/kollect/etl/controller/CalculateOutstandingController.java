@@ -16,18 +16,6 @@ public class CalculateOutstandingController {
   private CalcOutstandingService calcOutstandingService;
 
   /**
-   * HTTP GET request to retrieve all batches
-   *
-   * @return allbatches - used to return the HTML for first time visit.
-   */
-
-  @GetMapping("/runbatch")
-  public String allBatches() {
-    
-    return "runBatch";
-  }
-
-  /**
    * HTTP POST request mapping to run the batch
    *
    * ResponseBody is used to return a json value to the URL needed as a result of the ajax

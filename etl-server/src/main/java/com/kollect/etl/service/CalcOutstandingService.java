@@ -44,10 +44,7 @@ public class CalcOutstandingService {
             }
             lock = false;
             numberOfRows = numberOfRecords;
-            Map<Object, Object> args = new HashMap<>();
-            args.put("batch_id", batch_id);
-            args.put("number_of_records_updated", numberOfRows);
-            this.batchHistoryService.insertBatchHistory(args);
+            this.batchHistoryService.runBatchHistory(batch_id, numberOfRows);
         }
         return numberOfRows;
     }

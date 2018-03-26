@@ -15,6 +15,10 @@ public class BatchHistoryDao {
         return sqlSessionProvider.insert("insertBatchHistory", object);
     }
 
+    public List<Object> viewLatestBatchHistory(Object object) {
+        return sqlSessionProvider.queryObject("viewLatestBatchHistory", object);
+    }
+
     public List<Object> viewBatchHistory(Object object) {
         return sqlSessionProvider.queryObject("viewBatchHistory", object);
     }

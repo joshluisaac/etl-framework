@@ -15,7 +15,7 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "0 0 5 * * *")
     public void runBatches() {
-        this.lumpSumPaymentService.combinedLumpSumPaymentService();
+        this.lumpSumPaymentService.combinedLumpSumPaymentService(2);
         this.ageInvoiceService.combinedAgeInvoiceService(63);
     }
 }

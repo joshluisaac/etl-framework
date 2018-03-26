@@ -39,7 +39,6 @@ public class HostService {
 	}
 
 	public Object getHost(@RequestParam(required = false) Integer id, Model model){
-        model.addAttribute("pageTitle", "DataConnector");
         model.addAttribute("hostList", this.viewHost(null));
         List<Host> hosts = this.getHostById(id);
         if (hosts.size() > 0)
