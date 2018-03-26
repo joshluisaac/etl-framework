@@ -16,6 +16,6 @@ public class BatchHistoryController {
     public Object viewHistory (@RequestParam Integer batch_id, Model model){
         this.batchHistoryService.viewBatchHistory(batch_id, model);
         this.batchHistoryService.viewLatestBatchHistory(batch_id, model);
-        return "runBatch";
+        return "batchHistory";
     }
 }

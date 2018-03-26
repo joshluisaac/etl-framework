@@ -260,7 +260,7 @@ public class TransactionUpdateController {
         return this.service.processTransactionList(transList);
     }
     
-    @PostMapping(value ="/loadCleaingDocBasedInvoices")
+    @PostMapping(value ="/loadClearingDocBasedInvoices")
     @ResponseBody
     public Object updateInvClearingDocBasedTypes() {
         List<Object> transList =  service.getTransactionClearingDocBasedTypes(null);
