@@ -14,10 +14,11 @@ public class AgeInvoiceService {
     @Autowired
     private AgeInvoiceDao ageInvoiceDao;
     private boolean lock;
+    @Autowired
+    private BatchHistoryService batchHistoryService;
 
     public List<Object> getAgeInvoiceById(Object object) {
         return this.ageInvoiceDao.getAgeInvoiceById(object);
-        // TODO Auto-generated method stub
 
     }
 
@@ -25,9 +26,10 @@ public class AgeInvoiceService {
         return this.ageInvoiceDao.updateAgeInvoice(object);
     }
 
-    public int combinedAgeInvoiceService(@RequestParam(required = false) Integer tenant_id){
+    public int combinedAgeInvoiceService(@RequestParam(required = false) Integer tenant_id, @RequestParam Integer batch_id) {
         int numberOfRows = -1;
         if (!lock) {
+            long startTime = System.nanoTime();
             lock = true;
             List<Object> ageInvoiceList = this.getAgeInvoiceById(tenant_id);
             int numberOfRecords = ageInvoiceList.size();
@@ -41,6 +43,9 @@ public class AgeInvoiceService {
             }
             lock = false;
             numberOfRows = numberOfRecords;
+            long endTime = System.nanoTime();
+            long timeTaken = (endTime - startTime)/1000000;
+            this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken);
         }
         System.out.println("AgeInvoice - Number of rows updated: " + numberOfRows);
         return numberOfRows;

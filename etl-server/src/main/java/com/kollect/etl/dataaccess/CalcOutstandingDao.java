@@ -13,7 +13,6 @@ public class CalcOutstandingDao {
   }
 
   public List<Object> getOutstandingByTenantId(Object object) {
-    // TODO Auto-generated method stub
     return sqlSessionProvider.queryObject("getOutstandingByTenantId", object);
   }
 

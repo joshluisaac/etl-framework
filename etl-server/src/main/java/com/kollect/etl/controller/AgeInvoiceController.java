@@ -24,8 +24,8 @@ public class AgeInvoiceController {
     @PostMapping(value = "/ageinvoice", produces = "application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
-    public Object ageInvoice (@RequestParam(required = false) Integer tenant_id){
-        return this.ageInvoiceService.combinedAgeInvoiceService(tenant_id);
+    public Object ageInvoice (@RequestParam(required = false) Integer tenant_id, @RequestParam Integer batch_id){
+        return this.ageInvoiceService.combinedAgeInvoiceService(tenant_id, batch_id);
         }
 
 }

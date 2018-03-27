@@ -1,6 +1,5 @@
 package com.kollect.etl.service;
 
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +20,6 @@ public class CalcOutstandingService {
 
     public List<Object> getOutstandingByTenantId(Object object) {
         return this.calcOutstandingDao.getOutstandingByTenantId(object);
-        // TODO Auto-generated method stub
 
     }
 
@@ -32,7 +30,7 @@ public class CalcOutstandingService {
     public int combinedCalcOutstanding(@RequestParam(required = false) Integer tenant_id, @RequestParam Integer batch_id) {
         int numberOfRows = -1;
         if (!lock) {
-            long startTime   = System.nanoTime();
+            long startTime = System.nanoTime();
             lock = true;
             List<Object> outstandingList = this.getOutstandingByTenantId(tenant_id);
             int numberOfRecords = outstandingList.size();
@@ -46,10 +44,11 @@ public class CalcOutstandingService {
             }
             lock = false;
             numberOfRows = numberOfRecords;
-            long endTime   = System.nanoTime();
+            long endTime = System.nanoTime();
             long timeTaken = (endTime - startTime)/1000000;
             this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken);
         }
+        System.out.println("CalcOutstanding - Number of rows updated: " + numberOfRows);
         return numberOfRows;
     }
 }

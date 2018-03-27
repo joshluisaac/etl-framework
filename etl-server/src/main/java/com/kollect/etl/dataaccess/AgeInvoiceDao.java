@@ -12,7 +12,6 @@ public class AgeInvoiceDao {
         sqlSessionProvider = new AbstractSqlSessionProvider("postgres_pbk");
     }
     public List<Object> getAgeInvoiceById(Object object) {
-        // TODO Auto-generated method stub
         return sqlSessionProvider.queryObject("getAgeInvoiceById", object);
     }
 
