@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ public class BatchHistoryService {
     public List<Object> viewLatestBatchHistory(@RequestParam Integer batch_id, Model model){
         List<Object> LatestBatchHistoryList = this.batchHistoryDao.viewLatestBatchHistory(batch_id);
         model.addAttribute("LatestBatchHistoryList", LatestBatchHistoryList);
+        System.out.println("This is the list: "+LatestBatchHistoryList);
         return LatestBatchHistoryList;
     }
 
@@ -31,10 +33,11 @@ public class BatchHistoryService {
         return BatchHistoryList;
     }
 
-    public void runBatchHistory(@RequestParam Integer batch_id, int numberOfRows){
+    public void runBatchHistory(@RequestParam Integer batch_id, int numberOfRows, long timeTaken){
         Map<Object, Object> args = new HashMap<>();
         args.put("batch_id", batch_id);
         args.put("number_of_records_updated", numberOfRows);
+        args.put("time_taken", timeTaken);
         this.insertBatchHistory(args);
     }
 }
