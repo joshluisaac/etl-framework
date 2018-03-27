@@ -3,7 +3,6 @@ package com.kollect.etl.dataaccess;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,8 +15,8 @@ public class BulkUpdateTest {
   
   @Before
   public void run_one_per_method() {
-    daoProvider = new AbstractSqlSessionProvider("postgres");
-    service = new Service(daoProvider);
+    ;
+    service = new Service(daoProvider = new AbstractSqlSessionProvider("postgres"));
   }
   
   @Test(expected = PersistenceException.class)

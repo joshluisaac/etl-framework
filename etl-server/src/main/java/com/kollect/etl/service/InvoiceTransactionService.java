@@ -1,6 +1,6 @@
 package com.kollect.etl.service;
 
-import com.kollect.etl.dataaccess.InvoiceTransactionDao;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,36 +10,26 @@ import java.util.Map;
 
 @Service
 public class InvoiceTransactionService {
-
+  
+  
     @Autowired
-    private InvoiceTransactionDao Dao;
+    private ReadWriteServiceProvider rwProvider;
+    
     private boolean lock;
 
-    public List<Object> getInvoiceTransaction(Object object) {
-        return this.Dao.getInvoiceTransaction(null);
-    }
-
-    public int updateInvoiceTransaction(Object object) {
-        return this.Dao.updateInvoiceTransaction(object);
-    }
-
-    public int insertInvoiceTransaction(Object object) {
-        return this.Dao.insertInvoiceTransaction(object);
-    }
-
+    @SuppressWarnings("unchecked")
     public int executeInvoiceTransactionService(){
         int numberOfRows = -1;
         if (!lock) {
             lock = true;
-            List<Object> getInvoiceTransaction = this.getInvoiceTransaction(null);
+            List<Object> getInvoiceTransaction = rwProvider.executeQuery("getInvoiceTransaction", null);
 
             int numberOfRecords = getInvoiceTransaction.size();
-            for (int x = 0; x < numberOfRecords; x++) {
-
-                Map<Object, Object> map = (Map<Object, Object>) getInvoiceTransaction.get(x);
+            for (int i = 0; i < numberOfRecords; i++) {
+                Map<Object, Object> map = (Map<Object, Object>) getInvoiceTransaction.get(i);
                 Map<Object, Object> args = new HashMap<>();
-                args.put("id", map.get("id"));
                 args.put("load_id", map.get("load_id"));
+                args.put("tenant_id", map.get("tenant_id"));
                 args.put("import_id", map.get("import_id"));
                 args.put("account_id", map.get("account_id"));
                 args.put("invoice_date", map.get("invoice_date"));
@@ -102,21 +92,22 @@ public class InvoiceTransactionService {
                 args.put("old_contract_id", map.get("old_contract_id"));
                 args.put("kv_amount", map.get("kv_amount"));
                 args.put("kv_amount_dc", map.get("kv_amount_dc"));
-                args.put("company_id", map.get("company_id"));
-                args.put("is_commercial", map.get("is_commercial"));
-                args.put("is_deposit", map.get("is_deposit"));
-                args.put("is_invoice", map.get("is_invoice"));
-                args.put("is_credit_note", map.get("is_credit_note"));
-                args.put("parent_invoice_no", map.get("parent_invoice_no"));
-                args.put("doc_type", map.get("doc_type"));
-                args.put("transaction_type_id", map.get("transaction_type_id"));
                 args.put("load_execution_id", map.get("load_execution_id"));
                 args.put("invoice_reference", map.get("invoice_reference"));
-                args.put("account_no", map.get("account_no"));
+               
+//                args.put("company_id", map.get("company_id"));
+//                args.put("is_commercial", map.get("is_commercial"));
+//                args.put("is_deposit", map.get("is_deposit"));
+//                args.put("is_invoice", map.get("is_invoice"));
+//                args.put("is_credit_note", map.get("is_credit_note"));
+//                args.put("parent_invoice_no", map.get("parent_invoice_no"));
+//                args.put("doc_type", map.get("doc_type"));
+//                args.put("transaction_type_id", map.get("transaction_type_id"));
+//                args.put("account_no", map.get("account_no"));
 
-                int updateCount = this.updateInvoiceTransaction(args);
+                int updateCount = rwProvider.updateQuery("updateInvoiceTransaction", args);
                 if (updateCount == 0) {
-                    this.insertInvoiceTransaction(args);
+                  rwProvider.insertQuery("insertInvoiceTransaction", args);
                 }
             }
             lock = false;

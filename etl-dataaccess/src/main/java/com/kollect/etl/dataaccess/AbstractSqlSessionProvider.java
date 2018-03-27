@@ -175,41 +175,63 @@ public class AbstractSqlSessionProvider implements IAbstractSqlSessionProvider {
   }
 
   
-  public void batchInsert2(final List<Object> list, final String queryName) {
-    try (final SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH)) {
+  public void batchInsert(final List<Object> modelList, final String queryName) {
+    batchInsert(modelList, queryName, false);
+}
+  
+  public void batchInsert(final List<Object> modelList, final String queryName, boolean giantQuery) {
+    try (final SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false)) {
       long queryStart = System.currentTimeMillis();
-      int rowCount = list.size();
-      for (int i = 0; i < rowCount; i++) {
-        Map<Object, Object> map = (Map<Object, Object>) list.get(i);
-        Map<Object, Object> args = new HashMap<>();
-        args.put("customer_name", map.get("customer_name"));
-        args.put("customer_no", map.get("customer_no"));
-        sqlSession.insert(queryName, args);
+      
+      if(!giantQuery) {
+        for (int i = 0; i < modelList.size(); i++) {
+          @SuppressWarnings("unchecked")
+          Map<String, Object> map = (Map<String, Object>) modelList.get(i);
+          Map<String, Object> args = new HashMap<>();
+          for (Map.Entry<String, Object> entry : map.entrySet()) {
+            args.put(entry.getKey(), entry.getValue());
+        }
+          sqlSession.insert(queryName, args);
+        }
       }
-        sqlSession.commit();
-        long queryEnd = System.currentTimeMillis();
-        logQueryStatistics("NONE", queryName, queryStart, queryEnd);
+      
+      else {
+        sqlSession.insert(queryName, modelList);
+      }
+      sqlSession.commit();
+      long queryEnd = System.currentTimeMillis();
+      logQueryStatistics("parallelStream", queryName, queryStart, queryEnd);
     }
 }
   
-  public void batchInsert(final List<Object> modelList, final String queryName) {
-    try (final SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false)) {
-      long queryStart = System.currentTimeMillis();
-      sqlSession.insert(queryName, modelList);
-      sqlSession.commit();
-      long queryEnd = System.currentTimeMillis();
-      logQueryStatistics("NONE", queryName, queryStart, queryEnd);
-    }
-}
   
   
   public void batchUpdate(final List<Object> modelList, final String queryName) {
+    batchUpdate(modelList, queryName, false);
+}
+  
+  public void batchUpdate(final List<Object> modelList, final String queryName, boolean giantQuery) {
     try (final SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false)) {
       long queryStart = System.currentTimeMillis();
-      sqlSession.update(queryName, modelList);
+      
+      if(!giantQuery) {
+        for (int i = 0; i < modelList.size(); i++) {
+          @SuppressWarnings("unchecked")
+          Map<String, Object> map = (Map<String, Object>) modelList.get(i);
+          Map<String, Object> args = new HashMap<>();
+          for (Map.Entry<String, Object> entry : map.entrySet()) {
+            args.put(entry.getKey(), entry.getValue());
+        }
+          sqlSession.update(queryName, args);
+        }
+      }
+      
+      else {
+        sqlSession.update(queryName, modelList);
+      }
       sqlSession.commit();
       long queryEnd = System.currentTimeMillis();
-      logQueryStatistics("NONE", queryName, queryStart, queryEnd);
+      logQueryStatistics("parallelStream", queryName, queryStart, queryEnd);
     }
 }
   

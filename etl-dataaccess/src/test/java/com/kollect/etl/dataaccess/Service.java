@@ -14,12 +14,12 @@ public class Service {
   
   public Service(IAbstractSqlSessionProvider daoProvider) {
     this.daoProvider = daoProvider;
-    //sqlSessionProvider = new AbstractSqlSessionProvider("as400iSeries");
   }
   
   public void queryObject () {
     List<Object> list= daoProvider.queryObject("getCfmastCustomer", null);
     for (Object object : list) {
+      @SuppressWarnings("unchecked")
       Map<String, Object> map = (Map<String, Object>) object;
       LOG.debug("{}|{}|{}", map.get("cfcifn"),map.get("cfssno"),map.get("cfsex"));
       
