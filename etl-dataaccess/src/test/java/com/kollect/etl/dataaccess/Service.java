@@ -30,6 +30,17 @@ public class Service {
     daoProvider.queryObject("getUpdatedCustomer", null);
   }
 
+  public List<Object> getInvoiceCount() {
+    return daoProvider.queryObject("getInvoiceCount", null);
+  }
+
+
+
+  public List<Object> getInvoiceDuplicateCount() {
+    return daoProvider.queryObject("getInvoiceDuplicateCount", null);
+  }
+
+
   public void queryMultipleObjects() {
     daoProvider.queryMultipleObjects("getUpdatedCustomer", null);
   }
