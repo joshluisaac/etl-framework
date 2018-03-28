@@ -9,7 +9,7 @@ public class StringUtils {
     return s.split(regex);
   }
   
-  public boolean hasMatch(final String candidate, final String pattern) {
+  public static boolean hasMatch(final String candidate, final String pattern) {
     Pattern p = Pattern.compile(pattern);
     Matcher m = p.matcher(candidate);
     return m.find();

@@ -42,5 +42,12 @@ public class DaoProvider {
   public void batchUpdate(final List<Object> modelList, final String queryName) throws PersistenceException  {
     sqlSessionProvider.batchUpdate(modelList, queryName);
   }
+  
+  public void batchInvoice(final List<Object> modelList, final String queryName) throws PersistenceException  {
+    sqlSessionProvider.batchInvoice(modelList, queryName, false);
+  }
+  
+  
+  
 
 }

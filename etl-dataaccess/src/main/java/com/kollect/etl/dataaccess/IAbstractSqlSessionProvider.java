@@ -16,6 +16,8 @@ public interface IAbstractSqlSessionProvider {
   public void batchInsert(final List<Object> modelList, final String queryName, boolean giantQuery);
   public void batchUpdate(final List<Object> modelList, final String queryName);
   public void batchUpdate(final List<Object> modelList, final String queryName, final boolean giantQuery);
+  public void batchInvoice(final List<Object> modelList, final String queryName, final boolean giantQuery);
+  
 
   
 

@@ -236,6 +236,47 @@ public class AbstractSqlSessionProvider implements IAbstractSqlSessionProvider {
 }
   
   
+  
+  public void batchInvoice(final List<Object> modelList, String queryName, boolean giantQuery) {
+    try (final SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false)) {
+      long queryStart = System.currentTimeMillis();
+      
+      if(!giantQuery) {
+        for (int i = 0; i < modelList.size(); i++) {
+          @SuppressWarnings("unchecked")
+          Map<String, Object> map = (Map<String, Object>) modelList.get(i);
+          boolean updateRow = (boolean) map.get("updateRow");
+          Map<String, Object> args = new HashMap<>();
+          for (Map.Entry<String, Object> entry : map.entrySet()) {
+            args.put(entry.getKey(), entry.getValue());
+        }
+          if(updateRow) {
+            queryName = "updateInvoiceTransaction";
+            sqlSession.update(queryName, args);
+          } else {
+            sqlSession.insert(queryName, args);
+          }
+          
+        }
+      }
+      
+      else {
+        sqlSession.update(queryName, modelList);
+      }
+      sqlSession.commit();
+      long queryEnd = System.currentTimeMillis();
+      logQueryStatistics("parallelStream", queryName, queryStart, queryEnd);
+    }
+}
+  
+  
+  
+  
+  
+  
+  
+  
+  
   private void logQueryStatistics(String strategy, String queryName, long queryStart, long queryEnd) {
     Logger log = getLog();
     log.info("Query {} {} ms using {} ({})",

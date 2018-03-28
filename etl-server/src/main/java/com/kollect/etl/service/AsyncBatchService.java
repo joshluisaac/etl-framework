@@ -1,6 +1,5 @@
 package com.kollect.etl.service;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -59,7 +58,7 @@ public class AsyncBatchService {
               break;
             try {
               
-              servProvider.batchUpdate(records, queryName);
+              servProvider.batchInvoice(records, queryName);
               
             } catch (PersistenceException e) {
               logException(e);
