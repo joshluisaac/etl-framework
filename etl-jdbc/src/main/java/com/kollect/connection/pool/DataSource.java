@@ -35,8 +35,24 @@ public class DataSource implements IDataSource {
    * @return returns <code>connection</code> object
    */
 
+  //jdbc:informix-sqli://172.20.146.10:9088/uatdata:INFORMIXSERVER=pronto
+  
   public Connection initiateConnection(final String dbName) throws SQLException {
-    Connection conn = DriverManager.getConnection(buildDbConnection(dbName), DB_USER, DB_PASSWORD);
+    //Connection conn = DriverManager.getConnection(buildDbConnection(dbName), DB_USER, DB_PASSWORD);
+    Connection conn=null;
+    try {
+      //Class.forName("org.postgresql.Driver");
+      //conn = DriverManager.getConnection("jdbc:postgresql://192.168.1.25:5432/mahb_prod2x", "kollectvalley", "kollect1234");
+      
+      Class.forName ("com.informix.jdbc.IfxDriver");
+      conn = DriverManager.getConnection("jdbc:informix-sqli://172.20.146.10:9088/uatdata:INFORMIXSERVER=pronto", "informix", "ProC0gN0s");
+    }
+    
+    catch (Exception e) {
+      LOG.error("Error occured while registering JDBC driver", e.getCause(), e);
+    }
+    
+    //Connection conn = DriverManager.getConnection("jdbc:informix-sqli://172.20.146.10:9088/uatdata:INFORMIXSERVER=pronto", "informix", "ProC0gN0s");
     LOG.info("Connection created and hashcode: {}", conn.hashCode());
     return conn;
   }

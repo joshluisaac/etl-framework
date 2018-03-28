@@ -64,7 +64,7 @@ public class Metadata {
      * @throws SQLException
      */
     public static List<String> getTablesMetadata() throws SQLException {
-        String table[] = { "TABLE", "VIEW" };
+        String table[] = { "VIEW" };
         ResultSet rs = null;
         List<String> tables = null;
         // receive the Type of the object in a String array.

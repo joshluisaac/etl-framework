@@ -5,12 +5,12 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.kollect.etl.dataaccess.DaoProvider;
 import com.kollect.etl.util.IRecordDispenser;
 import com.kollect.etl.util.IteratorRecordDispenser;
 
@@ -21,7 +21,7 @@ public class AsyncBatchService {
   private static final Logger LOG = LoggerFactory.getLogger(AsyncBatchService.class);
   
   @Autowired
-  private DaoProvider dao;
+  private ReadWriteServiceProvider servProvider;
   
   Iterator<Object> mQueryResults = null;
   private String identifier;
@@ -38,7 +38,7 @@ public class AsyncBatchService {
 
   
   public <T> void execute(Iterator<T> itr, final String queryName,  final int thread, final int commitSize) {
-    this.identifier = "asynchronous-batch";
+    this.identifier = "asynchronous-batch-thread";
     @SuppressWarnings("unchecked")
     final IRecordDispenser<Object> dispenser = new IteratorRecordDispenser(itr, commitSize, getIdentifier());
     Thread[] threads = new Thread[thread];
@@ -58,20 +58,14 @@ public class AsyncBatchService {
               break;
             try {
               
-<<<<<<< HEAD
-              dao.batchUpdate(records, queryName);
-=======
               servProvider.batchInvoice(records, queryName);
->>>>>>> d2d6f10b045d20674cac171feb236982c2b1f027
               
-            } catch (Exception e) {
-              //logException(e);
-              e.printStackTrace();
+            } catch (PersistenceException e) {
+              logException(e);
             }
           }
         }
-        @SuppressWarnings("unused")
-        private void logException(SQLException e) {
+        private void logException(PersistenceException e) {
           LOG.error(
               getIdentifier() + " " + Thread.currentThread().getName()
                   + " encountered a database error while trying to commit, " + "proceeding to the next set of records",
