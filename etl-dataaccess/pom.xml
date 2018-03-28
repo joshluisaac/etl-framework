@@ -30,6 +30,7 @@
 			<version>4.12</version>
 			<scope>test</scope>
 		</dependency>
+  
 		<dependency>
 			<groupId>org.apache.ibatis</groupId>
 			<artifactId>ibatis-sqlmap</artifactId>
@@ -53,7 +54,7 @@
 			<artifactId>postgresql</artifactId>
 			<version>9.4.1212</version>
 		</dependency>
-
+  
 		<dependency>
 			<groupId>com.kollect.etl</groupId>
 			<artifactId>etl-utils</artifactId>

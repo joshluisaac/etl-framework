@@ -33,7 +33,7 @@ public class FileUtils {
     createFileIfNotExists(file);
     try (BufferedWriter bw = new BufferedWriter(new FileWriter(file, append))) {
       bw.write(data.toString());
-      LOG.debug("Wrote file {} to disk", fileName);
+      LOG.info("Wrote file {} to disk", fileName);
     } catch (IOException e) {
       LOG.error(e.getMessage(), e);
     }
@@ -51,7 +51,7 @@ public class FileUtils {
           bw.write(data.get(i) + "\n");
         }
       }
-      LOG.debug("Wrote file {} to disk", file.getName());
+      LOG.info("Wrote file {} to disk", file.getName());
       return rowCount;
     } catch (IOException e) {
       LOG.error(e.getMessage(), e);

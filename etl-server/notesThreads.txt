@@ -1,0 +1,20 @@
+https://stackoverflow.com/questions/26421701/can-you-call-the-same-method-on-different-threads
+
+
+
+There are primarily 2 things you should know.
+
+    If 2 threads call the same method, each thread will have a different Stack Frame for the method. So, method local variables are thread safe. The changes made in local variables of one method will not interfere with other thread's changes.
+
+    You should (usually) worry about thread-safety / interference when you have a shared resource being modified by both threads.
+
+PS : Your doSum() does very little processing. A smart JVM might actually inline the method.
+
+https://stackoverflow.com/questions/19674093/different-threads-calling-the-method-at-the-same-time
+
+All of your threads can call add at the same time without consequence.
+
+This is because inside the method the number and num variables are local to that method only - and also to the caller thread. If number and/or num were global it would be a different story.
+
+
+https://stackoverflow.com/questions/9382015/can-two-threads-access-a-synchronized-method-at-the-same-time

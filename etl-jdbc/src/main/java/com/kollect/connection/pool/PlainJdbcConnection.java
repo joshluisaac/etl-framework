@@ -24,6 +24,10 @@ public class PlainJdbcConnection {
         Connection conp = prepStmt.getConnection();
         ResultSet result = prepStmt.executeQuery();
     }
+    
+    public void metaData() throws SQLException {
+      Connection conn = dataSource.initiateConnection("kollectvalley");
+    }
 
     private long getEpoch() {
         return System.currentTimeMillis();
@@ -39,7 +43,7 @@ public class PlainJdbcConnection {
                     String currThread = Thread.currentThread().getName();
                     System.out.println("Start: " + queryStart + ":" + currThread);
                     try {
-                        executeQuery(dataSource.initiateAndCacheConnection("kv", currThread), sql);
+                        executeQuery(dataSource.initiateAndCacheConnection("kollectvalley", currThread), sql);
                         queryEnd = getEpoch();
                         System.out.println("End: " + queryEnd + ":" + currThread);
                         LOG.info("Query timing {}ms using ({})", (queryEnd - queryStart), currThread);
@@ -63,7 +67,8 @@ public class PlainJdbcConnection {
     public static void main(String[] args) throws SQLException {
         String sql = "select customer_name, customer_no, created_at,updated_at from customers limit 20";
         PlainJdbcConnection app = new PlainJdbcConnection(new DataSource());
-        app.invokeAsynchronous(sql, 3);
-        app.invokeAsynchronous(sql, 7);
+        //app.invokeAsynchronous(sql, 10);
+        app.metaData();
+        
     }
 }

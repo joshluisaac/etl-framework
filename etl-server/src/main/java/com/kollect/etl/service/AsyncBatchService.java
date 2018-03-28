@@ -1,6 +1,5 @@
 package com.kollect.etl.service;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -59,7 +58,11 @@ public class AsyncBatchService {
               break;
             try {
               
+<<<<<<< HEAD
               dao.batchUpdate(records, queryName);
+=======
+              servProvider.batchInvoice(records, queryName);
+>>>>>>> d2d6f10b045d20674cac171feb236982c2b1f027
               
             } catch (Exception e) {
               //logException(e);
