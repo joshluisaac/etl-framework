@@ -14,14 +14,9 @@ public interface IAbstractSqlSessionProvider {
   public int delete(final String queryName, final Object object);
   public void batchInsert(final List<Object> modelList, final String queryName);
   public void batchUpdate(final List<Object> modelList, final String queryName);
-<<<<<<< HEAD
-  //public void batchInsert2(final List<Object> list, final String queryName);
-=======
+
   public void batchUpdate(final List<Object> modelList, final String queryName, final boolean giantQuery);
   public void batchInvoice(final List<Object> modelList, final String queryName, final boolean giantQuery);
-  
-
->>>>>>> d2d6f10b045d20674cac171feb236982c2b1f027
   
 
 }
