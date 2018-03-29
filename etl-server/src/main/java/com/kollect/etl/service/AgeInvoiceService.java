@@ -36,6 +36,7 @@ public class AgeInvoiceService {
                 Map<Object, Object> args = new HashMap<>();
                 args.put("invoice_due_date", map.get("invoice_due_date"));
                 args.put("id", map.get("id"));
+                args.put("mpd", map.get("mpd"));
                 args.put("tenant_id", tenant_id);
                 this.updateAgeInvoice(args);
             }
