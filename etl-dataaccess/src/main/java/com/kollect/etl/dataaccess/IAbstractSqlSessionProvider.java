@@ -3,6 +3,8 @@ package com.kollect.etl.dataaccess;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.ibatis.session.SqlSession;
+
 public interface IAbstractSqlSessionProvider {
   
   public <T>  List<T> queryObject(final String queryName, final Object object);
@@ -17,6 +19,7 @@ public interface IAbstractSqlSessionProvider {
   public void batchUpdate(final List<Object> modelList, final String queryName);
   public void batchUpdate(final List<Object> modelList, final String queryName, final boolean giantQuery);
   public void batchInvoice(final List<Object> modelList, final String queryName, final boolean giantQuery);
+  public SqlSession getBatchExecutionSqlSession();
   
 
   

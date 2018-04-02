@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ibatis.exceptions.PersistenceException;
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
@@ -17,7 +18,9 @@ public class DaoProvider {
       sqlSessionProvider = new AbstractSqlSessionProvider(dataSource);
   }
   
-
+  public SqlSession getBatchSqlSession() {
+    return sqlSessionProvider.getBatchExecutionSqlSession();
+  }
   
   public int insertQuery (final String queryName, Object object) throws PersistenceException {
     return sqlSessionProvider.insert(queryName, object);
@@ -27,7 +30,7 @@ public class DaoProvider {
     return sqlSessionProvider.update(queryName, object);
 }
   
-  public List<Object> executeQuery(final String queryName, Object args)  throws PersistenceException {
+  public <T> List<T> executeQuery(final String queryName, Object args)  throws PersistenceException {
     return sqlSessionProvider.queryObject(queryName, args);
   }
   

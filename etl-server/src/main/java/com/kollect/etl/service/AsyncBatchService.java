@@ -35,9 +35,8 @@ public class AsyncBatchService {
       throw new IllegalStateException("Identifier not yet set for instance of " + this.getClass().getName());
     return identifier;
   }
-
   
-  public <T> void execute(Iterator<T> itr, final String queryName,  final int thread, final int commitSize) {
+  public <T> void execute(Iterator<T> itr, IRunnableProcess runnableProcess,final int thread, final int commitSize) {
     this.identifier = "asynchronous-batch-thread";
     @SuppressWarnings("unchecked")
     final IRecordDispenser<Object> dispenser = new IteratorRecordDispenser(itr, commitSize, getIdentifier());
@@ -57,9 +56,7 @@ public class AsyncBatchService {
             if (records.size() == 0)
               break;
             try {
-              
-              servProvider.batchInvoice(records, queryName);
-              
+              runnableProcess.process(records);
             } catch (PersistenceException e) {
               logException(e);
             }

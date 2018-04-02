@@ -64,7 +64,7 @@ public class Metadata {
      * @throws SQLException
      */
     public static List<String> getTablesMetadata() throws SQLException {
-        String table[] = { "VIEW" };
+        String table[] = { "TABLE", "VIEW" };
         ResultSet rs = null;
         List<String> tables = null;
         // receive the Type of the object in a String array.
@@ -87,14 +87,11 @@ public class Metadata {
             throws SQLException {
       StringBuilder sb = new StringBuilder();
         ResultSet rs = null;
-        // Print the columns properties of the actual table
         for (String actualTable : tables) {
             rs = metadata.getColumns(null, null, actualTable, null);
             String actualObject = actualTable.toUpperCase();
-            //System.out.println(actualObject);
             while (rs.next()) {
               String row = actualObject + "|" + rs.getString("COLUMN_NAME") + "|" + rs.getString("TYPE_NAME") + "|" + rs.getString("COLUMN_SIZE");
-                //System.out.println(row);
                 sb.append(row + "\n");
             }
             LOG.info("Read metadata for object {}", actualObject);

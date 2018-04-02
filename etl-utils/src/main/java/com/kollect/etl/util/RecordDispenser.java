@@ -38,9 +38,7 @@ public abstract class RecordDispenser<T> implements IRecordDispenser<T> {
       }
       if (!records.hasNext())
         records = null;
-      if (LOG.isDebugEnabled())
         LOG.info("Dispensed " + startRecord + " - " + (currentRecord - 1) + " to " + Thread.currentThread().getName());
-
       return startRecord;
     }
   }

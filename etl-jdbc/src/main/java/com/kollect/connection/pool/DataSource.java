@@ -35,10 +35,8 @@ public class DataSource implements IDataSource {
    * @return returns <code>connection</code> object
    */
 
-  //jdbc:informix-sqli://172.20.146.10:9088/uatdata:INFORMIXSERVER=pronto
   
   public Connection initiateConnection(final String dbName) throws SQLException {
-    //Connection conn = DriverManager.getConnection(buildDbConnection(dbName), DB_USER, DB_PASSWORD);
     Connection conn=null;
     try {
       //Class.forName("org.postgresql.Driver");

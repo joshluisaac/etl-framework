@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.ibatis.exceptions.PersistenceException;
+import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class ReadWriteServiceProvider {
   
   private static final Logger LOG = LoggerFactory.getLogger(ReadWriteServiceProvider.class);
   
+  public SqlSession getBatchSqlSession() {
+    return dao.getBatchSqlSession();
+  }
   
   public int updateQuery(final String queryName, Object args){
     try {
@@ -72,7 +76,7 @@ public class ReadWriteServiceProvider {
     }
   }
   
-  public List<Object> executeQuery(final String queryName, Object args){
+  public <T> List<T> executeQuery(final String queryName, Object args){
     try {
       return this.dao.executeQuery(queryName,args);
     } catch (PersistenceException persEx) {

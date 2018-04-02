@@ -1,7 +1,12 @@
 package com.kollect.etl.component;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.stereotype.Component;
 
+import com.kollect.etl.dataaccess.DaoProvider;
 import com.kollect.etl.util.StringUtils;
 
 @Component
@@ -18,5 +23,21 @@ public class ComponentProvider {
     return new StringUtils().hasMatch(accountNo, pattern) ? true:false;
     
   }
+  
+  
+  @SuppressWarnings("unchecked")
+  public void buildMapArgs(List<Object> list) {
+    for (Object obj : list) {
+      Map<String, Object> m = (Map<String, Object>) obj;
+      Map<String, Object> args = new HashMap<>();
+      for (Map.Entry<String, Object> x : m.entrySet()) {
+        args.put(x.getKey(), x.getValue());
+      }
+      
+      ///update statement
+    }
 
+  }
+  
+ 
 }

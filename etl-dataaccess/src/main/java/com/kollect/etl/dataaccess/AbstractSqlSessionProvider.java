@@ -179,6 +179,10 @@ public class AbstractSqlSessionProvider implements IAbstractSqlSessionProvider {
     batchInsert(modelList, queryName, false);
 }
   
+  public SqlSession getBatchExecutionSqlSession() {
+    return sqlSessionFactory.openSession(ExecutorType.BATCH, false);
+  }
+  
   public void batchInsert(final List<Object> modelList, final String queryName, boolean giantQuery) {
     try (final SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false)) {
       long queryStart = System.currentTimeMillis();

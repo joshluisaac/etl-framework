@@ -1,20 +1,20 @@
 package com.kollect.etl.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kollect.etl.component.ComponentProvider;
+import com.kollect.etl.entity.TransactionLoad;
 import com.kollect.etl.service.AsyncBatchService;
-
+import com.kollect.etl.service.IRunnableProcess;
 import com.kollect.etl.service.ReadWriteServiceProvider;
+import com.kollect.etl.util.LogStats;
 
 @Controller
 public class PostTransactionController {
@@ -50,52 +50,67 @@ public class PostTransactionController {
     return 0;
   }
 
-  @SuppressWarnings("unchecked")
   @PostMapping(value = "/isCommercial")
   @ResponseBody
   public Object updateIsCommercialAccount() {
-    List<Object> list = rwProvider.executeQuery("getAccount", null);
-    List<Map<String, Object>> mapList = new ArrayList<>();
+    final int thread = 10;
+    final int commitSize = 100;
+    final String updateQuery = "updateCommercialTransaction";
+
+    List<TransactionLoad> list = rwProvider.executeQuery("getTransactionLoad", null);
     int rowCount = list.size();
     for (int i = 0; i < rowCount; i++) {
-      Map<String, Object> map = (Map<String, Object>) list.get(i);
-      Map<String, Object> args = new HashMap<>();
-      String accountNo = (String) map.get("account_no");
-      boolean isCommercial = compProvider.isCommericalResolver(accountNo, REGEX_PATTERN);
-      args.put("account_no", accountNo);
-      args.put("load_id", map.get("load_id"));
-      args.put("isCommercial", isCommercial);
-      mapList.add(args);
+      TransactionLoad transactionLoad = list.get(i);
+      boolean isCommercial = compProvider.isCommericalResolver(transactionLoad.getAccountNo(), REGEX_PATTERN);
+      transactionLoad.setCommercial(isCommercial);
     }
-    Iterator<Map<String, Object>> mQueryResults = mapList.iterator();
-    asyncService.execute(mQueryResults, "updateCommercialTransaction", 10, 100);
-
-    return 0;
+    Iterator<TransactionLoad> mQueryResults = list.iterator();
+    asyncService.execute(mQueryResults, new IRunnableProcess<TransactionLoad>() {
+      @Override
+      public void process(List<TransactionLoad> rows) {
+        long queryStart = System.currentTimeMillis();
+        try (final SqlSession sqlSession = rwProvider.getBatchSqlSession();) {
+          for (int i = 0; i < rows.size(); i++) {
+            sqlSession.update(updateQuery, rows.get(i));
+          }
+          sqlSession.commit();
+          long queryEnd = System.currentTimeMillis();
+          LogStats.logQueryStatistics("parallelStream", updateQuery, queryStart, queryEnd);
+        }
+      }
+    }, thread, commitSize);
+    return list.size();
   }
 
-  @SuppressWarnings("unchecked")
   @PostMapping(value = "/updateIsInvoiceAndIsCredit")
   @ResponseBody
   public Object updateIsInvoiceAndIsCredit() {
-    List<Object> list = rwProvider.executeQuery("getTrxPostKeyFlagsForDocTypeAB", null);
-    int rowCount = list.size();
-    for (int i = 0; i < rowCount; i++) {
-      Map<Object, Object> map = (Map<Object, Object>) list.get(i);
-      Map<Object, Object> args = new HashMap<>();
-      args.put("invoice", map.get("invoice"));
-      args.put("load_id", map.get("load_id"));
-      args.put("credit_note", map.get("credit_note"));
-      this.rwProvider.updateQuery("updateIsInvoiceAndIsCredit", args);
-    }
-    return 0;
-  }
-
-  @PostMapping(value = "/test")
-  @ResponseBody
-  public Object test() {
-    Iterator<Object> mQueryResults = rwProvider.executeQueryItr("getAllCustomer", null);
-    asyncService.execute(mQueryResults, "updateTest", 1, 1);
-    return 0;
+    final int thread = 10;
+    final int commitSize = 100;
+    final String updateQuery = "updateIsInvoiceAndIsCredit";
+    
+    
+    List<TransactionLoad> list = rwProvider.executeQuery("getTrxPostKeyFlagsForDocTypeAB", null);
+    Iterator<TransactionLoad> itr = list.iterator();
+    
+    //Iterator<TransactionLoad> itr = rwProvider.executeQueryItr("getTrxPostKeyFlagsForDocTypeAB", null);
+    
+    asyncService.execute(itr, new IRunnableProcess<TransactionLoad>() {
+      @Override
+      public void process(List<TransactionLoad> rows) {
+        long queryStart = System.currentTimeMillis();
+        try (final SqlSession sqlSession = rwProvider.getBatchSqlSession();) {
+          for (int i = 0; i < rows.size(); i++) {
+            sqlSession.update(updateQuery, rows.get(i));
+            
+          }
+          sqlSession.commit();
+          long queryEnd = System.currentTimeMillis();
+          LogStats.logQueryStatistics("parallelStream", updateQuery, queryStart, queryEnd);
+        }
+      }
+    }, thread, commitSize);
+    return list.size();
   }
 
 }
