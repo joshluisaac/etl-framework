@@ -1,25 +1,83 @@
 package com.kollect.etl.controller;
 
+import com.kollect.etl.entity.TransactionLoad;
+import com.kollect.etl.service.AsyncBatchService;
+import com.kollect.etl.service.IRunnableProcess;
+import com.kollect.etl.service.ReadWriteServiceProvider;
 import com.kollect.etl.service.TransactionUpdateService;
+import com.kollect.etl.util.LogStats;
+import org.apache.ibatis.exceptions.PersistenceException;
+import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class TransactionUpdateController {
+
+    private TransactionUpdateService service;
+    private ReadWriteServiceProvider rwProvider;
+    private AsyncBatchService asyncService;
+
+    private static final Logger LOG = LoggerFactory.getLogger(TransactionUpdateController.class);
+
     @Autowired
-    TransactionUpdateService service;
+    public TransactionUpdateController(ReadWriteServiceProvider rwProvider, TransactionUpdateService service,
+                                       AsyncBatchService asyncService){
+        this.rwProvider = rwProvider;
+        this.service = service;
+        this.asyncService = asyncService;
+    }
+
+    private Map<String, Object> x = new HashMap<>();
+
 
     @PostMapping(value ="/loadinvoices_ab")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object updateInvoices_AB() {
-        List<Object> transList =  service.getTransactionAB(null);
-        return this.service.processTransactionList(transList);
+        final int thread = 10;
+        final int commitSize = 100;
+        final String queryName = "getTransactionAB";
+        final String updateQuery = "updateTransactionLoad";
+        List<TransactionLoad> transList = rwProvider.executeQuery(queryName, null);
+        int recordCount = transList.size();
+
+        Iterator<TransactionLoad> itr =  transList.iterator();
+        asyncService.execute(itr, new IRunnableProcess<TransactionLoad>() {
+            @Override
+            public void process(List<TransactionLoad> threadData) {
+                long queryStart = System.currentTimeMillis();
+                    try(final SqlSession sqlSession = rwProvider.getBatchSqlSession();) {
+                        for(int i=0; i < threadData.size(); i++) {
+                            sqlSession.update(updateQuery, threadData.get(i));
+                        }
+                        //this will commit the commit size
+                        sqlSession.commit();
+                        long queryEnd = System.currentTimeMillis();
+                        LogStats.logQueryStatistics("parallelStream", updateQuery, queryStart, queryEnd);
+                    } catch (PersistenceException persEx) {
+                        LOG.error("Failed to execute update statement: {}",updateQuery, persEx.getCause());
+                        throw persEx;
+                    }
+            }
+        },thread, commitSize);
+
+
+
+        return recordCount;
     }
+
+
+
 
     @PostMapping(value ="/loadinvoices_rg")
     @SuppressWarnings("unchecked")

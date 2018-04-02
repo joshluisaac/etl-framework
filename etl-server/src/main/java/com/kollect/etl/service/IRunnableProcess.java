@@ -4,5 +4,5 @@ import java.util.List;
 
 
 public interface IRunnableProcess<T> {
-  public void process (final List<T> rows);
+  void process (final List<T> rows);
 }

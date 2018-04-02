@@ -11,8 +11,7 @@ public class LogStats {
   
   public static void logQueryStatistics(String strategy, String queryName, long queryStart, long queryEnd) {
     Logger log = getLog();
-    log.info("Query {} {} ms using {} ({})",
-        new Object[] { queryName, (queryEnd - queryStart), strategy, Thread.currentThread().getName() });
+    log.info("Query {} {} ms using {} ({})", queryName, (queryEnd - queryStart), strategy, Thread.currentThread().getName());
   }
   
   

@@ -87,7 +87,7 @@ public class PostTransactionController {
   public Object updateIsInvoiceAndIsCredit() {
     final int thread = 10;
     final int commitSize = 100;
-    final String updateQuery = "updateIsInvoiceAndIsCredit";
+    final String updateQueryx = "updateIsInvoiceAndIsCredit";
     
     
     List<TransactionLoad> list = rwProvider.executeQuery("getTrxPostKeyFlagsForDocTypeAB", null);
@@ -101,12 +101,12 @@ public class PostTransactionController {
         long queryStart = System.currentTimeMillis();
         try (final SqlSession sqlSession = rwProvider.getBatchSqlSession();) {
           for (int i = 0; i < rows.size(); i++) {
-            sqlSession.update(updateQuery, rows.get(i));
+            sqlSession.update(updateQueryx, rows.get(i));
             
           }
           sqlSession.commit();
           long queryEnd = System.currentTimeMillis();
-          LogStats.logQueryStatistics("parallelStream", updateQuery, queryStart, queryEnd);
+          LogStats.logQueryStatistics("parallelStream", updateQueryx, queryStart, queryEnd);
         }
       }
     }, thread, commitSize);
