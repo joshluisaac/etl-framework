@@ -31,10 +31,11 @@ public class BatchHistoryService {
         return BatchHistoryList;
     }
 
-    public void runBatchHistory(@RequestParam Integer batch_id, int numberOfRows){
+    public void runBatchHistory(@RequestParam Integer batch_id, int numberOfRows, long timeTaken){
         Map<Object, Object> args = new HashMap<>();
         args.put("batch_id", batch_id);
         args.put("number_of_records_updated", numberOfRows);
+        args.put("time_taken", timeTaken);
         this.insertBatchHistory(args);
     }
 }

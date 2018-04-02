@@ -49,6 +49,7 @@ public class LumpSumPaymentService {
     public int combinedLumpSumPaymentService(@RequestParam Integer batch_id){
         int numberOfRows = -1;
         if (!lock) {
+            long startTime = System.nanoTime();
             lock = true;
             List<Object> selectLumSumPaymentList = this.getSumAmount(null);
             this.deleteNetLumpSum(null);
@@ -66,7 +67,9 @@ public class LumpSumPaymentService {
             }
             lock = false;
             numberOfRows = numberOfRecords;
-            this.batchHistoryService.runBatchHistory(batch_id, numberOfRows);
+            long endTime = System.nanoTime();
+            long timeTaken = (endTime - startTime) / 1000000;
+            this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken);
         }
         System.out.println("LumpSumPayment - Number of rows updated: " + numberOfRows);
         return numberOfRows;
