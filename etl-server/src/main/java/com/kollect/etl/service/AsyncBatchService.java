@@ -57,8 +57,9 @@ public class AsyncBatchService {
               break;
             try {
               runnableProcess.process(records);
-            } catch (PersistenceException e) {
-              logException(e);
+            } catch (PersistenceException persEx) {
+              logException(persEx);
+              throw persEx;
             }
           }
         }

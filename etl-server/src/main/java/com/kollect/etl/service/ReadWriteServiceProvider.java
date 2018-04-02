@@ -37,35 +37,7 @@ public class ReadWriteServiceProvider {
       throw persEx;
     }
   }
-  
-  public void batchUpdate(final List<Object> modelList, final String queryName){
-    try {
-      this.dao.batchUpdate(modelList,queryName);
-    } catch (PersistenceException persEx) {
-      LOG.error("Failed to execute batch update statement: {}",queryName, persEx.getCause());
-      throw persEx;
-    }
-  }
-  
-  public void batchInvoice(final List<Object> modelList, final String queryName){
-    try {
-      this.dao.batchInvoice(modelList,queryName);
-    } catch (PersistenceException persEx) {
-      LOG.error("Failed to execute batch update statement: {}",queryName, persEx.getCause());
-      throw persEx;
-    }
-  }
-  
-  
-  
-  public void batchInsert(final List<Object> modelList, final String queryName){
-    try {
-      this.dao.batchInsert(modelList,queryName);
-    } catch (PersistenceException persEx) {
-      LOG.error("Failed to execute batch insert statement: {}",queryName, persEx.getCause());
-      throw persEx;
-    }
-  }
+
   
   public int insertQuery(final String queryName, Object args){
     try {
