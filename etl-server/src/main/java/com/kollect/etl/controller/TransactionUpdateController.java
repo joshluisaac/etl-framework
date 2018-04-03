@@ -37,37 +37,26 @@ public class TransactionUpdateController {
     this.batchHistoryService = batchHistoryService;
     BatchConfig.buildHolderMap(MAP);
   }
-  
-  private CrudProcessHolder lookupCrudProcessHolder(final String docType) {
-    return MAP.get(docType);
-  }
 
-  public void process(final String docType) {
-    CrudProcessHolder holder = lookupCrudProcessHolder(docType);
-    final int thread = holder.getThread();
-    final int commitSize = holder.getCommitSize();
-    final String queryName = holder.getQueryName();
-    final String updateQuery = "updateTransactionLoad";
-    List<TransactionLoad> list = rwProvider.executeQuery(queryName, null);
-    int recordCount = list.size();
-    executorService.invoke(list, updateQuery, thread, commitSize);
-    holder.setRecordCount(recordCount);
-  }
-  
-  void x(@Value("${trx.doctypes}") String docTypes) {
-    System.out.println(docTypes);
+  public void process() {
+      for (Map.Entry<String, CrudProcessHolder> entry:  MAP.entrySet()) {
+          CrudProcessHolder holder = entry.getValue();
+          final int thread = holder.getThread();
+          final int commitSize = holder.getCommitSize();
+          final String queryName = holder.getQueryName();
+          final String updateQuery = "updateTransactionLoad";
+          List<TransactionLoad> list = rwProvider.executeQuery(queryName, null);
+          int recordCount = list.size();
+          executorService.invoke(list, updateQuery, thread, commitSize);
+          holder.setRecordCount(recordCount);
+      }
   }
 
   @PostMapping(value = "/updateTrxLoadInvoicesByDocType")
   @ResponseBody
   public Object updateInvoicesByDocType(@RequestParam(required = false) Integer batch_id) {
     long startTime = System.nanoTime();
-    List<String> docTypes = new ArrayList<>(Arrays.asList("AB", "RG", "YY", "CLEARING_DOC_BASED_TYPES", "GI", "RI",
-        "RM", "RV", "RY", "YC", "YD", "YH", "YI", "YJ", "YL", "YN", "YO", "YP", "YQ", "YR", "YS", "YT", "YU", "YV",
-        "YW", "YX", "YK", "Y1", "YE", "YM", "YF", "ZZ", "OTHERS"));
-    for (String docType : docTypes) {
-      process(docType);
-    }
+    process();
     long endTime = System.nanoTime();
     long timeTaken = (endTime - startTime) / 1000000;
     this.batchHistoryService.runBatchHistory(batch_id, 0, timeTaken);
