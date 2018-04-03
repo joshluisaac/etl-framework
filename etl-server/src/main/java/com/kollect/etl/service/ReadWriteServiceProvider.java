@@ -15,17 +15,29 @@ import com.kollect.etl.dataaccess.DaoProvider;
 
 
 @Service
-public class ReadWriteServiceProvider {
+public class ReadWriteServiceProvider implements IReadWriteServiceProvider {
+  
+  private DaoProvider dao;
   
   @Autowired
-  private DaoProvider dao;
+  public ReadWriteServiceProvider(DaoProvider dao) {
+    this.dao = dao;
+  }
   
   private static final Logger LOG = LoggerFactory.getLogger(ReadWriteServiceProvider.class);
   
+  /* (non-Javadoc)
+   * @see com.kollect.etl.service.IReadWriteServiceProvider#getBatchSqlSession()
+   */
+  @Override
   public SqlSession getBatchSqlSession() {
     return dao.getBatchSqlSession();
   }
   
+  /* (non-Javadoc)
+   * @see com.kollect.etl.service.IReadWriteServiceProvider#updateQuery(java.lang.String, java.lang.Object)
+   */
+  @Override
   public int updateQuery(final String queryName, Object args){
     try {
       return this.dao.updateQuery(queryName,args);
@@ -35,6 +47,10 @@ public class ReadWriteServiceProvider {
     }
   }
   
+  /* (non-Javadoc)
+   * @see com.kollect.etl.service.IReadWriteServiceProvider#insertQuery(java.lang.String, java.lang.Object)
+   */
+  @Override
   public int insertQuery(final String queryName, Object args){
     try {
       return this.dao.insertQuery(queryName,args);
@@ -44,6 +60,10 @@ public class ReadWriteServiceProvider {
     }
   }
   
+  /* (non-Javadoc)
+   * @see com.kollect.etl.service.IReadWriteServiceProvider#executeQuery(java.lang.String, java.lang.Object)
+   */
+  @Override
   public <T> List<T> executeQuery(final String queryName, Object args){
     try {
       return this.dao.executeQuery(queryName,args);
@@ -53,6 +73,10 @@ public class ReadWriteServiceProvider {
     }
   }
   
+  /* (non-Javadoc)
+   * @see com.kollect.etl.service.IReadWriteServiceProvider#executeQueryItr(java.lang.String, java.lang.Object)
+   */
+  @Override
   public <T> Iterator<T> executeQueryItr(final String queryName, Object args){
     try {
       return this.dao.executeQueryItr(queryName,args);

@@ -5,13 +5,13 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 
 import com.kollect.etl.entity.TransactionLoad;
+import com.kollect.etl.service.IReadWriteServiceProvider;
 import com.kollect.etl.service.IRunnableProcess;
-import com.kollect.etl.service.ReadWriteServiceProvider;
 import com.kollect.etl.util.LogStats;
 
 public class RunnableImpl implements IRunnableProcess<TransactionLoad> {
   
-  private ReadWriteServiceProvider rwProvider;
+  private IReadWriteServiceProvider rwProvider;
 
   @Override
   public void process(List<TransactionLoad> rows) {

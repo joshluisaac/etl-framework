@@ -2,9 +2,9 @@ package com.kollect.etl.controller;
 
 import com.kollect.etl.entity.Invoice;
 import com.kollect.etl.service.AsyncBatchService;
+import com.kollect.etl.service.IReadWriteServiceProvider;
 import com.kollect.etl.service.IRunnableProcess;
 import com.kollect.etl.service.InvoiceTransactionService;
-import com.kollect.etl.service.ReadWriteServiceProvider;
 import com.kollect.etl.util.LogStats;
 
 import java.util.Iterator;
@@ -24,7 +24,7 @@ public class InvoiceTransactionController {
     @Autowired
     private InvoiceTransactionService Service;
     @Autowired
-    private ReadWriteServiceProvider rwProvider;
+    private IReadWriteServiceProvider rwProvider;
     @Autowired
     private AsyncBatchService asyncService;
     

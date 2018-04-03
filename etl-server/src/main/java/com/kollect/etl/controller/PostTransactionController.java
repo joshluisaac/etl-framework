@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.kollect.etl.component.ComponentProvider;
 import com.kollect.etl.entity.TransactionLoad;
 import com.kollect.etl.service.AsyncBatchService;
+import com.kollect.etl.service.IReadWriteServiceProvider;
 import com.kollect.etl.service.IRunnableProcess;
-import com.kollect.etl.service.ReadWriteServiceProvider;
 import com.kollect.etl.util.LogStats;
 
 @Controller
 public class PostTransactionController {
 
   @Autowired
-  private ReadWriteServiceProvider rwProvider;
+  private IReadWriteServiceProvider rwProvider;
   @Autowired
   private AsyncBatchService asyncService;
   @Autowired
