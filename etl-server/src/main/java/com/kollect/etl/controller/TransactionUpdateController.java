@@ -37,10 +37,12 @@ public class TransactionUpdateController {
   @Autowired
   public TransactionUpdateController(ReadWriteServiceProvider rwProvider, TransactionUpdateService service,
       AsyncBatchService asyncService) {
+    LOG.info("Before: {}", MAP.toString());
     this.rwProvider = rwProvider;
     this.service = service;
     this.asyncService = asyncService;
     BatchConfig.buildHolderMap(MAP);
+    LOG.info("After: {}", MAP.toString());
   }
   
   private <T> void invoke (List<T> list, final String updateQuery, final int thread, final int commitSize ) {
@@ -80,7 +82,9 @@ public class TransactionUpdateController {
   @PostMapping(value = "/updateInvoicesByDocType")
   @ResponseBody
   public Object updateInvoicesByDocType() {
-    List<String> docTypes = new ArrayList<>(Arrays.asList("AB","RG","YY","CLEARING_DOC_BASED_TYPES"));
+    List<String> docTypes = new ArrayList<>(Arrays.asList("AB","RG","YY","CLEARING_DOC_BASED_TYPES", "GI", "RI", "RM",
+            "RV", "RY", "YC", "YD", "YH", "YI", "YJ", "YL", "YN", "YO", "YP", "YQ", "YR", "YS", "YT", "YU", "YV",
+            "YW", "YX", "YK", "Y1", "YE", "YM", "YF", "ZZ", "OTHERS"));
     for(String docType : docTypes) {
       process(docType);
     }
