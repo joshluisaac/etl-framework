@@ -3,7 +3,6 @@ package com.kollect.etl.controller;
 import com.kollect.etl.config.BatchConfig;
 import com.kollect.etl.config.CrudProcessHolder;
 import com.kollect.etl.entity.TransactionLoad;
-import com.kollect.etl.entity.TransferObject;
 import com.kollect.etl.service.AsyncBatchService;
 import com.kollect.etl.service.IRunnableProcess;
 import com.kollect.etl.service.ReadWriteServiceProvider;
@@ -37,12 +36,10 @@ public class TransactionUpdateController {
   @Autowired
   public TransactionUpdateController(ReadWriteServiceProvider rwProvider, TransactionUpdateService service,
       AsyncBatchService asyncService) {
-    LOG.info("Before: {}", MAP.toString());
     this.rwProvider = rwProvider;
     this.service = service;
     this.asyncService = asyncService;
     BatchConfig.buildHolderMap(MAP);
-    LOG.info("After: {}", MAP.toString());
   }
   
   private <T> void invoke (List<T> list, final String updateQuery, final int thread, final int commitSize ) {
