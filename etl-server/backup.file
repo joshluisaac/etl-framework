@@ -1,0 +1,34 @@
+  
+
+  //this will be removed
+  public void invokeZ(final String docType) {
+    CrudProcessHolder holder = MAP.get(docType);
+    final int thread = holder.getThread();
+    final int commitSize = holder.getCommitSize();
+    final String queryName = holder.getQueryName();
+    final String updateQuery = "updateTransactionLoad";
+    List<TransactionLoad> list = rwProvider.executeQuery(queryName, null);
+    int recordCount = list.size();
+
+    Iterator<TransactionLoad> itr = list.iterator();
+    asyncService.execute(itr, new IRunnableProcess<TransactionLoad>() {
+      @Override
+      public void process(List<TransactionLoad> threadData) {
+        long queryStart = System.currentTimeMillis();
+        try (final SqlSession sqlSession = rwProvider.getBatchSqlSession();) {
+          for (int i = 0; i < threadData.size(); i++) {
+            sqlSession.update(updateQuery, threadData.get(i));
+          }
+          sqlSession.commit();
+          long queryEnd = System.currentTimeMillis();
+          LogStats.logQueryStatistics("parallelStream", updateQuery, queryStart, queryEnd);
+        } catch (PersistenceException persEx) {
+          LOG.error("Failed to execute update statement: {}", updateQuery, persEx.getCause());
+          throw persEx;
+        }
+      }
+    }, thread, commitSize);
+    holder.setRecordCount(recordCount);
+    
+    //return new TransferObject();
+  }
