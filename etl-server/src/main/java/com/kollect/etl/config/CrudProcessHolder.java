@@ -1,6 +1,6 @@
 package com.kollect.etl.config;
 
-import java.util.Map;
+import java.util.List;
 
 public class CrudProcessHolder {
   
@@ -10,12 +10,13 @@ public class CrudProcessHolder {
   private int thread;
   private int commitSize;
   private int updateCount;
-  private Map<String, String> childQuery;
+  private List<String> childQuery;
   
-  public CrudProcessHolder(final String queryName, final int thread, final int commitSize) {
+  public CrudProcessHolder(final String queryName, final int thread, final int commitSize, final List<String>  childQuery) {
     this.queryName = queryName;
     this.thread = thread;
     this.commitSize = commitSize;
+    this.childQuery = childQuery;
   }
 
   public String getQueryName() {
@@ -66,11 +67,11 @@ public class CrudProcessHolder {
     this.updateCount = updateCount;
   }
 
-  public Map<String, String> getChildQuery() {
+  public List<String>  getChildQuery() {
     return childQuery;
   }
 
-  public void setChildQuery(Map<String, String> childQuery) {
+  public void setChildQuery(List<String>  childQuery) {
     this.childQuery = childQuery;
   }
 

@@ -8,6 +8,8 @@ public class TransactionLoad {
   boolean isCommercial, invoice, creditNote;
   
   String line_of_business, invoice_no, invoice_reference;
+  int invoice_status_id;
+  boolean in_aging;
   
   
   public String getLine_of_business() {
@@ -64,11 +66,24 @@ public class TransactionLoad {
   public void setCreditNote(boolean creditNote) {
     this.creditNote = creditNote;
   }
-  
+  public int getInvoice_status_id() {
+    return invoice_status_id;
+  }
+  public void setInvoice_status_id(int invoice_status_id) {
+    this.invoice_status_id = invoice_status_id;
+  }
+  public boolean isIn_aging() {
+    return in_aging;
+  }
+  public void setIn_aging(boolean in_aging) {
+    this.in_aging = in_aging;
+  }
   @Override
   public String toString() {
     return "TransactionLoad [id=" + id + ", accountId=" + accountId + ", accountNo=" + accountNo + ", isCommercial="
-        + isCommercial + ", invoice=" + invoice + ", creditNote=" + creditNote + "]";
+        + isCommercial + ", invoice=" + invoice + ", creditNote=" + creditNote + ", line_of_business="
+        + line_of_business + ", invoice_no=" + invoice_no + ", invoice_reference=" + invoice_reference
+        + ", invoice_status_id=" + invoice_status_id + ", in_aging=" + in_aging + "]";
   }
   
   

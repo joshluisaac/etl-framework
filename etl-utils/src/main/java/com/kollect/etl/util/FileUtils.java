@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -196,6 +197,13 @@ public class FileUtils {
           }
         }
     }
+  }
+  
+  
+  
+  
+  public URL getClassPathResource(String fileName) {
+    return getClass().getClassLoader().getResource("routesConfig.json");
   }
 
 }
