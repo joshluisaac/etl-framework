@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -37,7 +38,7 @@ public class PostTransactionController {
 
   @Autowired
   public PostTransactionController(AsyncBatchService asyncService, ComponentProvider compProvider,
-      RouteService routeService, IReadWriteServiceProvider rwProvider, IAsyncExecutorService executorService,
+      RouteService routeService, IReadWriteServiceProvider rwProvider, @Qualifier("simple") IAsyncExecutorService executorService,
       BatchHistoryService batchHistoryService) {
     this.compProvider = compProvider;
     this.routeService = routeService;
@@ -61,7 +62,7 @@ public class PostTransactionController {
       boolean isCommercial = compProvider.isCommericalResolver(transactionLoad.getAccountNo(), REGEX_PATTERN);
       transactionLoad.setCommercial(isCommercial);
     }
-    executorService.cycleAndProcessEntries(map, list);
+    executorService.processEntries(map, list);
     return rowCount;
   }
   
@@ -70,7 +71,7 @@ public class PostTransactionController {
   public Object updateAll() {
     String fileName = new FileUtils().getClassPathResource("routesConfig.json").getFile();
     System.out.println(routeService.readJsonBlob(new File(fileName))[2].getDescription());
-    executorService.cycleAndProcessEntries(MAP);
+    executorService.processEntries(MAP);
     return -1;
   }
 

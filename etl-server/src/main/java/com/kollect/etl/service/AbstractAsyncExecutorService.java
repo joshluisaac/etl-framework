@@ -14,73 +14,68 @@ import com.kollect.etl.entity.TransactionLoad;
 import com.kollect.etl.util.LogStats;
 
 public abstract class AbstractAsyncExecutorService implements IAsyncExecutorService {
-  
+
   private static final Logger LOG = LoggerFactory.getLogger(AbstractAsyncExecutorService.class);
-  
+
   IReadWriteServiceProvider rwProvider;
   IAsyncBatchService asyncService;
-  
-  
+
   public AbstractAsyncExecutorService(IReadWriteServiceProvider rwProvider, IAsyncBatchService asyncService) {
-    this.rwProvider = rwProvider; 
+    this.rwProvider = rwProvider;
     this.asyncService = asyncService;
   }
-  
-  /* (non-Javadoc)
-   * @see com.kollect.etl.service.IAsyncExecutorService#invoke(java.util.List, java.lang.String, int, int)
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see com.kollect.etl.service.IAsyncExecutorService#invoke(java.util.List,
+   * java.lang.String, int, int)
    */
   @Override
-  public <T> void invoke (List<T> list, final String updateQuery, final int thread, final int commitSize ) {
+  public <T> void invoke(List<T> list, final List<String> sqlQuery, final int thread, final int commitSize) {
     Iterator<T> itr = list.iterator();
-    asyncService.execute(itr, new IRunnableProcess<TransactionLoad>() {
+    asyncService.execute(itr, new IRunnableProcess<T>() {
       @Override
-      public void process(List<TransactionLoad> threadData) {
+      public void process(final List<T> threadData) {
         long queryStart = System.currentTimeMillis();
         try (final SqlSession sqlSession = rwProvider.getBatchSqlSession();) {
           for (int i = 0; i < threadData.size(); i++) {
-            sqlSession.update(updateQuery, threadData.get(i));
+            for (String query : sqlQuery) {
+              sqlSession.update(query, threadData.get(i));
+            }
           }
           sqlSession.commit();
           long queryEnd = System.currentTimeMillis();
-          LogStats.logQueryStatistics("parallelStream", updateQuery, queryStart, queryEnd);
+          LogStats.logQueryStatistics("parallelStream", sqlQuery.get(0), queryStart, queryEnd);
         } catch (PersistenceException persEx) {
-          LOG.error("Failed to execute update statement: {}", updateQuery, persEx.getCause());
+          LOG.error("Failed to execute update statement: {}", sqlQuery.get(0), persEx.getCause());
           throw persEx;
         }
       }
     }, thread, commitSize);
   }
-  
-  
+
   @Override
-  public <T> void cycleAndProcessEntries(final Map<String, CrudProcessHolder> map, final List<T> list) {
+  public <T> void processEntries(final Map<String, CrudProcessHolder> map, final List<T> list) {
     for (Map.Entry<String, CrudProcessHolder> entry : map.entrySet()) {
-        CrudProcessHolder holder = entry.getValue();
-        final int thread = holder.getThread();
-        final int commitSize = holder.getCommitSize();
-        final String updateQuery = holder.getChildQuery().get(0);
-        int recordCount = list.size();
-        if(recordCount > 0) invoke(list, updateQuery, thread, commitSize);
-        holder.setRecordCount(recordCount);
+      CrudProcessHolder holder = entry.getValue();
+      int recordCount = list.size();
+      if (recordCount > 0)
+        invoke(list, holder.getChildQuery(), holder.getThread(), holder.getCommitSize());
+      holder.setRecordCount(recordCount);
     }
-}
-  
+  }
+
   @Override
-  public void cycleAndProcessEntries(final Map<String, CrudProcessHolder> map) {
+  public void processEntries(final Map<String, CrudProcessHolder> map) {
     for (Map.Entry<String, CrudProcessHolder> entry : map.entrySet()) {
-        CrudProcessHolder holder = entry.getValue();
-        final int thread = holder.getThread();
-        final int commitSize = holder.getCommitSize();
-        final String queryName = holder.getQueryName();
-        final String updateQuery = holder.getChildQuery().get(0);
-        List<TransactionLoad> list = rwProvider.executeQuery(queryName, null);
-        int recordCount = list.size();
-        if(recordCount > 0) invoke(list, updateQuery, thread, commitSize);
-        holder.setRecordCount(recordCount);
+      CrudProcessHolder holder = entry.getValue();
+      List<TransactionLoad> list = rwProvider.executeQuery(holder.getQueryName(), null);
+      int recordCount = list.size();
+      if (recordCount > 0)
+        invoke(list, holder.getChildQuery(), holder.getThread(), holder.getCommitSize());
+      holder.setRecordCount(recordCount);
     }
-}
-  
-  
-  
+  }
 
 }

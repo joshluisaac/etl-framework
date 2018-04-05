@@ -30,14 +30,16 @@ public class InvoiceTransactionController {
     
     
     private static final Logger LOG = LoggerFactory.getLogger(InvoiceTransactionController.class);
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
-    @PostMapping(value ="/updateInvoiceTransaction")
-    @ResponseBody
-    public Object selectLumSumPayment () {
-        return Service.executeInvoiceTransactionService();
-    }
-    
-    
     @PostMapping(value ="/loadInv")
     @ResponseBody
     public Object loadInv() {

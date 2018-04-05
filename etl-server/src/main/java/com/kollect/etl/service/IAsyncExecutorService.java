@@ -7,8 +7,8 @@ import com.kollect.etl.config.CrudProcessHolder;
 
 public interface IAsyncExecutorService {
 
-  <T> void invoke(List<T> list, String updateQuery, int thread, int commitSize);
-  <T> void cycleAndProcessEntries(Map<String, CrudProcessHolder> map, List<T> list);
-  void cycleAndProcessEntries(Map<String, CrudProcessHolder> map);
+  <T> void invoke(List<T> list, final List<String> sqlQuery, int thread, int commitSize);
+  <T> void processEntries(Map<String, CrudProcessHolder> map, List<T> list);
+  void processEntries(Map<String, CrudProcessHolder> map);
 
 }
