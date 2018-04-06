@@ -1,16 +1,11 @@
 package com.kollect.etl.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
-
+import com.kollect.etl.entity.ConfigParent;
+import com.kollect.etl.entity.DcConfig;
+import com.kollect.etl.entity.DcConfigProp;
+import com.kollect.etl.service.DcConfigService;
+import com.kollect.etl.util.load.config.xml.DcConfigGenerator;
+import com.kollect.etl.util.load.config.xml.DcXml;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +16,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.kollect.etl.entity.ConfigParent;
-import com.kollect.etl.entity.DcConfig;
-import com.kollect.etl.entity.DcConfigProp;
-import com.kollect.etl.service.DcConfigService;
-import com.kollect.etl.util.load.config.xml.DcConfigGenerator;
-
-import com.kollect.etl.util.load.config.xml.DcXml;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Controller
@@ -92,9 +88,8 @@ public class DcConfigController {
     DcXml dcXml = xmlGen.generate();
     String fileName = dcXml.getFileName();
 
-    String uploadDir = "./uploads/";
-    String uploadDirFinale = new File(uploadDir).getAbsolutePath();
-    Path path = Paths.get(uploadDirFinale + fileName);
+    String uploadDir = "./etl-server/uploads/";
+    Path path = Paths.get(uploadDir + fileName);
     Files.write(path, dcXml.getRawByte());
     response.setContentType("application/xml");
     
