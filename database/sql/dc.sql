@@ -139,3 +139,21 @@ create UNIQUE INDEX kv_vendor_invoices_idx1 on kv_vendor_invoices (load_id);
 alter table transaction_load add line_of_business varchar(50);
 alter table transaction_load add invoice_no varchar(255);
 alter table transaction_load add invoice_reference varchar(255);
+
+CREATE TABLE kvdata_profiler (
+  id BIGINT primary key not null,
+  name VARCHAR(30),
+  base_path text,
+  prefix VARCHAR(50),
+  cloneAs VARCHAR(50),
+  cloneBeforeUnique BOOLEAN,
+  cloneFile BOOLEAN,
+  uniqueKeyFields text,
+  uniqueKeyIndex text,
+  generateHash BOOLEAN,
+  regex text,
+  replacement text,
+  expectedLength BIGINT
+);
+
+CREATE SEQUENCE kvdata_profiler_id;
