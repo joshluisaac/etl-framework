@@ -1,6 +1,6 @@
 package com.kollect.etl.controller;
 
-import com.kollect.etl.service.PelitaComputeInvoiceAmountAfterTaxService;
+
 import com.kollect.etl.service.PelitaInvoiceStatusEvaluationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +18,6 @@ public class PelitaInvoiceStatusEvaluationController {
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object pelitaCalcOutstanding (@RequestParam(required = false) Integer tenant_id, @RequestParam Integer batch_id) {
-        return this.service.combinedPelitaStatusEvaluation(tenant_id, batch_id);
+        return this.service.combinePelitaInvoiceStatusEvaluation(tenant_id, batch_id);
     }
 }

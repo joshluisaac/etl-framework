@@ -1,7 +1,7 @@
 package com.kollect.etl.service;
 
-import com.kollect.etl.dataaccess.PelitaCalcOutstandingDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -11,21 +11,25 @@ import java.util.Map;
 
 @Service
 public class PelitaCalcOutstandingService {
-    @Autowired
-    private PelitaCalcOutstandingDao calcOutstandingDao;
+    private IReadWriteServiceProvider rwProvider;
+    private String dataSource;
+
     @Autowired
     private BatchHistoryService batchHistoryService;
     private boolean lock;
 
+    @Autowired
+    public PelitaCalcOutstandingService(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_pelita_test}") String dataSource){
+        this.rwProvider = rwProvider;
+        this.dataSource = dataSource;
+    }
+
     public List<Object> getOutstandingByTenantId(Object object) {
-        return this.calcOutstandingDao.getOutstandingByTenantId(object);
+        return this.rwProvider.executeQuery(dataSource, "getInvoiceAmountAfterTaxById", object);
         // TODO Auto-generated method stub
 
     }
 
-    public int updatePelitaOutstanding(Object object) {
-        return this.calcOutstandingDao.updateOutstanding(object);
-    }
 
     public int combinedPelitaCalcOutstanding(@RequestParam(required = false) Integer tenant_id, @RequestParam Integer batch_id) {
         int numberOfRows = -1;
@@ -41,7 +45,7 @@ public class PelitaCalcOutstandingService {
                 args.put("gst", map.get("gst"));
                 args.put("id", map.get("id"));
 
-                this.updatePelitaOutstanding(args);
+                this.rwProvider.updateQuery(dataSource, "updatePelitaOutstanding", args);
             }
             lock = false;
             numberOfRows = numberOfRecords;

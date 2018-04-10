@@ -33,7 +33,7 @@ public class PelitaInvoiceStatusEvaluationService {
     }
 
 
-    public int combinedPelitaStatusEvaluation(@RequestParam(required = false) Integer tenant_id, @RequestParam Integer batch_id) {
+    public int combinePelitaInvoiceStatusEvaluation(@RequestParam(required = false) Integer tenant_id, @RequestParam Integer batch_id) {
         int numberOfRows = -1;
         if (!lock) {
             long startTime = System.nanoTime();

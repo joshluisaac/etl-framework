@@ -1,8 +1,8 @@
 package com.kollect.etl.service;
 
 
-import com.kollect.etl.dataaccess.PelitaAgeInvoiceDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -12,22 +12,25 @@ import java.util.Map;
 
 @Service
 public class PelitaAgeInvoiceService {
-    @Autowired
-    private PelitaAgeInvoiceDao PelitaAgeInvoiceDao;
-    private boolean lock;
+    private IReadWriteServiceProvider rwProvider;
+    private String dataSource;
+
     @Autowired
     private BatchHistoryService batchHistoryService;
+    private boolean lock;
 
+    @Autowired
+    public PelitaAgeInvoiceService(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_pelita_test}") String dataSource){
+        this.rwProvider = rwProvider;
+        this.dataSource = dataSource;
+    }
 
     public List<Object> getAgeInvoiceById(Object object) {
-        return this.PelitaAgeInvoiceDao.getAgeInvoiceById(object);
+        return this.rwProvider.executeQuery(dataSource, "getPelitaAgeInvoiceById", object);
         // TODO Auto-generated method stub
 
     }
 
-    public int updateAgeInvoice(Object object) {
-        return this.PelitaAgeInvoiceDao.updateAgeInvoice(object);
-    }
 
     public int combinedPelitaAgeInvoiceService(@RequestParam(required = false) Integer tenant_id,@RequestParam Integer batch_id) {
         int numberOfRows = -1;
@@ -41,7 +44,7 @@ public class PelitaAgeInvoiceService {
                 Map<Object, Object> args = new HashMap<>();
                 args.put("in_aging", map.get("in_aging"));
                 args.put("id", map.get("id"));
-                this.updateAgeInvoice(args);
+                this.rwProvider.updateQuery(dataSource, "pelitaUpdateAgeInvoice", args);
             }
             lock = false;
             numberOfRows = numberOfRecords;
