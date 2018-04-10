@@ -23,6 +23,7 @@ public class FileAppender  extends AbstractTextFileProcessor {
   
   
   public void execute(String rootPath, String fileNamePrefix, ICsvAppendContext csvContext) throws IOException {
+    final String rootOut = rootPath + "/out";
     final ICsvAppenderReport stat = csvContext.getReport();
     final long rowsWritten, bytesWritten;
     long[] dwStats = null;
@@ -40,14 +41,14 @@ public class FileAppender  extends AbstractTextFileProcessor {
     if (regex.length() > 0) {
       appendedList = replaceNonAsciiCharacters(appendedList, regex, replacement);
       if (isClonable)
-        dwStats = deleteAndWriteToDisk(appendedList, rootPath, cloneAs);
+        dwStats = deleteAndWriteToDisk(appendedList, rootOut, cloneAs);
     } else {
       LOG.debug("Skipping REGX replacment step for {}", fileNamePrefix);
     }
     appendedList = retainUniqueEntries(appendedList, keyArr, isHashAble, columnSize);
-    dwStats = deleteAndWriteToDisk(appendedList, rootPath, destFileName);
-    deleteAndWriteToDisk(BAD_ROWS, rootPath, badFileName);
-    deleteAndWriteToDisk(DUPLICATE_ROWS, rootPath, duplicateFileName);
+    dwStats = deleteAndWriteToDisk(appendedList, rootOut, destFileName);
+    deleteAndWriteToDisk(BAD_ROWS, rootOut, badFileName);
+    deleteAndWriteToDisk(DUPLICATE_ROWS, rootOut, duplicateFileName);
     
     rowsWritten = dwStats[0];
     bytesWritten = dwStats[1];

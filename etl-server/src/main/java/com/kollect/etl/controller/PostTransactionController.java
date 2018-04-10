@@ -69,8 +69,8 @@ public class PostTransactionController {
   @PostMapping(value = "/updateAllPostTransaction")
   @ResponseBody
   public Object updateAll() {
-    String fileName = new FileUtils().getClassPathResource("routesConfig.json").getFile();
-    System.out.println(routeService.readJsonBlob(new File(fileName))[2].getDescription());
+    //String fileName = new FileUtils().getClassPathResource("routesConfig.json").getFile();
+    //System.out.println(routeService.readJsonBlob(new File(fileName))[2].getDescription());
     executorService.processEntries(MAP);
     return -1;
   }
