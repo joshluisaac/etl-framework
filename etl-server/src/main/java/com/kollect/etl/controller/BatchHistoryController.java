@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class BatchHistoryController {
-    @Autowired
     private BatchHistoryService batchHistoryService;
+
+    @Autowired
+    public BatchHistoryController(BatchHistoryService batchHistoryService){
+        this.batchHistoryService = batchHistoryService;
+    }
 
     @GetMapping("/batch_history")
     public Object viewHistory (@RequestParam Integer batch_id, Model model){

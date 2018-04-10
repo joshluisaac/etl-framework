@@ -1,7 +1,7 @@
 package com.kollect.etl.service;
 
-import com.kollect.etl.dataaccess.BatchHistoryDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,23 +12,23 @@ import java.util.Map;
 
 @Service
 public class BatchHistoryService {
+    private IReadWriteServiceProvider rwProvider;
+    private String dataSource;
+
     @Autowired
-    private BatchHistoryDao batchHistoryDao;
-
-    public void insertBatchHistory(Object object){
-        this.batchHistoryDao.insertBatchHistory(object);
+    public BatchHistoryService(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_uat_8}") String dataSource){
+        this.rwProvider = rwProvider;
+        this.dataSource = dataSource;
     }
 
-    public List<Object> viewLatestBatchHistory(@RequestParam Integer batch_id, Model model){
-        List<Object> LatestBatchHistoryList = this.batchHistoryDao.viewLatestBatchHistory(batch_id);
+    public void viewLatestBatchHistory(@RequestParam Integer batch_id, Model model){
+        List<Object> LatestBatchHistoryList = this.rwProvider.executeQuery(dataSource, "viewLatestBatchHistory", batch_id);
         model.addAttribute("LatestBatchHistoryList", LatestBatchHistoryList);
-        return LatestBatchHistoryList;
     }
 
-    public List<Object> viewBatchHistory(@RequestParam Integer batch_id, Model model){
-        List<Object> BatchHistoryList = this.batchHistoryDao.viewBatchHistory(batch_id);
+    public void viewBatchHistory(@RequestParam Integer batch_id, Model model){
+        List<Object> BatchHistoryList = this.rwProvider.executeQuery(dataSource, "viewBatchHistory", batch_id);
         model.addAttribute("BatchHistoryList", BatchHistoryList);
-        return BatchHistoryList;
     }
 
     public void runBatchHistory(@RequestParam Integer batch_id, int numberOfRows, long timeTaken){
@@ -36,6 +36,6 @@ public class BatchHistoryService {
         args.put("batch_id", batch_id);
         args.put("number_of_records_updated", numberOfRows);
         args.put("time_taken", timeTaken);
-        this.insertBatchHistory(args);
+        this.rwProvider.insertQuery(dataSource, "insertBatchHistory", args);
     }
 }
