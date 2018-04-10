@@ -12,7 +12,6 @@ public class DataProfiler {
     public DataProfiler(String name, String base_path, String prefix, String cloneAs, boolean cloneBeforeUnique,
                         boolean cloneFile, String uniqueKeyFields, String uniqueKeyIndex,
                         boolean generateHash, String regex, String replacement, Integer expectedLength) {
-        super();
         this.name = name;
         this.base_path = base_path;
         this.prefix=prefix;

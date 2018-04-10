@@ -24,10 +24,10 @@ public class DataProfilerController {
 
     @PostMapping("/savedataprofiler")
     public Object saveDataProfiler(@RequestParam (required = false) Integer id,@RequestParam String name, @RequestParam String base_path, @RequestParam String prefix,
-                                  @RequestParam String cloneAs, @RequestParam boolean cloneBeforeUnique, @RequestParam boolean cloneFile,
-                                  @RequestParam String uniqueKeyFields, @RequestParam String uniqueKeyIndex,
-                                  @RequestParam boolean generateHash, @RequestParam String regex, @RequestParam String replacement,
-                                  @RequestParam Integer expectedLength){
+                                  @RequestParam String cloneAs, @RequestParam (required = false) boolean cloneBeforeUnique,
+                                   @RequestParam (required = false) boolean cloneFile, @RequestParam String uniqueKeyFields,
+                                   @RequestParam String uniqueKeyIndex, @RequestParam (required = false) boolean generateHash,
+                                   @RequestParam String regex, @RequestParam String replacement, @RequestParam Integer expectedLength){
         return this.dProService.saveDataProfiler(id, name, base_path, prefix, cloneAs, cloneBeforeUnique, cloneFile, uniqueKeyFields,
                 uniqueKeyIndex, generateHash, regex, replacement, expectedLength);
     }
