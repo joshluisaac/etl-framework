@@ -1,41 +1,38 @@
 package com.kollect.etl.service;
 
-import java.sql.Timestamp;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.kollect.etl.dataaccess.HostDao;
 import com.kollect.etl.entity.Host;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.sql.Timestamp;
+import java.util.List;
 
 @Service
 public class HostService {
 	@Autowired
 	private HostDao hostDao;
 
-	public int insertHost(Object object) {
-		return this.hostDao.insertHost(object);
+	private void insertHost(Object object) {
+		this.hostDao.insertHost(object);
 	}
 
-	public List<Object> viewHost(Object object) {
+    private List<Object> viewHost(Object object) {
 		return this.hostDao.viewHost(object);
-		// TODO Auto-generated method stub
-
 	}
 
-	public List<Host> getHostById(Object object) {
+    private List<Host> getHostById(Object object) {
 		return this.hostDao.getHostById(object);
 	}
 
-	public int updateHost(Object object) {
+    private int updateHost(Object object) {
 		return this.hostDao.updateHost(object);
 	}
 	
-	public int deleteHost(Object object) {
-		return this.hostDao.deleteHost(object);
+	public void deleteHost(Object object) {
+		this.hostDao.deleteHost(object);
 	}
 
 	public Object getHost(@RequestParam(required = false) Integer id, Model model){

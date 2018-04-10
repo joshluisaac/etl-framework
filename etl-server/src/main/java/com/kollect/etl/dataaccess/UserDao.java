@@ -1,10 +1,9 @@
 package com.kollect.etl.dataaccess;
 
-import java.util.List;
-
+import com.kollect.etl.entity.User;
 import org.springframework.stereotype.Repository;
 
-import com.kollect.etl.entity.User;
+import java.util.List;
 
 @Repository
 public class UserDao {
@@ -14,12 +13,11 @@ public class UserDao {
 		sqlSessionProvider = new AbstractSqlSessionProvider("postgres");
 	}
 
-	public int insertUser(Object object) {
-		return sqlSessionProvider.insert("insertUser", object);
+	public void insertUser(Object object) {
+		sqlSessionProvider.insert("insertUser", object);
 	}
 
 	public List<Object> viewUser(Object object) {
-		// TODO Auto-generated method stub
 		return sqlSessionProvider.queryObject("viewUser", object);
 	}
 
@@ -28,7 +26,6 @@ public class UserDao {
 	}
 
 	public List<User> getUserById(Object object) {
-		// TODO Auto-generated method stub
 		return sqlSessionProvider.queryObject("getUserById", object);
 	}
 }
