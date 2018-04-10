@@ -25,12 +25,7 @@ public abstract class AbstractAsyncExecutorService implements IAsyncExecutorServ
     this.asyncService = asyncService;
   }
 
-  /*
-   * (non-Javadoc)
-   * 
-   * @see com.kollect.etl.service.IAsyncExecutorService#invoke(java.util.List,
-   * java.lang.String, int, int)
-   */
+  
   @Override
   public <T> void invoke(List<T> list, final List<String> sqlQuery, final int thread, final int commitSize) {
     Iterator<T> itr = list.iterator();
@@ -70,7 +65,7 @@ public abstract class AbstractAsyncExecutorService implements IAsyncExecutorServ
   public void processEntries(final Map<String, CrudProcessHolder> map) {
     for (Map.Entry<String, CrudProcessHolder> entry : map.entrySet()) {
       CrudProcessHolder holder = entry.getValue();
-      List<TransactionLoad> list = rwProvider.executeQuery(holder.getQueryName(), null);
+      List<?> list = rwProvider.executeQuery(holder.getQueryName(), null);
       int recordCount = list.size();
       if (recordCount > 0)
         invoke(list, holder.getChildQuery(), holder.getThread(), holder.getCommitSize());
