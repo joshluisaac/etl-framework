@@ -1,8 +1,8 @@
 package com.kollect.etl.service;
 
-import com.kollect.etl.dataaccess.BatchDao;
 import com.kollect.etl.entity.Batch;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,28 +11,18 @@ import java.util.List;
 
 @Service
 public class BatchService {
+    private IReadWriteServiceProvider rwProvider;
+    private String dataSource;
+
     @Autowired
-    private BatchDao batchDao;
-
-    public int insertBatch(Object object){
-        return this.batchDao.insertBatch(object);
-    }
-
-    public List<Object> viewBatch(Object object){
-        return this.batchDao.viewBatch(object);
-    }
-
-    public List<Object> getBatchById(Object object){
-        return this.batchDao.getBatchById(object);
-    }
-
-    public int updateBatch(Object object){
-        return this.batchDao.updateBatch(object);
+    public BatchService(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_uat_8}") String dataSource){
+        this.rwProvider = rwProvider;
+        this.dataSource = dataSource;
     }
 
     public Object getBatch(@RequestParam(required = false) Integer id, Model model){
-        model.addAttribute("batchList", this.viewBatch(null));
-        List<Object> batches = this.getBatchById(id);
+        model.addAttribute("batchList", this.rwProvider.executeQuery(dataSource, "viewBatch", null));
+        List<Object> batches = this.rwProvider.executeQuery(dataSource, "getBatchById", id);
         if (batches.size() > 0)
             model.addAttribute("batchEditList", batches.get(0));
         else
@@ -47,9 +37,9 @@ public class BatchService {
         boolean insertFlag = false;
         if (id != null)
             newBatch.setId(id);
-        int updateCount = this.updateBatch(newBatch);
+        int updateCount = this.rwProvider.updateQuery(dataSource, "updateBatch" , newBatch);
         if (updateCount == 0){
-            this.insertBatch(newBatch);
+            this.rwProvider.insertQuery(dataSource, "insertBatch", newBatch);
             insertFlag = true;
         }
         if (insertFlag)
