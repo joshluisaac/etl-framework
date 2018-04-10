@@ -1,8 +1,6 @@
 package com.kollect.etl.service;
 
-import java.util.Iterator;
-import java.util.List;
-
+import com.kollect.etl.dataaccess.DaoFactory;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -11,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.kollect.etl.dataaccess.DaoFactory;
-import com.kollect.etl.dataaccess.DaoProvider;
+import java.util.Iterator;
+import java.util.List;
 
 
 
@@ -20,14 +18,12 @@ import com.kollect.etl.dataaccess.DaoProvider;
 public class ReadWriteServiceProvider implements IReadWriteServiceProvider {
   
   private static final Logger LOG = LoggerFactory.getLogger(ReadWriteServiceProvider.class);
-  private DaoProvider dao;
   private DaoFactory d;
   private String defaultDataSource;
   
 
   @Autowired
-  public ReadWriteServiceProvider(DaoProvider dao, DaoFactory d, @Value("${app.datasource}") String dataSource) {
-    this.dao = dao;
+  public ReadWriteServiceProvider(DaoFactory d, @Value("${app.datasource_mahb_prod2}") String dataSource) {
     this.d = d;
     this.defaultDataSource = dataSource;
     LOG.info("Connected to default database {}",defaultDataSource);
