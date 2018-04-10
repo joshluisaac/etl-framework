@@ -1,7 +1,7 @@
 package com.kollect.etl.service;
 
-import com.kollect.etl.dataaccess.AgeInvoiceDao;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -11,20 +11,17 @@ import java.util.Map;
 
 @Service
 public class AgeInvoiceService {
-    @Autowired
-    private AgeInvoiceDao ageInvoiceDao;
-    private boolean lock;
-    @Autowired
+    private IReadWriteServiceProvider rwProvider;
     private BatchHistoryService batchHistoryService;
+    private String dataSource;
+    private boolean lock;
 
-    public List<Object> getAgeInvoiceById(Object object) {
-        return this.ageInvoiceDao.getAgeInvoiceById(object);
-        // TODO Auto-generated method stub
-
-    }
-
-    public int updateAgeInvoice(Object object) {
-        return this.ageInvoiceDao.updateAgeInvoice(object);
+    @Autowired
+    public AgeInvoiceService(IReadWriteServiceProvider rwProvider, BatchHistoryService batchHistoryService,
+                             @Value("${app.datasource_pbk1}") String dataSource){
+        this.rwProvider = rwProvider;
+        this.batchHistoryService = batchHistoryService;
+        this.dataSource = dataSource;
     }
 
     public int combinedAgeInvoiceService(@RequestParam(required = false) Integer tenant_id, @RequestParam Integer batch_id){
@@ -32,7 +29,7 @@ public class AgeInvoiceService {
         if (!lock) {
             long startTime = System.nanoTime();
             lock = true;
-            List<Object> ageInvoiceList = this.getAgeInvoiceById(tenant_id);
+            List<Object> ageInvoiceList = this.rwProvider.executeQuery(dataSource, "getAgeInvoiceById", tenant_id);
             int numberOfRecords = ageInvoiceList.size();
             for (int i = 0; i < numberOfRecords; i++) {
                 Map<Object, Object> map = (Map<Object, Object>) ageInvoiceList.get(i);
@@ -41,7 +38,7 @@ public class AgeInvoiceService {
                 args.put("id", map.get("id"));
                 args.put("mpd", map.get("mpd"));
                 args.put("tenant_id", tenant_id);
-                this.updateAgeInvoice(args);
+                this.rwProvider.updateQuery(dataSource, "updateAgeInvoice", args);
             }
             lock = false;
             numberOfRows = numberOfRecords;
