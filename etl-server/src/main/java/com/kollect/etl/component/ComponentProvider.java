@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.springframework.stereotype.Component;
 
-import com.kollect.etl.dataaccess.DaoProvider;
 import com.kollect.etl.util.StringUtils;
 
 @Component

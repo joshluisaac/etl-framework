@@ -15,8 +15,11 @@ public class Preconditions {
     if (value == null) {
       throw new NullPointerException();
     }
-
     return value;
+  }
+  
+  public static <T> void throwIllegalArgException(T value) {
+    if (value == null) throw new IllegalArgumentException();
   }
 
 

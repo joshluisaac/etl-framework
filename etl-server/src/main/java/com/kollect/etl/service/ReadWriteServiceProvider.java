@@ -1,6 +1,5 @@
 package com.kollect.etl.service;
 
-import com.kollect.etl.dataaccess.DaoFactory;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -8,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import com.kollect.etl.dataaccess.IDaoFactory;
 
 import java.util.Iterator;
 import java.util.List;
@@ -18,42 +19,30 @@ import java.util.List;
 public class ReadWriteServiceProvider implements IReadWriteServiceProvider {
   
   private static final Logger LOG = LoggerFactory.getLogger(ReadWriteServiceProvider.class);
-  private DaoFactory d;
+  private IDaoFactory daoFactory;
   private String defaultDataSource;
   
 
   @Autowired
-  public ReadWriteServiceProvider(DaoFactory d, @Value("${app.datasource_mahb_prod2}") String dataSource) {
-    this.d = d;
+  public ReadWriteServiceProvider(IDaoFactory daoFactory, @Value("${app.datasource_mahb_prod2}") String dataSource) {
+    this.daoFactory = daoFactory;
     this.defaultDataSource = dataSource;
     LOG.info("Connected to default database {}",defaultDataSource);
-    LOG.info("{}",d.hashCode());
+    LOG.info("Hash constr code {}",daoFactory.hashCode());
   }
+
   
-  
-  /* (non-Javadoc)
-   * @see com.kollect.etl.service.IReadWriteServiceProvider#getBatchSqlSession()
-   */
   @Override
   public SqlSession getBatchSqlSession() {
-    
-    //return dao.getBatchSqlSession();
     return getBatchSqlSession(defaultDataSource);
   }
   
   
   @Override
   public SqlSession getBatchSqlSession(String source) {
-    
-    //return dao.getBatchSqlSession();
-    return d.getDaoSource(source).getBatchSqlSession();
+    return daoFactory.getDaoSource(source).getBatchSqlSession();
   }
-  
-  
-  
-  /* (non-Javadoc)
-   * @see com.kollect.etl.service.IReadWriteServiceProvider#updateQuery(java.lang.String, java.lang.Object)
-   */
+
   @Override
   public int updateQuery(final String queryName, Object args){
     return updateQuery(defaultDataSource, queryName, args);
@@ -65,18 +54,13 @@ public class ReadWriteServiceProvider implements IReadWriteServiceProvider {
   @Override
   public int updateQuery(String source, String queryName, Object args) {
     try {
-      //return this.dao.updateQuery(queryName,args);
-      return d.getDaoSource(source).updateQuery(queryName,args);
+      return daoFactory.getDaoSource(source).updateQuery(queryName,args);
     } catch (PersistenceException persEx) {
       LOG.error("Failed to execute update statement: {}",queryName, persEx.getCause());
       throw persEx;
     }
   }
 
-  
-  /* (non-Javadoc)
-   * @see com.kollect.etl.service.IReadWriteServiceProvider#insertQuery(java.lang.String, java.lang.Object)
-   */
   @Override
   public int insertQuery(final String queryName, Object args){
     return insertQuery(defaultDataSource, queryName, args);
@@ -85,8 +69,7 @@ public class ReadWriteServiceProvider implements IReadWriteServiceProvider {
   @Override
   public int insertQuery(String source, String queryName, Object args) {
     try {
-      //return this.dao.insertQuery(queryName,args);
-      return d.getDaoSource(source).insertQuery(queryName,args);
+      return daoFactory.getDaoSource(source).insertQuery(queryName,args);
     } catch (PersistenceException persEx) {
       LOG.error("Failed to execute update statement: {}",queryName, persEx.getCause());
       throw persEx;
@@ -96,25 +79,19 @@ public class ReadWriteServiceProvider implements IReadWriteServiceProvider {
   public <T> List<T> executeQuery(final String queryName, Object args){
     return executeQuery(defaultDataSource, queryName, args);
   }
-  
-  
-  /* (non-Javadoc)
-   * @see com.kollect.etl.service.IReadWriteServiceProvider#executeQuery(java.lang.String, java.lang.Object)
-   */
+
   @Override
   public <T> List<T> executeQuery(final String source, final String queryName, Object args){
+    LOG.info("Hash code {}",daoFactory.hashCode());
     try {
-      //return this.dao.executeQuery(queryName,args);
-      return d.getDaoSource(source).executeQuery(queryName,args);
+      return daoFactory.getDaoSource(source).executeQuery(queryName,args);
     } catch (PersistenceException persEx) {
       LOG.error("Failed to execute statement: {}",queryName, persEx.getCause());
       throw persEx;
     }
   }
   
-  /* (non-Javadoc)
-   * @see com.kollect.etl.service.IReadWriteServiceProvider#executeQueryItr(java.lang.String, java.lang.Object)
-   */
+  
   @Override
   public <T> Iterator<T> executeQueryItr(final String queryName, Object args){
     return executeQueryItr(defaultDataSource, queryName, args);
@@ -123,15 +100,11 @@ public class ReadWriteServiceProvider implements IReadWriteServiceProvider {
   @Override
   public <T> Iterator<T> executeQueryItr(String source, String queryName, Object args) {
     try {
-      //return this.dao.executeQueryItr(queryName,args);
-      return d.getDaoSource(source).executeQueryItr(queryName,args);
+      return daoFactory.getDaoSource(source).executeQueryItr(queryName,args);
     } catch (PersistenceException persEx) {
       LOG.error("Failed to execute statement: {}",queryName, persEx.getCause());
       throw persEx;
     }
   }
-  
-  
-  
 
 }

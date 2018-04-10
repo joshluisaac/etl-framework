@@ -42,7 +42,7 @@ public class DataProfilerService {
 
     public Object getDataProfiler(Integer id, Model model){
         model.addAttribute("DProList", this.rwProvider.executeQuery(dataSource, "viewDataProfiler", null));
-        List<DataProfiler> dProfiler = this.rwProvider.executeQuery(dataSource, "getDataProfilerById", id);
+        List<Object> dProfiler = this.rwProvider.executeQuery(dataSource, "getDataProfilerById", id);
         if (dProfiler.size()>0){
             model.addAttribute("DProEditList", dProfiler.get(0));
         }
