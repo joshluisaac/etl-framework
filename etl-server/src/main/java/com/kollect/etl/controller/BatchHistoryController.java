@@ -22,4 +22,10 @@ public class BatchHistoryController {
         this.batchHistoryService.viewLatestBatchHistory(batch_id, model);
         return "batchHistory";
     }
+
+    @GetMapping("/allbatchhistory")
+    public Object viewAllBatchHistory(Model model){
+        this.batchHistoryService.viewAllBatchHistory(model);
+        return "allBatchHistory";
+    }
 }

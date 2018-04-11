@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.List;
@@ -21,21 +20,26 @@ public class BatchHistoryService {
         this.dataSource = dataSource;
     }
 
-    public void viewLatestBatchHistory(@RequestParam Integer batch_id, Model model){
-        List<Object> LatestBatchHistoryList = this.rwProvider.executeQuery(dataSource, "viewLatestBatchHistory", batch_id);
-        model.addAttribute("LatestBatchHistoryList", LatestBatchHistoryList);
+    public void viewLatestBatchHistory(Integer batch_id, Model model){
+        List<Object> latestBatchHistoryList = this.rwProvider.executeQuery(dataSource, "viewLatestBatchHistory", batch_id);
+        model.addAttribute("latestBatchHistoryList", latestBatchHistoryList);
     }
 
-    public void viewBatchHistory(@RequestParam Integer batch_id, Model model){
-        List<Object> BatchHistoryList = this.rwProvider.executeQuery(dataSource, "viewBatchHistory", batch_id);
-        model.addAttribute("BatchHistoryList", BatchHistoryList);
+    public void viewBatchHistory(Integer batch_id, Model model){
+        List<Object> batchHistoryList = this.rwProvider.executeQuery(dataSource, "viewBatchHistory", batch_id);
+        model.addAttribute("batchHistoryList", batchHistoryList);
     }
 
-    public void runBatchHistory(@RequestParam Integer batch_id, int numberOfRows, long timeTaken){
+    public void runBatchHistory(Integer batch_id, int numberOfRows, long timeTaken){
         Map<Object, Object> args = new HashMap<>();
         args.put("batch_id", batch_id);
         args.put("number_of_records_updated", numberOfRows);
         args.put("time_taken", timeTaken);
         this.rwProvider.insertQuery(dataSource, "insertBatchHistory", args);
+    }
+
+    public void viewAllBatchHistory(Model model){
+        List<Object> allBatchHistoryList = this.rwProvider.executeQuery(dataSource, "viewAllBatchHistory", null);
+        model.addAttribute("allBatchHistoryList", allBatchHistoryList);
     }
 }
