@@ -1,20 +1,21 @@
 package com.kollect.etl.service;
 
-import com.kollect.etl.dataaccess.UpdateDataDateDao;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class UpdateDataDateService {
-    @Autowired
-    private UpdateDataDateDao updateDataDateDao;
-    private boolean lock;
-    @Autowired
+    private IReadWriteServiceProvider rwProvider;
+    private String dataSource;
     private BatchHistoryService batchHistoryService;
+    private boolean lock;
 
-    public int updateDataDate() {
-        return this.updateDataDateDao.updateDataDate();
+    public UpdateDataDateService(IReadWriteServiceProvider rwProvider,
+                                 @Value("${app.datasource_pbk1}") String dataSource, BatchHistoryService batchHistoryService){
+        this.rwProvider = rwProvider;
+        this.dataSource = dataSource;
+        this.batchHistoryService = batchHistoryService;
     }
 
     public int runupdateDataDate(@RequestParam Integer batch_id){
@@ -22,7 +23,7 @@ public class UpdateDataDateService {
         if (!lock) {
             long startTime = System.nanoTime();
             lock = true;
-            this.updateDataDate();
+            this.rwProvider.updateQuery(dataSource, "updateDataDate", null);
             lock = false;
             long endTime = System.nanoTime();
             long timeTaken = (endTime - startTime ) / 1000000;

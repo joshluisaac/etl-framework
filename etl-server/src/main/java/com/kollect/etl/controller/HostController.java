@@ -1,22 +1,30 @@
 package com.kollect.etl.controller;
 
-import java.sql.Timestamp;
-import java.util.List;
-
+import com.kollect.etl.service.HostService;
+import com.kollect.etl.service.IReadWriteServiceProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.kollect.etl.entity.Host;
-import com.kollect.etl.service.HostService;
+import java.sql.Timestamp;
 
 @Controller
 public class HostController {
+    private IReadWriteServiceProvider rwProvider;
+    private String dataSource;
+    private HostService hostService;
+
 	@Autowired
-	private HostService hostService;
+    public HostController(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_uat_8}") String dataSource,
+                       HostService hostService){
+        this.rwProvider = rwProvider;
+        this.dataSource = dataSource;
+        this.hostService = hostService;
+    }
 
 	/**
 	 * HTTP GET request to retrieve all hosts and hosts by id
@@ -44,7 +52,7 @@ public class HostController {
      */
 	@GetMapping("/deletehost")
 	public String deleteHostbyId(@RequestParam(required = false) Integer id) {
-		this.hostService.deleteHost(id);
+		this.rwProvider.executeQuery(dataSource, "deleteHost", id);
 		return "redirect:/host";
 	}
 
