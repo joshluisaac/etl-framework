@@ -1,27 +1,29 @@
 package com.kollect.etl.service;
 
 
+import com.kollect.etl.config.CrudProcessHolder;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
-public class PelitaAgeInvoiceService {
+public class PelitaInAgingService {
     private IReadWriteServiceProvider rwProvider;
     private String dataSource;
+    private IAsyncExecutorService executorService;
     private BatchHistoryService batchHistoryService;
     private boolean lock;
 
     @Autowired
-    public PelitaAgeInvoiceService(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_pelita_test}") String dataSource,BatchHistoryService batchHistoryService){
+    public PelitaInAgingService(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_pelita_test}") String dataSource, BatchHistoryService batchHistoryService, @Qualifier("simple") IAsyncExecutorService executorService){
         this.rwProvider = rwProvider;
         this.dataSource = dataSource;
         this.batchHistoryService = batchHistoryService;
+        this.executorService =  executorService;
     }
 
     public List<Object> getAgeInvoiceById(Object object) {
@@ -36,15 +38,11 @@ public class PelitaAgeInvoiceService {
         if (!lock) {
             long startTime = System.nanoTime();
             lock = true;
-            List<Object> ageInvoiceList = this.getAgeInvoiceById(tenant_id);
-            int numberOfRecords = ageInvoiceList.size();
-            for (int i = 0; i < numberOfRecords; i++) {
-                Map<Object, Object> map = (Map<Object, Object>) ageInvoiceList.get(i);
-                Map<Object, Object> args = new HashMap<>();
-                args.put("in_aging", map.get("in_aging"));
-                args.put("id", map.get("id"));
-                this.rwProvider.updateQuery(dataSource, "pelitaUpdateAgeInvoice", args);
-            }
+            List<Object> inAgingList = this.getAgeInvoiceById(tenant_id);
+            Map<String, CrudProcessHolder> map = new TreeMap<>();
+            map.put("IN_AGING", new CrudProcessHolder("NONE", 10, 100, new ArrayList<>(Arrays.asList("pelitaUpdateAgeInvoice"))));
+            executorService.processEntries(map, inAgingList);
+            int numberOfRecords = inAgingList.size();
             lock = false;
             numberOfRows = numberOfRecords;
             long endTime = System.nanoTime();
