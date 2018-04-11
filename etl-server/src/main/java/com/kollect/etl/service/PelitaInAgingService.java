@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 
@@ -33,12 +32,12 @@ public class PelitaInAgingService {
     }
 
 
-    public int combinedPelitaAgeInvoiceService(@RequestParam(required = false) Integer tenant_id,@RequestParam Integer batch_id) {
+    public int combinedPelitaAgeInvoiceService(Integer batch_id) {
         int numberOfRows = -1;
         if (!lock) {
             long startTime = System.nanoTime();
             lock = true;
-            List<Object> inAgingList = this.getAgeInvoiceById(tenant_id);
+            List<Object> inAgingList = this.getAgeInvoiceById(null);
             Map<String, CrudProcessHolder> map = new TreeMap<>();
             map.put("IN_AGING", new CrudProcessHolder("NONE", 10, 100, new ArrayList<>(Arrays.asList("pelitaUpdateInAging"))));
             executorService.processEntries(map, inAgingList);

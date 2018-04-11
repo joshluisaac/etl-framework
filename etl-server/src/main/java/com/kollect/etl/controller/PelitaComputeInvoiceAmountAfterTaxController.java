@@ -16,7 +16,7 @@ public class PelitaComputeInvoiceAmountAfterTaxController {
     @PostMapping(value = "/pelitacomputeinvoiceamountaftertax", produces="application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
-    public Object pelitaCalcOutstanding (@RequestParam(required = false) Integer tenant_id, @RequestParam Integer batch_id) {
-        return this.service.combinedPelitaComputeInvoiceAmountAfterTax(tenant_id, batch_id);
+    public Object pelitaCalcOutstanding (@RequestParam Integer batch_id) {
+        return this.service.combinedPelitaComputeInvoiceAmountAfterTax(batch_id);
     }
 }

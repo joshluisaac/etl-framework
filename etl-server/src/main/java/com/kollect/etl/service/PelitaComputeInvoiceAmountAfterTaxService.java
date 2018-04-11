@@ -5,7 +5,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 
@@ -33,12 +32,12 @@ public class PelitaComputeInvoiceAmountAfterTaxService {
     }
 
 
-    public int combinedPelitaComputeInvoiceAmountAfterTax(@RequestParam(required = false) Integer tenant_id, @RequestParam Integer batch_id) {
+    public int combinedPelitaComputeInvoiceAmountAfterTax(Integer batch_id) {
         int numberOfRows = -1;
         if (!lock) {
             long startTime = System.nanoTime();
             lock = true;
-            List<Object> outstandingList = this.getInvoiceAmountAfterTaxByTenantId(tenant_id);
+            List<Object> outstandingList = this.getInvoiceAmountAfterTaxByTenantId(null);
             Map<String, CrudProcessHolder> map = new TreeMap<>();
             map.put("COMPUTE_INVOICE", new CrudProcessHolder("NONE", 10, 100, new ArrayList<>(Arrays.asList("updateInvoiceAmountAfterTax"))));
             executorService.processEntries(map, outstandingList);

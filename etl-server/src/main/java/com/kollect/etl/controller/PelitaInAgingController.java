@@ -15,7 +15,7 @@ public class PelitaInAgingController {
     @PostMapping(value = "/pelitainaging", produces = "application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
-    public Object pelitaAgeInvoice (@RequestParam(required = false) Integer tenant_id, @RequestParam Integer batch_id){
-        return this.pelitaInAgingService.combinedPelitaAgeInvoiceService(tenant_id, batch_id);
+    public Object pelitaAgeInvoice (@RequestParam Integer batch_id){
+        return this.pelitaInAgingService.combinedPelitaAgeInvoiceService(batch_id);
     }
 }
