@@ -1,6 +1,6 @@
 package com.kollect.etl.controller;
 
-import com.kollect.etl.service.UpdateDataDateService;
+import com.kollect.etl.service.PbkUpdateDataDateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
-public class UpdateDataDateController {
+public class PbkUpdateDataDateController {
     @Autowired
-    UpdateDataDateService updateDataDateService;
+    PbkUpdateDataDateService pbkUpdateDataDateService;
 
     @PostMapping("/updatedatadate")
     @ResponseBody
     public Object runUpdateDataDate(@RequestParam Integer batch_id){
-        return this.updateDataDateService.runupdateDataDate(batch_id);
+        return this.pbkUpdateDataDateService.runupdateDataDate(batch_id);
     }
 
 }

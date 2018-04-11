@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
-public class LumpSumPaymentService {
+public class PbkLumpSumPaymentService {
     private IReadWriteServiceProvider rwProvider;
     private String dataSource;
     private boolean lock;
@@ -19,7 +19,7 @@ public class LumpSumPaymentService {
 
 
     @Autowired
-    public LumpSumPaymentService(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_pbk1}") String dataSource, BatchHistoryService batchHistoryService) {
+    public PbkLumpSumPaymentService(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_pbk1}") String dataSource, BatchHistoryService batchHistoryService) {
         this.rwProvider = rwProvider;
         this.dataSource = dataSource;
         this.batchHistoryService = batchHistoryService;

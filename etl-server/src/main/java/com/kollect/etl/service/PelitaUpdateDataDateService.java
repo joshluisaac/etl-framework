@@ -2,28 +2,27 @@ package com.kollect.etl.service;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
-public class UpdateDataDateService {
+public class PelitaUpdateDataDateService {
     private IReadWriteServiceProvider rwProvider;
     private String dataSource;
     private BatchHistoryService batchHistoryService;
     private boolean lock;
 
-    public UpdateDataDateService(IReadWriteServiceProvider rwProvider,
-                                 @Value("${app.datasource_pbk1}") String dataSource, BatchHistoryService batchHistoryService){
+    public PelitaUpdateDataDateService(IReadWriteServiceProvider rwProvider,
+                                    @Value("${app.datasource_pelita_test}") String dataSource, BatchHistoryService batchHistoryService){
         this.rwProvider = rwProvider;
         this.dataSource = dataSource;
         this.batchHistoryService = batchHistoryService;
     }
 
-    public int runupdateDataDate(@RequestParam Integer batch_id){
+    public int runupdateDataDate(Integer batch_id){
         int numberOfRows = 1;
         if (!lock) {
             long startTime = System.nanoTime();
             lock = true;
-            this.rwProvider.updateQuery(dataSource, "updateDataDate", null);
+            this.rwProvider.updateQuery(dataSource, "pelitaUpdateDataDate", null);
             lock = false;
             long endTime = System.nanoTime();
             long timeTaken = (endTime - startTime ) / 1000000;
