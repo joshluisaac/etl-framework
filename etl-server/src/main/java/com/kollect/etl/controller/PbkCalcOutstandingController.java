@@ -1,22 +1,19 @@
 package com.kollect.etl.controller;
 
-import com.kollect.etl.service.PelitaCalcOutstandingService;
+import com.kollect.etl.service.PbkCalcOutstandingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.kollect.etl.service.CalcOutstandingService;
 
 @Controller
-public class CalculateOutstandingController {
-
-
+public class PbkCalcOutstandingController {
+  private PbkCalcOutstandingService pbkCalcOutstandingService;
   @Autowired
-  private CalcOutstandingService calcOutstandingService;
-
-  @Autowired
-  private PelitaCalcOutstandingService pelitaCalcOutStandingService;
+  public PbkCalcOutstandingController(PbkCalcOutstandingService pbkCalcOutstandingService){
+   this.pbkCalcOutstandingService = pbkCalcOutstandingService;
+  }
 
   /**
    * HTTP POST request mapping to run the batch
@@ -33,14 +30,7 @@ public class CalculateOutstandingController {
   @SuppressWarnings("unchecked")
   @ResponseBody
   public Object calcOutstanding (@RequestParam (required = false) Integer tenant_id, @RequestParam Integer batch_id) {
-    return this.calcOutstandingService.combinedCalcOutstanding(tenant_id, batch_id);
-  }
-
-  @PostMapping(value = "/pelitacalcoutstanding", produces="application/json")
-  @SuppressWarnings("unchecked")
-  @ResponseBody
-  public Object pelitaCalcOutstanding (@RequestParam (required = false) Integer tenant_id, @RequestParam Integer batch_id) {
-    return this.pelitaCalcOutStandingService.combinedPelitaCalcOutstanding(tenant_id, batch_id);
+    return this.pbkCalcOutstandingService.combinedCalcOutstanding(tenant_id, batch_id);
   }
   
 }

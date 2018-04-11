@@ -8,7 +8,7 @@ public class RunBatchController {
     /**
      * HTTP GET request to retrieve all batches
      *
-     * @return allbatches - used to return the HTML for first time visit.
+     * @return runbatch - used to return the HTML for first time visit.
      */
 
     @GetMapping("/runbatch")

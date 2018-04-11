@@ -10,15 +10,15 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class CalcOutstandingService {
+public class PbkCalcOutstandingService {
     private IReadWriteServiceProvider rwProvider;
     private String dataSource;
     private BatchHistoryService batchHistoryService;
     private boolean lock;
 
     @Autowired
-    public CalcOutstandingService(IReadWriteServiceProvider rwProvider,
-                                  @Value("${app.datasource_pbk1}") String dataSource, BatchHistoryService batchHistoryService){
+    public PbkCalcOutstandingService(IReadWriteServiceProvider rwProvider,
+                                     @Value("${app.datasource_pbk1}") String dataSource, BatchHistoryService batchHistoryService){
         this.rwProvider = rwProvider;
         this.dataSource = dataSource;
         this.batchHistoryService = batchHistoryService;
