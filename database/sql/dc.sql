@@ -157,3 +157,6 @@ CREATE TABLE kvdata_profiler (
 );
 
 CREATE SEQUENCE kvdata_profiler_id;
+
+alter table kv_data_date add tenant_id bigint;
+update kv_data_date set tenant_id = 63;
