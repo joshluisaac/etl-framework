@@ -30,7 +30,7 @@ public class PbkCalcOutstandingController {
   @SuppressWarnings("unchecked")
   @ResponseBody
   public Object calcOutstanding (@RequestParam (required = false) Integer tenant_id, @RequestParam Integer batch_id) {
-    return this.pbkCalcOutstandingService.combinedCalcOutstanding(tenant_id, batch_id);
+    return this.pbkCalcOutstandingService.combinedCalcOutstanding(batch_id);
   }
   
 }

@@ -3,7 +3,6 @@ package com.kollect.etl.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,12 +23,12 @@ public class PbkCalcOutstandingService {
         this.batchHistoryService = batchHistoryService;
     }
 
-    public int combinedCalcOutstanding(@RequestParam(required = false) Integer tenant_id, @RequestParam Integer batch_id) {
+    public int combinedCalcOutstanding(Integer batch_id) {
         int numberOfRows = -1;
         if (!lock) {
             long startTime = System.nanoTime();
             lock = true;
-            List<Object> outstandingList = this.rwProvider.executeQuery(dataSource, "getOutstandingByTenantId", tenant_id);
+            List<Object> outstandingList = this.rwProvider.executeQuery(dataSource, "getOutstandingByTenantId", null);
             int numberOfRecords = outstandingList.size();
             for (int i = 0; i < numberOfRecords; i++) {
                 Map<Object, Object> map = (Map<Object, Object>) outstandingList.get(i);
