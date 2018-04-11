@@ -13,15 +13,14 @@ import java.util.Map;
 public class PelitaCalcOutstandingService {
     private IReadWriteServiceProvider rwProvider;
     private String dataSource;
-
-    @Autowired
     private BatchHistoryService batchHistoryService;
     private boolean lock;
 
     @Autowired
-    public PelitaCalcOutstandingService(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_pelita_test}") String dataSource){
+    public PelitaCalcOutstandingService(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_pelita_test}") String dataSource,BatchHistoryService batchHistoryService){
         this.rwProvider = rwProvider;
         this.dataSource = dataSource;
+        this.batchHistoryService = batchHistoryService;
     }
 
     public List<Object> getOutstandingByTenantId(Object object) {

@@ -1,49 +1,46 @@
 package com.kollect.etl.service;
 
-import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.kollect.etl.dataaccess.LumpSumPaymentDao;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 public class LumpSumPaymentService {
-
-    @Autowired
-    private LumpSumPaymentDao LumpSumPaymentDao;
+    private IReadWriteServiceProvider rwProvider;
+    private String dataSource;
     private boolean lock;
-    @Autowired
     private BatchHistoryService batchHistoryService;
 
+
+    @Autowired
+    public LumpSumPaymentService(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_pbk1}") String dataSource, BatchHistoryService batchHistoryService) {
+        this.rwProvider = rwProvider;
+        this.dataSource = dataSource;
+        this.batchHistoryService = batchHistoryService;
+    }
+
     public List<Object> getSumAmount(Object object) {
-        return this.LumpSumPaymentDao.getSumAmount(object);
+        return this.rwProvider.executeQuery(dataSource, "getSumAmount", object);
     }
 
     public int updateGetSumAmount(Object object) {
-        return this.LumpSumPaymentDao.updateGetSumAmount(object);
+        return this.rwProvider.updateQuery(dataSource, "updateGetSumAmount",object);
     }
 
     public int insertGetSumAmount(Object object) {
-        return this.LumpSumPaymentDao.insertGetSumAmount(object);
+        return this.rwProvider.insertQuery(dataSource, "insertGetSumAmount",object);
     }
 
     public int deleteNetLumpSum(Object object) {
 
-        try{
-            this.LumpSumPaymentDao.deleteNetLumpSum(object);
-        }
+            return this.rwProvider.updateQuery(dataSource, "truncateNetLumpSum", object);
 
-        catch(SQLException e){
-            System.out.println(e);
-           e.printStackTrace();
-        }
-
-        return -1;
     }
 
     public int combinedLumpSumPaymentService(@RequestParam Integer batch_id){

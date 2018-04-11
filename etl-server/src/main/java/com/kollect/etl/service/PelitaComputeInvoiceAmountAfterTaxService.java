@@ -14,15 +14,14 @@ public class PelitaComputeInvoiceAmountAfterTaxService {
 
     private IReadWriteServiceProvider rwProvider;
     private String dataSource;
-
-    @Autowired
     private BatchHistoryService batchHistoryService;
     private boolean lock;
 
     @Autowired
-    public PelitaComputeInvoiceAmountAfterTaxService(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_pelita_test}") String dataSource){
+    public PelitaComputeInvoiceAmountAfterTaxService(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_pelita_test}") String dataSource, BatchHistoryService batchHistoryService){
         this.rwProvider = rwProvider;
         this.dataSource = dataSource;
+        this.batchHistoryService = batchHistoryService;
     }
 
     public List<Object> getInvoiceAmountAfterTaxByTenantId(Object object) {
