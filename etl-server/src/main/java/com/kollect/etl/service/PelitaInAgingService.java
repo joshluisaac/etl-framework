@@ -27,7 +27,7 @@ public class PelitaInAgingService {
     }
 
     public List<Object> getAgeInvoiceById(Object object) {
-        return this.rwProvider.executeQuery(dataSource, "getPelitaAgeInvoiceById", object);
+        return this.rwProvider.executeQuery(dataSource, "getPelitaInAgingById", object);
         // TODO Auto-generated method stub
 
     }
@@ -40,7 +40,7 @@ public class PelitaInAgingService {
             lock = true;
             List<Object> inAgingList = this.getAgeInvoiceById(tenant_id);
             Map<String, CrudProcessHolder> map = new TreeMap<>();
-            map.put("IN_AGING", new CrudProcessHolder("NONE", 10, 100, new ArrayList<>(Arrays.asList("pelitaUpdateAgeInvoice"))));
+            map.put("IN_AGING", new CrudProcessHolder("NONE", 10, 100, new ArrayList<>(Arrays.asList("pelitaUpdateInAging"))));
             executorService.processEntries(map, inAgingList);
             int numberOfRecords = inAgingList.size();
             lock = false;

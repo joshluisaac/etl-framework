@@ -12,7 +12,7 @@ public class PelitaInAgingController {
     @Autowired
     private PelitaInAgingService pelitaInAgingService;
 
-    @PostMapping(value = "/pelitaageinvoice", produces = "application/json")
+    @PostMapping(value = "/pelitainaging", produces = "application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object pelitaAgeInvoice (@RequestParam(required = false) Integer tenant_id, @RequestParam Integer batch_id){

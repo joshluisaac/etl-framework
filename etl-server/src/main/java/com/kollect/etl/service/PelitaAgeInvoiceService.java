@@ -5,52 +5,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.*;
 
 @Service
-public class PelitaInvoiceStatusEvaluationService {
-
+public class PelitaAgeInvoiceService {
 
     private IReadWriteServiceProvider rwProvider;
-    private String dataSource;
     private BatchHistoryService batchHistoryService;
     private IAsyncExecutorService executorService;
+    private String dataSource;
     private boolean lock;
 
     @Autowired
-    public PelitaInvoiceStatusEvaluationService(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_pelita_test}") String dataSource, BatchHistoryService batchHistoryService, @Qualifier("simple") IAsyncExecutorService executorService){
+    public PelitaAgeInvoiceService(IReadWriteServiceProvider rwProvider, BatchHistoryService batchHistoryService,
+                                @Value("${app.datasource_pelita_test}") String dataSource, @Qualifier("simple") IAsyncExecutorService executorService){
         this.rwProvider = rwProvider;
-        this.dataSource = dataSource;
         this.batchHistoryService = batchHistoryService;
+        this.dataSource = dataSource;
         this.executorService = executorService;
     }
 
-    public List<Object> getInvoiceStatusIdById() {
-        return this.rwProvider.executeQuery(dataSource, "getInvoiceStatusById", null);
-        // TODO Auto-generated method stub
-
-    }
-
-
-    public int combinePelitaInvoiceStatusEvaluation(Integer batch_id) {
+    public int combinedAgeInvoiceService(Integer batch_id){
         int numberOfRows = -1;
-        if (!lock)  {
+        if (!lock) {
             long startTime = System.nanoTime();
             lock = true;
-            List<Object> statusIdList = this.getInvoiceStatusIdById();
+            List<Object> ageInvoiceList = this.rwProvider.executeQuery(dataSource, "getPelitaAgeInvoicesById", null);
             Map<String, CrudProcessHolder> map = new TreeMap<>();
-            map.put("INV_STAT", new CrudProcessHolder("NONE", 10, 100, new ArrayList<>(Arrays.asList("updateInvoiceStatusEvaluation"))));
-            executorService.processEntries(map, statusIdList);
-            int numberOfRecords = statusIdList.size();
+            map.put("AGE_INV", new CrudProcessHolder("NONE", 10, 100, new ArrayList<>(Arrays.asList("updatePelitaAgeInvoices"))));
+            executorService.processEntries(map, ageInvoiceList);
+            int numberOfRecords = ageInvoiceList.size();
             lock = false;
             numberOfRows = numberOfRecords;
             long endTime = System.nanoTime();
-            long timeTaken = (endTime - startTime) / 1000000;
+            long timeTaken = (endTime - startTime ) / 1000000;
             this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken);
         }
         return numberOfRows;
     }
-
 }
