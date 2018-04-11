@@ -1,8 +1,8 @@
 package com.kollect.etl.service;
 
-import com.kollect.etl.dataaccess.UserDao;
 import com.kollect.etl.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,29 +11,19 @@ import java.util.List;
 
 @Service
 public class UserManagementService {
+    private IReadWriteServiceProvider rwProvider;
+    private String dataSource;
+
 	@Autowired
-	private UserDao userDao;
-
-	private void insertUser(Object object) {
-		this.userDao.insertUser(object);
-	}
-
-    private List<Object> viewUser(Object object) {
-		return this.userDao.viewUser(object);
-	}
-
-    private int updateUser(Object object) {
-		return this.userDao.updateUser(object);
-	}
-
-    private List<User> getUserById(Object object){
-    return this.userDao.getUserById(object);
-  }
+    public UserManagementService(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_uat_8}") String dataSource){
+        this.rwProvider = rwProvider;
+        this.dataSource = dataSource;
+    }
 
   public Object getUser(@RequestParam(required = false) Integer id, Model model){
       model.addAttribute("pageTitle", "DataConnector");
-      model.addAttribute("userList", this.viewUser(null));
-      List<User> users = this.getUserById(id);
+      model.addAttribute("userList", this.rwProvider.executeQuery(dataSource, "viewUser", null));
+      List<User> users = this.rwProvider.executeQuery(dataSource, "getUserById", id);
       if (users.size() > 0)
           model.addAttribute("userEditList", users.get(0));
       else
@@ -49,9 +39,9 @@ public class UserManagementService {
       User newUser = new User(email, firstName, lastName, password, enabled, role, tenant_id);
       if (id != null)
           newUser.setId(id);
-      int updateCount = this.updateUser(newUser);
+      int updateCount = this.rwProvider.updateQuery(dataSource, "updateUser", newUser);
       if (updateCount == 0) {
-          this.insertUser(newUser);
+          this.rwProvider.insertQuery(dataSource,"insertUser", newUser);
           insertFlag = true;
       }
       if (insertFlag)
