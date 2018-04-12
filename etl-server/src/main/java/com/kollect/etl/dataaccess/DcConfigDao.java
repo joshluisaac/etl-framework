@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.kollect.etl.entity.DcConfig;
+import com.kollect.etl.entity.app.DcConfig;
 
 @Repository
 public class DcConfigDao {
