@@ -25,31 +25,15 @@ public class PbkLumpSumPaymentService {
         this.batchHistoryService = batchHistoryService;
     }
 
-    public List<Object> getSumAmount(Object object) {
-        return this.rwProvider.executeQuery(dataSource, "getSumAmount", object);
-    }
-
-    public int updateGetSumAmount(Object object) {
-        return this.rwProvider.updateQuery(dataSource, "updateGetSumAmount",object);
-    }
-
-    public int insertGetSumAmount(Object object) {
-        return this.rwProvider.insertQuery(dataSource, "insertGetSumAmount",object);
-    }
-
-    public int deleteNetLumpSum(Object object) {
-
-            return this.rwProvider.updateQuery(dataSource, "truncateNetLumpSum", object);
-
-    }
+    
 
     public int combinedLumpSumPaymentService(@RequestParam Integer batch_id){
         int numberOfRows = -1;
         if (!lock) {
             long startTime = System.nanoTime();
             lock = true;
-            List<Object> selectLumSumPaymentList = this.getSumAmount(null);
-            this.deleteNetLumpSum(null);
+            List<Object> selectLumSumPaymentList = this.rwProvider.executeQuery(dataSource, "getSumAmount", null);
+            this.rwProvider.updateQuery(dataSource, "truncateNetLumpSum", null);
             int numberOfRecords = selectLumSumPaymentList.size();
             for (int x = 0; x < numberOfRecords; x++) {
 
@@ -57,9 +41,9 @@ public class PbkLumpSumPaymentService {
                 Map<Object, Object> args = new HashMap<>();
                 args.put("account_id", map.get("account_id"));
                 args.put("net_lump_sum_amount", map.get("net_lump_sum_amount"));
-                int updateCount = this.updateGetSumAmount(args);
+                int updateCount = this.rwProvider.updateQuery(dataSource, "updateGetSumAmount",args);
                 if (updateCount == 0) {
-                    this.insertGetSumAmount(args);
+                    this.rwProvider.insertQuery(dataSource, "insertGetSumAmount",args);
                 }
             }
             lock = false;
