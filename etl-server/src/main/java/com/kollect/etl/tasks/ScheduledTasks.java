@@ -16,6 +16,7 @@ public class ScheduledTasks {
     private PelitaComputeInvoiceAmountAfterTaxService pelitaComputeInvoiceAmountAfterTaxServicePelita;
     private PelitaInAgingService pelitaInAgingServicePelita;
     private PelitaInvoiceStatusEvaluationService pelitaInvoiceStatusEvaluationServicePelita;
+    private PelitaComputeDebitAmountAfterTaxService pelitaComputeDebitAmountAfterTaxService;
 
     @Autowired
     public ScheduledTasks(PbkLumpSumPaymentService pbklSumPayServ,
@@ -25,7 +26,8 @@ public class ScheduledTasks {
                           PelitaAgeInvoiceService pelitaAgeInvoiceService,
                           PelitaComputeInvoiceAmountAfterTaxService pelitaComputeInvoiceAmountAfterTaxServicePelita,
                           PelitaInAgingService pelitaInAgingServicePelita,
-                          PelitaInvoiceStatusEvaluationService pelitaInvoiceStatusEvaluationServicePelita){
+                          PelitaInvoiceStatusEvaluationService pelitaInvoiceStatusEvaluationServicePelita,
+                          PelitaComputeDebitAmountAfterTaxService pelitaComputeDebitAmountAfterTaxService){
         this.pbklSumPayServ = pbklSumPayServ;
         this.pbkageInvServ = pbkageInvServ;
         this.pbkupdDataDateServ = pbkupdDataDateServ;
@@ -34,6 +36,7 @@ public class ScheduledTasks {
         this.pelitaComputeInvoiceAmountAfterTaxServicePelita = pelitaComputeInvoiceAmountAfterTaxServicePelita;
         this.pelitaInAgingServicePelita = pelitaInAgingServicePelita;
         this.pelitaInvoiceStatusEvaluationServicePelita = pelitaInvoiceStatusEvaluationServicePelita;
+        this.pelitaComputeDebitAmountAfterTaxService = pelitaComputeDebitAmountAfterTaxService;
     }
 
     @Scheduled(cron = "0 0 5 * * *")
@@ -50,6 +53,7 @@ public class ScheduledTasks {
         this.pelitaInvoiceStatusEvaluationServicePelita.combinePelitaInvoiceStatusEvaluation(58);
         this.pelitaAgeInvoiceService.combinedAgeInvoiceService(59);
         this.pelitaUpdateDataDateService.runupdateDataDate(60);
+        this.pelitaComputeDebitAmountAfterTaxService.combinedPelitaComputeDebitAmountAfterTax(61);
     }
 
 }
