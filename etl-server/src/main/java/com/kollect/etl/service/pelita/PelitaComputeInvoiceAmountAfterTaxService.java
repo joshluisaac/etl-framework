@@ -42,7 +42,8 @@ public class PelitaComputeInvoiceAmountAfterTaxService {
             lock = true;
             List<Object> outstandingList = this.getInvoiceAmountAfterTaxByTenantId(null);
             Map<String, CrudProcessHolder> map = new TreeMap<>();
-            map.put("COMPUTE_INVOICE", new CrudProcessHolder("NONE", 10, 100, new ArrayList<>(Arrays.asList("updateInvoiceAmountAfterTax"))));
+            map.put("COMPUTE_INVOICE", new CrudProcessHolder(dataSource, "NONE", 1, 100, new ArrayList<>(Arrays.asList("updateInvoiceAmountAfterTax"))));
+            rwProvider.getBatchSqlSession(dataSource);
             executorService.processEntries(map, outstandingList);
             int numberOfRecords = outstandingList.size();
             lock = false;

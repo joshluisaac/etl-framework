@@ -4,6 +4,6 @@ import java.util.Map;
 
 public interface IBatchConfig {
   
-  public Map<String, CrudProcessHolder> crudHolderMap(Map<String, CrudProcessHolder> map);
+  public Map<String, CrudProcessHolder> crudHolderMap(Map<String, CrudProcessHolder> map, final String dataSrc);
 
 }

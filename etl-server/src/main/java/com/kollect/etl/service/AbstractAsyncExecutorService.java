@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kollect.etl.config.CrudProcessHolder;
-import com.kollect.etl.entity.TransactionLoad;
 import com.kollect.etl.util.LogStats;
 
 public abstract class AbstractAsyncExecutorService implements IAsyncExecutorService {
@@ -27,13 +26,13 @@ public abstract class AbstractAsyncExecutorService implements IAsyncExecutorServ
 
   
   @Override
-  public <T> void invoke(List<T> list, final List<String> sqlQuery, final int thread, final int commitSize) {
+  public <T> void invoke(final String src, List<T> list, final List<String> sqlQuery, final int thread, final int commitSize) {
     Iterator<T> itr = list.iterator();
     asyncService.execute(itr, new IRunnableProcess<T>() {
       @Override
       public void process(final List<T> threadData) {
         long queryStart = System.currentTimeMillis();
-        try (final SqlSession sqlSession = rwProvider.getBatchSqlSession();) {
+        try (final SqlSession sqlSession = rwProvider.getBatchSqlSession(src);) {
           for (int i = 0; i < threadData.size(); i++) {
             for (String query : sqlQuery) {
               sqlSession.update(query, threadData.get(i));
@@ -56,21 +55,9 @@ public abstract class AbstractAsyncExecutorService implements IAsyncExecutorServ
       CrudProcessHolder holder = entry.getValue();
       int recordCount = list.size();
       if (recordCount > 0)
-        invoke(list, holder.getChildQuery(), holder.getThread(), holder.getCommitSize());
+        invoke(holder.getDataSource(), list, holder.getChildQuery(), holder.getThread(), holder.getCommitSize());
       holder.setRecordCount(recordCount);
     }
   }
-
-  @Override
-  public void processEntries(final Map<String, CrudProcessHolder> map) {
-    for (Map.Entry<String, CrudProcessHolder> entry : map.entrySet()) {
-      CrudProcessHolder holder = entry.getValue();
-      List<?> list = rwProvider.executeQuery(holder.getQueryName(), null);
-      int recordCount = list.size();
-      if (recordCount > 0)
-        invoke(list, holder.getChildQuery(), holder.getThread(), holder.getCommitSize());
-      holder.setRecordCount(recordCount);
-    }
-  }
-
+  
 }

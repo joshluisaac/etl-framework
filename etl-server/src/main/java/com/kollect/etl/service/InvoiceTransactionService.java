@@ -28,13 +28,13 @@ public class InvoiceTransactionService extends AbstractAsyncExecutorService {
   }
   
   @Override
-  public <T> void invoke (List<T> list, final List<String> sqlQuery, final int thread, final int commitSize ) {
+  public <T> void invoke(final String src, List<T> list, final List<String> sqlQuery, final int thread, final int commitSize) {
     Iterator<T> itr = list.iterator();
     asyncService.execute(itr, new IRunnableProcess<Invoice>() {
       @Override
       public void process(List<Invoice> threadData) {
         long queryStart = System.currentTimeMillis();
-        try (final SqlSession sqlSession = rwProvider.getBatchSqlSession();) {
+        try (final SqlSession sqlSession = rwProvider.getBatchSqlSession(src);) {
           for (int i = 0; i < threadData.size(); i++) {
             
             if(!threadData.get(i).isUpdateRow()) {
@@ -62,7 +62,7 @@ public class InvoiceTransactionService extends AbstractAsyncExecutorService {
       CrudProcessHolder holder = entry.getValue();
       int recordCount = list.size();
       if (recordCount > 0)
-        invoke(list, holder.getChildQuery(), holder.getThread(), holder.getCommitSize());
+        invoke(holder.getDataSource(), list, holder.getChildQuery(), holder.getThread(), holder.getCommitSize());
       holder.setRecordCount(recordCount);
     }
   }

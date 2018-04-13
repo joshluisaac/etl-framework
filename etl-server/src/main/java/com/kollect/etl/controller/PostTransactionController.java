@@ -24,7 +24,7 @@ import com.kollect.etl.service.IAsyncExecutorService;
 import com.kollect.etl.service.IReadWriteServiceProvider;
 import com.kollect.etl.service.RouteService;
 
-@Controller
+//@Controller
 public class PostTransactionController {
 
   private ComponentProvider compProvider;
