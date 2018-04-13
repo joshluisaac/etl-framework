@@ -11,29 +11,29 @@ public class ScheduledTasks {
     private PbkLumpSumPaymentService pbklSumPayServ;
     private PbkAgeInvoiceService pbkageInvServ;
     private PbkUpdateDataDateService pbkupdDataDateServ;
-    private PelitaUpdateDataDateService pelitaPelitaUpdateDataDateService;
-    private PelitaAgeInvoiceService pelitaPelitaAgeInvoiceService;
-    private PelitaComputeInvoiceAmountAfterTaxService pelitacomputeInvoiceAmountAfterTaxServicePelita;
-    private PelitaInAgingService pelitainAgingServicePelita;
-    private PelitaInvoiceStatusEvaluationService pelitainvoiceStatusEvaluationServicePelita;
+    private PelitaUpdateDataDateService pelitaUpdateDataDateService;
+    private PelitaAgeInvoiceService pelitaAgeInvoiceService;
+    private PelitaComputeInvoiceAmountAfterTaxService pelitaComputeInvoiceAmountAfterTaxServicePelita;
+    private PelitaInAgingService pelitaInAgingServicePelita;
+    private PelitaInvoiceStatusEvaluationService pelitaInvoiceStatusEvaluationServicePelita;
 
     @Autowired
     public ScheduledTasks(PbkLumpSumPaymentService pbklSumPayServ,
                           PbkAgeInvoiceService pbkageInvServ,
                           PbkUpdateDataDateService pbkupdDataDateServ,
-                          PelitaUpdateDataDateService pelitaPelitaUpdateDataDateService,
-                          PelitaAgeInvoiceService pelitaPelitaAgeInvoiceService,
-                          PelitaComputeInvoiceAmountAfterTaxService pelitacomputeInvoiceAmountAfterTaxServicePelita,
-                          PelitaInAgingService pelitainAgingServicePelita,
-                          PelitaInvoiceStatusEvaluationService pelitainvoiceStatusEvaluationServicePelita){
+                          PelitaUpdateDataDateService pelitaUpdateDataDateService,
+                          PelitaAgeInvoiceService pelitaAgeInvoiceService,
+                          PelitaComputeInvoiceAmountAfterTaxService pelitaComputeInvoiceAmountAfterTaxServicePelita,
+                          PelitaInAgingService pelitaInAgingServicePelita,
+                          PelitaInvoiceStatusEvaluationService pelitaInvoiceStatusEvaluationServicePelita){
         this.pbklSumPayServ = pbklSumPayServ;
         this.pbkageInvServ = pbkageInvServ;
         this.pbkupdDataDateServ = pbkupdDataDateServ;
-        this.pelitaPelitaUpdateDataDateService = pelitaPelitaUpdateDataDateService;
-        this.pelitaPelitaAgeInvoiceService = pelitaPelitaAgeInvoiceService;
-        this.pelitacomputeInvoiceAmountAfterTaxServicePelita = pelitacomputeInvoiceAmountAfterTaxServicePelita;
-        this.pelitainAgingServicePelita = pelitainAgingServicePelita;
-        this.pelitainvoiceStatusEvaluationServicePelita = pelitainvoiceStatusEvaluationServicePelita;
+        this.pelitaUpdateDataDateService = pelitaUpdateDataDateService;
+        this.pelitaAgeInvoiceService = pelitaAgeInvoiceService;
+        this.pelitaComputeInvoiceAmountAfterTaxServicePelita = pelitaComputeInvoiceAmountAfterTaxServicePelita;
+        this.pelitaInAgingServicePelita = pelitaInAgingServicePelita;
+        this.pelitaInvoiceStatusEvaluationServicePelita = pelitaInvoiceStatusEvaluationServicePelita;
     }
 
     @Scheduled(cron = "0 0 5 * * *")
@@ -45,11 +45,11 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "0 0 4 * * *")
     public void runPelitaBatches() {
-        this.pelitainvoiceStatusEvaluationServicePelita.combinePelitaInvoiceStatusEvaluation(58);
-        this.pelitaPelitaAgeInvoiceService.combinedAgeInvoiceService(59);
-        this.pelitacomputeInvoiceAmountAfterTaxServicePelita.combinedPelitaComputeInvoiceAmountAfterTax(57);
-        this.pelitainAgingServicePelita.combinedPelitaAgeInvoiceService(56);
-        this.pelitaPelitaUpdateDataDateService.runupdateDataDate(60);
+        this.pelitaComputeInvoiceAmountAfterTaxServicePelita.combinedPelitaComputeInvoiceAmountAfterTax(57);
+        this.pelitaInAgingServicePelita.combinedPelitaAgeInvoiceService(56);
+        this.pelitaInvoiceStatusEvaluationServicePelita.combinePelitaInvoiceStatusEvaluation(58);
+        this.pelitaAgeInvoiceService.combinedAgeInvoiceService(59);
+        this.pelitaUpdateDataDateService.runupdateDataDate(60);
     }
 
 }
