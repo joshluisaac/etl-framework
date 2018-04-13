@@ -35,7 +35,7 @@ public class PbkAgeInvoiceService {
           lock = true;
           List<Object> ageInvoiceList = this.rwProvider.executeQuery(dataSource, "getAgeInvoiceById", null);
           Map<String, CrudProcessHolder> map = new TreeMap<>();
-          map.put("AGE_INV", new CrudProcessHolder("NONE", 10, 100, new ArrayList<>(Arrays.asList("updateAgeInvoice"))));
+          map.put("AGE_INV", new CrudProcessHolder(dataSource,"NONE", 10, 100, new ArrayList<>(Arrays.asList("updateAgeInvoice"))));
           executorService.processEntries(map, ageInvoiceList);
           int numberOfRecords = ageInvoiceList.size();
           lock = false;

@@ -36,7 +36,7 @@ public class PelitaAgeInvoiceService {
             lock = true;
             List<Object> ageInvoiceList = this.rwProvider.executeQuery(dataSource, "getPelitaAgeInvoicesById", null);
             Map<String, CrudProcessHolder> map = new TreeMap<>();
-            map.put("AGE_INV", new CrudProcessHolder("NONE", 10, 100, new ArrayList<>(Arrays.asList("updatePelitaAgeInvoices"))));
+            map.put("AGE_INV", new CrudProcessHolder(dataSource,"NONE", 10, 100, new ArrayList<>(Arrays.asList("updatePelitaAgeInvoices"))));
             executorService.processEntries(map, ageInvoiceList);
             int numberOfRecords = ageInvoiceList.size();
             lock = false;

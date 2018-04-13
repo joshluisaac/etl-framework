@@ -42,7 +42,7 @@ public class PelitaInAgingService {
             lock = true;
             List<Object> inAgingList = this.getAgeInvoiceById(null);
             Map<String, CrudProcessHolder> map = new TreeMap<>();
-            map.put("IN_AGING", new CrudProcessHolder("NONE", 10, 100, new ArrayList<>(Arrays.asList("pelitaUpdateInAging"))));
+            map.put("IN_AGING", new CrudProcessHolder(dataSource,"NONE", 10, 100, new ArrayList<>(Arrays.asList("pelitaUpdateInAging"))));
             executorService.processEntries(map, inAgingList);
             int numberOfRecords = inAgingList.size();
             lock = false;

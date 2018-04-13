@@ -32,13 +32,13 @@ public class PostTransactionBatchConfig implements IBatchConfig {
     return new ArrayList<>(Arrays.asList("updateIsInvoiceAndIsCredit"));
  }
   
-  public Map<String, CrudProcessHolder> crudHolderMap(Map<String, CrudProcessHolder> map) {
+  public Map<String, CrudProcessHolder> crudHolderMap(Map<String, CrudProcessHolder> map, final String dataSrc) {
 //    map.put("1", new CrudProcessHolder("getDepositTransactions", 10, 100, getIsDepositChildQuery()));
 //    map.put("2", new CrudProcessHolder("getInvoiceTransactionType", 10, 100, getInvoiceTrxChildQuery()));
 //    map.put("3", new CrudProcessHolder("getPaymentTransactionType", 10, 100, getPaymentTrxChildQuery()));
 //    map.put("4", new CrudProcessHolder("getInvoiceStatusId", 10, 100, getInvoiceStatusIdChildQuery()));
 //    map.put("5", new CrudProcessHolder("getInvoiceInAging", 10, 100, getInAgingChildQuery()));
-    map.put("6", new CrudProcessHolder("getTrxPostKeyFlagsForDocTypeAB", 10, 100, getPostKeyChildQuery()));
+    map.put("6", new CrudProcessHolder(null,"getTrxPostKeyFlagsForDocTypeAB", 10, 100, getPostKeyChildQuery()));
     return map;
 }
 

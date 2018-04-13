@@ -43,7 +43,7 @@ public class PelitaInvoiceStatusEvaluationService {
             lock = true;
             List<Object> statusIdList = this.getInvoiceStatusIdById();
             Map<String, CrudProcessHolder> map = new TreeMap<>();
-            map.put("INV_STAT", new CrudProcessHolder("NONE", 10, 100, new ArrayList<>(Arrays.asList("updateInvoiceStatusEvaluation"))));
+            map.put("INV_STAT", new CrudProcessHolder(dataSource,"NONE", 10, 100, new ArrayList<>(Arrays.asList("updateInvoiceStatusEvaluation"))));
             executorService.processEntries(map, statusIdList);
             int numberOfRecords = statusIdList.size();
             lock = false;
