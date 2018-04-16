@@ -33,7 +33,7 @@ public class PbkUpdateDataDateService {
                 lock = false;
                 long endTime = System.nanoTime();
                 long timeTaken = (endTime - startTime ) / 1000000;
-                this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken);
+                this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken, aDataSource);
             }
         }
         return numberOfRows;

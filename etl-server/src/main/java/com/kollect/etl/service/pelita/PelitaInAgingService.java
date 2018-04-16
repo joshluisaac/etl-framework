@@ -30,8 +30,6 @@ public class PelitaInAgingService {
 
     public List<Object> getAgeInvoiceById(Object object) {
         return this.rwProvider.executeQuery(dataSource, "getPelitaInAgingById", object);
-        // TODO Auto-generated method stub
-
     }
 
 
@@ -49,7 +47,7 @@ public class PelitaInAgingService {
             numberOfRows = numberOfRecords;
             long endTime = System.nanoTime();
             long timeTaken = (endTime - startTime ) / 1000000;
-            this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken);
+            this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken, dataSource);
 
         }
         System.out.println("AgeInvoice - Number of rows updated: " + numberOfRows);

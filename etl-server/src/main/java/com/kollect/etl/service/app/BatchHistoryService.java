@@ -31,11 +31,12 @@ public class BatchHistoryService {
         model.addAttribute("batchHistoryList", batchHistoryList);
     }
 
-    public void runBatchHistory(Integer batch_id, int numberOfRows, long timeTaken){
+    public void runBatchHistory(Integer batch_id, int numberOfRows, long timeTaken, String dataFrom){
         Map<Object, Object> args = new HashMap<>();
         args.put("batch_id", batch_id);
         args.put("number_of_records_updated", numberOfRows);
         args.put("time_taken", timeTaken);
+        args.put("data_source", dataFrom);
         this.rwProvider.insertQuery(dataSource, "insertBatchHistory", args);
     }
 

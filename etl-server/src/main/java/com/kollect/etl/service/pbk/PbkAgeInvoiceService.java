@@ -44,7 +44,7 @@ public class PbkAgeInvoiceService {
                 numberOfRows = numberOfRecords;
                 long endTime = System.nanoTime();
                 long timeTaken = (endTime - startTime) / 1000000;
-                this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken);
+                this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken, aDataSource);
             }
         }
         System.out.println("AgeInvoice - Number of rows updated: " + numberOfRows);

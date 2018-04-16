@@ -27,7 +27,8 @@ public class TransactionUpdateController {
 
     @Autowired
     public TransactionUpdateController(IReadWriteServiceProvider rwProvider, IAsyncBatchService asyncService,
-                                       BatchHistoryService batchHistoryService, @Qualifier("simple") IAsyncExecutorService executorService, @Value("${app.datasource_mahb_prod2}") String dataSource) {
+                                       BatchHistoryService batchHistoryService, @Qualifier("simple") IAsyncExecutorService executorService,
+                                       @Value("${app.datasource_mahb_prod2}") String dataSource) {
         this.executorService = executorService;
         this.batchHistoryService = batchHistoryService;
         this.dataSource = dataSource;
@@ -45,7 +46,7 @@ public class TransactionUpdateController {
         executorService.processEntries(MAP, null);
         long endTime = System.nanoTime();
         long timeTaken = (endTime - startTime) / 1000000;
-        this.batchHistoryService.runBatchHistory(batch_id, 0, timeTaken);
+        this.batchHistoryService.runBatchHistory(batch_id, 0, timeTaken, dataSource);
         return 0;
     }
 

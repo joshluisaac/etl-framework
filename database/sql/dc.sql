@@ -160,3 +160,5 @@ CREATE SEQUENCE kvdata_profiler_id;
 
 alter table kv_data_date add tenant_id bigint;
 update kv_data_date set tenant_id = 63;
+
+alter table kvbatch_history add data_source text;
