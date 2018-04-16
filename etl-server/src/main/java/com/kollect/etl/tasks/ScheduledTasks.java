@@ -48,9 +48,9 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "0 0 4 * * *")
     public void runPelitaBatches() {
+        this.pelitaInvoiceStatusEvaluationServicePelita.combinePelitaInvoiceStatusEvaluation(58);
         this.pelitaComputeInvoiceAmountAfterTaxServicePelita.combinedPelitaComputeInvoiceAmountAfterTax(57);
         this.pelitaInAgingServicePelita.combinedPelitaAgeInvoiceService(56);
-        this.pelitaInvoiceStatusEvaluationServicePelita.combinePelitaInvoiceStatusEvaluation(58);
         this.pelitaAgeInvoiceService.combinedAgeInvoiceService(59);
         this.pelitaUpdateDataDateService.runupdateDataDate(60);
         this.pelitaComputeDebitAmountAfterTaxService.combinedPelitaComputeDebitAmountAfterTax(61);
