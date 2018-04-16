@@ -28,12 +28,12 @@ public class PbkLumpSumPaymentService {
 
     public int combinedLumpSumPaymentService(@RequestParam Integer batch_id){
         int numberOfRows = -1;
-        for (String aDataSource:dataSource){
+        for (String src:dataSource){
             if (!lock) {
                 long startTime = System.nanoTime();
                 lock = true;
-                List<Object> selectLumSumPaymentList = this.rwProvider.executeQuery(aDataSource, "getSumAmount", null);
-                this.rwProvider.updateQuery(aDataSource, "truncateNetLumpSum", null);
+                List<Object> selectLumSumPaymentList = this.rwProvider.executeQuery(src, "getSumAmount", null);
+                this.rwProvider.updateQuery(src, "truncateNetLumpSum", null);
                 int numberOfRecords = selectLumSumPaymentList.size();
                 for (Object aSelectLumSumPaymentList : selectLumSumPaymentList) {
 
@@ -41,16 +41,16 @@ public class PbkLumpSumPaymentService {
                     Map<Object, Object> args = new HashMap<>();
                     args.put("account_id", map.get("account_id"));
                     args.put("net_lump_sum_amount", map.get("net_lump_sum_amount"));
-                    int updateCount = this.rwProvider.updateQuery(aDataSource, "updateGetSumAmount", args);
+                    int updateCount = this.rwProvider.updateQuery(src, "updateGetSumAmount", args);
                     if (updateCount == 0) {
-                        this.rwProvider.insertQuery(aDataSource, "insertGetSumAmount", args);
+                        this.rwProvider.insertQuery(src, "insertGetSumAmount", args);
                     }
                 }
                 lock = false;
                 numberOfRows = numberOfRecords;
                 long endTime = System.nanoTime();
                 long timeTaken = (endTime - startTime) / 1000000;
-                this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken, aDataSource);
+                this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken, src);
             }
         }
         System.out.println("LumpSumPayment - Number of rows updated: " + numberOfRows);

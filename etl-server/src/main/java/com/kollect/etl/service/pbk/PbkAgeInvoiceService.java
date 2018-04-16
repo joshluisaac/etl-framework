@@ -31,20 +31,20 @@ public class PbkAgeInvoiceService {
     public int combinedAgeInvoiceService(Integer batch_id){
       int numberOfRows = -1;
 
-        for (String aDataSource : dataSource) {
+        for (String src : dataSource) {
             if (!lock) {
                 long startTime = System.nanoTime();
                 lock = true;
-                List<Object> ageInvoiceList = this.rwProvider.executeQuery(aDataSource, "getAgeInvoiceById", null);
+                List<Object> ageInvoiceList = this.rwProvider.executeQuery(src, "getAgeInvoiceById", null);
                 Map<String, CrudProcessHolder> map = new TreeMap<>();
-                map.put("AGE_INV", new CrudProcessHolder(aDataSource, "NONE", 10, 100, new ArrayList<>(Collections.singletonList("updateAgeInvoice"))));
+                map.put("AGE_INV", new CrudProcessHolder(src, "NONE", 10, 100, new ArrayList<>(Collections.singletonList("updateAgeInvoice"))));
                 executorService.processEntries(map, ageInvoiceList);
                 int numberOfRecords = ageInvoiceList.size();
                 lock = false;
                 numberOfRows = numberOfRecords;
                 long endTime = System.nanoTime();
                 long timeTaken = (endTime - startTime) / 1000000;
-                this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken, aDataSource);
+                this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken, src);
             }
         }
         System.out.println("AgeInvoice - Number of rows updated: " + numberOfRows);
