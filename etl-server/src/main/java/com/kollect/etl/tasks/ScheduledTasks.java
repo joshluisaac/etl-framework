@@ -2,6 +2,7 @@ package com.kollect.etl.tasks;
 
 import com.kollect.etl.service.pbk.*;
 import com.kollect.etl.service.pelita.*;
+import com.kollect.etl.service.yyc.YycQuerySequenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -17,6 +18,7 @@ public class ScheduledTasks {
     private PelitaInAgingService pelitaInAgingServicePelita;
     private PelitaInvoiceStatusEvaluationService pelitaInvoiceStatusEvaluationServicePelita;
     private PelitaComputeDebitAmountAfterTaxService pelitaComputeDebitAmountAfterTaxService;
+    private YycQuerySequenceService yycQuerySequenceService;
 
     @Autowired
     public ScheduledTasks(PbkLumpSumPaymentService pbklSumPayServ,
@@ -27,7 +29,8 @@ public class ScheduledTasks {
                           PelitaComputeInvoiceAmountAfterTaxService pelitaComputeInvoiceAmountAfterTaxServicePelita,
                           PelitaInAgingService pelitaInAgingServicePelita,
                           PelitaInvoiceStatusEvaluationService pelitaInvoiceStatusEvaluationServicePelita,
-                          PelitaComputeDebitAmountAfterTaxService pelitaComputeDebitAmountAfterTaxService){
+                          PelitaComputeDebitAmountAfterTaxService pelitaComputeDebitAmountAfterTaxService,
+                          YycQuerySequenceService yycQuerySequenceService){
         this.pbklSumPayServ = pbklSumPayServ;
         this.pbkageInvServ = pbkageInvServ;
         this.pbkupdDataDateServ = pbkupdDataDateServ;
@@ -37,6 +40,7 @@ public class ScheduledTasks {
         this.pelitaInAgingServicePelita = pelitaInAgingServicePelita;
         this.pelitaInvoiceStatusEvaluationServicePelita = pelitaInvoiceStatusEvaluationServicePelita;
         this.pelitaComputeDebitAmountAfterTaxService = pelitaComputeDebitAmountAfterTaxService;
+        this.yycQuerySequenceService = yycQuerySequenceService;
     }
 
     @Scheduled(cron = "0 0 5 * * *")
@@ -54,6 +58,11 @@ public class ScheduledTasks {
         this.pelitaAgeInvoiceService.combinedAgeInvoiceService(59);
         this.pelitaUpdateDataDateService.runupdateDataDate(60);
         this.pelitaComputeDebitAmountAfterTaxService.combinedPelitaComputeDebitAmountAfterTax(61);
+    }
+
+    @Scheduled(cron = "0 0 19 * * *")
+    public void runYycBatches(){
+        this.yycQuerySequenceService.runYycSequenceQuery(62);
     }
 
 }
