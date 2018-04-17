@@ -17,7 +17,7 @@ public class YycQuerySequenceService {
 
     @Autowired
     public YycQuerySequenceService(IReadWriteServiceProvider rwProvider,
-                                   @Value("#{'${app.datasource_pelita_test}'.split(',')}") List<String> dataSource,
+                                   @Value("#{'${app.datasource_all2}'.split(',')}") List<String> dataSource,
                                    BatchHistoryService batchHistoryService){
         this.rwProvider = rwProvider;
         this.dataSource = dataSource;
