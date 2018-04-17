@@ -17,13 +17,13 @@ public class RunBatchController {
      *
      * @return runbatch - used to return the HTML for first time visit.
      */
-
+    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+    private Timestamp today = new Timestamp(System.currentTimeMillis());
     @GetMapping("/runbatch")
     public Object allBatches() {
-        final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
-        Timestamp today = new Timestamp(System.currentTimeMillis());
         this.mailClientService.sendAfterBatch("hashim.kollect@gmail.com", "Hi there,", "This is an automated email" +
-                "from PowerETL for batches run on "+ sdf.format(today) +":", "Best,", null);
+                "from PowerETL for PBK batches run on "+ sdf.format(today) +":",
+                null, "Best,", null);
         return "runBatch";
     }
 }

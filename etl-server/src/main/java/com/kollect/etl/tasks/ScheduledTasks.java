@@ -1,11 +1,17 @@
 package com.kollect.etl.tasks;
 
-import com.kollect.etl.service.pbk.*;
+import com.kollect.etl.service.app.MailClientService;
+import com.kollect.etl.service.pbk.PbkAgeInvoiceService;
+import com.kollect.etl.service.pbk.PbkLumpSumPaymentService;
+import com.kollect.etl.service.pbk.PbkUpdateDataDateService;
 import com.kollect.etl.service.pelita.*;
 import com.kollect.etl.service.yyc.YycQuerySequenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 @Component
 public class ScheduledTasks {
@@ -19,6 +25,7 @@ public class ScheduledTasks {
     private PelitaInvoiceStatusEvaluationService pelitaInvoiceStatusEvaluationServicePelita;
     private PelitaComputeDebitAmountAfterTaxService pelitaComputeDebitAmountAfterTaxService;
     private YycQuerySequenceService yycQuerySequenceService;
+    private MailClientService mailClientService;
 
     @Autowired
     public ScheduledTasks(PbkLumpSumPaymentService pbklSumPayServ,
@@ -30,7 +37,8 @@ public class ScheduledTasks {
                           PelitaInAgingService pelitaInAgingServicePelita,
                           PelitaInvoiceStatusEvaluationService pelitaInvoiceStatusEvaluationServicePelita,
                           PelitaComputeDebitAmountAfterTaxService pelitaComputeDebitAmountAfterTaxService,
-                          YycQuerySequenceService yycQuerySequenceService){
+                          YycQuerySequenceService yycQuerySequenceService,
+                          MailClientService mailClientService){
         this.pbklSumPayServ = pbklSumPayServ;
         this.pbkageInvServ = pbkageInvServ;
         this.pbkupdDataDateServ = pbkupdDataDateServ;
@@ -41,8 +49,10 @@ public class ScheduledTasks {
         this.pelitaInvoiceStatusEvaluationServicePelita = pelitaInvoiceStatusEvaluationServicePelita;
         this.pelitaComputeDebitAmountAfterTaxService = pelitaComputeDebitAmountAfterTaxService;
         this.yycQuerySequenceService = yycQuerySequenceService;
+        this.mailClientService = mailClientService;
     }
-
+    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+    private Timestamp today = new Timestamp(System.currentTimeMillis());
     @Scheduled(cron = "0 0 5 * * *")
     public void runPbkBatches() {
         this.pbklSumPayServ.combinedLumpSumPaymentService(2);

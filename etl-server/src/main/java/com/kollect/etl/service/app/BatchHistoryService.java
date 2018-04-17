@@ -44,4 +44,5 @@ public class BatchHistoryService {
         List<Object> allBatchHistoryList = this.rwProvider.executeQuery(dataSource, "viewAllBatchHistory", null);
         model.addAttribute("allBatchHistoryList", allBatchHistoryList);
     }
+
 }

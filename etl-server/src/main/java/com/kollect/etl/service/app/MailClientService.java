@@ -19,13 +19,14 @@ public class MailClientService {
         this.builder = builder;
     }
 
-    public void sendAfterBatch(String recipient, String title, String message, String salutation, String footer) {
+    public void sendAfterBatch(String recipient, String title, String intro,
+                               String message, String salutation, String footer) {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom(emailFrom);
             messageHelper.setTo(recipient.split(","));
             messageHelper.setSubject("PowerETL - Sample HTML Email");
-            String content = builder.build(title, message, salutation,footer);
+            String content = builder.build(title, intro, message, salutation,footer);
             messageHelper.setText(content, true);
         };
         try {

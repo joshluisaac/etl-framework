@@ -14,9 +14,10 @@ public class MailContentBuilderService {
         this.templateEngine = templateEngine;
     }
 
-    public String build(String title, String message, String salutation, String footer) {
+    public String build(String title, String intro, String message, String salutation, String footer) {
         Context context = new Context();
         context.setVariable("title", title);
+        context.setVariable("intro", intro);
         context.setVariable("message", message);
         context.setVariable("salutation", salutation);
         context.setVariable("footer", footer);
