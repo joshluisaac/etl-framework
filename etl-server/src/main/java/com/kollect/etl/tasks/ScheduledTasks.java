@@ -26,6 +26,8 @@ public class ScheduledTasks {
     private PelitaComputeDebitAmountAfterTaxService pelitaComputeDebitAmountAfterTaxService;
     private YycQuerySequenceService yycQuerySequenceService;
     private MailClientService mailClientService;
+    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+    private Timestamp today = new Timestamp(System.currentTimeMillis());
 
     @Autowired
     public ScheduledTasks(PbkLumpSumPaymentService pbklSumPayServ,
@@ -51,8 +53,7 @@ public class ScheduledTasks {
         this.yycQuerySequenceService = yycQuerySequenceService;
         this.mailClientService = mailClientService;
     }
-    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
-    private Timestamp today = new Timestamp(System.currentTimeMillis());
+
     @Scheduled(cron = "0 0 5 * * *")
     public void runPbkBatches() {
         this.pbklSumPayServ.combinedLumpSumPaymentService(2);
