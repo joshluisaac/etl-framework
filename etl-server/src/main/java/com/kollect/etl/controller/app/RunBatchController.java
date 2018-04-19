@@ -28,7 +28,7 @@ public class RunBatchController {
 
     @GetMapping("/runbatch")
     public Object allBatches() {
-        this.mailClientService.sendAfterBatch(recipient, "PBK-Batch Jobs",intro,
+        this.mailClientService.sendAfterBatch(recipient, "PBK - Daily Batch Report",intro,
                 message, this.service.viewPbkAfterSchedulerUat(), this.service.viewPbkAfterSchedulerProd());
         return "runBatch";
     }

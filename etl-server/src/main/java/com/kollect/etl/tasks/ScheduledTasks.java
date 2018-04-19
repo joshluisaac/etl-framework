@@ -71,7 +71,7 @@ public class ScheduledTasks {
         this.pelitaAgeInvoiceService.combinedAgeInvoiceService(59);
         this.pelitaUpdateDataDateService.runupdateDataDate(60);
         this.pelitaComputeDebitAmountAfterTaxService.combinedPelitaComputeDebitAmountAfterTax(61);
-        this.mailClientService.sendAfterBatch(recipient, "Pelita-Batch Jobs",intro,
+        this.mailClientService.sendAfterBatch(recipient, "Pelita - Daily Batch Report",intro,
                 message, this.batchHistoryService.viewPelitaAfterSchedulerUat(), null);
     }
 
@@ -80,14 +80,14 @@ public class ScheduledTasks {
         this.pbklSumPayServ.combinedLumpSumPaymentService(2);
         this.pbkageInvServ.combinedAgeInvoiceService(3);
         this.pbkupdDataDateServ.runupdateDataDate(53);
-        this.mailClientService.sendAfterBatch(recipient, "PBK-Batch Jobs",intro,
+        this.mailClientService.sendAfterBatch(recipient, "PBK - Daily Batch Report",intro,
                 message, this.batchHistoryService.viewPbkAfterSchedulerUat(), this.batchHistoryService.viewPbkAfterSchedulerProd());
     }
 
     @Scheduled(cron = "0 0 19 * * *")
     public void runYycBatches(){
         this.yycQuerySequenceService.runYycSequenceQuery(62);
-        this.mailClientService.sendAfterBatch(recipient,"YYC-Batch Jobs" ,intro,
+        this.mailClientService.sendAfterBatch(recipient,"YYC - Daily Batch Report" ,intro,
                 message, this.batchHistoryService.viewYycAfterSchedulerUat(), this.batchHistoryService.viewYycAfterSchedulerProd());
     }
 
