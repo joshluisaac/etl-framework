@@ -22,7 +22,8 @@ public class MailContentBuilderService {
         context.setVariable("intro", intro);
         context.setVariable("message", message);
         context.setVariable("messageContent", messageContent);
-        context.setVariable("salutation", "Best,");
+        context.setVariable("salutation", "Regards,");
+        context.setVariable("signOff", "PowerETL Auto Update");
         context.setVariable("footer", null);
         return templateEngine.process("fragments/template_batch_mail_template", context);
     }

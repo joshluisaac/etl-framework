@@ -1,6 +1,7 @@
 package com.kollect.etl.service.app;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -12,7 +13,8 @@ import java.util.List;
 @Service
 public class MailClientService {
     private JavaMailSender mailSender;
-    private String emailFrom = "datareceived@kollect.my";
+    @Value("${spring.mail.properties.fromemail}")
+    private String emailFrom;
     private MailContentBuilderService builder;
 
     @Autowired
@@ -21,13 +23,13 @@ public class MailClientService {
         this.builder = builder;
     }
 
-    public void sendAfterBatch(String recipient, String intro,
+    public void sendAfterBatch(String recipient,String subject, String intro,
                                String message, List<Object> messageContent) {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom(emailFrom);
             messageHelper.setTo(recipient.split(","));
-            messageHelper.setSubject("PowerETL - Batch Status");
+            messageHelper.setSubject(subject);
             String content = builder.build(intro, message, messageContent);
             messageHelper.setText(content, true);
         };

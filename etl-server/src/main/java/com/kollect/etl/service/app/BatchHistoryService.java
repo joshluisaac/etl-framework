@@ -22,12 +22,12 @@ public class BatchHistoryService {
     }
 
     public void viewLatestBatchHistory(Integer batch_id, Model model){
-        List<Object> latestBatchHistoryList = this.rwProvider.executeQuery(dataSource, "viewLatestBatchHistory", batch_id);
+        List<Object> latestBatchHistoryList = this.rwProvider.executeQuery(dataSource, "getLatestBatchHistory", batch_id);
         model.addAttribute("latestBatchHistoryList", latestBatchHistoryList);
     }
 
     public void viewBatchHistory(Integer batch_id, Model model){
-        List<Object> batchHistoryList = this.rwProvider.executeQuery(dataSource, "viewBatchHistory", batch_id);
+        List<Object> batchHistoryList = this.rwProvider.executeQuery(dataSource, "getBatchHistory", batch_id);
         model.addAttribute("batchHistoryList", batchHistoryList);
     }
 
@@ -41,19 +41,19 @@ public class BatchHistoryService {
     }
 
     public void viewAllBatchHistory(Model model){
-        List<Object> allBatchHistoryList = this.rwProvider.executeQuery(dataSource, "viewAllBatchHistory", null);
+        List<Object> allBatchHistoryList = this.rwProvider.executeQuery(dataSource, "getAllBatchHistory", null);
         model.addAttribute("allBatchHistoryList", allBatchHistoryList);
     }
 
     public List<Object> viewPbkAfterScheduler(){
-        return this.rwProvider.executeQuery(dataSource, "viewPbkAfterScheduler", null);
+        return this.rwProvider.executeQuery(dataSource, "getDailyPbkHistory", null);
     }
 
     public List<Object> viewPelitaAfterScheduler(){
-        return this.rwProvider.executeQuery(dataSource, "viewPelitaAfterScheduler", null);
+        return this.rwProvider.executeQuery(dataSource, "getDailyPelitaHistory", null);
     }
 
     public List<Object> viewYycAfterScheduler(){
-        return this.rwProvider.executeQuery(dataSource, "viewYycAfterScheduler", null);
+        return this.rwProvider.executeQuery(dataSource, "getDailyYycHistory", null);
     }
 }

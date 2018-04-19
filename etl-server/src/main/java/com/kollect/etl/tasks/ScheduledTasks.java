@@ -8,6 +8,7 @@ import com.kollect.etl.service.pbk.PbkUpdateDataDateService;
 import com.kollect.etl.service.pelita.*;
 import com.kollect.etl.service.yyc.YycQuerySequenceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -27,9 +28,13 @@ public class ScheduledTasks {
     private PelitaComputeDebitAmountAfterTaxService pelitaComputeDebitAmountAfterTaxService;
     private YycQuerySequenceService yycQuerySequenceService;
     private MailClientService mailClientService;
-    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
+    private final SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
     private Timestamp today = new Timestamp(System.currentTimeMillis());
     private BatchHistoryService batchHistoryService;
+    @Value("${spring.mail.properties.recipient}")
+    private String recipient;
+    private String intro ="This is an Automated Notification for KollectValley PBK Batch Statistics for " + sdf.format(today) + ":";
+    private String message = "Batch Summary & Statistics";
 
     @Autowired
     public ScheduledTasks(PbkLumpSumPaymentService pbklSumPayServ,
@@ -66,9 +71,8 @@ public class ScheduledTasks {
         this.pelitaAgeInvoiceService.combinedAgeInvoiceService(59);
         this.pelitaUpdateDataDateService.runupdateDataDate(60);
         this.pelitaComputeDebitAmountAfterTaxService.combinedPelitaComputeDebitAmountAfterTax(61);
-        this.mailClientService.sendAfterBatch("hashim.kollect@gmail.com, joshua@kollect.my", "This is an automated email" +
-                        " from PowerETL for Pelita batches run on " + sdf.format(today) + ":",
-                null, this.batchHistoryService.viewPelitaAfterScheduler());
+        this.mailClientService.sendAfterBatch(recipient, "Pelita-Batch Jobs",intro,
+                message, this.batchHistoryService.viewPelitaAfterScheduler());
     }
 
     @Scheduled(cron = "0 0 5 * * *")
@@ -76,17 +80,15 @@ public class ScheduledTasks {
         this.pbklSumPayServ.combinedLumpSumPaymentService(2);
         this.pbkageInvServ.combinedAgeInvoiceService(3);
         this.pbkupdDataDateServ.runupdateDataDate(53);
-        this.mailClientService.sendAfterBatch("hashim.kollect@gmail.com, joshua@kollect.my", "This is an automated email" +
-                        " from PowerETL for PBK batches run on " + sdf.format(today) + ":",
-                null, this.batchHistoryService.viewPbkAfterScheduler());
+        this.mailClientService.sendAfterBatch(recipient, "PBK-Batch Jobs",intro,
+                message, this.batchHistoryService.viewPbkAfterScheduler());
     }
 
     @Scheduled(cron = "0 0 19 * * *")
     public void runYycBatches(){
         this.yycQuerySequenceService.runYycSequenceQuery(62);
-        this.mailClientService.sendAfterBatch("hashim.kollect@gmail.com, joshua@kollect.my", "This is an automated email" +
-                        " from PowerETL for YYC batches run on " + sdf.format(today) + ":",
-                null, this.batchHistoryService.viewYycAfterScheduler());
+        this.mailClientService.sendAfterBatch(recipient,"YYC-Batch Jobs" ,intro,
+                message, this.batchHistoryService.viewYycAfterScheduler());
     }
 
 }
