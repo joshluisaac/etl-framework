@@ -7,6 +7,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MailClientService {
     private JavaMailSender mailSender;
@@ -19,14 +21,14 @@ public class MailClientService {
         this.builder = builder;
     }
 
-    public void sendAfterBatch(String recipient, String title, String intro,
-                               String message, String salutation, String footer) {
+    public void sendAfterBatch(String recipient, String intro,
+                               String message, List<Object> messageContent) {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom(emailFrom);
             messageHelper.setTo(recipient.split(","));
-            messageHelper.setSubject("PowerETL - Sample HTML Email");
-            String content = builder.build(title, intro, message, salutation,footer);
+            messageHelper.setSubject("PowerETL - Batch Status");
+            String content = builder.build(intro, message, messageContent);
             messageHelper.setText(content, true);
         };
         try {

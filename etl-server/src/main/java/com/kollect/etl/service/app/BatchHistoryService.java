@@ -45,4 +45,15 @@ public class BatchHistoryService {
         model.addAttribute("allBatchHistoryList", allBatchHistoryList);
     }
 
+    public List<Object> viewPbkAfterScheduler(){
+        return this.rwProvider.executeQuery(dataSource, "viewPbkAfterScheduler", null);
+    }
+
+    public List<Object> viewPelitaAfterScheduler(){
+        return this.rwProvider.executeQuery(dataSource, "viewPelitaAfterScheduler", null);
+    }
+
+    public List<Object> viewYycAfterScheduler(){
+        return this.rwProvider.executeQuery(dataSource, "viewYycAfterScheduler", null);
+    }
 }
