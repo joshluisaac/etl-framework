@@ -45,15 +45,23 @@ public class BatchHistoryService {
         model.addAttribute("allBatchHistoryList", allBatchHistoryList);
     }
 
-    public List<Object> viewPbkAfterScheduler(){
-        return this.rwProvider.executeQuery(dataSource, "getDailyPbkHistory", null);
+    public List<Object> viewPbkAfterSchedulerUat(){
+        return this.rwProvider.executeQuery(dataSource, "getDailyPbkHistoryUat", null);
     }
 
-    public List<Object> viewPelitaAfterScheduler(){
-        return this.rwProvider.executeQuery(dataSource, "getDailyPelitaHistory", null);
+    public List<Object> viewPbkAfterSchedulerProd(){
+        return this.rwProvider.executeQuery(dataSource, "getDailyPbkHistoryProd", null);
     }
 
-    public List<Object> viewYycAfterScheduler(){
-        return this.rwProvider.executeQuery(dataSource, "getDailyYycHistory", null);
+    public List<Object> viewPelitaAfterSchedulerUat(){
+        return this.rwProvider.executeQuery(dataSource, "getDailyPelitaHistoryUat", null);
+    }
+
+    public List<Object> viewYycAfterSchedulerUat(){
+        return this.rwProvider.executeQuery(dataSource, "getDailyYycHistoryUat", null);
+    }
+
+    public List<Object> viewYycAfterSchedulerProd(){
+        return this.rwProvider.executeQuery(dataSource, "getDailyYycHistoryProd", null);
     }
 }

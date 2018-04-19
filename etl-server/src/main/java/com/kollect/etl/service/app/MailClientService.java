@@ -24,13 +24,13 @@ public class MailClientService {
     }
 
     public void sendAfterBatch(String recipient,String subject, String intro,
-                               String message, List<Object> messageContent) {
+                               String message, List<Object> uatStats, List<Object> prodStats) {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom(emailFrom);
             messageHelper.setTo(recipient.split(","));
             messageHelper.setSubject(subject);
-            String content = builder.build(intro, message, messageContent);
+            String content = builder.buildBatchEmail(intro, message, uatStats, prodStats);
             messageHelper.setText(content, true);
         };
         try {
