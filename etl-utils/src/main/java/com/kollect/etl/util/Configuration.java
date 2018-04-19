@@ -43,7 +43,6 @@ public class Configuration {
     return p.getProperty(CONCAT +impl.toLowerCase()+ ".expectedLength");
   }
   
- 
   public String getDirPath() {
     return p.getProperty("concatenator.dirPath");
   }
@@ -51,5 +50,11 @@ public class Configuration {
   public String getFilePrefix() {
     return p.getProperty("concatenator.filePrefix");
   }
+  
+  public String getFileDestination() {
+    return p.getProperty("transform.destinationPath");
+  }
+  
+  
 
 }
