@@ -226,8 +226,8 @@ public abstract class AbstractTextFileProcessor {
   }
 
   // write target to disk
-  public long[] deleteAndWriteToDisk(List<String> src, String rootPath, String targetFile) {
-    File file = new File(rootPath, targetFile);
+  public long[] deleteAndWriteToDisk(List<String> src, String dest, String targetFile) {
+    File file = new File(dest, targetFile);
     new FileUtils().deleteFile(file);
     long rowsWritten = new FileUtils().writeListToFile(file, src, true);
     long bytesWritten = file.length();

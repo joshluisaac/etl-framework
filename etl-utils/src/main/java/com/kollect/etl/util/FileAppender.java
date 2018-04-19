@@ -23,7 +23,6 @@ public class FileAppender  extends AbstractTextFileProcessor {
   
   
   public void execute(String rootPath, String fileNamePrefix, ICsvAppendContext csvContext) throws IOException {
-    final String rootOut = rootPath + "/out";
     final ICsvAppenderReport stat = csvContext.getReport();
     final long rowsWritten, bytesWritten;
     long[] dwStats = null;
@@ -31,6 +30,7 @@ public class FileAppender  extends AbstractTextFileProcessor {
     final String badFileName = fileNamePrefix.toLowerCase() + "_bad.csv";
     final String duplicateFileName = fileNamePrefix.toLowerCase() + "_duplicate.csv";
     final String regex = config.getRegex(fileNamePrefix).trim();
+    final String destDir = config.getFileDestination();
     final boolean isClonable = Boolean.parseBoolean(config.getCloneFlag(fileNamePrefix));
     final boolean isHashAble = Boolean.parseBoolean(config.getHashIndicator(fileNamePrefix));
     final int columnSize = Integer.parseInt(config.getExpectedLength(fileNamePrefix));
@@ -41,14 +41,14 @@ public class FileAppender  extends AbstractTextFileProcessor {
     if (regex.length() > 0) {
       appendedList = replaceNonAsciiCharacters(appendedList, regex, replacement);
       if (isClonable)
-        dwStats = deleteAndWriteToDisk(appendedList, rootOut, cloneAs);
+        dwStats = deleteAndWriteToDisk(appendedList, destDir, cloneAs);
     } else {
       LOG.debug("Skipping REGX replacment step for {}", fileNamePrefix);
     }
     appendedList = retainUniqueEntries(appendedList, keyArr, isHashAble, columnSize);
-    dwStats = deleteAndWriteToDisk(appendedList, rootOut, destFileName);
-    deleteAndWriteToDisk(BAD_ROWS, rootOut, badFileName);
-    deleteAndWriteToDisk(DUPLICATE_ROWS, rootOut, duplicateFileName);
+    dwStats = deleteAndWriteToDisk(appendedList, destDir, destFileName);
+    deleteAndWriteToDisk(BAD_ROWS, destDir, badFileName);
+    deleteAndWriteToDisk(DUPLICATE_ROWS, destDir, duplicateFileName);
     
     rowsWritten = dwStats[0];
     bytesWritten = dwStats[1];
