@@ -31,9 +31,8 @@ public class ScheduledTasks {
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
     private Timestamp today = new Timestamp(System.currentTimeMillis());
     private BatchHistoryService batchHistoryService;
-    @Value("${spring.mail.properties.recipient}")
     private String recipient;
-    private String intro ="This is an Automated Notification for KollectValley PBK Batch Statistics for " + sdf.format(today) + ":";
+    private String intro ="This is an Automated Notification for KollectValley Batch Statistics for " + sdf.format(today) + ":";
     private String message = "Batch Summary & Statistics";
 
     @Autowired
@@ -48,7 +47,8 @@ public class ScheduledTasks {
                           PelitaComputeDebitAmountAfterTaxService pelitaComputeDebitAmountAfterTaxService,
                           YycQuerySequenceService yycQuerySequenceService,
                           MailClientService mailClientService,
-                          BatchHistoryService batchHistoryService){
+                          BatchHistoryService batchHistoryService,
+                          @Value("${spring.mail.properties.batch.autoupdate.recipients}") String recipient){
         this.pbklSumPayServ = pbklSumPayServ;
         this.pbkageInvServ = pbkageInvServ;
         this.pbkupdDataDateServ = pbkupdDataDateServ;
@@ -61,6 +61,7 @@ public class ScheduledTasks {
         this.yycQuerySequenceService = yycQuerySequenceService;
         this.mailClientService = mailClientService;
         this.batchHistoryService = batchHistoryService;
+        this.recipient = recipient;
     }
 
     @Scheduled(cron = "0 0 4 * * *")
