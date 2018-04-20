@@ -33,7 +33,7 @@ public class ScheduledTasks {
     private BatchHistoryService batchHistoryService;
     @Value("${spring.mail.properties.recipient}")
     private String recipient;
-    private String intro ="This is an Automated Notification for KollectValley PBK Batch Statistics for " + sdf.format(today) + ":";
+    private String intro ="This is an Automated Notification for KollectValley Batch Statistics for " + sdf.format(today) + ":";
     private String message = "Batch Summary & Statistics";
 
     @Autowired
@@ -75,7 +75,7 @@ public class ScheduledTasks {
                 message, this.batchHistoryService.viewPelitaAfterSchedulerUat(), null);
     }
 
-    @Scheduled(cron = "0 0 5 * * *")
+    @Scheduled(cron = "0 0 11 * * *")
     public void runPbkBatches() {
         this.pbklSumPayServ.combinedLumpSumPaymentService(2);
         this.pbkageInvServ.combinedAgeInvoiceService(3);
