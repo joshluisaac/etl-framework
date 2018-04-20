@@ -6,9 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-
 @Controller
 public class RunBatchController {
     @Autowired
@@ -20,16 +17,16 @@ public class RunBatchController {
      *
      * @return runbatch - used to return the HTML for first time visit.
      */
-    private final SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
+/*    private final SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
     private Timestamp today = new Timestamp(System.currentTimeMillis());
     private String recipient = "hashim.kollect@gmail.com";
-    private String intro = "This is an Automated Notification for KollectValley PBK Batch Statistics for " + sdf.format(today) + ".";
-    private String message = "Batch Summary & Statistics:";
+    private String intro = "This is an Automated Notification for KollectValley Pelita Batch Statistics for " + sdf.format(today) + ".";
+    private String message = "Batch Summary & Statistics:";*/
 
     @GetMapping("/runbatch")
     public Object allBatches() {
-/*        this.mailClientService.sendAfterBatch(recipient, "PBK - Daily Batch Report",intro,
-                message, this.service.viewPbkAfterSchedulerUat(), this.service.viewPbkAfterSchedulerProd());*/
+/*        this.mailClientService.sendAfterBatch(recipient, "Pelita - Daily Batch Report",intro,
+                message, this.service.viewPelitaAfterSchedulerUat(), null);*/
         return "runBatch";
     }
 }
