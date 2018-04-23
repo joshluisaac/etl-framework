@@ -26,8 +26,8 @@ public class BatchHistoryService {
         model.addAttribute("latestBatchHistoryList", latestBatchHistoryList);
     }
 
-    public void viewBatchHistory(Integer batch_id, Model model){
-        List<Object> batchHistoryList = this.rwProvider.executeQuery(dataSource, "getBatchHistory", batch_id);
+    public void viewLastTenBatchHistory(Integer batch_id, Model model){
+        List<Object> batchHistoryList = this.rwProvider.executeQuery(dataSource, "getLastTenBatchHistory", batch_id);
         model.addAttribute("batchHistoryList", batchHistoryList);
     }
 
