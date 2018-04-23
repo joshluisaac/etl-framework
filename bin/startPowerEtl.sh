@@ -77,14 +77,34 @@ CLASSPATH=$CLASSPATH:$LIB/etl-services-0.0.1-SNAPSHOT.jar
 #CLASSPATH=$CLASSPATH:$LIB/etl-incubation-0.0.1-SNAPSHOT.jar
 #CLASSPATH=$CLASSPATH:$LIB/etl-jdbc-0.0.1-SNAPSHOT.jar
 #CLASSPATH=$CLASSPATH:$LIB/etl-reports-0.0.1-SNAPSHOT.jar
-
 #CLASSPATH=$CLASSPATH:$LIB/etl-tests-0.0.1-SNAPSHOT.jar
 
 
 #SPRING LIBS
-
+CLASSPATH=$CLASSPATH:$LIB/spring-boot-1.5.9.RELEASE.jar
+CLASSPATH=$CLASSPATH:$LIB/spring-boot-devtools-1.5.9.RELEASE.jar
+CLASSPATH=$CLASSPATH:$LIB/spring-boot-starter-jetty-1.5.9.RELEASE.jar
+CLASSPATH=$CLASSPATH:$LIB/spring-boot-starter-mail-1.5.9.RELEASE.jar
+CLASSPATH=$CLASSPATH:$LIB/spring-boot-starter-security-1.5.10.RELEASE.jar
+CLASSPATH=$CLASSPATH:$LIB/spring-boot-starter-thymeleaf-1.5.9.RELEASE.jar
+CLASSPATH=$CLASSPATH:$LIB/spring-boot-starter-web-1.5.9.RELEASE.jar
 
 #OTHERS
+CLASSPATH=$CLASSPATH:$LIB/thymeleaf-extras-springsecurity4-2.1.3.RELEASE.jar
+CLASSPATH=$CLASSPATH:$LIB/bcprov-jdk15on-1.59.jar
+CLASSPATH=$CLASSPATH:$LIB/commons-email-1.4.jar
+CLASSPATH=$CLASSPATH:$LIB/commons-fileupload-1.3.1.jar
+CLASSPATH=$CLASSPATH:$LIB/commons-vfs2-2.1.jar
+CLASSPATH=$CLASSPATH:$LIB/ibatis-sqlmap-2.3.4.726.jar
+CLASSPATH=$CLASSPATH:$LIB/joda-time-2.9.9.jar
+CLASSPATH=$CLASSPATH:$LIB/jsch-0.1.54.jar
+CLASSPATH=$CLASSPATH:$LIB/jtds-1.3.1.jar
+CLASSPATH=$CLASSPATH:$LIB/junit-4.12.jar
+CLASSPATH=$CLASSPATH:$LIB/mybatis-3.4.1.jar
+CLASSPATH=$CLASSPATH:$LIB/nekohtml-1.9.22.jar
+CLASSPATH=$CLASSPATH:$LIB/postgresql-9.4.1212.jar
+CLASSPATH=$CLASSPATH:$LIB/scala-library-2.12.4.jar
+CLASSPATH=$CLASSPATH:$LIB/slf4j-log4j12-1.7.21.jar
 
 SUFF=`date +"$LOG_FILE_DATE_FORMAT"`
 LOG_FILE=$LOGS/PowerEtl$SUFF.log
