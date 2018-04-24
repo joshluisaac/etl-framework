@@ -101,11 +101,11 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "0 30 22 * * *")
     public void runPbkBatches() {
-        this.pbklSumPayServ.combinedLumpSumPaymentService(2);
-        this.taskSleep();
         this.pbkageInvServ.combinedAgeInvoiceService(3);
         this.taskSleep();
         this.pbkupdDataDateServ.runupdateDataDate(53);
+        this.taskSleep();
+        this.pbklSumPayServ.combinedLumpSumPaymentService(2);
         this.taskSleep();
         this.mailClientService.sendAfterBatch(recipient, "PBK - Daily Batch Report",intro,
                 message, this.batchHistoryService.viewPbkAfterSchedulerUat(), this.batchHistoryService.viewPbkAfterSchedulerProd());
