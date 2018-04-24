@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class ScheduledTasks {
@@ -64,9 +65,19 @@ public class ScheduledTasks {
         this.recipient = recipient;
     }
 
+    public void taskSleep(){
+        try {
+            System.out.println("Rejuvenating for ten seconds...");
+            TimeUnit.SECONDS.sleep(10);
+        }catch (Exception e){
+            System.out.println("An error occured during thread sleep." +e);
+        }
+    }
+
     @Scheduled(cron = "0 0 19 * * *")
     public void runYycBatches(){
         this.yycQuerySequenceService.runYycSequenceQuery(62);
+        this.taskSleep();
         this.mailClientService.sendAfterBatch(recipient,"YYC - Daily Batch Report" ,intro,
                 message, this.batchHistoryService.viewYycAfterSchedulerUat(), this.batchHistoryService.viewYycAfterSchedulerProd());
     }
@@ -74,10 +85,15 @@ public class ScheduledTasks {
     @Scheduled(cron = "0 0 22 * * *")
     public void runPelitaBatches() {
         this.pelitaInvoiceStatusEvaluationServicePelita.combinePelitaInvoiceStatusEvaluation(58);
+        this.taskSleep();
         this.pelitaComputeInvoiceAmountAfterTaxServicePelita.combinedPelitaComputeInvoiceAmountAfterTax(57);
+        this.taskSleep();
         this.pelitaInAgingServicePelita.combinedPelitaAgeInvoiceService(56);
+        this.taskSleep();
         this.pelitaAgeInvoiceService.combinedAgeInvoiceService(59);
+        this.taskSleep();
         this.pelitaUpdateDataDateService.runupdateDataDate(60);
+        this.taskSleep();
         this.pelitaComputeDebitAmountAfterTaxService.combinedPelitaComputeDebitAmountAfterTax(61);
         this.mailClientService.sendAfterBatch(recipient, "Pelita - Daily Batch Report",intro,
                 message, this.batchHistoryService.viewPelitaAfterSchedulerUat(), null);
@@ -86,8 +102,11 @@ public class ScheduledTasks {
     @Scheduled(cron = "0 30 22 * * *")
     public void runPbkBatches() {
         this.pbklSumPayServ.combinedLumpSumPaymentService(2);
+        this.taskSleep();
         this.pbkageInvServ.combinedAgeInvoiceService(3);
+        this.taskSleep();
         this.pbkupdDataDateServ.runupdateDataDate(53);
+        this.taskSleep();
         this.mailClientService.sendAfterBatch(recipient, "PBK - Daily Batch Report",intro,
                 message, this.batchHistoryService.viewPbkAfterSchedulerUat(), this.batchHistoryService.viewPbkAfterSchedulerProd());
     }
