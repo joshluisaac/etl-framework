@@ -1,5 +1,6 @@
 package com.kollect.etl.tasks;
 
+import com.kollect.etl.service.IReadWriteServiceProvider;
 import com.kollect.etl.service.app.BatchHistoryService;
 import com.kollect.etl.service.app.MailClientService;
 import com.kollect.etl.service.pbk.PbkAgeInvoiceService;
@@ -32,9 +33,13 @@ public class ScheduledTasks {
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
     private Timestamp today = new Timestamp(System.currentTimeMillis());
     private BatchHistoryService batchHistoryService;
+    @Value("${spring.mail.properties.batch.autoupdate.recipients}")
     private String recipient;
     private String intro ="This is an Automated Notification for KollectValley Batch Statistics for " + sdf.format(today) + ".";
     private String message = "Batch Summary & Statistics:";
+    private IReadWriteServiceProvider irwprovider;
+    @Value("${app.datasource_kv_production}")
+    private String dataSource;
 
     @Autowired
     public ScheduledTasks(PbkLumpSumPaymentService pbklSumPayServ,
@@ -49,7 +54,7 @@ public class ScheduledTasks {
                           YycQuerySequenceService yycQuerySequenceService,
                           MailClientService mailClientService,
                           BatchHistoryService batchHistoryService,
-                          @Value("${spring.mail.properties.batch.autoupdate.recipients}") String recipient){
+                          IReadWriteServiceProvider irwprovider){
         this.pbklSumPayServ = pbklSumPayServ;
         this.pbkageInvServ = pbkageInvServ;
         this.pbkupdDataDateServ = pbkupdDataDateServ;
@@ -62,7 +67,7 @@ public class ScheduledTasks {
         this.yycQuerySequenceService = yycQuerySequenceService;
         this.mailClientService = mailClientService;
         this.batchHistoryService = batchHistoryService;
-        this.recipient = recipient;
+        this.irwprovider = irwprovider;
     }
 
     private void taskSleep(){
@@ -111,4 +116,8 @@ public class ScheduledTasks {
                 message, this.batchHistoryService.viewYycAfterSchedulerUat(), this.batchHistoryService.viewYycAfterSchedulerProd());
     }
 
+    @Scheduled(fixedDelay = 600000)
+    public void runKeepConnectionAliveHack(){
+        this.irwprovider.executeQuery(dataSource, "getUpdateDataDateToKeepConnectionOpen", null);
+    }
 }
