@@ -74,15 +74,19 @@ public class ScheduledTasks {
         }
     }
 
-    @Scheduled(cron = "0 0 19 * * *")
-    public void runYycBatches(){
-        this.yycQuerySequenceService.runYycSequenceQuery(62);
+    @Scheduled(cron = "0 0 5 * * *")
+    public void runPbkBatches() {
+        this.pbkageInvServ.combinedAgeInvoiceService(3);
         this.taskSleep();
-        this.mailClientService.sendAfterBatch(recipient,"YYC - Daily Batch Report" ,intro,
-                message, this.batchHistoryService.viewYycAfterSchedulerUat(), this.batchHistoryService.viewYycAfterSchedulerProd());
+        this.pbkupdDataDateServ.runupdateDataDate(53);
+        this.taskSleep();
+        this.pbklSumPayServ.combinedLumpSumPaymentService(2);
+        this.taskSleep();
+        this.mailClientService.sendAfterBatch(recipient, "PBK - Daily Batch Report",intro,
+                message, this.batchHistoryService.viewPbkAfterSchedulerUat(), this.batchHistoryService.viewPbkAfterSchedulerProd());
     }
 
-    @Scheduled(cron = "0 0 22 * * *")
+    @Scheduled(cron = "0 30 5 * * *")
     public void runPelitaBatches() {
         this.pelitaInvoiceStatusEvaluationServicePelita.combinePelitaInvoiceStatusEvaluation(58);
         this.taskSleep();
@@ -99,16 +103,12 @@ public class ScheduledTasks {
                 message, this.batchHistoryService.viewPelitaAfterSchedulerUat(), null);
     }
 
-    @Scheduled(cron = "0 20 11 * * *")
-    public void runPbkBatches() {
-        this.pbkageInvServ.combinedAgeInvoiceService(3);
+    @Scheduled(cron = "0 0 19 * * *")
+    public void runYycBatches(){
+        this.yycQuerySequenceService.runYycSequenceQuery(62);
         this.taskSleep();
-        this.pbkupdDataDateServ.runupdateDataDate(53);
-        this.taskSleep();
-        this.pbklSumPayServ.combinedLumpSumPaymentService(2);
-        this.taskSleep();
-        this.mailClientService.sendAfterBatch(recipient, "PBK - Daily Batch Report",intro,
-                message, this.batchHistoryService.viewPbkAfterSchedulerUat(), this.batchHistoryService.viewPbkAfterSchedulerProd());
+        this.mailClientService.sendAfterBatch(recipient,"YYC - Daily Batch Report" ,intro,
+                message, this.batchHistoryService.viewYycAfterSchedulerUat(), this.batchHistoryService.viewYycAfterSchedulerProd());
     }
 
 }
