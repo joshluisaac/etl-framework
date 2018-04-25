@@ -99,7 +99,7 @@ public class ScheduledTasks {
                 message, this.batchHistoryService.viewPelitaAfterSchedulerUat(), null);
     }
 
-    @Scheduled(cron = "0 10 11 * * *")
+    @Scheduled(cron = "0 20 11 * * *")
     public void runPbkBatches() {
         this.pbkageInvServ.combinedAgeInvoiceService(3);
         this.taskSleep();
