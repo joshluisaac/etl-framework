@@ -33,8 +33,8 @@ public class ScheduledTasks {
     private Timestamp today = new Timestamp(System.currentTimeMillis());
     private BatchHistoryService batchHistoryService;
     private String recipient;
-    private String intro ="This is an Automated Notification for KollectValley Batch Statistics for " + sdf.format(today) + ":";
-    private String message = "Batch Summary & Statistics";
+    private String intro ="This is an Automated Notification for KollectValley Batch Statistics for " + sdf.format(today) + ".";
+    private String message = "Batch Summary & Statistics:";
 
     @Autowired
     public ScheduledTasks(PbkLumpSumPaymentService pbklSumPayServ,
@@ -65,7 +65,7 @@ public class ScheduledTasks {
         this.recipient = recipient;
     }
 
-    public void taskSleep(){
+    private void taskSleep(){
         try {
             System.out.println("Rejuvenating for ten seconds...");
             TimeUnit.SECONDS.sleep(10);
@@ -99,7 +99,7 @@ public class ScheduledTasks {
                 message, this.batchHistoryService.viewPelitaAfterSchedulerUat(), null);
     }
 
-    @Scheduled(cron = "0 30 22 * * *")
+    @Scheduled(cron = "0 10 11 * * *")
     public void runPbkBatches() {
         this.pbkageInvServ.combinedAgeInvoiceService(3);
         this.taskSleep();
