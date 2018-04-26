@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Component
@@ -40,6 +42,8 @@ public class ScheduledTasks {
     private IReadWriteServiceProvider irwprovider;
     @Value("${app.datasource_kv_production}")
     private String dataSource;
+    /*This empty list is used to replace the prodStats query since Pelita is not on production yet.*/
+    private List<Object> emptyList = new ArrayList<>();
 
     @Autowired
     public ScheduledTasks(PbkLumpSumPaymentService pbklSumPayServ,
@@ -105,7 +109,7 @@ public class ScheduledTasks {
         this.taskSleep();
         this.pelitaComputeDebitAmountAfterTaxService.combinedPelitaComputeDebitAmountAfterTax(61);
         this.mailClientService.sendAfterBatch(recipient, "Pelita - Daily Batch Report",intro,
-                message, this.batchHistoryService.viewPelitaAfterSchedulerUat(), null);
+                message, this.batchHistoryService.viewPelitaAfterSchedulerUat(), emptyList);
     }
 
     @Scheduled(cron = "0 0 19 * * *")
