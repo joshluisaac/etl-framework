@@ -91,7 +91,7 @@ public class ScheduledTasks {
         }
     }
 
-    @Scheduled(cron = "${app.scheduler.runat5am}")
+    @Scheduled(cron = "${app.scheduler.testtime}")
     public void runPbkBatches() {
         this.pbkageInvServ.combinedAgeInvoiceService(3);
         this.taskSleep();
