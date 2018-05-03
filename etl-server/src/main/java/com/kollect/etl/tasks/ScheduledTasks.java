@@ -21,6 +21,7 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class ScheduledTasks {
+    /*Required services*/
     private PbkLumpSumPaymentService pbklSumPayServ;
     private PbkAgeInvoiceService pbkageInvServ;
     private PbkUpdateDataDateService pbkupdDataDateServ;
@@ -32,19 +33,24 @@ public class ScheduledTasks {
     private PelitaComputeDebitAmountAfterTaxService pelitaComputeDebitAmountAfterTaxService;
     private YycQuerySequenceService yycQuerySequenceService;
     private MailClientService mailClientService;
+    private BatchHistoryService batchHistoryService;
+    private IReadWriteServiceProvider irwprovider;
+
+    /*Required variables*/
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
     private Timestamp today = new Timestamp(System.currentTimeMillis());
-    private BatchHistoryService batchHistoryService;
-    @Value("${spring.mail.properties.batch.autoupdate.recipients}")
-    private String recipient;
     private String intro ="This is an Automated Notification for KollectValley Batch Statistics for " + sdf.format(today) + ".";
     private String message = "Batch Summary & Statistics:";
-    private IReadWriteServiceProvider irwprovider;
+
+    /*Values coming in application.properties*/
+    @Value("${spring.mail.properties.batch.autoupdate.recipients}")
+    private String recipient;
     @Value("${app.datasource_kv_production}")
     private String dataSource;
     /*This empty list is used to replace the prodStats query since Pelita is not on production yet.*/
     private List<Object> emptyList = new ArrayList<>();
 
+    /*The contructor for the class to inject the necessary services*/
     @Autowired
     public ScheduledTasks(PbkLumpSumPaymentService pbklSumPayServ,
                           PbkAgeInvoiceService pbkageInvServ,
@@ -74,6 +80,8 @@ public class ScheduledTasks {
         this.irwprovider = irwprovider;
     }
 
+    /**
+     * A sleep method to let the application rest for given seconds */
     private void taskSleep(){
         try {
             System.out.println("Rejuvenating for ten seconds...");
@@ -83,7 +91,7 @@ public class ScheduledTasks {
         }
     }
 
-    @Scheduled(cron = "0 0 5 * * *")
+    @Scheduled(cron = "${app.scheduler.runat5am}")
     public void runPbkBatches() {
         this.pbkageInvServ.combinedAgeInvoiceService(3);
         this.taskSleep();
@@ -95,7 +103,7 @@ public class ScheduledTasks {
                 message, this.batchHistoryService.viewPbkAfterSchedulerUat(), this.batchHistoryService.viewPbkAfterSchedulerProd());
     }
 
-    @Scheduled(cron = "0 30 5 * * *")
+    @Scheduled(cron = "${app.scheduler.runat530am}")
     public void runPelitaBatches() {
         this.pelitaInvoiceStatusEvaluationServicePelita.combinePelitaInvoiceStatusEvaluation(58);
         this.taskSleep();
@@ -112,7 +120,7 @@ public class ScheduledTasks {
                 message, this.batchHistoryService.viewPelitaAfterSchedulerUat(), emptyList);
     }
 
-    @Scheduled(cron = "0 0 19 * * *")
+    @Scheduled(cron = "${app.scheduler.runat7pm}")
     public void runYycBatches(){
         this.yycQuerySequenceService.runYycSequenceQuery(62);
         this.taskSleep();
