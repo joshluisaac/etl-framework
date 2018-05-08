@@ -1,6 +1,5 @@
 package com.kollect.etl.service.app;
 
-import com.kollect.etl.service.AbstractAsyncExecutorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ public class MailClientService {
     @Value("${spring.mail.properties.fromemail}")
     private String emailFrom;
     private MailContentBuilderService builder;
-    private static final Logger LOG = LoggerFactory.getLogger(AbstractAsyncExecutorService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(MailClientService.class);
 
     @Autowired
     public MailClientService(JavaMailSender mailSender, MailContentBuilderService builder) {
