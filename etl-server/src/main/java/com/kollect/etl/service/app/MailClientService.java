@@ -38,6 +38,7 @@ public class MailClientService {
         };
         try {
             mailSender.send(messagePreparator);
+            LOG.info("Email has been sent successfully.");
         } catch (MailException e) {
             LOG.error("An error occurred during email send." + e);
         }
