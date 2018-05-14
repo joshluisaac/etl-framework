@@ -1,9 +1,9 @@
-package com.kollect.etl.service.pelita;
+package com.kollect.etl.service.yyc;
 
 import com.kollect.etl.config.CrudProcessHolder;
-import com.kollect.etl.service.app.BatchHistoryService;
 import com.kollect.etl.service.IAsyncExecutorService;
 import com.kollect.etl.service.IReadWriteServiceProvider;
+import com.kollect.etl.service.app.BatchHistoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class PelitaInvoiceStatusEvaluationService {
+public class YycInvoiceStatusEvaluationService {
     private IReadWriteServiceProvider rwProvider;
     private String dataSource;
     private BatchHistoryService batchHistoryService;
@@ -20,21 +20,21 @@ public class PelitaInvoiceStatusEvaluationService {
     private boolean lock;
 
     @Autowired
-    public PelitaInvoiceStatusEvaluationService(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_pelita_test}") String dataSource, BatchHistoryService batchHistoryService, @Qualifier("simple") IAsyncExecutorService executorService){
+    public YycInvoiceStatusEvaluationService(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_pelita_test}") String dataSource, BatchHistoryService batchHistoryService, @Qualifier("simple") IAsyncExecutorService executorService){
         this.rwProvider = rwProvider;
         this.dataSource = dataSource;
         this.batchHistoryService = batchHistoryService;
         this.executorService = executorService;
     }
 
-    public int combinePelitaInvoiceStatusEvaluation(Integer batch_id) {
+    public int combinedYycInvoiceStatusEvaluation(Integer batch_id){
         int numberOfRows = -1;
         if (!lock)  {
             long startTime = System.nanoTime();
             lock = true;
-            List<Object> statusIdList = this.rwProvider.executeQuery(dataSource, "getPelitaInvoiceStatusById", null);
+            List<Object> statusIdList = this.rwProvider.executeQuery(dataSource, "getYycInvoiceStatusById", null);
             Map<String, CrudProcessHolder> map = new TreeMap<>();
-            map.put("INV_STAT", new CrudProcessHolder(dataSource,"NONE", 10, 100, new ArrayList<>(Arrays.asList("updatePelitaInvoiceStatusEvaluation"))));
+            map.put("INV_STAT", new CrudProcessHolder(dataSource,"NONE", 10, 100, new ArrayList<>(Arrays.asList("updateYycInvoiceStatusEvaluation"))));
             executorService.processEntries(map, statusIdList);
             int numberOfRecords = statusIdList.size();
             lock = false;
@@ -45,5 +45,4 @@ public class PelitaInvoiceStatusEvaluationService {
         }
         return numberOfRows;
     }
-
 }

@@ -22,14 +22,14 @@ public class RunBatchController {
      */
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
     private Timestamp today = new Timestamp(System.currentTimeMillis());
-    private String recipient = "hashim.kollect@gmail.com";
+    private String recipient = "hashim@kollect.my, joshua@kollect.my";
     private String intro = "This is an Automated Notification for KollectValley PBK Batch Statistics for " + sdf.format(today) + ".";
     private String message = "Batch Summary & Statistics:";
 
     @GetMapping("/runbatch")
     public Object allBatches() {
 /*        this.mailClientService.sendAfterBatch(recipient, "PBK - Daily Batch Report",intro,
-                message, this.service.viewPbkAfterSchedulerUat(), this.service.viewPbkAfterSchedulerProd());*/
-        return "runBatch";
+                message, this.service.viewPbkAfterSchedulerUat(), this.service.viewPbkAfterSchedulerProd());
+        */return "runBatch";
     }
 }

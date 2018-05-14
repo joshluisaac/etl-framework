@@ -28,17 +28,12 @@ public class PelitaInAgingService {
         this.executorService =  executorService;
     }
 
-    public List<Object> getAgeInvoiceById(Object object) {
-        return this.rwProvider.executeQuery(dataSource, "getPelitaInAgingById", object);
-    }
-
-
-    public int combinedPelitaAgeInvoiceService(Integer batch_id) {
+    public int combinedPelitaInAgingService(Integer batch_id) {
         int numberOfRows = -1;
         if (!lock) {
             long startTime = System.nanoTime();
             lock = true;
-            List<Object> inAgingList = this.getAgeInvoiceById(null);
+            List<Object> inAgingList = this.rwProvider.executeQuery(dataSource, "getPelitaInAgingById", null);
             Map<String, CrudProcessHolder> map = new TreeMap<>();
             map.put("IN_AGING", new CrudProcessHolder(dataSource,"NONE", 10, 100, new ArrayList<>(Arrays.asList("pelitaUpdateInAging"))));
             executorService.processEntries(map, inAgingList);
@@ -48,7 +43,6 @@ public class PelitaInAgingService {
             long endTime = System.nanoTime();
             long timeTaken = (endTime - startTime ) / 1000000;
             this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken, dataSource);
-
         }
         System.out.println("AgeInvoice - Number of rows updated: " + numberOfRows);
         return numberOfRows;

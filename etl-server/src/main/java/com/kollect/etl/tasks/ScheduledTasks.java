@@ -7,7 +7,7 @@ import com.kollect.etl.service.pbk.PbkAgeInvoiceService;
 import com.kollect.etl.service.pbk.PbkLumpSumPaymentService;
 import com.kollect.etl.service.pbk.PbkUpdateDataDateService;
 import com.kollect.etl.service.pelita.*;
-import com.kollect.etl.service.yyc.YycQuerySequenceService;
+import com.kollect.etl.service.yyc.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -35,6 +35,10 @@ public class ScheduledTasks {
     private MailClientService mailClientService;
     private BatchHistoryService batchHistoryService;
     private IReadWriteServiceProvider irwprovider;
+    private YycInvoiceStatusEvaluationService yycInvoiceStatusEvaluationService;
+    private YycAgeInvoiceService yycAgeInvoiceService;
+    private YycInAgingService yycInAgingService;
+    private YycUpdateDataDateService yycUpdateDataDateService;
 
     /*Required variables*/
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
@@ -64,7 +68,11 @@ public class ScheduledTasks {
                           YycQuerySequenceService yycQuerySequenceService,
                           MailClientService mailClientService,
                           BatchHistoryService batchHistoryService,
-                          IReadWriteServiceProvider irwprovider){
+                          IReadWriteServiceProvider irwprovider,
+                          YycInvoiceStatusEvaluationService yycInvoiceStatusEvaluationService,
+                          YycAgeInvoiceService yycAgeInvoiceService,
+                          YycInAgingService yycInAgingService,
+                          YycUpdateDataDateService yycUpdateDataDateService){
         this.pbklSumPayServ = pbklSumPayServ;
         this.pbkageInvServ = pbkageInvServ;
         this.pbkupdDataDateServ = pbkupdDataDateServ;
@@ -78,6 +86,10 @@ public class ScheduledTasks {
         this.mailClientService = mailClientService;
         this.batchHistoryService = batchHistoryService;
         this.irwprovider = irwprovider;
+        this.yycInvoiceStatusEvaluationService = yycInvoiceStatusEvaluationService;
+        this.yycAgeInvoiceService = yycAgeInvoiceService;
+        this.yycInAgingService = yycInAgingService;
+        this.yycUpdateDataDateService = yycUpdateDataDateService;
     }
 
     /**
@@ -89,6 +101,20 @@ public class ScheduledTasks {
         }catch (Exception e){
             System.out.println("An error occured during thread sleep." +e);
         }
+    }
+
+    @Scheduled(cron = "${app.scheduler.runat430am}")
+    public void runYycBatches() {
+        this.yycInvoiceStatusEvaluationService.combinedYycInvoiceStatusEvaluation(63);
+        this.taskSleep();
+        this.yycAgeInvoiceService.combinedAgeInvoiceService(64);
+        this.taskSleep();
+        this.yycInAgingService.combinedYycAgeInvoiceService(65);
+        this.taskSleep();
+        this.yycUpdateDataDateService.runupdateDataDate(66);
+        this.taskSleep();
+        this.mailClientService.sendAfterBatch(recipient, "YYC - Daily Batch Report",intro,
+                message, this.batchHistoryService.viewYycAfterSchedulerUat(), emptyList);
     }
 
     @Scheduled(cron = "${app.scheduler.runat5am}")
@@ -105,11 +131,11 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "${app.scheduler.runat530am}")
     public void runPelitaBatches() {
-        this.pelitaInvoiceStatusEvaluationServicePelita.combinePelitaInvoiceStatusEvaluation(58);
-        this.taskSleep();
         this.pelitaComputeInvoiceAmountAfterTaxServicePelita.combinedPelitaComputeInvoiceAmountAfterTax(57);
         this.taskSleep();
-        this.pelitaInAgingServicePelita.combinedPelitaAgeInvoiceService(56);
+        this.pelitaInvoiceStatusEvaluationServicePelita.combinePelitaInvoiceStatusEvaluation(58);
+        this.taskSleep();
+        this.pelitaInAgingServicePelita.combinedPelitaInAgingService(56);
         this.taskSleep();
         this.pelitaAgeInvoiceService.combinedAgeInvoiceService(59);
         this.taskSleep();
@@ -121,11 +147,11 @@ public class ScheduledTasks {
     }
 
     @Scheduled(cron = "${app.scheduler.runat7pm}")
-    public void runYycBatches(){
+    public void runYycSequences(){
         this.yycQuerySequenceService.runYycSequenceQuery(62);
         this.taskSleep();
         this.mailClientService.sendAfterBatch(recipient,"YYC - Daily Batch Report" ,intro,
-                message, this.batchHistoryService.viewYycAfterSchedulerUat(), this.batchHistoryService.viewYycAfterSchedulerProd());
+                message, this.batchHistoryService.viewYycSeqAfterSchedulerUat(), this.batchHistoryService.viewYycSeqAfterSchedulerProd());
     }
 
     @Scheduled(fixedDelay = 600000)
