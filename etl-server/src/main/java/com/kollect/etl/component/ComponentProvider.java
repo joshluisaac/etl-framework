@@ -1,12 +1,12 @@
 package com.kollect.etl.component;
 
+import com.kollect.etl.util.StringUtils;
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.stereotype.Component;
-
-import com.kollect.etl.util.StringUtils;
+import java.util.concurrent.TimeUnit;
 
 @Component
 public class ComponentProvider {
@@ -37,6 +37,15 @@ public class ComponentProvider {
     }
 
   }
-  
+  /**
+   * A sleep method to let the application rest for given seconds */
+  public void taskSleep(){
+    try {
+      System.out.println("Rejuvenating for ten seconds...");
+      TimeUnit.SECONDS.sleep(10);
+    }catch (Exception e){
+      System.out.println("An error occurred during thread sleep." +e);
+    }
+  }
  
 }
