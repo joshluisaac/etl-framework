@@ -1,5 +1,6 @@
 package com.kollect.etl.tasks;
 
+import com.kollect.etl.component.ComponentProvider;
 import com.kollect.etl.service.IReadWriteServiceProvider;
 import com.kollect.etl.service.app.BatchHistoryService;
 import com.kollect.etl.service.app.MailClientService;
@@ -17,7 +18,6 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Component
 public class ScheduledTasks {
@@ -39,6 +39,7 @@ public class ScheduledTasks {
     private YycAgeInvoiceService yycAgeInvoiceService;
     private YycInAgingService yycInAgingService;
     private YycUpdateDataDateService yycUpdateDataDateService;
+    private ComponentProvider componentProvider;
 
     /*Required variables*/
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
@@ -54,7 +55,7 @@ public class ScheduledTasks {
     /*This empty list is used to replace the prodStats query since Pelita is not on production yet.*/
     private List<Object> emptyList = new ArrayList<>();
 
-    /*The contructor for the class to inject the necessary services*/
+    /*The constructor for the class to inject the necessary services*/
     @Autowired
     public ScheduledTasks(PbkLumpSumPaymentService pbklSumPayServ,
                           PbkAgeInvoiceService pbkageInvServ,
@@ -72,7 +73,8 @@ public class ScheduledTasks {
                           YycInvoiceStatusEvaluationService yycInvoiceStatusEvaluationService,
                           YycAgeInvoiceService yycAgeInvoiceService,
                           YycInAgingService yycInAgingService,
-                          YycUpdateDataDateService yycUpdateDataDateService){
+                          YycUpdateDataDateService yycUpdateDataDateService,
+                          ComponentProvider componentProvider){
         this.pbklSumPayServ = pbklSumPayServ;
         this.pbkageInvServ = pbkageInvServ;
         this.pbkupdDataDateServ = pbkupdDataDateServ;
@@ -90,29 +92,19 @@ public class ScheduledTasks {
         this.yycAgeInvoiceService = yycAgeInvoiceService;
         this.yycInAgingService = yycInAgingService;
         this.yycUpdateDataDateService = yycUpdateDataDateService;
-    }
-
-    /**
-     * A sleep method to let the application rest for given seconds */
-    private void taskSleep(){
-        try {
-            System.out.println("Rejuvenating for ten seconds...");
-            TimeUnit.SECONDS.sleep(10);
-        }catch (Exception e){
-            System.out.println("An error occurred during thread sleep." +e);
-        }
+        this.componentProvider = componentProvider;
     }
 
     @Scheduled(cron = "${app.scheduler.runat430am}")
     public void runYycBatches() {
         this.yycInvoiceStatusEvaluationService.combinedYycInvoiceStatusEvaluation(63);
-        this.taskSleep();
+        this.componentProvider.taskSleep();
         this.yycAgeInvoiceService.combinedAgeInvoiceService(64);
-        this.taskSleep();
+        this.componentProvider.taskSleep();
         this.yycInAgingService.combinedYycAgeInvoiceService(65);
-        this.taskSleep();
+        this.componentProvider.taskSleep();
         this.yycUpdateDataDateService.runupdateDataDate(66);
-        this.taskSleep();
+        this.componentProvider.taskSleep();
         this.mailClientService.sendAfterBatch(recipient, "YYC - Daily Batch Report",intro,
                 message, this.batchHistoryService.viewYycAfterSchedulerUat(), emptyList);
     }
@@ -120,11 +112,11 @@ public class ScheduledTasks {
     @Scheduled(cron = "${app.scheduler.runat5am}")
     public void runPbkBatches() {
         this.pbkageInvServ.combinedAgeInvoiceService(3);
-        this.taskSleep();
+        this.componentProvider.taskSleep();
         this.pbkupdDataDateServ.runupdateDataDate(53);
-        this.taskSleep();
+        this.componentProvider.taskSleep();
         this.pbklSumPayServ.combinedLumpSumPaymentService(2);
-        this.taskSleep();
+        this.componentProvider.taskSleep();
         this.mailClientService.sendAfterBatch(recipient, "PBK - Daily Batch Report",intro,
                 message, this.batchHistoryService.viewPbkAfterSchedulerUat(), this.batchHistoryService.viewPbkAfterSchedulerProd());
     }
@@ -132,15 +124,15 @@ public class ScheduledTasks {
     @Scheduled(cron = "${app.scheduler.runat530am}")
     public void runPelitaBatches() {
         this.pelitaComputeInvoiceAmountAfterTaxServicePelita.combinedPelitaComputeInvoiceAmountAfterTax(57);
-        this.taskSleep();
+        this.componentProvider.taskSleep();
         this.pelitaInvoiceStatusEvaluationServicePelita.combinePelitaInvoiceStatusEvaluation(58);
-        this.taskSleep();
+        this.componentProvider.taskSleep();
         this.pelitaInAgingServicePelita.combinedPelitaInAgingService(56);
-        this.taskSleep();
+        this.componentProvider.taskSleep();
         this.pelitaAgeInvoiceService.combinedAgeInvoiceService(59);
-        this.taskSleep();
+        this.componentProvider.taskSleep();
         this.pelitaUpdateDataDateService.runupdateDataDate(60);
-        this.taskSleep();
+        this.componentProvider.taskSleep();
         this.pelitaComputeDebitAmountAfterTaxService.combinedPelitaComputeDebitAmountAfterTax(61);
         this.mailClientService.sendAfterBatch(recipient, "Pelita - Daily Batch Report",intro,
                 message, this.batchHistoryService.viewPelitaAfterSchedulerUat(), emptyList);
@@ -149,9 +141,10 @@ public class ScheduledTasks {
     @Scheduled(cron = "${app.scheduler.runat7pm}")
     public void runYycSequences(){
         this.yycQuerySequenceService.runYycSequenceQuery(62);
-        this.taskSleep();
+        this.componentProvider.taskSleep();
         this.mailClientService.sendAfterBatch(recipient,"YYC - Daily Batch Report" ,intro,
-                message, this.batchHistoryService.viewYycSeqAfterSchedulerUat(), this.batchHistoryService.viewYycSeqAfterSchedulerProd());
+                message, this.batchHistoryService.viewYycSeqAfterSchedulerUat(),
+                this.batchHistoryService.viewYycSeqAfterSchedulerProd());
     }
 
     @Scheduled(fixedDelay = 600000)

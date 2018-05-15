@@ -162,3 +162,15 @@ alter table kv_data_date add tenant_id bigint;
 update kv_data_date set tenant_id = 63;
 
 alter table kvbatch_history add data_source text;
+
+CREATE TABLE kvemail_update(
+  id bigint primary key not null,
+  last_run_time BIGINT,
+  update_type text
+);
+
+INSERT into kvemail_update(id,last_run_time,update_type)
+values(1,(extract(epoch from now()) * 1000),'Daily batch email update');
+
+INSERT into kvemail_update(id,last_run_time,update_type)
+values(2,(extract(epoch from now()) * 1000),'Test email update');
