@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class RunBatchController {
@@ -23,13 +25,14 @@ public class RunBatchController {
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
     private Timestamp today = new Timestamp(System.currentTimeMillis());
     private String recipient = "hashim@kollect.my, joshua@kollect.my";
-    private String intro = "This is an Automated Notification for KollectValley PBK Batch Statistics for " + sdf.format(today) + ".";
+    private String intro = "This is an Automated Notification for KollectValley YYC Batch Statistics for " + sdf.format(today) + ".";
     private String message = "Batch Summary & Statistics:";
+    private List<Object> emptyList = new ArrayList<>();
 
     @GetMapping("/runbatch")
     public Object allBatches() {
-/*        this.mailClientService.sendAfterBatch(recipient, "PBK - Daily Batch Report",intro,
-                message, this.service.viewPbkAfterSchedulerUat(), this.service.viewPbkAfterSchedulerProd());
-        */return "runBatch";
+/*        this.mailClientService.sendAfterBatch(recipient, "YYC - Daily Batch Report",intro,
+                message, this.service.viewYycAfterSchedulerUat(), emptyList);*/
+        return "runBatch";
     }
 }

@@ -99,7 +99,7 @@ public class ScheduledTasks {
             System.out.println("Rejuvenating for ten seconds...");
             TimeUnit.SECONDS.sleep(10);
         }catch (Exception e){
-            System.out.println("An error occured during thread sleep." +e);
+            System.out.println("An error occurred during thread sleep." +e);
         }
     }
 

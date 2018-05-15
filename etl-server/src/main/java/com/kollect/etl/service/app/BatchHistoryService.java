@@ -66,6 +66,6 @@ public class BatchHistoryService {
     }
 
     public List<Object> viewYycAfterSchedulerUat(){
-        return this.rwProvider.executeQuery(dataSource, "", null);
+        return this.rwProvider.executeQuery(dataSource, "getDailyYycHistoryUat", null);
     }
 }
