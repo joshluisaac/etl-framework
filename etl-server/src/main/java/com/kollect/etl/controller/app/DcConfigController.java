@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -108,7 +109,8 @@ public class DcConfigController {
   }
   
   
-  @RequestMapping("/dcconfig")
+  
+  @GetMapping(value="/dcconfig")
   public Object getDcConfigById(@RequestParam(required = false) Integer global_config_id, Model model) {
     ConfigParent configP = new ConfigParent(global_config_id);
     DcConfig config = new DcConfig();
@@ -151,6 +153,17 @@ public class DcConfigController {
     return result;
   }
 
+  
+  /**
+   * HTTP POST request to create data connector (DC) configuration
+   * 
+   * @param id
+   * @param column_name
+   * 
+   * @return redirection URL to HTTP GET dcconfig
+   *  
+   */
+  
   @RequestMapping(value = "/dcconfig", method = RequestMethod.POST)
   public String addDcConfig(@RequestParam Integer id, @RequestParam String column_name,
       @RequestParam String remark,  
