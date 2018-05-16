@@ -88,6 +88,7 @@ public class DcConfigController {
    *
    * @param  id
    * @param  type
+   *        type of file format
    * @param model
    *        a data structure of objects which is rendered to view
    *
@@ -124,7 +125,9 @@ public class DcConfigController {
    *
    * @param id
    * @param download
+   *        download decision (yes OR no)
    * @param model
+   *        data structure of objects which is rendered to view
    * @param response
    * @exception IOException
    *            throws IO exception on input error
@@ -163,7 +166,7 @@ public class DcConfigController {
    *
    * @param global_config_id
    * @param model
-   *
+   *        data structure of objects which is rendered to be view
    * @return
    *        returns to dcconfig template
    */
@@ -179,12 +182,12 @@ public class DcConfigController {
   }
 
   /**
-   * HTTP GET request to return to dcconfig form with
+   * HTTP GET request to return to dcconfig form for update purpose
    *
    * @param id
    * @param global_config_id
    * @param model
-   *
+   *        data structure of objects which is rendered to view
    * @return
    *        returns to dcconfig template
    */
@@ -209,9 +212,9 @@ public class DcConfigController {
    * @param id
    * @param global_config_id
    * @param model
-   *
+   *        data structure of objects which is rendered to view
    * @return
-   *         return
+   *         return result which holds the
    */
   @RequestMapping("/dcconfigApi")
   @ResponseBody
@@ -234,19 +237,32 @@ public class DcConfigController {
    * HTTP POST request to create data connector (DC) configuration
    * 
    * @param id
+   *        id of
    * @param column_name
+   *        identifies the column name
    * @param remark
+   *        remark on the newly created DC
    * @param column_default_value
+   *        identifies the default value of the column
    * @param global_config_id
+   *        specifies the global configiration id
    * @param column_start_position
+   *        specifies the column start position
    * @param column_end_position
+   *        specifies the column end position
    * @param column_data_handler
+   *
    * @param column_is_key
+   *         flag to determine if the associated column is the
    * @param column_is_iexternal
+   *        flag to determine if the associated column is the
    * @param column_is_optional
+   *        flag to determine if the associated column is the
    * @param column_is_cached
+   *        flag to determine if the associated column is the
    * @param disable
    * @param lookup_query
+   *
    * @param look_insert_query
    * @param look_insert_key_query
    * 
