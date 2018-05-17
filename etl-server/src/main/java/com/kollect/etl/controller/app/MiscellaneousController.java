@@ -13,7 +13,8 @@ public class MiscellaneousController {
 
 	  @GetMapping("/misc")
 	  public String misc() {
-	    return "misc";
+
+	  	return "misc";
 	  }
 
 }
