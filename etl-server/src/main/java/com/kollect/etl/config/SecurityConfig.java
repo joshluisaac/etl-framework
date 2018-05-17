@@ -26,7 +26,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.authorizeRequests()
                 .antMatchers("/", "/index**", "/datavisualiser", "/dctablesettings",
                         "/dsv", "/misc", "/addbatch", "/batch", "/runbatch", "/allbatchhistory").hasAnyRole(ADMIN, USER)
-                .antMatchers("/adminEmailSettings", "/adminSftp", "/adminDatabase", "/host**", "/usermanagement**").hasRole(ADMIN)
+                .antMatchers("/adminEmailSettings", "/adminSftp", "/adminDatabase", "/host**", "/usermanagement**"
+                , "/emailupdate").hasRole(ADMIN)
                 .and()
                 .formLogin().loginPage("/login")
                 .and()
