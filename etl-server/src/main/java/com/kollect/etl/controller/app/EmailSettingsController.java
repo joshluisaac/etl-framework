@@ -60,7 +60,12 @@ public class EmailSettingsController {
 			@RequestParam String userName, @RequestParam String pass, @RequestParam String host,
 			@RequestParam String recipient, @RequestParam Integer port, @RequestParam String subject,
 			@RequestParam String msg, @RequestParam String subjErr, @RequestParam String msgErr) {
-	    return this.emailSettingsService.addUpdateEmailSettings(sendEmail, userAuthentication, userName, pass, host, recipient, port, subject,
+
+		// does the processing
+		this.emailSettingsService.addUpdateEmailSettings(sendEmail, userAuthentication, userName, pass, host, recipient, port, subject,
         msg, subjErr,msgErr);
+
+		return "redirect:/adminEmailSettings";
+
 	}
 }

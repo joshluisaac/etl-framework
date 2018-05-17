@@ -15,6 +15,11 @@ public class BatchController {
 
     /**
      * GET request mapping to show the page to add new batches, and get all batches
+     *
+     * @param id
+     *          the id of the batch
+     * @param model
+     *          a data structure of objects which needs to be rendered to view
      * @return
      *          returns the addBatch form
      */

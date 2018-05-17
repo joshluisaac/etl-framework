@@ -34,7 +34,34 @@ public class DcConfigController {
 
   @Autowired
   private DcConfigService service;
-
+  /**
+   * HTTP POST request to either update or add DC configuration properties
+   *
+   * @param id
+   *        the id of user that is added if id is given
+   * @param destination_table
+   *        destination table at which the retrieved file is going to
+   * @param description
+   *        description of the file
+   * @param sourceFileName
+   *        name of the source file
+   * @param table_sequence_name
+   *        sequence that is used to increase the numbering
+   * @param generated_key
+   * @param column_delimiter
+   *        column delimiter that structures the data
+   * @param date_format
+   *        the date format followed in extracted file
+   * @param descriptorFileName
+   * @param includeLoadExecution
+   *        flag to decide on including load execution
+   * @param delOption
+   *        flag to decide on delete option
+   * @param model
+   *        a data structure of objects which is rendered to view
+   * @return
+   *        redirection to HTTP GET dctablesettings
+   */
   @RequestMapping(value = "dcConfigProp", method = RequestMethod.POST)
   public String dcConfigProp(@RequestParam(required = false) Integer id,@RequestParam String destination_table, @RequestParam String description,
       @RequestParam String sourceFileName, @RequestParam String table_sequence_name, @RequestParam String generated_key,
@@ -56,6 +83,18 @@ public class DcConfigController {
     return "redirect:/dctablesettings";
   }
 
+  /**
+   * HTTP GET request to
+   *
+   * @param  id
+   * @param  type
+   *        type of file format
+   * @param model
+   *        a data structure of objects which is rendered to view
+   *
+   * @return
+   *        returns to dctParentconfig template
+   */
   @RequestMapping("/dctablesettings")
   // @ResponseBody
   public Object dctablesettings(@RequestParam(required = false) Integer id, @RequestParam (required = false) String type, Model model) {
@@ -80,7 +119,21 @@ public class DcConfigController {
       return "dctParentconfig";
     }
   }
-  
+
+  /**
+   * HTTP GET request to view dctParentconfig
+   *
+   * @param id
+   * @param download
+   *        download decision (yes OR no)
+   * @param model
+   *        data structure of objects which is rendered to view
+   * @param response
+   * @exception IOException
+   *            throws IO exception on input error
+   * @return
+   *        returns to dctParentconfig template
+   */
   @RequestMapping(value="/preview", produces = "application/xml")
   public Object preview(@RequestParam(required = false) Integer id, @RequestParam String download, Model model, HttpServletResponse response) throws IOException {
     model.addAttribute("pageTitle", "DataConnector - Table Settings");
@@ -107,9 +160,16 @@ public class DcConfigController {
     }
     return "dctParentconfig";
   }
-  
-  
-  
+
+  /**
+   * HTTP GET request to return to dcconfig form, get DC by id
+   *
+   * @param global_config_id
+   * @param model
+   *        data structure of objects which is rendered to be view
+   * @return
+   *        returns to dcconfig template
+   */
   @GetMapping(value="/dcconfig")
   public Object getDcConfigById(@RequestParam(required = false) Integer global_config_id, Model model) {
     ConfigParent configP = new ConfigParent(global_config_id);
@@ -121,6 +181,16 @@ public class DcConfigController {
     return "dcconfig";
   }
 
+  /**
+   * HTTP GET request to return to dcconfig form for update purpose
+   *
+   * @param id
+   * @param global_config_id
+   * @param model
+   *        data structure of objects which is rendered to view
+   * @return
+   *        returns to dcconfig template
+   */
   @RequestMapping("/dcconfigForUpdate")
   public Object getDcConfigForUpdate(@RequestParam Integer id, @RequestParam(required = false) Integer global_config_id,
       Model model) {
@@ -136,6 +206,16 @@ public class DcConfigController {
     return "dcconfig";
   }
 
+  /**
+   * HTTP GET request to
+   *
+   * @param id
+   * @param global_config_id
+   * @param model
+   *        data structure of objects which is rendered to view
+   * @return
+   *         return result which holds the
+   */
   @RequestMapping("/dcconfigApi")
   @ResponseBody
   public Object getDcConfigByIdApi(@RequestParam(required = false) Integer id,
@@ -152,18 +232,43 @@ public class DcConfigController {
     result.add(this.service.getDcConfigByParentId(config));
     return result;
   }
-
   
   /**
    * HTTP POST request to create data connector (DC) configuration
    * 
    * @param id
+   *        id of
    * @param column_name
+   *        identifies the column name
+   * @param remark
+   *        remark on the newly created DC
+   * @param column_default_value
+   *        identifies the default value of the column
+   * @param global_config_id
+   *        specifies the global configiration id
+   * @param column_start_position
+   *        specifies the column start position
+   * @param column_end_position
+   *        specifies the column end position
+   * @param column_data_handler
+   *
+   * @param column_is_key
+   *         flag to determine if the associated column is the
+   * @param column_is_iexternal
+   *        flag to determine if the associated column is the
+   * @param column_is_optional
+   *        flag to determine if the associated column is the
+   * @param column_is_cached
+   *        flag to determine if the associated column is the
+   * @param disable
+   * @param lookup_query
+   *
+   * @param look_insert_query
+   * @param look_insert_key_query
    * 
    * @return redirection URL to HTTP GET dcconfig
    *  
    */
-  
   @RequestMapping(value = "/dcconfig", method = RequestMethod.POST)
   public String addDcConfig(@RequestParam Integer id, @RequestParam String column_name,
       @RequestParam String remark,  

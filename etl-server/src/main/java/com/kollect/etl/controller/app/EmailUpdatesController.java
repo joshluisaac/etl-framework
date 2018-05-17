@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class EmailUpdatesController {
     @Autowired
     private EmailUpdatesService emailUpdatesService;
-
     @GetMapping("/emailupdate")
     public Object emailUpdates() {
         return "emailUpdates";

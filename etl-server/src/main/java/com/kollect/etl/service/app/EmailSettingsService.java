@@ -34,7 +34,7 @@ public class EmailSettingsService {
         return "emailSettingsForm";
     }
 
-	public Object addUpdateEmailSettings(boolean sendEmail, String userAuthentication,
+	public void addUpdateEmailSettings(boolean sendEmail, String userAuthentication,
                                          String userName, String pass, String host,
                                          String recipient, Integer port, String subject,
                                          String msg, String subjErr, String msgErr){
@@ -51,7 +51,7 @@ public class EmailSettingsService {
                     : (this.rwProvider.insertQuery(dataSource, "insertEmailSettings", emailDto));
 
             LOG.debug("Number of records affected: {}", numberOfRecAffected);
-            return "redirect:/adminEmailSettings";
+
         }
     }
 }
