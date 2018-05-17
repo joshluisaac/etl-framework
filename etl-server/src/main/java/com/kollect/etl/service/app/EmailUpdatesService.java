@@ -65,7 +65,8 @@ public class EmailUpdatesService {
         Long difference = currentTime - lastRunTime;
         if (difference >= 86400000) {
             this.mailClientService.sendAfterBatch(recipient, "YYC - Daily Batch Report", intro,
-                    message, this.batchHistoryService.viewYycAfterSchedulerUat(), emptyList);
+                    message, this.batchHistoryService.viewYycAfterSchedulerUat(),
+                    this.batchHistoryService.viewYycAfterSchedulerProd());
             this.componentProvider.taskSleep();
             this.mailClientService.sendAfterBatch(recipient, "PBK - Daily Batch Report", intro,
                     message, this.batchHistoryService.viewPbkAfterSchedulerUat(),

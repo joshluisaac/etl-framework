@@ -106,7 +106,8 @@ public class ScheduledTasks {
         this.yycUpdateDataDateService.runUpdateDataDate(66);
         this.componentProvider.taskSleep();
         this.mailClientService.sendAfterBatch(recipient, "YYC - Daily Batch Report",intro,
-                message, this.batchHistoryService.viewYycAfterSchedulerUat(), emptyList);
+                message, this.batchHistoryService.viewYycAfterSchedulerUat(), 
+                this.batchHistoryService.viewYycAfterSchedulerProd());
     }
 
     @Scheduled(cron = "${app.scheduler.runat5am}")
@@ -118,7 +119,8 @@ public class ScheduledTasks {
         this.pbklSumPayServ.combinedLumpSumPaymentService(2);
         this.componentProvider.taskSleep();
         this.mailClientService.sendAfterBatch(recipient, "PBK - Daily Batch Report",intro,
-                message, this.batchHistoryService.viewPbkAfterSchedulerUat(), this.batchHistoryService.viewPbkAfterSchedulerProd());
+                message, this.batchHistoryService.viewPbkAfterSchedulerUat(), 
+                this.batchHistoryService.viewPbkAfterSchedulerProd());
     }
 
     @Scheduled(cron = "${app.scheduler.runat530am}")
