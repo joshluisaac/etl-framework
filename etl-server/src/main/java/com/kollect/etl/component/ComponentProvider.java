@@ -1,6 +1,8 @@
 package com.kollect.etl.component;
 
 import com.kollect.etl.util.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -10,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 @Component
 public class ComponentProvider {
-  
+    private static final Logger LOG = LoggerFactory.getLogger(ComponentProvider.class);
   
   /** Will resolve the account as either commercial or non commercial
    * 
@@ -41,10 +43,10 @@ public class ComponentProvider {
    * A sleep method to let the application rest for given seconds */
   public void taskSleep(){
     try {
-      System.out.println("Rejuvenating for ten seconds...");
+        LOG.info("Rejuvenating for ten seconds...");
       TimeUnit.SECONDS.sleep(10);
     }catch (Exception e){
-      System.out.println("An error occurred during thread sleep." +e);
+        LOG.error("An error occurred during thread sleep." +e);
     }
   }
  
