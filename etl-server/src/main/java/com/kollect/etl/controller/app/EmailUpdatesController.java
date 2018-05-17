@@ -27,11 +27,13 @@ public class EmailUpdatesController {
      * POST method that gets values from client to run a service to send out batch email updates manually.
      * @param recipient
      *                  String of recipients to send emails to, separated by commas(,).
+     * @return
+     *        returns the service to be executed.
      */
     @PostMapping(value = "/resendemailupdate", produces = "application/json")
     @ResponseBody
-    public void resendEmailUpdate(@RequestParam String recipient) {
-        this.emailUpdatesService.resendEmail(recipient);
+    public Object resendEmailUpdate(@RequestParam String recipient) {
+        return this.emailUpdatesService.resendEmail(recipient);
     }
 
     /**
@@ -39,10 +41,12 @@ public class EmailUpdatesController {
      * templates.
      * @param recipient
      *                  String of recipients to send emails to, separated by commas(,).
+     * @return
+     *        returns the service to be executed.
      */
     @PostMapping(value = "/sendtestemail", produces = "application/json")
     @ResponseBody
-    public void sendTestEmail(@RequestParam String recipient) {
-        this.emailUpdatesService.sendTestEmail(recipient);
+    public Object sendTestEmail(@RequestParam String recipient) {
+        return this.emailUpdatesService.sendTestEmail(recipient);
     }
 }

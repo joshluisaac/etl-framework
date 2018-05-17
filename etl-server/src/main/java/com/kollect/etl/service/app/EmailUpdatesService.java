@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This method sends over emails from the client in case there was a mail server error.
+ * This class sends over emails from the client in case there was a mail server error.
  * It is also used to send out test emails.
  */
 @Service
@@ -35,7 +35,6 @@ public class EmailUpdatesService {
     /*Values coming in application.properties*/
     @Value("${app.datasource_uat_8}")
     private String dataSource;
-    private boolean lock;
     /*This empty list is used to replace the prodStats query since Pelita is not on production yet.*/
     private List<Object> emptyList = new ArrayList<>();
 
@@ -51,14 +50,20 @@ public class EmailUpdatesService {
 
     }
 
+    /**
+     * This method sends over the batch email updates manually in case the auto email sender fails after batch execution.
+     * @param recipient
+     *                  the recipient from client to whom the emails are sent.
+     * @return
+     *          returns the difference which is used by Ajax to display appropriate message to client.
+     */
     public long resendEmail(String recipient) {
         Long currentTime = System.currentTimeMillis();
         List<Map<String, Long>> getLastRunTestUpdate = this.iRWProvider.executeQuery(dataSource, "getLastRunBatchUpdate", null);
         Map<String, Long> map = getLastRunTestUpdate.get(0);
         Long lastRunTime = map.get("last_run_time");
         Long difference = currentTime - lastRunTime;
-        if (difference >= 86400000 && !lock) {
-            lock = true;
+        if (difference >= 86400000) {
             this.mailClientService.sendAfterBatch(recipient, "YYC - Daily Batch Report", intro,
                     message, this.batchHistoryService.viewYycAfterSchedulerUat(), emptyList);
             this.componentProvider.taskSleep();
@@ -71,22 +76,32 @@ public class EmailUpdatesService {
             this.iRWProvider.insertQuery(dataSource, "updateLastRunBatchUpdate", null);
             LOG.info("All batch email updates sent successfully.");
         }
+        else
+            LOG.info("Emails not sent, please wait 24 hours. ");
         return difference;
     }
 
+    /**
+     * This method is used to carry out tests on the email settings. It is also useful to test out different templates.
+     * @param recipient
+     *                  the recipient from client to whom the emails are sent.
+     * @return
+     *          returns the difference which is used by Ajax to display appropriate message to client.
+     */
     public long sendTestEmail(String recipient) {
         Long currentTime = System.currentTimeMillis();
         List<Map<String, Long>> getLastRunTestUpdate = this.iRWProvider.executeQuery(dataSource, "getLastRunTestUpdate", null);
         Map<String, Long> map = getLastRunTestUpdate.get(0);
         Long lastRunTime = map.get("last_run_time");
         Long difference = currentTime - lastRunTime;
-        if (difference >= 86400000 && !lock) {
-            lock = true;
+        if (difference >= 86400000) {
             this.mailClientService.sendAfterBatch(recipient, "YYC - Daily Batch Report", intro,
                     message, this.batchHistoryService.viewYycAfterSchedulerUat(), emptyList);
             this.iRWProvider.insertQuery(dataSource, "updateLastRunTestUpdate", null);
             LOG.info("Test email sent successfully.");
         }
+        else
+            LOG.info("Emails not sent, please wait 24 hours. ");
         return difference;
     }
 }
