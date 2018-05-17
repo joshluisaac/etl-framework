@@ -2,6 +2,8 @@ package com.kollect.etl.service.app;
 
 import com.kollect.etl.component.ComponentProvider;
 import com.kollect.etl.service.IReadWriteServiceProvider;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -23,6 +25,7 @@ public class EmailUpdatesService {
     private BatchHistoryService batchHistoryService;
     private ComponentProvider componentProvider;
     private IReadWriteServiceProvider iRWProvider;
+    private static final Logger LOG = LoggerFactory.getLogger(EmailUpdatesService.class);
 
     /* Necessary service variables */
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
@@ -30,8 +33,6 @@ public class EmailUpdatesService {
     private String intro = "This is an Automated Notification for KollectValley YYC Batch Statistics for " + sdf.format(today) + ".";
     private String message = "Batch Summary & Statistics:";
     /*Values coming in application.properties*/
-    @Value("${spring.mail.properties.batch.autoupdate.recipients}")
-    private String recipient;
     @Value("${app.datasource_uat_8}")
     private String dataSource;
     private boolean lock;
@@ -50,7 +51,7 @@ public class EmailUpdatesService {
 
     }
 
-    public long resendEmail() {
+    public long resendEmail(String recipient) {
         Long currentTime = System.currentTimeMillis();
         List<Map<String, Long>> getLastRunTestUpdate = this.iRWProvider.executeQuery(dataSource, "getLastRunBatchUpdate", null);
         Map<String, Long> map = getLastRunTestUpdate.get(0);
@@ -68,12 +69,12 @@ public class EmailUpdatesService {
             this.mailClientService.sendAfterBatch(recipient, "Pelita - Daily Batch Report", intro,
                     message, this.batchHistoryService.viewPelitaAfterSchedulerUat(), emptyList);
             this.iRWProvider.insertQuery(dataSource, "updateLastRunBatchUpdate", null);
-            System.out.println("Emails sent successfully.");
+            LOG.info("All batch email updates sent successfully.");
         }
         return difference;
     }
 
-    public long sendTestEmail() {
+    public long sendTestEmail(String recipient) {
         Long currentTime = System.currentTimeMillis();
         List<Map<String, Long>> getLastRunTestUpdate = this.iRWProvider.executeQuery(dataSource, "getLastRunTestUpdate", null);
         Map<String, Long> map = getLastRunTestUpdate.get(0);
@@ -81,11 +82,10 @@ public class EmailUpdatesService {
         Long difference = currentTime - lastRunTime;
         if (difference >= 86400000 && !lock) {
             lock = true;
-            String testRecipient = "hashim@kollect.my";
-            this.mailClientService.sendAfterBatch(testRecipient, "YYC - Daily Batch Report", intro,
+            this.mailClientService.sendAfterBatch(recipient, "YYC - Daily Batch Report", intro,
                     message, this.batchHistoryService.viewYycAfterSchedulerUat(), emptyList);
             this.iRWProvider.insertQuery(dataSource, "updateLastRunTestUpdate", null);
-            System.out.println("Email sent successfully.");
+            LOG.info("Test email sent successfully.");
         }
         return difference;
     }
