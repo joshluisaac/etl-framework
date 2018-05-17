@@ -55,6 +55,6 @@ public class YycBatchController {
     @ResponseBody
     @PostMapping("/yycupdatedatadate")
     public Object yycUpdateDataDate(@RequestParam Integer batch_id){
-        return this.yycUpdateDataDateService.runupdateDataDate(batch_id);
+        return this.yycUpdateDataDateService.runUpdateDataDate(batch_id);
     }
 }

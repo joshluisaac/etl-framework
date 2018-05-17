@@ -103,7 +103,7 @@ public class ScheduledTasks {
         this.componentProvider.taskSleep();
         this.yycInAgingService.combinedYycAgeInvoiceService(65);
         this.componentProvider.taskSleep();
-        this.yycUpdateDataDateService.runupdateDataDate(66);
+        this.yycUpdateDataDateService.runUpdateDataDate(66);
         this.componentProvider.taskSleep();
         this.mailClientService.sendAfterBatch(recipient, "YYC - Daily Batch Report",intro,
                 message, this.batchHistoryService.viewYycAfterSchedulerUat(), emptyList);
