@@ -12,6 +12,7 @@ public class RunBatchController {
      */
     @GetMapping("/runbatch")
     public Object allBatches() {
+
         return "runBatch";
     }
 }
