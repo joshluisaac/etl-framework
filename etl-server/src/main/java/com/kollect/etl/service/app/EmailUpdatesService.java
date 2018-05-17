@@ -52,8 +52,8 @@ public class EmailUpdatesService {
 
     public long resendEmail() {
         Long currentTime = System.currentTimeMillis();
-        List<Object> getLastRunTestUpdate = this.iRWProvider.executeQuery(dataSource, "getLastRunBatchUpdate", null);
-        Map<String, Long> map = (Map) getLastRunTestUpdate.get(0);
+        List<Map<String, Long>> getLastRunTestUpdate = this.iRWProvider.executeQuery(dataSource, "getLastRunBatchUpdate", null);
+        Map<String, Long> map = getLastRunTestUpdate.get(0);
         Long lastRunTime = map.get("last_run_time");
         Long difference = currentTime - lastRunTime;
         if (difference >= 86400000 && !lock) {
@@ -75,13 +75,13 @@ public class EmailUpdatesService {
 
     public long sendTestEmail() {
         Long currentTime = System.currentTimeMillis();
-        List<Object> getLastRunTestUpdate = this.iRWProvider.executeQuery(dataSource, "getLastRunTestUpdate", null);
-        Map<String, Long> map = (Map) getLastRunTestUpdate.get(0);
+        List<Map<String, Long>> getLastRunTestUpdate = this.iRWProvider.executeQuery(dataSource, "getLastRunTestUpdate", null);
+        Map<String, Long> map = getLastRunTestUpdate.get(0);
         Long lastRunTime = map.get("last_run_time");
         Long difference = currentTime - lastRunTime;
         if (difference >= 86400000 && !lock) {
             lock = true;
-            String testRecipient = "hashim@kollect.my, joshua@kollect.my";
+            String testRecipient = "hashim@kollect.my";
             this.mailClientService.sendAfterBatch(testRecipient, "YYC - Daily Batch Report", intro,
                     message, this.batchHistoryService.viewYycAfterSchedulerUat(), emptyList);
             this.iRWProvider.insertQuery(dataSource, "updateLastRunTestUpdate", null);
