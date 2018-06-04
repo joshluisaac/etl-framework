@@ -97,7 +97,7 @@ public class EmailUpdatesService {
         Long difference = currentTime - lastRunTime;
         if (difference >= 86400000) {
             this.mailClientService.sendAfterBatch(recipient, "YYC - Daily Batch Report", intro,
-                    message, this.batchHistoryService.viewYycAfterSchedulerUat(), emptyList);
+                    message, this.batchHistoryService.viewYycAfterSchedulerUat(), this.batchHistoryService.viewYycAfterSchedulerProd());
             this.iRWProvider.insertQuery(dataSource, "updateLastRunTestUpdate", null);
             LOG.info("Test email sent successfully.");
         }
