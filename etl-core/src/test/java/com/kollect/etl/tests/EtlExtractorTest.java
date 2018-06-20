@@ -20,20 +20,9 @@ public class EtlExtractorTest {
   
   @Test
   public void sendEmail() {
-    String[] emailCred = {"datareceived@kollect.my", "K@L#eKT#12", "mail.automanage.biz", "Some subject", "Testing","datareceived@kollect.my"};
+    String[] emailCred = {"datareceived@kollect.my", "", "mail.automanage.biz", "Some subject", "Testing","datareceived@kollect.my"};
     extractor.sendEmailNotification(emailCred, 587, new String[] {"nwankwo.joshua@gmail.com","joshua@kollect.my"}, service, false);
     
   }
-  
-  
-  //@Test
-  public void sendEmail2() {
-    String[] emailCred = {"datareceived@kollect.my", "Kollect4321", "smtp.mailgun.org", "Some subject from smtp mail gun", "Testing","postmaster@kollect.my"};
-    extractor.sendEmailNotification(emailCred, 25, new String[] {"nwankwo.joshua@gmail.com"}, service, false);
-    
-  }
-  
-  
-  
 
 }
