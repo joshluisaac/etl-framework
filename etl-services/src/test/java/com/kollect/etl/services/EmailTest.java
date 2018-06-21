@@ -11,12 +11,13 @@ public class EmailTest {
 
   public EmailTest() {
     service = new EmailService();
+    
   }
 
   @Test
   public void sendEmail() {
-    service.sendEmail("datareceived@kollect.my", "K@L#eKT#12", "mail.automanage.biz", "Some subject", "Testing",
-        "datareceived@kollect.my", 587, new String[] { "joshua@gmail.com" }, false);
+    service.sendEmail("datareceived@kollect.my", "", "mail.automanage.biz", "Some subject", "Testing",
+        "datareceived@kollect.my", 587, new String[] { "nwankwo.joshua@gmail.com" }, false);
   }
 
 }

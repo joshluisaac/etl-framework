@@ -24,8 +24,8 @@ public class DataConnectorEmailSender {
     String[] recipient = emailProp.getProperty("email.recipient").split("\\s*,\\s*");
     boolean enableSSL = Boolean.parseBoolean(emailProp.getProperty("email.enablessl"));
     
-    String srcFilePrefix = emailProp.getProperty("email.filePrefix");
-    DataConnectorEmailNotification notify = new DataConnectorEmailNotification(srcFilePrefix);
+    //String srcFilePrefix = emailProp.getProperty("email.filePrefix");
+    DataConnectorEmailNotification notify = new DataConnectorEmailNotification();
     Regex r = new Regex();
     String daysAgo = emailProp.getProperty("email.daysAgo");
     List<TotalLoaded> bodyList = r.getMatchedTokens(args[0], Integer.parseInt(daysAgo));
