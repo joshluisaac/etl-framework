@@ -22,7 +22,7 @@ public class CsvUploadService {
     private List<String> readCsv(String paths) throws IOException {
         List<String> list;
         try (BufferedReader bufReader = new BufferedReader(
-                new InputStreamReader(new FileInputStream(new File(paths))));) {
+                new InputStreamReader(new FileInputStream(new File(paths))))) {
             String line;
             list = new ArrayList<>();
             while ((line = bufReader.readLine()) != null) {
