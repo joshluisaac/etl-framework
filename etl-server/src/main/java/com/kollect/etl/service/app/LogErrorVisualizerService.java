@@ -16,7 +16,7 @@ import java.util.Scanner;
 
 @Service
 public class LogErrorVisualizerService {
-    private static final String UPLOAD_DIR = "./etl-server/uploads/";
+    private static final String UPLOAD_DIR = "etl-server/uploads/";
 
     public void readLogFile(Model model, MultipartFile file) throws IOException {
         byte[] bytes = file.getBytes();
