@@ -16,7 +16,8 @@ import java.util.Map;
 
 @Service
 public class CsvUploadService {
-    private static final String UPLOAD_DIR = "etl-server/uploads/";
+    private static final String UPLOAD_DIR = "../etl-server/uploads/";
+    /*use ../etl-server/uploads/ for production as the app is running on different root urls */
     private List<String> listCSV;
     public int arrSize;
     private List<Map<String, String>> listMap;
