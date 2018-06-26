@@ -39,9 +39,8 @@ public class CsvUploadService {
     }
 
     public List<Map<String, String>> buildListOfMap(MultipartFile file) throws IOException {
-        String uploadDirFinale = new File(UPLOAD_DIR).getAbsolutePath();
         byte[] bytes = file.getBytes();
-        Path path = Paths.get(uploadDirFinale + "/" + file.getOriginalFilename());
+        Path path = Paths.get(UPLOAD_DIR + file.getOriginalFilename());
         Files.write(path, bytes);
         listMap = new ArrayList<>();
         listCSV = componentProvider.readFile(path.toString());
@@ -49,7 +48,6 @@ public class CsvUploadService {
         for (int i = 0; i < MapSize; i++) {
             RegexSplitter(i);
         }
-
         return listMap;
     }
 }
