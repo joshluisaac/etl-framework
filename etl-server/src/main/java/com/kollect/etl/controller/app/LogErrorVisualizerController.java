@@ -28,12 +28,12 @@ public class LogErrorVisualizerController {
     @PostMapping("/logerrorvisualizer")
     public Object getLogFile(Model model, @RequestParam("file") MultipartFile file) throws IOException {
         /* Check if file is too large, redirect to error message if true. */
-        if (file.getSize() > 100000){
-            model.addAttribute("size", "File size is too large, please upload only up to 100 kilobytes.");
+        if (file.getSize() > 1000000){
+            model.addAttribute("size", "File size is too large, please upload only up to 1MB.");
         }
         if (file.isEmpty())
             model.addAttribute("content", "File is empty, please re-upload file.");
-        if (file.getSize() < 100001 && !file.isEmpty()){
+        if (file.getSize() < 1000001 && !file.isEmpty()){
             this.logErrorVisualizerService.readLogFile(model, file);
         }
         System.out.println("This is the size..."+file.getSize());
