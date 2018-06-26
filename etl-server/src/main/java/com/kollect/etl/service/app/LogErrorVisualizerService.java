@@ -17,10 +17,10 @@ import java.util.Scanner;
 @Service
 public class LogErrorVisualizerService {
     private static final String UPLOAD_DIR = "./etl-server/uploads/";
+
     public void readLogFile(Model model, MultipartFile file) throws IOException {
-        String uploadDirFinale = new File(UPLOAD_DIR).getAbsolutePath();
         byte[] bytes = file.getBytes();
-        Path path = Paths.get(uploadDirFinale + "/" + file.getOriginalFilename());
+        Path path = Paths.get(UPLOAD_DIR + file.getOriginalFilename());
         Files.write(path, bytes);
         Scanner scanner = new Scanner(new File(path.toString()));
         ArrayList<String> initialList = new ArrayList<>();
@@ -42,5 +42,6 @@ public class LogErrorVisualizerService {
         model.addAttribute("part1", modifiedListPart1);
         model.addAttribute("part2", modifiedListPart2);
         scanner.close();
+        System.out.println(path.toString());
     }
 }

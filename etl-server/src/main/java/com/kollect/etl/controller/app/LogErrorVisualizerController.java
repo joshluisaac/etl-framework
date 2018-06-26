@@ -7,8 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -24,7 +27,16 @@ public class LogErrorVisualizerController {
 
     @PostMapping("/logerrorvisualizer")
     public Object getLogFile(Model model, @RequestParam("file") MultipartFile file) throws IOException {
-        this.logErrorVisualizerService.readLogFile(model, file);
+        /* Check if file is too large, redirect to error message if true. */
+        if (file.getSize() > 100000){
+            model.addAttribute("size", "File size is too large, please upload only up to 100 kilobytes.");
+        }
+        if (file.isEmpty())
+            model.addAttribute("content", "File is empty, please re-upload file.");
+        if (file.getSize() < 100001 && !file.isEmpty()){
+            this.logErrorVisualizerService.readLogFile(model, file);
+        }
+        System.out.println("This is the size..."+file.getSize());
         return "logErrorVisualizer";
     }
 }
