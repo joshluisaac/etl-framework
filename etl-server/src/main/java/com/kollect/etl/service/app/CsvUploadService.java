@@ -1,5 +1,7 @@
 package com.kollect.etl.service.app;
 
+import com.kollect.etl.component.ComponentProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,34 +17,18 @@ import java.util.Map;
 @Service
 public class CsvUploadService {
     private static final String UPLOAD_DIR = "./etl-server/uploads/";
-    public int arrSize, MapSize;
-    private List<String> ListCSV;
+    private List<String> listCSV;
+    public int arrSize;
     private List<Map<String, String>> listMap;
-
-    private List<String> readCsv(String paths) throws IOException {
-        List<String> list;
-        try (BufferedReader bufReader = new BufferedReader(
-                new InputStreamReader(new FileInputStream(new File(paths))))) {
-            String line;
-            list = new ArrayList<>();
-            while ((line = bufReader.readLine()) != null) {
-                if (list.size() <= 100) {
-                    list.add(line);
-                } else {
-                    break;
-                }
-            }
-
-        }
-        return list;
-    }
+    @Autowired
+    private ComponentProvider componentProvider;
 
     /**
      * Split List
      * Mapping into Thymeleaf
      */
-    public void RegexSplitter(int i) {
-        String[] array = ListCSV.get(i).split("\\|");
+    private void RegexSplitter(int i) {
+        String[] array = listCSV.get(i).split("\\|");
         Map<String, String> map = new HashMap<>();
         arrSize = array.length;
         for (int k = 0; k < arrSize; k++) {
@@ -58,8 +44,8 @@ public class CsvUploadService {
         Path path = Paths.get(uploadDirFinale + "/" + file.getOriginalFilename());
         Files.write(path, bytes);
         listMap = new ArrayList<>();
-        ListCSV = readCsv(path.toString());
-        MapSize = ListCSV.size();
+        listCSV = componentProvider.readFile(path.toString());
+        int MapSize = listCSV.size();
         for (int i = 0; i < MapSize; i++) {
             RegexSplitter(i);
         }
