@@ -174,3 +174,13 @@ values(1,(extract(epoch from now()) * 1000),'Daily batch email update');
 
 INSERT into kvemail_update(id,last_run_time,update_type)
 values(2,(extract(epoch from now()) * 1000),'Test email update');
+
+CREATE table kvemail_log(
+  id BIGINT PRIMARY KEY NOT NULL,
+  subject text,
+  recipient text,
+  time_sent TIMESTAMP,
+  status VARCHAR(20)
+);
+
+create SEQUENCE kvemail_log_id;
