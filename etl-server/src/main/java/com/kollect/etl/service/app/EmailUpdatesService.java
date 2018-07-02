@@ -74,6 +74,9 @@ public class EmailUpdatesService {
             this.componentProvider.taskSleep();
             this.mailClientService.sendAfterBatch(recipient, "Pelita - Daily Batch Report", intro,
                     message, this.batchHistoryService.viewPelitaAfterSchedulerUat(), emptyList);
+            this.componentProvider.taskSleep();
+            this.mailClientService.sendAfterBatch(recipient, "ICT Zone - Daily Batch Report", intro,
+                    message, this.batchHistoryService.viewIctZoneAfterSchedulerUat(), emptyList);
             this.iRWProvider.insertQuery(dataSource, "updateLastRunBatchUpdate", null);
             LOG.info("All batch email updates sent successfully.");
         }

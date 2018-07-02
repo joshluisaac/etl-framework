@@ -4,7 +4,7 @@ import com.kollect.etl.component.ComponentProvider;
 import com.kollect.etl.service.IReadWriteServiceProvider;
 import com.kollect.etl.service.app.BatchHistoryService;
 import com.kollect.etl.service.app.MailClientService;
-import com.kollect.etl.service.commonbatches.RunAsyncBatchService;
+import com.kollect.etl.service.commonbatches.AsyncBatchExecutorService;
 import com.kollect.etl.service.commonbatches.UpdateDataDateService;
 import com.kollect.etl.service.pbk.PbkLumpSumPaymentService;
 import com.kollect.etl.service.yyc.YycQuerySequenceService;
@@ -22,7 +22,7 @@ import java.util.List;
 public class ScheduledTasks {
     /*Required services*/
     private PbkLumpSumPaymentService pbklSumPayServ;
-    private RunAsyncBatchService runAsyncBatchService;
+    private AsyncBatchExecutorService asyncBatchExecutorService;
     private UpdateDataDateService updateDataDateService;
     private YycQuerySequenceService yycQuerySequenceService;
     private MailClientService mailClientService;
@@ -47,13 +47,15 @@ public class ScheduledTasks {
     List<String> pbkDataSource;
     private @Value("${app.datasource_pelita_test}")
     List<String> pelitaDataSource;
+    private @Value("${app.datasource_ictzone}")
+    List<String> ictZoneDataSource;
     /*This empty list is used to replace the prodStats query since Pelita is not on production yet.*/
     private List<Object> emptyList = new ArrayList<>();
 
     /*The constructor for the class to inject the necessary services*/
     @Autowired
     public ScheduledTasks(PbkLumpSumPaymentService pbklSumPayServ,
-                          RunAsyncBatchService runAsyncBatchService,
+                          AsyncBatchExecutorService asyncBatchExecutorService,
                           UpdateDataDateService updateDataDateService,
                           YycQuerySequenceService yycQuerySequenceService,
                           MailClientService mailClientService,
@@ -61,7 +63,7 @@ public class ScheduledTasks {
                           IReadWriteServiceProvider iRWProvider,
                           ComponentProvider componentProvider){
         this.pbklSumPayServ = pbklSumPayServ;
-        this.runAsyncBatchService = runAsyncBatchService;
+        this.asyncBatchExecutorService = asyncBatchExecutorService;
         this.updateDataDateService = updateDataDateService;
         this.yycQuerySequenceService = yycQuerySequenceService;
         this.mailClientService = mailClientService;
@@ -72,29 +74,32 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "${app.scheduler.runat430am}")
     public void runYycBatches() {
-        this.runAsyncBatchService.execute(63, yycDataSource, "getYycInvoiceStatus",
+        this.asyncBatchExecutorService.execute(63, yycDataSource,
+                "getYycInvoiceStatus",
                 "updateYycInvoiceStatus",
                 "INV_STAT_EVAL");
         this.componentProvider.taskSleep();
-        this.runAsyncBatchService.execute(64, yycDataSource,
+        this.asyncBatchExecutorService.execute(64, yycDataSource,
                 "getYycAgeInvoice", "updateYycAgeInvoice",
                 "AGE_INV");
         this.componentProvider.taskSleep();
-        this.runAsyncBatchService.execute(65, yycDataSource,
+        this.asyncBatchExecutorService.execute(65, yycDataSource,
                 "getYycInAging", "updateYycInAging",
                 "IN_AGING");
         this.componentProvider.taskSleep();
         this.updateDataDateService.runUpdateDataDate(66,
                 yycDataSource, "yycUpdateDataDate");
         this.componentProvider.taskSleep();
-        this.mailClientService.sendAfterBatch(recipient, "YYC - Daily Batch Report",intro,
+        this.mailClientService.sendAfterBatch(recipient,
+                "YYC - Daily Batch Report",intro,
                 message, this.batchHistoryService.viewYycAfterSchedulerUat(), 
                 this.batchHistoryService.viewYycAfterSchedulerProd());
     }
 
     @Scheduled(cron = "${app.scheduler.runat5am}")
     public void runPbkBatches() {
-        this.runAsyncBatchService.execute(3, pbkDataSource, "getPbkAgeInvoice",
+        this.asyncBatchExecutorService.execute(3, pbkDataSource,
+                "getPbkAgeInvoice",
                 "updatePbkAgeInvoice",
                 "AGE_INV");
         this.componentProvider.taskSleep();
@@ -102,29 +107,30 @@ public class ScheduledTasks {
         this.componentProvider.taskSleep();
         this.pbklSumPayServ.combinedLumpSumPaymentService(2);
         this.componentProvider.taskSleep();
-        this.mailClientService.sendAfterBatch(recipient, "PBK - Daily Batch Report",intro,
+        this.mailClientService.sendAfterBatch(recipient,
+                "PBK - Daily Batch Report",intro,
                 message, this.batchHistoryService.viewPbkAfterSchedulerUat(), 
                 this.batchHistoryService.viewPbkAfterSchedulerProd());
     }
 
     @Scheduled(cron = "${app.scheduler.runat530am}")
     public void runPelitaBatches() {
-        this.runAsyncBatchService.execute(57, pelitaDataSource,
+        this.asyncBatchExecutorService.execute(57, pelitaDataSource,
                 "getPelitaInvoiceAmountAfterTax",
                 "updatePelitaInvoiceAmountAfterTax",
                 "COMPUTE_INV");
         this.componentProvider.taskSleep();
-        this.runAsyncBatchService.execute(58, pelitaDataSource,
+        this.asyncBatchExecutorService.execute(58, pelitaDataSource,
                 "getPelitaInvoiceStatus",
                 "updatePelitaInvoiceStatus",
                 "INV_STAT_EVAL");
         this.componentProvider.taskSleep();
-        this.runAsyncBatchService.execute(56,
+        this.asyncBatchExecutorService.execute(56,
                 pelitaDataSource, "getPelitaInAging",
                 "updatePelitaInAging",
                 "IN_AGING");
         this.componentProvider.taskSleep();
-        this.runAsyncBatchService.execute(59,
+        this.asyncBatchExecutorService.execute(59,
                 pelitaDataSource, "getPelitaAgeInvoices",
                 "updatePelitaAgeInvoices",
                 "AGE_INV");
@@ -132,25 +138,63 @@ public class ScheduledTasks {
         this.updateDataDateService.runUpdateDataDate(60,
                 pelitaDataSource, "pelitaUpdateDataDate");
         this.componentProvider.taskSleep();
-        this.runAsyncBatchService.execute(61,
+        this.asyncBatchExecutorService.execute(61,
                 pelitaDataSource, "getPelitaDebitAmountAfterTax",
                 "updatePelitaDebitAmountAfterTax",
                 "COMPUTE_DEBIT");
-        this.mailClientService.sendAfterBatch(recipient, "Pelita - Daily Batch Report",intro,
+        this.mailClientService.sendAfterBatch(recipient,
+                "Pelita - Daily Batch Report",intro,
                 message, this.batchHistoryService.viewPelitaAfterSchedulerUat(), emptyList);
+    }
+
+    @Scheduled(cron = "${app.scheduler.runat6am}")
+    public void runIctZoneBatches(){
+        this.asyncBatchExecutorService.execute(68,
+                ictZoneDataSource,
+                "getIctZoneInvoiceAmountAfterTax",
+                "updateIctZoneInvoiceAmountAfterTax",
+                "COMPUTE_INV");
+        this.componentProvider.taskSleep();
+        this.asyncBatchExecutorService.execute(69,
+                ictZoneDataSource, "getIctZoneInvoiceStatus",
+                "updateIctZoneInvoiceStatus",
+                "INV_STAT_EVAL");
+        this.componentProvider.taskSleep();
+        this.asyncBatchExecutorService.execute(67,
+                ictZoneDataSource, "getIctZoneInAging",
+                "updateIctZoneInAging",
+                "IN_AGING");
+        this.componentProvider.taskSleep();
+        this.asyncBatchExecutorService.execute(70, ictZoneDataSource,
+                "getIctZoneAgeInvoices",
+                "updateIctZoneAgeInvoices", "AGE_INV");
+        this.componentProvider.taskSleep();
+        this.updateDataDateService.runUpdateDataDate(71, ictZoneDataSource,
+                "ictZoneUpdateDataDate");
+        this.componentProvider.taskSleep();
+        this.asyncBatchExecutorService.execute(72, ictZoneDataSource,
+                "getIctZoneDebitAmountAfterTax",
+                "updateIctZoneDebitAmountAfterTax", "COMPUTE_DEBIT");
+        this.componentProvider.taskSleep();
+        this.mailClientService.sendAfterBatch(
+                recipient+",syazman@kollect.my,biman@kollect.my",
+                "ICT Zone - Daily Batch Report",intro,
+                message, this.batchHistoryService.viewIctZoneAfterSchedulerUat(), emptyList);
     }
 
     @Scheduled(cron = "${app.scheduler.runat7pm}")
     public void runYycSequences(){
         this.yycQuerySequenceService.runYycSequenceQuery(62);
         this.componentProvider.taskSleep();
-        this.mailClientService.sendAfterBatch(recipient,"YYC - Daily Batch Report" ,intro,
+        this.mailClientService.sendAfterBatch(recipient,
+                "YYC - Daily Batch Report" ,intro,
                 message, this.batchHistoryService.viewYycSeqAfterSchedulerUat(),
                 this.batchHistoryService.viewYycSeqAfterSchedulerProd());
     }
 
     @Scheduled(fixedDelay = 600000)
     public void runKeepConnectionAliveHack(){
-        this.iRWProvider.executeQuery(prodDataSource, "getUpdateDataDateToKeepConnectionOpen", null);
+        this.iRWProvider.executeQuery(prodDataSource,
+                "getUpdateDataDateToKeepConnectionOpen", null);
     }
 }

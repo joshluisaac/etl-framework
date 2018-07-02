@@ -1,6 +1,6 @@
 package com.kollect.etl.controller.pelita;
 
-import com.kollect.etl.service.commonbatches.RunAsyncBatchService;
+import com.kollect.etl.service.commonbatches.AsyncBatchExecutorService;
 import com.kollect.etl.service.commonbatches.UpdateDataDateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,15 +13,15 @@ import java.util.List;
 
 @Controller
 public class PelitaBatchController {
-    private RunAsyncBatchService runAsyncBatchService;
+    private AsyncBatchExecutorService asyncBatchExecutorService;
     private UpdateDataDateService updateDataDateService;
     private @Value("${app.datasource_pelita_test}")
     List<String> dataSource;
 
     @Autowired
-    public PelitaBatchController(RunAsyncBatchService runAsyncBatchService,
+    public PelitaBatchController(AsyncBatchExecutorService asyncBatchExecutorService,
                                  UpdateDataDateService updateDataDateService){
-        this.runAsyncBatchService = runAsyncBatchService;
+        this.asyncBatchExecutorService = asyncBatchExecutorService;
         this.updateDataDateService = updateDataDateService;
     }
 
@@ -29,7 +29,7 @@ public class PelitaBatchController {
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object ageInvoice (@RequestParam Integer batch_id){
-        return this.runAsyncBatchService.execute(batch_id,
+        return this.asyncBatchExecutorService.execute(batch_id,
                 dataSource, "getPelitaAgeInvoices",
                 "updatePelitaAgeInvoices",
                 "AGE_INV");
@@ -38,7 +38,7 @@ public class PelitaBatchController {
     @PostMapping("/pelitacomputedebit")
     @ResponseBody
     public Object computeDebit(@RequestParam Integer batch_id){
-        return this.runAsyncBatchService.execute(batch_id,
+        return this.asyncBatchExecutorService.execute(batch_id,
                 dataSource, "getPelitaDebitAmountAfterTax",
                 "updatePelitaDebitAmountAfterTax",
                 "COMPUTE_DEBIT");
@@ -48,7 +48,7 @@ public class PelitaBatchController {
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object computeInv (@RequestParam Integer batch_id) {
-        return this.runAsyncBatchService.execute(batch_id,
+        return this.asyncBatchExecutorService.execute(batch_id,
                 dataSource, "getPelitaInvoiceAmountAfterTax",
                 "updatePelitaInvoiceAmountAfterTax",
                 "COMPUTE_INV");
@@ -58,7 +58,7 @@ public class PelitaBatchController {
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object inAging (@RequestParam Integer batch_id){
-        return this.runAsyncBatchService.execute(batch_id,
+        return this.asyncBatchExecutorService.execute(batch_id,
                 dataSource, "getPelitaInAging",
                 "updatePelitaInAging",
                 "IN_AGING");
@@ -68,7 +68,7 @@ public class PelitaBatchController {
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object invStatEvaluation (@RequestParam Integer batch_id) {
-        return this.runAsyncBatchService.execute(batch_id,
+        return this.asyncBatchExecutorService.execute(batch_id,
                 dataSource, "getPelitaInvoiceStatus",
                 "updatePelitaInvoiceStatus",
                 "INV_STAT_EVAL");

@@ -57,6 +57,10 @@ public class BatchHistoryService {
         return this.rwProvider.executeQuery(dataSource, "getDailyPelitaHistoryUat", null);
     }
 
+    public List<Object> viewPelitaAfterSchedulerProd(){
+        return this.rwProvider.executeQuery(dataSource, "getDailyPelitaHistoryProd", null);
+    }
+
     public List<Object> viewYycSeqAfterSchedulerUat(){
         return this.rwProvider.executeQuery(dataSource, "getDailyYycSeqHistoryUat", null);
     }
@@ -71,5 +75,13 @@ public class BatchHistoryService {
 
     public List<Object> viewYycAfterSchedulerProd(){
         return this.rwProvider.executeQuery(dataSource, "getDailyYycHistoryProd", null);
+    }
+
+    public List<Object> viewIctZoneAfterSchedulerUat(){
+        return this.rwProvider.executeQuery(dataSource, "getDailyIctZoneHistoryUat", null);
+    }
+
+    public List<Object> viewIctZoneAfterSchedulerProd(){
+        return this.rwProvider.executeQuery(dataSource, "getDailyIctZoneHistoryProd", null);
     }
 }

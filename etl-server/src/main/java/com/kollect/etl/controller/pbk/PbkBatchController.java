@@ -1,6 +1,6 @@
 package com.kollect.etl.controller.pbk;
 
-import com.kollect.etl.service.commonbatches.RunAsyncBatchService;
+import com.kollect.etl.service.commonbatches.AsyncBatchExecutorService;
 import com.kollect.etl.service.commonbatches.UpdateDataDateService;
 import com.kollect.etl.service.pbk.PbkCalcOutstandingService;
 import com.kollect.etl.service.pbk.PbkLumpSumPaymentService;
@@ -17,7 +17,7 @@ import java.util.List;
 public class PbkBatchController {
     private PbkCalcOutstandingService pbkCalcOutstandingService;
     private PbkLumpSumPaymentService pbkLumpSumPaymentService;
-    private RunAsyncBatchService runAsyncBatchService;
+    private AsyncBatchExecutorService asyncBatchExecutorService;
     private UpdateDataDateService pbkUpdateDataDateService;
     private @Value("#{'${app.datasource_all}'.split(',')}")
     List<String> dataSource;
@@ -26,11 +26,11 @@ public class PbkBatchController {
     public PbkBatchController(PbkCalcOutstandingService pbkCalcOutstandingService,
                               PbkLumpSumPaymentService pbkLumpSumPaymentService,
                               UpdateDataDateService pbkUpdateDataDateService,
-                              RunAsyncBatchService runAsyncBatchService) {
+                              AsyncBatchExecutorService asyncBatchExecutorService) {
         this.pbkCalcOutstandingService = pbkCalcOutstandingService;
         this.pbkLumpSumPaymentService = pbkLumpSumPaymentService;
         this.pbkUpdateDataDateService = pbkUpdateDataDateService;
-        this.runAsyncBatchService = runAsyncBatchService;
+        this.asyncBatchExecutorService = asyncBatchExecutorService;
     }
     /**
      * HTTP POST request mapping to run the batch
@@ -62,7 +62,7 @@ public class PbkBatchController {
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object ageInvoice (@RequestParam Integer batch_id){
-        return this.runAsyncBatchService.execute(batch_id,
+        return this.asyncBatchExecutorService.execute(batch_id,
                 dataSource, "getPbkAgeInvoice",
                 "updatePbkAgeInvoice",
                 "AGE_INV");

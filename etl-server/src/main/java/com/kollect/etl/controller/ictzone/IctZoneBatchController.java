@@ -11,14 +11,14 @@ import java.util.List;
 
 @Controller
 public class IctZoneBatchController {
-    private RunAsyncBatchService runAsyncBatchService;
+    private AsyncBatchExecutorService asyncBatchExecutorService;
     private UpdateDataDateService updateDataDateService;
     private @Value("${app.datasource_ictzone}")
     List<String> dataSource;
 
-    public IctZoneBatchController(RunAsyncBatchService runAsyncBatchService,
+    public IctZoneBatchController(AsyncBatchExecutorService asyncBatchExecutorService,
                                   UpdateDataDateService updateDataDateService){
-        this.runAsyncBatchService = runAsyncBatchService;
+        this.asyncBatchExecutorService = asyncBatchExecutorService;
         this.updateDataDateService = updateDataDateService;
     }
 
@@ -26,7 +26,7 @@ public class IctZoneBatchController {
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object ageInvoice (@RequestParam Integer batch_id){
-        return this.runAsyncBatchService.execute(batch_id, dataSource,
+        return this.asyncBatchExecutorService.execute(batch_id, dataSource,
                 "getIctZoneAgeInvoices",
                 "updateIctZoneAgeInvoices", "AGE_INV");
     }
@@ -34,7 +34,7 @@ public class IctZoneBatchController {
     @PostMapping("/ictzonecomputedebit")
     @ResponseBody
     public Object computeDebit(@RequestParam Integer batch_id){
-        return this.runAsyncBatchService.execute(batch_id, dataSource,
+        return this.asyncBatchExecutorService.execute(batch_id, dataSource,
                 "getIctZoneDebitAmountAfterTax",
                 "updateIctZoneDebitAmountAfterTax", "COMPUTE_DEBIT");
     }
@@ -43,7 +43,7 @@ public class IctZoneBatchController {
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object computeInv (@RequestParam Integer batch_id) {
-        return this.runAsyncBatchService.execute(batch_id,
+        return this.asyncBatchExecutorService.execute(batch_id,
                 dataSource,
                 "getIctZoneInvoiceAmountAfterTax",
                 "updateIctZoneInvoiceAmountAfterTax",
@@ -54,7 +54,7 @@ public class IctZoneBatchController {
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object inAging (@RequestParam Integer batch_id){
-        return this.runAsyncBatchService.execute(batch_id,
+        return this.asyncBatchExecutorService.execute(batch_id,
                 dataSource, "getIctZoneInAging",
                 "updateIctZoneInAging",
                 "IN_AGING");
@@ -64,7 +64,7 @@ public class IctZoneBatchController {
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object invStatEvaluation (@RequestParam Integer batch_id) {
-        return this.runAsyncBatchService.execute(batch_id,
+        return this.asyncBatchExecutorService.execute(batch_id,
                 dataSource, "getIctZoneInvoiceStatus",
                 "updateIctZoneInvoiceStatus",
                 "INV_STAT_EVAL");

@@ -10,14 +10,14 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class RunAsyncBatchService {
+public class AsyncBatchExecutorService {
     private IReadWriteServiceProvider rwProvider;
     private BatchHistoryService batchHistoryService;
     private IAsyncExecutorService executorService;
     private boolean lock;
 
-    public RunAsyncBatchService(IReadWriteServiceProvider rwProvider, BatchHistoryService batchHistoryService,
-                                @Qualifier("simple") IAsyncExecutorService executorService) {
+    public AsyncBatchExecutorService(IReadWriteServiceProvider rwProvider, BatchHistoryService batchHistoryService,
+                                     @Qualifier("simple") IAsyncExecutorService executorService) {
         this.rwProvider = rwProvider;
         this.batchHistoryService = batchHistoryService;
         this.executorService = executorService;

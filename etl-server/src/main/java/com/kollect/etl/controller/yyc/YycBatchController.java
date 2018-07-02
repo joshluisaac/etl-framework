@@ -1,6 +1,6 @@
 package com.kollect.etl.controller.yyc;
 
-import com.kollect.etl.service.commonbatches.RunAsyncBatchService;
+import com.kollect.etl.service.commonbatches.AsyncBatchExecutorService;
 import com.kollect.etl.service.commonbatches.UpdateDataDateService;
 import com.kollect.etl.service.yyc.YycQuerySequenceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,22 +15,22 @@ import java.util.List;
 @Controller
 public class YycBatchController {
     private YycQuerySequenceService yycQuerySequenceService;
-    private RunAsyncBatchService runAsyncBatchService;
+    private AsyncBatchExecutorService asyncBatchExecutorService;
     private UpdateDataDateService yycUpdateDataDateService;
     private @Value("#{'${app.datasource_all2}'.split(',')}")
     List<String> dataSource;
 
     @Autowired
     public YycBatchController (YycQuerySequenceService yycQuerySequenceService,
-                               RunAsyncBatchService runAsyncBatchService,
+                               AsyncBatchExecutorService asyncBatchExecutorService,
                                UpdateDataDateService yycUpdateDataDateService){
         this.yycQuerySequenceService = yycQuerySequenceService;
-        this.runAsyncBatchService = runAsyncBatchService;
+        this.asyncBatchExecutorService = asyncBatchExecutorService;
         this.yycUpdateDataDateService = yycUpdateDataDateService;
     }
 
     @ResponseBody
-    @PostMapping("/runyycsequence")
+    @PostMapping("/yycsequence")
     public Object runYycSequence(@RequestParam Integer batch_id){
         return this.yycQuerySequenceService.runYycSequenceQuery(batch_id);
     }
@@ -38,7 +38,7 @@ public class YycBatchController {
     @ResponseBody
     @PostMapping("/yycinvstatevaluation")
     public Object invStatEvaluation(@RequestParam Integer batch_id){
-        return this.runAsyncBatchService.execute
+        return this.asyncBatchExecutorService.execute
                 (batch_id, dataSource, "getYycInvoiceStatus",
                         "updateYycInvoiceStatus",
                         "INV_STAT_EVAL");
@@ -47,7 +47,7 @@ public class YycBatchController {
     @ResponseBody
     @PostMapping("/yycageinvoice")
     public Object ageInvoice(@RequestParam Integer batch_id){
-        return this.runAsyncBatchService.execute(batch_id, dataSource,
+        return this.asyncBatchExecutorService.execute(batch_id, dataSource,
                 "getYycAgeInvoice", "updateYycAgeInvoice",
                 "AGE_INV");
     }
@@ -55,7 +55,7 @@ public class YycBatchController {
     @ResponseBody
     @PostMapping("/yycinaging")
     public Object inAging(@RequestParam Integer batch_id){
-        return this.runAsyncBatchService.execute(batch_id, dataSource,
+        return this.asyncBatchExecutorService.execute(batch_id, dataSource,
                 "getYycInAging", "updateYycInAging",
                 "IN_AGING");
     }
