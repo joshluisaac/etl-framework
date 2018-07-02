@@ -46,7 +46,8 @@ public class TransactionUpdateController {
         executorService.processEntries(MAP, null);
         long endTime = System.nanoTime();
         long timeTaken = (endTime - startTime) / 1000000;
-        this.batchHistoryService.runBatchHistory(batch_id, 0, timeTaken, dataSource);
+        String status = "Success";
+        this.batchHistoryService.runBatchHistory(batch_id, 0, timeTaken, dataSource, status);
         return 0;
     }
 

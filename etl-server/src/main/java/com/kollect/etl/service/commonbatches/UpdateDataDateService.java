@@ -21,6 +21,8 @@ public class UpdateDataDateService {
     public int runUpdateDataDate(Integer batch_id, List<String> dataSource,
                                  String query){
         int numberOfRows = 1;
+        long timeTaken = 0;
+        String status;
         for (String src: dataSource) {
             if (!lock) {
                 long startTime = System.nanoTime();
@@ -28,10 +30,18 @@ public class UpdateDataDateService {
                 this.rwProvider.updateQuery(src, query, null);
                 lock = false;
                 long endTime = System.nanoTime();
-                long timeTaken = (endTime - startTime) / 1000000;
-                this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken, src);
+                timeTaken = (endTime - startTime) / 1000000;
             }
+            if (lock)
+                status = "Failed";
+            else
+                status = "Success";
+            this.batchHistoryService.runBatchHistory(batch_id, numberOfRows,
+                    timeTaken, src, status);
         }
+        /* Necessary in case a batch fails bec DB issues, release the lock so it can
+         * run next time. */
+        lock = false;
         return numberOfRows;
     }
 }
