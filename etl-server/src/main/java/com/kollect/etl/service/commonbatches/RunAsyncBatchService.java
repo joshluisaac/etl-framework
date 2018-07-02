@@ -1,43 +1,38 @@
-package com.kollect.etl.service.pbk;
+package com.kollect.etl.service.commonbatches;
 
 import com.kollect.etl.config.CrudProcessHolder;
-import com.kollect.etl.service.app.BatchHistoryService;
 import com.kollect.etl.service.IAsyncExecutorService;
 import com.kollect.etl.service.IReadWriteServiceProvider;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.kollect.etl.service.app.BatchHistoryService;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-public class PbkAgeInvoiceService {
+public class RunAsyncBatchService {
     private IReadWriteServiceProvider rwProvider;
     private BatchHistoryService batchHistoryService;
     private IAsyncExecutorService executorService;
-    private List<String> dataSource;
     private boolean lock;
 
-    @Autowired
-    public PbkAgeInvoiceService(IReadWriteServiceProvider rwProvider, BatchHistoryService batchHistoryService,
-                                @Value("#{'${app.datasource_all}'.split(',')}") List<String> dataSource, @Qualifier("simple") IAsyncExecutorService executorService){
+    public RunAsyncBatchService(IReadWriteServiceProvider rwProvider, BatchHistoryService batchHistoryService,
+                                @Qualifier("simple") IAsyncExecutorService executorService) {
         this.rwProvider = rwProvider;
         this.batchHistoryService = batchHistoryService;
-        this.dataSource = dataSource;
         this.executorService = executorService;
     }
 
-    public int combinedAgeInvoiceService(Integer batch_id){
-      int numberOfRows = -1;
-
+    public int execute(Integer batch_id, List<String> dataSource,
+                       String getQuery, String updateQuery, String getName) {
+        int numberOfRows = -1;
         for (String src : dataSource) {
             if (!lock) {
                 long startTime = System.nanoTime();
                 lock = true;
-                List<Object> ageInvoiceList = this.rwProvider.executeQuery(src, "getAgeInvoiceById", null);
+                List<Object> ageInvoiceList = this.rwProvider.executeQuery(src, getQuery, null);
                 Map<String, CrudProcessHolder> map = new TreeMap<>();
-                map.put("AGE_INV", new CrudProcessHolder(src, "NONE", 10, 100, new ArrayList<>(Collections.singletonList("updateAgeInvoice"))));
+                map.put(getName, new CrudProcessHolder(src, "NONE", 10, 100, new ArrayList<>(Arrays.asList(updateQuery))));
                 executorService.processEntries(map, ageInvoiceList);
                 int numberOfRecords = ageInvoiceList.size();
                 lock = false;
@@ -47,8 +42,6 @@ public class PbkAgeInvoiceService {
                 this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken, src);
             }
         }
-        System.out.println("AgeInvoice - Number of rows updated: " + numberOfRows);
         return numberOfRows;
-  }
-
+    }
 }

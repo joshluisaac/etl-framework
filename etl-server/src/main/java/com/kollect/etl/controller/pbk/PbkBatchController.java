@@ -1,31 +1,36 @@
 package com.kollect.etl.controller.pbk;
 
-import com.kollect.etl.service.pbk.PbkAgeInvoiceService;
+import com.kollect.etl.service.commonbatches.RunAsyncBatchService;
+import com.kollect.etl.service.commonbatches.UpdateDataDateService;
 import com.kollect.etl.service.pbk.PbkCalcOutstandingService;
 import com.kollect.etl.service.pbk.PbkLumpSumPaymentService;
-import com.kollect.etl.service.pbk.PbkUpdateDataDateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 public class PbkBatchController {
     private PbkCalcOutstandingService pbkCalcOutstandingService;
-    private PbkAgeInvoiceService pbkAgeInvoiceService;
     private PbkLumpSumPaymentService pbkLumpSumPaymentService;
-    private PbkUpdateDataDateService pbkUpdateDataDateService;
+    private RunAsyncBatchService runAsyncBatchService;
+    private UpdateDataDateService pbkUpdateDataDateService;
+    private @Value("#{'${app.datasource_all}'.split(',')}")
+    List<String> dataSource;
 
     @Autowired
     public PbkBatchController(PbkCalcOutstandingService pbkCalcOutstandingService,
-                              PbkAgeInvoiceService pbkAgeInvoiceService,
                               PbkLumpSumPaymentService pbkLumpSumPaymentService,
-                              PbkUpdateDataDateService pbkUpdateDataDateService) {
+                              UpdateDataDateService pbkUpdateDataDateService,
+                              RunAsyncBatchService runAsyncBatchService) {
         this.pbkCalcOutstandingService = pbkCalcOutstandingService;
-        this.pbkAgeInvoiceService = pbkAgeInvoiceService;
         this.pbkLumpSumPaymentService = pbkLumpSumPaymentService;
         this.pbkUpdateDataDateService = pbkUpdateDataDateService;
+        this.runAsyncBatchService = runAsyncBatchService;
     }
     /**
      * HTTP POST request mapping to run the batch
@@ -38,7 +43,7 @@ public class PbkBatchController {
      * @return returns the number of rows updated as json
      */
 
-    @PostMapping(value = "/calcoutstanding", produces="application/json")
+    @PostMapping(value = "/pbkcalcoutstanding", produces="application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object calcOutstanding (@RequestParam Integer batch_id) {
@@ -53,23 +58,27 @@ public class PbkBatchController {
      *          returns the number of rows updated by the batch
      */
 
-    @PostMapping(value = "/ageinvoice", produces = "application/json")
+    @PostMapping(value = "/pbkageinvoice", produces = "application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object ageInvoice (@RequestParam Integer batch_id){
-        return this.pbkAgeInvoiceService.combinedAgeInvoiceService(batch_id);
+        return this.runAsyncBatchService.execute(batch_id,
+                dataSource, "getPbkAgeInvoice",
+                "updatePbkAgeInvoice",
+                "AGE_INV");
     }
 
-    @PostMapping(value ="/lumpSumPayment")
+    @PostMapping(value ="/pbklumpsumpayment")
     @SuppressWarnings("unchecked")
     @ResponseBody
-    public Object selectLumSumPayment (@RequestParam Integer batch_id) {
+    public Object lumSumPayment (@RequestParam Integer batch_id) {
         return pbkLumpSumPaymentService.combinedLumpSumPaymentService(batch_id);
     }
 
-    @PostMapping("/updatedatadate")
+    @PostMapping("/pbkdatadate")
     @ResponseBody
-    public Object runUpdateDataDate(@RequestParam Integer batch_id){
-        return this.pbkUpdateDataDateService.runupdateDataDate(batch_id);
+    public Object updateDataDate(@RequestParam Integer batch_id){
+        return this.pbkUpdateDataDateService.runUpdateDataDate(batch_id,
+                dataSource, "pbkUpdateDataDate");
     }
 }

@@ -33,7 +33,7 @@ public class YycQuerySequenceService {
                 this.rwProvider.executeQuery(src, "getUpdateCustomerSequence", null);
                 this.rwProvider.executeQuery(src, "getUpdateAccountSequence", null);
                 this.rwProvider.executeQuery(src, "getUpdateInvoiceSequence", null);
-                this.rwProvider.executeQuery(src, "getUpdatePaymentTrnxSequence", null);
+                this.rwProvider.executeQuery(src, "getUpdatePaymentTrxSequence", null);
                 this.rwProvider.executeQuery(src, "getUpdateCustomerPicSequence", null);
                 this.rwProvider.executeQuery(src, "getUpdateCustomerPhoneNumberSequence", null);
                 this.rwProvider.executeQuery(src, "getUpdateCustomerAddressSequence", null);

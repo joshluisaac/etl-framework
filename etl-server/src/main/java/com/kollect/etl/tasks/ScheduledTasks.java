@@ -4,11 +4,10 @@ import com.kollect.etl.component.ComponentProvider;
 import com.kollect.etl.service.IReadWriteServiceProvider;
 import com.kollect.etl.service.app.BatchHistoryService;
 import com.kollect.etl.service.app.MailClientService;
-import com.kollect.etl.service.pbk.PbkAgeInvoiceService;
+import com.kollect.etl.service.commonbatches.RunAsyncBatchService;
+import com.kollect.etl.service.commonbatches.UpdateDataDateService;
 import com.kollect.etl.service.pbk.PbkLumpSumPaymentService;
-import com.kollect.etl.service.pbk.PbkUpdateDataDateService;
-import com.kollect.etl.service.pelita.*;
-import com.kollect.etl.service.yyc.*;
+import com.kollect.etl.service.yyc.YycQuerySequenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -23,22 +22,12 @@ import java.util.List;
 public class ScheduledTasks {
     /*Required services*/
     private PbkLumpSumPaymentService pbklSumPayServ;
-    private PbkAgeInvoiceService pbkageInvServ;
-    private PbkUpdateDataDateService pbkupdDataDateServ;
-    private PelitaUpdateDataDateService pelitaUpdateDataDateService;
-    private PelitaAgeInvoiceService pelitaAgeInvoiceService;
-    private PelitaComputeInvoiceAmountAfterTaxService pelitaComputeInvoiceAmountAfterTaxServicePelita;
-    private PelitaInAgingService pelitaInAgingServicePelita;
-    private PelitaInvoiceStatusEvaluationService pelitaInvoiceStatusEvaluationServicePelita;
-    private PelitaComputeDebitAmountAfterTaxService pelitaComputeDebitAmountAfterTaxService;
+    private RunAsyncBatchService runAsyncBatchService;
+    private UpdateDataDateService updateDataDateService;
     private YycQuerySequenceService yycQuerySequenceService;
     private MailClientService mailClientService;
     private BatchHistoryService batchHistoryService;
-    private IReadWriteServiceProvider irwprovider;
-    private YycInvoiceStatusEvaluationService yycInvoiceStatusEvaluationService;
-    private YycAgeInvoiceService yycAgeInvoiceService;
-    private YycInAgingService yycInAgingService;
-    private YycUpdateDataDateService yycUpdateDataDateService;
+    private IReadWriteServiceProvider iRWProvider;
     private ComponentProvider componentProvider;
 
     /*Required variables*/
@@ -51,59 +40,52 @@ public class ScheduledTasks {
     @Value("${spring.mail.properties.batch.autoupdate.recipients}")
     private String recipient;
     @Value("${app.datasource_kv_production}")
-    private String dataSource;
+    private String prodDataSource;
+    private @Value("#{'${app.datasource_all2}'.split(',')}")
+    List<String> yycDataSource;
+    private @Value("#{'${app.datasource_all}'.split(',')}")
+    List<String> pbkDataSource;
+    private @Value("${app.datasource_pelita_test}")
+    List<String> pelitaDataSource;
     /*This empty list is used to replace the prodStats query since Pelita is not on production yet.*/
     private List<Object> emptyList = new ArrayList<>();
 
     /*The constructor for the class to inject the necessary services*/
     @Autowired
     public ScheduledTasks(PbkLumpSumPaymentService pbklSumPayServ,
-                          PbkAgeInvoiceService pbkageInvServ,
-                          PbkUpdateDataDateService pbkupdDataDateServ,
-                          PelitaUpdateDataDateService pelitaUpdateDataDateService,
-                          PelitaAgeInvoiceService pelitaAgeInvoiceService,
-                          PelitaComputeInvoiceAmountAfterTaxService pelitaComputeInvoiceAmountAfterTaxServicePelita,
-                          PelitaInAgingService pelitaInAgingServicePelita,
-                          PelitaInvoiceStatusEvaluationService pelitaInvoiceStatusEvaluationServicePelita,
-                          PelitaComputeDebitAmountAfterTaxService pelitaComputeDebitAmountAfterTaxService,
+                          RunAsyncBatchService runAsyncBatchService,
+                          UpdateDataDateService updateDataDateService,
                           YycQuerySequenceService yycQuerySequenceService,
                           MailClientService mailClientService,
                           BatchHistoryService batchHistoryService,
-                          IReadWriteServiceProvider irwprovider,
-                          YycInvoiceStatusEvaluationService yycInvoiceStatusEvaluationService,
-                          YycAgeInvoiceService yycAgeInvoiceService,
-                          YycInAgingService yycInAgingService,
-                          YycUpdateDataDateService yycUpdateDataDateService,
+                          IReadWriteServiceProvider iRWProvider,
                           ComponentProvider componentProvider){
         this.pbklSumPayServ = pbklSumPayServ;
-        this.pbkageInvServ = pbkageInvServ;
-        this.pbkupdDataDateServ = pbkupdDataDateServ;
-        this.pelitaUpdateDataDateService = pelitaUpdateDataDateService;
-        this.pelitaAgeInvoiceService = pelitaAgeInvoiceService;
-        this.pelitaComputeInvoiceAmountAfterTaxServicePelita = pelitaComputeInvoiceAmountAfterTaxServicePelita;
-        this.pelitaInAgingServicePelita = pelitaInAgingServicePelita;
-        this.pelitaInvoiceStatusEvaluationServicePelita = pelitaInvoiceStatusEvaluationServicePelita;
-        this.pelitaComputeDebitAmountAfterTaxService = pelitaComputeDebitAmountAfterTaxService;
+        this.runAsyncBatchService = runAsyncBatchService;
+        this.updateDataDateService = updateDataDateService;
         this.yycQuerySequenceService = yycQuerySequenceService;
         this.mailClientService = mailClientService;
         this.batchHistoryService = batchHistoryService;
-        this.irwprovider = irwprovider;
-        this.yycInvoiceStatusEvaluationService = yycInvoiceStatusEvaluationService;
-        this.yycAgeInvoiceService = yycAgeInvoiceService;
-        this.yycInAgingService = yycInAgingService;
-        this.yycUpdateDataDateService = yycUpdateDataDateService;
+        this.iRWProvider = iRWProvider;
         this.componentProvider = componentProvider;
     }
 
     @Scheduled(cron = "${app.scheduler.runat430am}")
     public void runYycBatches() {
-        this.yycInvoiceStatusEvaluationService.combinedYycInvoiceStatusEvaluation(63);
+        this.runAsyncBatchService.execute(63, yycDataSource, "getYycInvoiceStatus",
+                "updateYycInvoiceStatus",
+                "INV_STAT_EVAL");
         this.componentProvider.taskSleep();
-        this.yycAgeInvoiceService.combinedAgeInvoiceService(64);
+        this.runAsyncBatchService.execute(64, yycDataSource,
+                "getYycAgeInvoice", "updateYycAgeInvoice",
+                "AGE_INV");
         this.componentProvider.taskSleep();
-        this.yycInAgingService.combinedYycAgeInvoiceService(65);
+        this.runAsyncBatchService.execute(65, yycDataSource,
+                "getYycInAging", "updateYycInAging",
+                "IN_AGING");
         this.componentProvider.taskSleep();
-        this.yycUpdateDataDateService.runUpdateDataDate(66);
+        this.updateDataDateService.runUpdateDataDate(66,
+                yycDataSource, "yycUpdateDataDate");
         this.componentProvider.taskSleep();
         this.mailClientService.sendAfterBatch(recipient, "YYC - Daily Batch Report",intro,
                 message, this.batchHistoryService.viewYycAfterSchedulerUat(), 
@@ -112,9 +94,11 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "${app.scheduler.runat5am}")
     public void runPbkBatches() {
-        this.pbkageInvServ.combinedAgeInvoiceService(3);
+        this.runAsyncBatchService.execute(3, pbkDataSource, "getPbkAgeInvoice",
+                "updatePbkAgeInvoice",
+                "AGE_INV");
         this.componentProvider.taskSleep();
-        this.pbkupdDataDateServ.runupdateDataDate(53);
+        this.updateDataDateService.runUpdateDataDate(53, pbkDataSource, "pbkUpdateDataDate");
         this.componentProvider.taskSleep();
         this.pbklSumPayServ.combinedLumpSumPaymentService(2);
         this.componentProvider.taskSleep();
@@ -125,17 +109,33 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "${app.scheduler.runat530am}")
     public void runPelitaBatches() {
-        this.pelitaComputeInvoiceAmountAfterTaxServicePelita.combinedPelitaComputeInvoiceAmountAfterTax(57);
+        this.runAsyncBatchService.execute(57, pelitaDataSource,
+                "getPelitaInvoiceAmountAfterTax",
+                "updatePelitaInvoiceAmountAfterTax",
+                "COMPUTE_INV");
         this.componentProvider.taskSleep();
-        this.pelitaInvoiceStatusEvaluationServicePelita.combinePelitaInvoiceStatusEvaluation(58);
+        this.runAsyncBatchService.execute(58, pelitaDataSource,
+                "getPelitaInvoiceStatus",
+                "updatePelitaInvoiceStatus",
+                "INV_STAT_EVAL");
         this.componentProvider.taskSleep();
-        this.pelitaInAgingServicePelita.combinedPelitaInAgingService(56);
+        this.runAsyncBatchService.execute(56,
+                pelitaDataSource, "getPelitaInAging",
+                "updatePelitaInAging",
+                "IN_AGING");
         this.componentProvider.taskSleep();
-        this.pelitaAgeInvoiceService.combinedAgeInvoiceService(59);
+        this.runAsyncBatchService.execute(59,
+                pelitaDataSource, "getPelitaAgeInvoices",
+                "updatePelitaAgeInvoices",
+                "AGE_INV");
         this.componentProvider.taskSleep();
-        this.pelitaUpdateDataDateService.runupdateDataDate(60);
+        this.updateDataDateService.runUpdateDataDate(60,
+                pelitaDataSource, "pelitaUpdateDataDate");
         this.componentProvider.taskSleep();
-        this.pelitaComputeDebitAmountAfterTaxService.combinedPelitaComputeDebitAmountAfterTax(61);
+        this.runAsyncBatchService.execute(61,
+                pelitaDataSource, "getPelitaDebitAmountAfterTax",
+                "updatePelitaDebitAmountAfterTax",
+                "COMPUTE_DEBIT");
         this.mailClientService.sendAfterBatch(recipient, "Pelita - Daily Batch Report",intro,
                 message, this.batchHistoryService.viewPelitaAfterSchedulerUat(), emptyList);
     }
@@ -151,6 +151,6 @@ public class ScheduledTasks {
 
     @Scheduled(fixedDelay = 600000)
     public void runKeepConnectionAliveHack(){
-        this.irwprovider.executeQuery(dataSource, "getUpdateDataDateToKeepConnectionOpen", null);
+        this.iRWProvider.executeQuery(prodDataSource, "getUpdateDataDateToKeepConnectionOpen", null);
     }
 }

@@ -32,8 +32,8 @@ public class PbkLumpSumPaymentService {
             if (!lock) {
                 long startTime = System.nanoTime();
                 lock = true;
-                List<Object> selectLumSumPaymentList = this.rwProvider.executeQuery(src, "getSumAmount", null);
-                this.rwProvider.updateQuery(src, "truncateNetLumpSum", null);
+                List<Object> selectLumSumPaymentList = this.rwProvider.executeQuery(src, "getPbkSumAmount", null);
+                this.rwProvider.updateQuery(src, "truncatePbkNetLumpSum", null);
                 int numberOfRecords = selectLumSumPaymentList.size();
                 for (Object aSelectLumSumPaymentList : selectLumSumPaymentList) {
 
@@ -41,9 +41,9 @@ public class PbkLumpSumPaymentService {
                     Map<Object, Object> args = new HashMap<>();
                     args.put("account_id", map.get("account_id"));
                     args.put("net_lump_sum_amount", map.get("net_lump_sum_amount"));
-                    int updateCount = this.rwProvider.updateQuery(src, "updateGetSumAmount", args);
+                    int updateCount = this.rwProvider.updateQuery(src, "updatePbkSumAmount", args);
                     if (updateCount == 0) {
-                        this.rwProvider.insertQuery(src, "insertGetSumAmount", args);
+                        this.rwProvider.insertQuery(src, "insertPbkSumAmount", args);
                     }
                 }
                 lock = false;
