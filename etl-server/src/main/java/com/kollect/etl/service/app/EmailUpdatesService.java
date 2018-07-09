@@ -74,6 +74,9 @@ public class EmailUpdatesService {
             this.componentProvider.taskSleep();
             this.mailClientService.sendAfterBatch(recipient, "Pelita - Daily Batch Report", intro,
                     message, this.batchHistoryService.viewPelitaAfterSchedulerUat(), emptyList);
+            this.componentProvider.taskSleep();
+            this.mailClientService.sendAfterBatch(recipient, "ICT Zone - Daily Batch Report", intro,
+                    message, this.batchHistoryService.viewIctZoneAfterSchedulerUat(), emptyList);
             this.iRWProvider.insertQuery(dataSource, "updateLastRunBatchUpdate", null);
             LOG.info("All batch email updates sent successfully.");
         }
@@ -97,7 +100,7 @@ public class EmailUpdatesService {
         Long difference = currentTime - lastRunTime;
         if (difference >= 86400000) {
             this.mailClientService.sendAfterBatch(recipient, "YYC - Daily Batch Report", intro,
-                    message, this.batchHistoryService.viewYycAfterSchedulerUat(), emptyList);
+                    message, this.batchHistoryService.viewYycAfterSchedulerUat(), this.batchHistoryService.viewYycAfterSchedulerProd());
             this.iRWProvider.insertQuery(dataSource, "updateLastRunTestUpdate", null);
             LOG.info("Test email sent successfully.");
         }

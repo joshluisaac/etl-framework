@@ -10,7 +10,9 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MailClientService {
@@ -19,11 +21,15 @@ public class MailClientService {
     private String emailFrom;
     private MailContentBuilderService builder;
     private static final Logger LOG = LoggerFactory.getLogger(MailClientService.class);
+    private EmailLogService emailLogService;
 
     @Autowired
-    public MailClientService(JavaMailSender mailSender, MailContentBuilderService builder) {
+    public MailClientService(JavaMailSender mailSender,
+                             MailContentBuilderService builder,
+                             EmailLogService emailLogService) {
         this.mailSender = mailSender;
         this.builder = builder;
+        this.emailLogService =emailLogService;
     }
 
     public void sendAfterBatch(String recipient,String subject, String intro,
@@ -36,10 +42,17 @@ public class MailClientService {
             String content = builder.buildBatchEmail(intro, message, uatStats, prodStats);
             messageHelper.setText(content, true);
         };
+        Map<Object, Object> arguments = new HashMap<>();
+        arguments.put("subject",subject);
+        arguments.put("recipient",recipient);
         try {
             mailSender.send(messagePreparator);
+            arguments.put("status", "Success");
+            this.emailLogService.logEmails(arguments);
             LOG.info("Email has been sent successfully.");
         } catch (MailException e) {
+            arguments.put("status","Failed");
+            this.emailLogService.logEmails(arguments);
             LOG.error("An error occurred during email send." + e);
         }
     }

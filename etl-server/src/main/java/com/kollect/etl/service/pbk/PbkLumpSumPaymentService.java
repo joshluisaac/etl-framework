@@ -28,32 +28,40 @@ public class PbkLumpSumPaymentService {
 
     public int combinedLumpSumPaymentService(@RequestParam Integer batch_id){
         int numberOfRows = -1;
+        long timeTaken = 0;
+        String status;
         for (String src:dataSource){
             if (!lock) {
                 long startTime = System.nanoTime();
                 lock = true;
-                List<Object> selectLumSumPaymentList = this.rwProvider.executeQuery(src, "getSumAmount", null);
-                this.rwProvider.updateQuery(src, "truncateNetLumpSum", null);
+                List<Object> selectLumSumPaymentList = this.rwProvider.executeQuery(src, "getPbkSumAmount", null);
+                this.rwProvider.updateQuery(src, "truncatePbkNetLumpSum", null);
                 int numberOfRecords = selectLumSumPaymentList.size();
                 for (Object aSelectLumSumPaymentList : selectLumSumPaymentList) {
-
                     Map<Object, Object> map = (Map<Object, Object>) aSelectLumSumPaymentList;
                     Map<Object, Object> args = new HashMap<>();
                     args.put("account_id", map.get("account_id"));
                     args.put("net_lump_sum_amount", map.get("net_lump_sum_amount"));
-                    int updateCount = this.rwProvider.updateQuery(src, "updateGetSumAmount", args);
+                    int updateCount = this.rwProvider.updateQuery(src, "updatePbkSumAmount", args);
                     if (updateCount == 0) {
-                        this.rwProvider.insertQuery(src, "insertGetSumAmount", args);
+                        this.rwProvider.insertQuery(src, "insertPbkSumAmount", args);
                     }
                 }
                 lock = false;
                 numberOfRows = numberOfRecords;
                 long endTime = System.nanoTime();
-                long timeTaken = (endTime - startTime) / 1000000;
-                this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken, src);
+                timeTaken = (endTime - startTime) / 1000000;
             }
+            if (lock)
+                status = "Failed";
+            else
+                status = "Success";
+            this.batchHistoryService.runBatchHistory(batch_id, numberOfRows,
+                    timeTaken, src, status);
         }
-        System.out.println("LumpSumPayment - Number of rows updated: " + numberOfRows);
+        /* Necessary in case a batch fails bec DB issues, release the lock so it can
+         * run next time. */
+        lock = false;
         return numberOfRows;
     }
 }

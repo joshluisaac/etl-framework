@@ -17,12 +17,10 @@ public class DataConnectorEmailNotification extends AbstractEmailService {
   
   public DataConnectorEmailNotification(final String str) {
     String[] config = str.split("\\,");
-    
     for(int i = 0; i < config.length; i++) {
       loadConfigMap(config[i]);
     }
   }
-  
   
   public DataConnectorEmailNotification() {
     loadConfigMap();

@@ -27,13 +27,15 @@ public class PbkCalcOutstandingService {
 
     public int combinedCalcOutstanding(Integer batch_id) {
         int numberOfRows = -1;
+        long timeTaken = 0;
+        String status;
         if (!lock) {
             long startTime = System.nanoTime();
             lock = true;
             List<Object> outstandingList = this.rwProvider.executeQuery(dataSource, "getOutstandingByTenantId", null);
             int numberOfRecords = outstandingList.size();
-            for (int i = 0; i < numberOfRecords; i++) {
-                Map<Object, Object> map = (Map<Object, Object>) outstandingList.get(i);
+            for (Object anOutstandingList : outstandingList) {
+                Map<Object, Object> map = (Map<Object, Object>) anOutstandingList;
                 Map<Object, Object> args = new HashMap<>();
                 args.put("invoice_plus_gst", map.get("invoice_plus_gst"));
                 args.put("total_transactions", map.get("total_transactions"));
@@ -43,9 +45,17 @@ public class PbkCalcOutstandingService {
             lock = false;
             numberOfRows = numberOfRecords;
             long endTime = System.nanoTime();
-            long timeTaken = (endTime - startTime) / 1000000;
-            this.batchHistoryService.runBatchHistory(batch_id, numberOfRows, timeTaken, dataSource);
+            timeTaken = (endTime - startTime) / 1000000;
         }
+        if (lock)
+            status = "Failed";
+        else
+            status = "Success";
+        this.batchHistoryService.runBatchHistory(batch_id, numberOfRows,
+                timeTaken, dataSource, status);
+        /* Necessary in case a batch fails bec DB issues, release the lock so it can
+         * run next time. */
+        lock = false;
         return numberOfRows;
     }
 }

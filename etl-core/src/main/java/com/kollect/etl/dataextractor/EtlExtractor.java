@@ -22,6 +22,7 @@ import com.kollect.etl.pbk.InvoiceFormatter;
 import com.kollect.etl.pbk.TransactionFormatter;
 import com.kollect.etl.service.email.IEmailService;
 import com.kollect.etl.service.email.impl.EmailService;
+import com.kollect.etl.service.email.EtlTemplateBuilder;
 import com.kollect.etl.services.SftpClient;
 import com.kollect.etl.util.ResourceUtils;
 import com.kollect.etl.util.FileUtils;
@@ -29,18 +30,19 @@ import com.kollect.etl.util.PropertiesUtils;
 import com.kollect.etl.util.DateUtils;
 
 public final class EtlExtractor {
-  
+
   private static final String FTP_PROPERTIES = "../config/ftp.properties";
   private static final Logger LOG = LoggerFactory.getLogger(EtlExtractor.class);
   protected static final Map<String, Properties> propertyMap = new HashMap<>();
   private static final String EXTRACTION_STAT_LOG = "../logs/extractionStats.log";
   private static final String SERV_PROP = "SERVER_PROPERTY";
-  
-  private Connection getDataSource( String dbName ) {
+
+  private Connection getDataSource(String dbName) {
     return new DataSource().getDbConnection(dbName);
   }
-  
-  private void writeData (IExtractionContext ctx, final String dbName, final String dstDir, final String filePrefix, final String queryString ) {
+
+  private void writeData(IExtractionContext ctx, final String dbName, final String dstDir, final String filePrefix,
+      final String queryString) {
     final FileUtils fu = new FileUtils();
     final long queryStart = System.currentTimeMillis();
     final List<String> data = ctx.executeQuery(getDataSource(dbName), queryString);
@@ -51,11 +53,13 @@ public final class EtlExtractor {
     final long[] writeStat = new DataWriter().writeFile(dstDir, fileName, data);
     final long writingEnd = System.currentTimeMillis();
     final long writeDiff = DataExtractorUtils.getDifference(writingStart, writingEnd);
-    final Object[] messageFormatObject = new Object[] { dbName, fileName, queryDiff, writeDiff, writeStat[0], writeStat[1] };
+    final Object[] messageFormatObject = new Object[] { dbName, fileName, queryDiff, writeDiff, writeStat[0],
+        writeStat[1] };
     fu.writeTextFile(EXTRACTION_STAT_LOG, DataExtractorUtils.buildStatsMessage(messageFormatObject) + "\n", true);
   }
-  
-  private void writeData (final Formattable fmt, final String dbName, final String dstDir, final String filePrefix, final String queryName ) {
+
+  private void writeData(final Formattable fmt, final String dbName, final String dstDir, final String filePrefix,
+      final String queryName) {
     DataAccess q1 = new DataAccess(new AbstractSqlSessionProvider(dbName));
     final FileUtils fu = new FileUtils();
     final long queryStart = System.currentTimeMillis();
@@ -67,11 +71,12 @@ public final class EtlExtractor {
     final long[] writeStat = new DataWriter().writeFile(dstDir, fileName, data);
     final long writingEnd = System.currentTimeMillis();
     final long writeDiff = DataExtractorUtils.getDifference(writingStart, writingEnd);
-    final Object[] messageFormatObject = new Object[] { dbName, fileName, queryDiff, writeDiff, writeStat[0], writeStat[1] };
+    final Object[] messageFormatObject = new Object[] { dbName, fileName, queryDiff, writeDiff, writeStat[0],
+        writeStat[1] };
     fu.writeTextFile(EXTRACTION_STAT_LOG, DataExtractorUtils.buildStatsMessage(messageFormatObject) + "\n", true);
   }
-  
-  private static String getOutputDir( final String dirName ) {
+
+  private static String getOutputDir(final String dirName) {
     return "../out/" + dirName;
   }
 
@@ -83,13 +88,13 @@ public final class EtlExtractor {
     propertyMap.put(SERV_PROP, new ResourceUtils().getServerProps());
   }
 
-
-  
-  public final void sendEmailNotification(String[] credn, int port, String[] recipient,  IEmailService emailServ) {
-    emailServ.sendEmail(credn[0],credn[1],credn[2],credn[3], credn[4], credn[5], port ,recipient);
+  public final void sendEmailNotification(String[] credn, int port, String[] recipient, IEmailService emailServ,
+      boolean enableSsl) {
+    LOG.info("EMAIL: Attemting to send email");
+    emailServ.sendEmail(credn[0], credn[1], credn[2], credn[3], credn[4], credn[5], port, recipient, enableSsl);
   }
 
-  public static final void main( String[] args ) throws Throwable {
+  public static final void main(String[] args) throws Throwable {
     final EtlExtractor ext = new EtlExtractor();
     ext.getAppConfigs();
     Properties ftpProp = new PropertiesUtils().loadPropertiesFile(FTP_PROPERTIES);
@@ -110,18 +115,23 @@ public final class EtlExtractor {
     new FileUtils().deleteFile(new File(EXTRACTION_STAT_LOG));
     for (int i = 0; i < dbList.length; i++) {
       LOG.info("Extracting from {}", dbList[i]);
-      if(args[0].equals("legacy")) {
-        ext.writeData(new ExtractionContext(new ExtractCustomer()),dbList[i], outDir, "CUSTOMER_", QueryStringFetcher.getCustomerQuery(dbList[i]));
-        ext.writeData(new ExtractionContext(new ExtractInvoice()),dbList[i], outDir, "INVOICE_", QueryStringFetcher.getInvoiceQuery(dbList[i]));
-        ext.writeData(new ExtractionContext(new ExtractCreditNote()),dbList[i], outDir, "CREDIT_NOTE_", QueryStringFetcher.getCreditNoteQuery(dbList[i]));
-        ext.writeData(new ExtractionContext(new ExtractPayment()),dbList[i], outDir, "PAYMENT_", QueryStringFetcher.getPaymentQuery(dbList[i])); 
+      if (args[0].equals("legacy")) {
+        ext.writeData(new ExtractionContext(new ExtractCustomer()), dbList[i], outDir, "CUSTOMER_",
+            QueryStringFetcher.getCustomerQuery(dbList[i]));
+        ext.writeData(new ExtractionContext(new ExtractInvoice()), dbList[i], outDir, "INVOICE_",
+            QueryStringFetcher.getInvoiceQuery(dbList[i]));
+        ext.writeData(new ExtractionContext(new ExtractCreditNote()), dbList[i], outDir, "CREDIT_NOTE_",
+            QueryStringFetcher.getCreditNoteQuery(dbList[i]));
+        ext.writeData(new ExtractionContext(new ExtractPayment()), dbList[i], outDir, "PAYMENT_",
+            QueryStringFetcher.getPaymentQuery(dbList[i]));
       } else {
         ext.writeData(new CustomerFormatter(), dbList[i], outDir, "CUSTOMER_", "getCustomer");
         ext.writeData(new InvoiceFormatter(), dbList[i], outDir, "INVOICE_", "getCustomerInvoice");
         ext.writeData(new InvoiceFormatter(), dbList[i], outDir, "DEBIT_NOTE_", "getCustomerDebitNote");
         ext.writeData(new InvoiceFormatter(), dbList[i], outDir, "CREDIT_NOTE_", "getCustomerCreditNote");
         ext.writeData(new TransactionFormatter(), dbList[i], outDir, "TRANSACTION_", "getCustomerTransaction");
-        ext.writeData(new TransactionFormatter(), dbList[i], outDir, "TRANSACTION_LUMP_", "getCustomerTransactionLumpSumPayment");
+        ext.writeData(new TransactionFormatter(), dbList[i], outDir, "TRANSACTION_LUMP_",
+            "getCustomerTransactionLumpSumPayment");
       }
 
     }
@@ -143,7 +153,7 @@ public final class EtlExtractor {
       }
     }
     fUtils.writeTextFile("../config/extraction_history.control", dirName + "\r", true);
-    
+
     String user = servProp.getProperty("email.user");
     String userAuth = servProp.getProperty("email.userAuthentication");
     String password = servProp.getProperty("email.pass");
@@ -152,8 +162,14 @@ public final class EtlExtractor {
     String emailMsg = servProp.getProperty("email.msg");
     int port = Integer.parseInt(servProp.getProperty("email.port"));
     String[] recipient = servProp.getProperty("email.recipient").split("\\s*,\\s*");
-    String[] emailCred = {user,password,host,subject,emailMsg,userAuth}; 
-    if(sendEmail) ext.sendEmailNotification(emailCred, port, recipient, new EmailService());
+    boolean enableSSL = Boolean.parseBoolean(servProp.getProperty("email.enablessl"));
+    
+    String mailContent = new EtlTemplateBuilder().buildHtmlTemplate(emailMsg);
+   
+    String[] emailCred = { user, password, host, subject, mailContent, userAuth };
+    if (sendEmail) {
+      ext.sendEmailNotification(emailCred, port, recipient, new EmailService(), enableSSL);
+    }
   }
 
 }

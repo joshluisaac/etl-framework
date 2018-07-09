@@ -1,73 +1,83 @@
 package com.kollect.etl.controller.pelita;
 
-import com.kollect.etl.service.pelita.*;
+import com.kollect.etl.service.commonbatches.AsyncBatchExecutorService;
+import com.kollect.etl.service.commonbatches.UpdateDataDateService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.List;
+
 @Controller
 public class PelitaBatchController {
-    private PelitaAgeInvoiceService ageInvService;
-    private PelitaComputeDebitAmountAfterTaxService compDebitAmtAfterTax;
-    private PelitaComputeInvoiceAmountAfterTaxService compInvAmtAfterTax;
-    private PelitaInAgingService inAgingService;
-    private PelitaInvoiceStatusEvaluationService invoiceStatusEvaluationService;
-    private PelitaUpdateDataDateService updateDataDateService;
+    private AsyncBatchExecutorService asyncBatchExecutorService;
+    private UpdateDataDateService updateDataDateService;
+    private @Value("${app.datasource_pelita_test}")
+    List<String> dataSource;
 
     @Autowired
-    public PelitaBatchController(PelitaAgeInvoiceService ageInvService,
-                                 PelitaComputeDebitAmountAfterTaxService compDebitAmtAfterTax,
-                                 PelitaComputeInvoiceAmountAfterTaxService compInvAmtAfterTax,
-                                 PelitaInAgingService inAgingService,
-                                 PelitaInvoiceStatusEvaluationService invoiceStatusEvaluationService,
-                                 PelitaUpdateDataDateService updateDataDateService){
-        this.ageInvService = ageInvService;
-        this.compDebitAmtAfterTax = compDebitAmtAfterTax;
-        this.compInvAmtAfterTax = compInvAmtAfterTax;
-        this.inAgingService = inAgingService;
-        this.invoiceStatusEvaluationService = invoiceStatusEvaluationService;
+    public PelitaBatchController(AsyncBatchExecutorService asyncBatchExecutorService,
+                                 UpdateDataDateService updateDataDateService){
+        this.asyncBatchExecutorService = asyncBatchExecutorService;
         this.updateDataDateService = updateDataDateService;
     }
 
-    @PostMapping(value = "/pelitageinvoice", produces = "application/json")
+    @PostMapping(value = "/pelitaageinvoice", produces = "application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object ageInvoice (@RequestParam Integer batch_id){
-        return this.ageInvService.combinedAgeInvoiceService(batch_id);
+        return this.asyncBatchExecutorService.execute(batch_id,
+                dataSource, "getPelitaAgeInvoices",
+                "updatePelitaAgeInvoices",
+                "AGE_INV");
     }
 
     @PostMapping("/pelitacomputedebit")
     @ResponseBody
     public Object computeDebit(@RequestParam Integer batch_id){
-        return this.compDebitAmtAfterTax.combinedPelitaComputeDebitAmountAfterTax(batch_id);
+        return this.asyncBatchExecutorService.execute(batch_id,
+                dataSource, "getPelitaDebitAmountAfterTax",
+                "updatePelitaDebitAmountAfterTax",
+                "COMPUTE_DEBIT");
     }
 
-    @PostMapping(value = "/pelitacomputeinvoiceamountaftertax", produces="application/json")
+    @PostMapping(value = "/pelitacompinvamtafttax", produces="application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object computeInv (@RequestParam Integer batch_id) {
-        return this.compInvAmtAfterTax.combinedPelitaComputeInvoiceAmountAfterTax(batch_id);
+        return this.asyncBatchExecutorService.execute(batch_id,
+                dataSource, "getPelitaInvoiceAmountAfterTax",
+                "updatePelitaInvoiceAmountAfterTax",
+                "COMPUTE_INV");
     }
 
     @PostMapping(value = "/pelitainaging", produces = "application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
-    public Object ageInv (@RequestParam Integer batch_id){
-        return this.inAgingService.combinedPelitaInAgingService(batch_id);
+    public Object inAging (@RequestParam Integer batch_id){
+        return this.asyncBatchExecutorService.execute(batch_id,
+                dataSource, "getPelitaInAging",
+                "updatePelitaInAging",
+                "IN_AGING");
     }
 
-    @PostMapping(value = "/pelitainvoicestatusevaluation", produces="application/json")
+    @PostMapping(value = "/pelitainvstateval", produces="application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object invStatEvaluation (@RequestParam Integer batch_id) {
-        return this.invoiceStatusEvaluationService.combinePelitaInvoiceStatusEvaluation( batch_id);
+        return this.asyncBatchExecutorService.execute(batch_id,
+                dataSource, "getPelitaInvoiceStatus",
+                "updatePelitaInvoiceStatus",
+                "INV_STAT_EVAL");
     }
 
-    @PostMapping("/pelitaupdatedatadate")
+    @PostMapping("/pelitadatadate")
     @ResponseBody
     public Object runUpdateDataDate(@RequestParam Integer batch_id) {
-        return this.updateDataDateService.runupdateDataDate(batch_id);
+        return this.updateDataDateService.runUpdateDataDate(batch_id,
+                dataSource, "pelitaUpdateDataDate");
     }
 }

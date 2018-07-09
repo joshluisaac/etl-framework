@@ -22,14 +22,15 @@ public class DataConnectorEmailSender {
     String emailMsg = emailProp.getProperty("email.msgLoading");
     int port = Integer.parseInt(emailProp.getProperty("email.port"));
     String[] recipient = emailProp.getProperty("email.recipient").split("\\s*,\\s*");
+    boolean enableSSL = Boolean.parseBoolean(emailProp.getProperty("email.enablessl"));
     
-    String srcFilePrefix = emailProp.getProperty("email.filePrefix");
-    DataConnectorEmailNotification notify = new DataConnectorEmailNotification(srcFilePrefix);
+    //String srcFilePrefix = emailProp.getProperty("email.filePrefix");
+    DataConnectorEmailNotification notify = new DataConnectorEmailNotification();
     Regex r = new Regex();
     String daysAgo = emailProp.getProperty("email.daysAgo");
     List<TotalLoaded> bodyList = r.getMatchedTokens(args[0], Integer.parseInt(daysAgo));
     String htmlTemplate = notify.generateHtmlTemplate(emailMsg, bodyList);
-    if (!bodyList.isEmpty()) notify.sendEmail(user, password, host, subject, htmlTemplate, userAuth, port, recipient);
+    if (!bodyList.isEmpty()) notify.sendEmail(user, password, host, subject, htmlTemplate, userAuth, port, recipient,enableSSL);
   }
 
 }

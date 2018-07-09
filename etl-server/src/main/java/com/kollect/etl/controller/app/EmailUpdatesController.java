@@ -1,8 +1,10 @@
 package com.kollect.etl.controller.app;
 
+import com.kollect.etl.service.app.EmailLogService;
 import com.kollect.etl.service.app.EmailUpdatesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,14 +14,17 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class EmailUpdatesController {
     @Autowired
     private EmailUpdatesService emailUpdatesService;
+    @Autowired
+    private EmailLogService emailLogService;
 
     /**
-     * GET request method to return the email updates page.
+     * GET request method to return the email updates page, with logs.
      * @return
-     *          returns the html emailUpdates page.
+     *          returns the html emailUpdates page with logs.
      */
     @GetMapping("/emailupdate")
-    public Object emailUpdates() {
+    public Object emailUpdates(Model model) {
+        this.emailLogService.getEmailLogs(model);
         return "emailUpdates";
     }
 
