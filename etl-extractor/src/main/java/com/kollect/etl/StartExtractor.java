@@ -7,10 +7,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-public class ExtractorServer {
+public class StartExtractor {
 
   public static void main(String[] args) {
-    SpringApplication.run(ExtractorServer.class, args);
+    SpringApplication.run(StartExtractor.class, args);
   }
 
 }
