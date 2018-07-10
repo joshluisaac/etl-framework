@@ -13,8 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,12 +27,6 @@ public class ScheduledTasks {
     private BatchHistoryService batchHistoryService;
     private IReadWriteServiceProvider iRWProvider;
     private ComponentProvider componentProvider;
-
-    /*Required variables*/
-    private final SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
-    private Timestamp today = new Timestamp(System.currentTimeMillis());
-    private String intro ="This is an Automated Notification for KollectValley Batch Statistics for " + sdf.format(today) + ".";
-    private String message = "Batch Summary & Statistics:";
 
     /*Values coming in application.properties*/
     @Value("${spring.mail.properties.batch.autoupdate.recipients}")
@@ -91,8 +83,7 @@ public class ScheduledTasks {
                 yycDataSource, "yycUpdateDataDate");
         this.componentProvider.taskSleep();
         this.mailClientService.sendAfterBatch(recipient,
-                "YYC - Daily Batch Report",intro,
-                message, this.batchHistoryService.viewYycAfterSchedulerUat(), 
+                "YYC - Daily Batch Report", this.batchHistoryService.viewYycAfterSchedulerUat(),
                 this.batchHistoryService.viewYycAfterSchedulerProd());
     }
 
@@ -108,8 +99,8 @@ public class ScheduledTasks {
         this.pbklSumPayServ.combinedLumpSumPaymentService(2);
         this.componentProvider.taskSleep();
         this.mailClientService.sendAfterBatch(recipient,
-                "PBK - Daily Batch Report",intro,
-                message, this.batchHistoryService.viewPbkAfterSchedulerUat(), 
+                "PBK - Daily Batch Report",
+                this.batchHistoryService.viewPbkAfterSchedulerUat(),
                 this.batchHistoryService.viewPbkAfterSchedulerProd());
     }
 
@@ -143,8 +134,8 @@ public class ScheduledTasks {
                 "updatePelitaDebitAmountAfterTax",
                 "COMPUTE_DEBIT");
         this.mailClientService.sendAfterBatch(recipient,
-                "Pelita - Daily Batch Report",intro,
-                message, this.batchHistoryService.viewPelitaAfterSchedulerUat(), emptyList);
+                "Pelita - Daily Batch Report",
+                this.batchHistoryService.viewPelitaAfterSchedulerUat(), emptyList);
     }
 
     @Scheduled(cron = "${app.scheduler.runat6am}")
@@ -178,8 +169,8 @@ public class ScheduledTasks {
         this.componentProvider.taskSleep();
         this.mailClientService.sendAfterBatch(
                 recipient+",syazman@kollect.my,biman@kollect.my",
-                "ICT Zone - Daily Batch Report",intro,
-                message, this.batchHistoryService.viewIctZoneAfterSchedulerUat(), emptyList);
+                "ICT Zone - Daily Batch Report",
+                this.batchHistoryService.viewIctZoneAfterSchedulerUat(), emptyList);
     }
 
     @Scheduled(cron = "${app.scheduler.runat7pm}")
@@ -187,8 +178,8 @@ public class ScheduledTasks {
         this.yycQuerySequenceService.runYycSequenceQuery(62);
         this.componentProvider.taskSleep();
         this.mailClientService.sendAfterBatch(recipient,
-                "YYC - Daily Batch Report" ,intro,
-                message, this.batchHistoryService.viewYycSeqAfterSchedulerUat(),
+                "YYC - Daily Batch Report" ,
+                this.batchHistoryService.viewYycSeqAfterSchedulerUat(),
                 this.batchHistoryService.viewYycSeqAfterSchedulerProd());
     }
 
