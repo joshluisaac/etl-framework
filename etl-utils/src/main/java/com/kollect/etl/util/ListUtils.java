@@ -25,9 +25,7 @@ public class ListUtils {
    */
   public <T> List<T> subtract(final List<T> list1, final List<T> list2) {
     List<T> interimList = new ArrayList<>(list2);
-    System.out.println("Started remove");
     interimList.removeAll(list1);
-    System.out.println("Ended remove");
     return interimList;
   }
 
@@ -66,8 +64,18 @@ public class ListUtils {
     for (String cKey : child) if (!parentMap.containsKey(cKey)) diff.add(cKey);
     return diff;
   }
-  
-  
-  
+
+  //converts a list of type T to StringBuffer
+  public <T> StringBuffer ListToBuffer(final List<T> list) {
+    StringBuffer buff = new StringBuffer();
+    for (T t : list){
+      buff.append(t);
+    }
+    return buff;
+  }
+
+
+
+
 
 }
