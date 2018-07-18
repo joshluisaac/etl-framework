@@ -8,8 +8,8 @@
   <artifactId>etl-parent</artifactId>
   <version>0.0.1-SNAPSHOT</version>
  </parent>
- <artifactId>etl-server</artifactId>
- <name>etl-server</name>
+ <artifactId>etl-extractor</artifactId>
+ <name>etl-extractor</name>
 
  <url>http://maven.apache.org</url>
  <properties>

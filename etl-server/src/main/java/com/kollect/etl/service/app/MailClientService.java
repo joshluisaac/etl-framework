@@ -32,14 +32,13 @@ public class MailClientService {
         this.emailLogService =emailLogService;
     }
 
-    public void sendAfterBatch(String recipient,String subject, String intro,
-                               String message, List<Object> uatStats, List<Object> prodStats) {
+    public void sendAfterBatch(String recipient,String subject, List<Object> uatStats, List<Object> prodStats) {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
             messageHelper.setFrom(emailFrom);
             messageHelper.setTo(recipient.split(","));
             messageHelper.setSubject(subject);
-            String content = builder.buildBatchEmail(intro, message, uatStats, prodStats);
+            String content = builder.buildBatchEmail(uatStats, prodStats);
             messageHelper.setText(content, true);
         };
         Map<Object, Object> arguments = new HashMap<>();

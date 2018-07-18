@@ -4,6 +4,8 @@ import com.kollect.etl.config.CrudProcessHolder;
 import com.kollect.etl.service.IAsyncExecutorService;
 import com.kollect.etl.service.IReadWriteServiceProvider;
 import com.kollect.etl.service.app.BatchHistoryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ public class AsyncBatchExecutorService {
     private BatchHistoryService batchHistoryService;
     private IAsyncExecutorService executorService;
     private boolean lock;
+    private static final Logger LOG = LoggerFactory.getLogger(AsyncBatchExecutorService.class);
 
     public AsyncBatchExecutorService(IReadWriteServiceProvider rwProvider, BatchHistoryService batchHistoryService,
                                      @Qualifier("simple") IAsyncExecutorService executorService) {
@@ -29,18 +32,22 @@ public class AsyncBatchExecutorService {
         long timeTaken = 0;
         String status;
         for (String src : dataSource) {
-            if (!lock) {
-                long startTime = System.nanoTime();
-                lock = true;
-                List<Object> ageInvoiceList = this.rwProvider.executeQuery(src, getQuery, null);
-                Map<String, CrudProcessHolder> map = new TreeMap<>();
-                map.put(getName, new CrudProcessHolder(src, "NONE", 10, 100, new ArrayList<>(Arrays.asList(updateQuery))));
-                executorService.processEntries(map, ageInvoiceList);
-                int numberOfRecords = ageInvoiceList.size();
-                lock = false;
-                numberOfRows = numberOfRecords;
-                long endTime = System.nanoTime();
-                timeTaken = (endTime - startTime) / 1000000;
+            try {
+                if (!lock) {
+                    long startTime = System.nanoTime();
+                    lock = true;
+                    List<Object> ageInvoiceList = this.rwProvider.executeQuery(src, getQuery, null);
+                    Map<String, CrudProcessHolder> map = new TreeMap<>();
+                    map.put(getName, new CrudProcessHolder(src, "NONE", 10, 100, new ArrayList<>(Arrays.asList(updateQuery))));
+                    executorService.processEntries(map, ageInvoiceList);
+                    int numberOfRecords = ageInvoiceList.size();
+                    lock = false;
+                    numberOfRows = numberOfRecords;
+                    long endTime = System.nanoTime();
+                    timeTaken = (endTime - startTime) / 1000000;
+                }
+            }catch (Exception e){
+                LOG.error("An error occurred when running the batch." + e);
             }
             if (lock)
                     status = "Failed";

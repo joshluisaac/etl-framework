@@ -10,7 +10,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
-public class Server {
+public class StartPowerEtl {
 
   @Bean
   public TransferService transferService() {
@@ -18,7 +18,7 @@ public class Server {
   }
 
   public static void main(String[] args) {
-    SpringApplication.run(Server.class, args);
+    SpringApplication.run(StartPowerEtl.class, args);
   }
 
 }
