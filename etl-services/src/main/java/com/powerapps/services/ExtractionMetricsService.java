@@ -1,4 +1,4 @@
-package com.powerapps.service;
+package com.powerapps.services;
 
 import com.powerapps.service.bean.IExtractionMetric;
 

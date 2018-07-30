@@ -1,4 +1,4 @@
-package com.kollect.etl.services;
+package com.powerapps.services;
 
 /**
  * Interface that defines common SFTP operations.
@@ -11,7 +11,7 @@ import java.util.List;
 import com.kollect.etl.service.exception.EtlSftpConnectionException;
 import com.kollect.etl.service.exception.EtlSftpException;
 
-public interface ISftpServiceProvider {
+public interface ISftpService {
 
   public void validateConnection() throws EtlSftpConnectionException;
 

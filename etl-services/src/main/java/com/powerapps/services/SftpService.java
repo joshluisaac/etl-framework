@@ -1,4 +1,4 @@
-package com.kollect.etl.services.impl;
+package com.powerapps.services;
 
 import java.nio.charset.Charset;
 import java.util.List;
@@ -15,9 +15,8 @@ import com.jcraft.jsch.Session;
 import com.jcraft.jsch.SftpException;
 import com.kollect.etl.service.exception.EtlSftpConnectionException;
 import com.kollect.etl.service.exception.EtlSftpException;
-import com.kollect.etl.services.ISftpServiceProvider;
 
-public class SftpService implements ISftpServiceProvider {
+public class SftpService implements ISftpService {
   
   private static final Logger LOG = LoggerFactory.getLogger(SftpService.class);
   private JSch jsch = null;
@@ -78,10 +77,10 @@ public class SftpService implements ISftpServiceProvider {
   public void uploadFile(String srcFile, String dstFile, final String dstDir) throws EtlSftpConnectionException{
     validateConnection();
     try {
-      LOG.debug("Copying {} to server", new Object[]{srcFile});
+      //LOG.debug("Copying {} to server", new Object[]{srcFile});
       channelSftp.cd(dstDir);
       channelSftp.put(srcFile,dstFile);
-      LOG.debug("Copied {} to server @ {}",new Object[]{srcFile,dstDir});
+      LOG.info("Copied & transferred {} to FTP server @ {}",new Object[]{srcFile,dstDir});
     }
     catch(SftpException e) {
       throw new EtlSftpConnectionException(e);

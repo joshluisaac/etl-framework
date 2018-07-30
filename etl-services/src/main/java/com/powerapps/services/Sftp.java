@@ -1,4 +1,4 @@
-package app;
+package com.powerapps.services;
 
 import java.util.List;
 
@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.kollect.etl.service.exception.EtlSftpConnectionException;
-import com.kollect.etl.services.ISftpServiceProvider;
 
 /**
  * @author Josh Nwankwo
@@ -14,13 +13,15 @@ import com.kollect.etl.services.ISftpServiceProvider;
 
 public class Sftp {
   
+  ISftpService service;
   private String server;
   private int port;
   private String username;
   private String password;
   private String dstDir;
 
-  public Sftp(String server, int port, String username, String password, String dstDir) {
+  public Sftp(ISftpService service, String server, int port, String username, String password, String dstDir) {
+    this.service = service;
     this.server = server;
     this.port = port;
     this.username = username;
@@ -49,18 +50,18 @@ public class Sftp {
    * @throws EtlSftpConnectionException
    *        
    */
-  public void execute(ISftpServiceProvider sftp, List<String> fileList, String srcDir, String finalFtpDst) throws EtlSftpConnectionException{
+  public void execute(List<String> fileList, String srcDir, String finalFtpDst) throws EtlSftpConnectionException{
     try {
-      sftp.connect(getUsername(), getPassword(), getServer(), getPort());
+      service.connect(getUsername(), getPassword(), getServer(), getPort());
       for (int i = 0; i < fileList.size(); i++) {
         final String fileName = fileList.get(i);
         LOG.info("SFTP transferring {}", new Object[] { fileName });
-        sftp.uploadFile(srcDir + "/" + fileName, fileName, finalFtpDst);
+        service.uploadFile(srcDir + "/" + fileName, fileName, finalFtpDst);
       }
     }
     
     finally {
-      sftp.disconnect();
+      service.disconnect();
     }
   }
   
