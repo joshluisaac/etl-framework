@@ -16,10 +16,10 @@ public class MailContentBuilderService {
         this.templateEngine = templateEngine;
     }
 
-    public String buildBatchEmail(List<Object> uatStats, List<Object> prodStats) {
+    public String buildBatchEmail(List<Object> uatStats, List<Object> prodStats, String templateName) {
         Context context = new Context();
         context.setVariable("uatStats", uatStats);
         context.setVariable("prodStats", prodStats);
-        return templateEngine.process("fragments/template_batch_mail_template", context);
+        return templateEngine.process(templateName, context);
     }
 }
