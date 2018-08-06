@@ -38,7 +38,7 @@ public class MailClientService {
             messageHelper.setFrom(emailFrom);
             messageHelper.setTo(recipient.split(","));
             messageHelper.setSubject(subject);
-            String content = builder.buildBatchEmail(uatStats, prodStats);
+            String content = builder.buildBatchEmail(uatStats, prodStats, "fragments/template_batch_mail_template");
             messageHelper.setText(content, true);
         };
         Map<Object, Object> arguments = new HashMap<>();
