@@ -64,6 +64,7 @@
   <module>etl-reports</module>
   <module>etl-jdbc</module>
     <module>etl-serverlite</module>
+    <module>etl-notification</module>
   </modules>
 
 

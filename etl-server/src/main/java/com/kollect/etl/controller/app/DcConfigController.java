@@ -209,12 +209,14 @@ public class DcConfigController {
   /**
    * HTTP GET request to
    *
+   * ResponseBody binds the return values (result) to HTTP response body
+   *
    * @param id
    * @param global_config_id
    * @param model
    *        data structure of objects which is rendered to view
    * @return
-   *         return result which holds the
+   *         returns list of
    */
   @RequestMapping("/dcconfigApi")
   @ResponseBody
