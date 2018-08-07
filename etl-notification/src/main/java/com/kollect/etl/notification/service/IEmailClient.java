@@ -1,5 +1,6 @@
 package com.kollect.etl.notification.service;
 
+import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -10,16 +11,20 @@ public interface IEmailClient {
     void sendAdhocEmail(String fromEmail, String recipient,
                         String title, String body,
                         MultipartFile attachment, File logFile, IEmailContentBuilder emailContentBuilder,
-                        String templateName);
+                        String templateName, String pathToEmailLog);
 
     void sendAutoEmail(String fromEmail, String recipient,
                        String title, String body,
                        File logFile, IEmailContentBuilder emailContentBuilder,
-                       String templateName);
+                       String templateName, String pathToEmailLog);
 
-    Map<Object, Object> sendBatchEmailUpdate(String fromEmail, String recipient,
+    Map<String, String> sendBatchEmailUpdate(String fromEmail, String recipient,
                                              String title,
                                              IEmailContentBuilder emailContentBuilder,
                                              String templateName,
                                              List<Object> uatStats, List<Object> prodStats);
+
+    String executeSendAndSetStatus(MimeMessagePreparator messagePreparator);
+
+    String getSendTime();
 }
