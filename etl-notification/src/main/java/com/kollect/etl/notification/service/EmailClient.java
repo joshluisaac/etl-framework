@@ -52,7 +52,7 @@ public class EmailClient implements IEmailClient{
 
     @Override
     public String getSendTime(){
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD HH:MM:SS");
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD HH:MM:ss");
         return sdf.format(new Date());
     }
 
@@ -72,8 +72,8 @@ public class EmailClient implements IEmailClient{
         };
         String status = executeSendAndSetStatus(messagePreparator);
         String sendTime = getSendTime();
-        Map<String, String> logMap = emailLogger.saveEmailLog(title, recipient, status, sendTime);
-        emailLogger.persistLogToJson(logMap, pathToEmailLog);
+        String formattedLogMap = emailLogger.formatToCsvString(recipient, title, logFile.getName(),sendTime, status);
+        emailLogger.persistLogToCsv(formattedLogMap, pathToEmailLog);
     }
 
     @Override
@@ -91,8 +91,8 @@ public class EmailClient implements IEmailClient{
         };
         String status = executeSendAndSetStatus(messagePreparator);
         String sendTime = getSendTime();
-        Map<String, String> logMap = emailLogger.saveEmailLog(title, recipient, status, sendTime);
-        emailLogger.persistLogToJson(logMap, pathToEmailLog);
+        String formattedLogMap = emailLogger.formatToCsvString(recipient, title, logFile.getName(), sendTime, status);
+        emailLogger.persistLogToCsv(formattedLogMap, pathToEmailLog);
     }
 
     //this method hasn't been implemented yet to PowerETL.
@@ -111,6 +111,6 @@ public class EmailClient implements IEmailClient{
         };
         String status = executeSendAndSetStatus(messagePreparator);
         String sendTime = getSendTime();
-        return this.emailLogger.saveEmailLog(title, recipient, status, sendTime);
+        return this.emailLogger.saveEmailLog(recipient, title, sendTime, status);
     }
 }

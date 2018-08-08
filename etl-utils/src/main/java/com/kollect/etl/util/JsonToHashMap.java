@@ -26,6 +26,6 @@ public class JsonToHashMap {
     }
 
     public void fromHashMapToJson(Map<String, String> m, String path){
-        util.writeTextFile(path, jsonUtils.toJson(m), true);
+        util.writeTextFile(path, jsonUtils.toJson(m), false);
     }
 }

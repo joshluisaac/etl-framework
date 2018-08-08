@@ -1,6 +1,6 @@
 package com.kollect.etl.notification.service;
 
-import com.kollect.etl.util.JsonToHashMap;
+import com.kollect.etl.util.Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,11 +9,11 @@ import java.util.Map;
 
 @Service
 public class EmailLogger implements IEmailLogger {
-    private JsonToHashMap jsonToHashMap;
+    private Utils util;
 
     @Autowired
-    public EmailLogger(JsonToHashMap jsonToHashMap){
-        this.jsonToHashMap=jsonToHashMap;
+    public EmailLogger(Utils util){
+        this.util=util;
     }
 
     @Override
@@ -28,7 +28,14 @@ public class EmailLogger implements IEmailLogger {
     }
 
     @Override
-    public void persistLogToJson(Map<String, String> logMap, String path){
-        jsonToHashMap.fromHashMapToJson(logMap, path);
+    public String formatToCsvString(String recipient,String title, String logFileName,
+                                        String sendTime, String status){
+        return recipient+"|"+title+"|"+logFileName+"|"+sendTime+"|"+
+                status+"\n";
+    }
+
+    @Override
+    public void persistLogToCsv(String formattedLogMap, String path){
+        util.writeTextFile(path, formattedLogMap, true);
     }
 }

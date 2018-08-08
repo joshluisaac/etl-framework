@@ -6,5 +6,8 @@ public interface IEmailLogger {
     Map<String, String> saveEmailLog(String title, String recipient,
                                             String status, String sendTime);
 
-    void persistLogToJson(Map<String, String> logMap, String path);
+    void persistLogToCsv(String formattedLogMap, String path);
+
+    String formatToCsvString(String recipient,String title, String logFileName,
+                                 String sendTime, String status);
 }
