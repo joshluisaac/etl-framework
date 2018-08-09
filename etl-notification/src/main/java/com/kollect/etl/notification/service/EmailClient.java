@@ -109,7 +109,6 @@ public class EmailClient implements IEmailClient{
             messageHelper.setText(content, true);
         };
         String status = executeSendAndSetStatus(messagePreparator);
-        String sendTime = getSendTime();
-        return this.emailLogger.saveEmailLog(recipient, title, sendTime, status);
+        return this.emailLogger.saveEmailLog(recipient, title, status);
     }
 }

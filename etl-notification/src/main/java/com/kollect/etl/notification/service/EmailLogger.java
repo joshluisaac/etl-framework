@@ -14,12 +14,11 @@ public class EmailLogger implements IEmailLogger {
 
     @Override
     public Map<String, String> saveEmailLog(String title, String recipient,
-                                             String status, String sendTime){
+                                             String status){
         Map<String, String> logMap = new HashMap<>();
         logMap.put("subject", title);
         logMap.put("recipient", recipient);
         logMap.put("status", status);
-        logMap.put("sendTime", sendTime);
         return logMap;
     }
 
