@@ -12,10 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * This class is used to send out HTML emails using JavaMailSender and Thymeleaf template engine
@@ -72,8 +69,9 @@ public class EmailClient implements IEmailClient{
         };
         String status = executeSendAndSetStatus(messagePreparator);
         String sendTime = getSendTime();
-        String formattedLogMap = emailLogger.formatToCsvString(recipient, title, logFile.getName(),sendTime, status);
-        emailLogger.persistLogToCsv(formattedLogMap, pathToEmailLog);
+        String[] logArray= {recipient, title, logFile.getName(), sendTime, status};
+        List<String> logList = new ArrayList<>(Arrays.asList(logArray));
+        emailLogger.persistLogToCsv(logList, pathToEmailLog);
     }
 
     @Override
@@ -91,8 +89,9 @@ public class EmailClient implements IEmailClient{
         };
         String status = executeSendAndSetStatus(messagePreparator);
         String sendTime = getSendTime();
-        String formattedLogMap = emailLogger.formatToCsvString(recipient, title, logFile.getName(), sendTime, status);
-        emailLogger.persistLogToCsv(formattedLogMap, pathToEmailLog);
+        String[] logArray= {recipient, title, logFile.getName(), sendTime, status};
+        List<String> logList = new ArrayList<>(Arrays.asList(logArray));
+        emailLogger.persistLogToCsv(logList, pathToEmailLog);
     }
 
     //this method hasn't been implemented yet to PowerETL.

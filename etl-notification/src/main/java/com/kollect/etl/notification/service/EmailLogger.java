@@ -1,20 +1,16 @@
 package com.kollect.etl.notification.service;
 
+import com.kollect.etl.util.CsvReadWriteUtils;
 import com.kollect.etl.util.Utils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
 public class EmailLogger implements IEmailLogger {
-    private Utils util;
-
-    @Autowired
-    public EmailLogger(Utils util){
-        this.util=util;
-    }
+    private CsvReadWriteUtils csvReadWriteUtils = new CsvReadWriteUtils(new Utils());
 
     @Override
     public Map<String, String> saveEmailLog(String title, String recipient,
@@ -28,14 +24,8 @@ public class EmailLogger implements IEmailLogger {
     }
 
     @Override
-    public String formatToCsvString(String recipient,String title, String logFileName,
-                                        String sendTime, String status){
-        return recipient+"|"+title+"|"+logFileName+"|"+sendTime+"|"+
-                status+"\n";
+    public void persistLogToCsv(List<String> logList, String path){
+        csvReadWriteUtils.persistToCsv(logList, path);
     }
 
-    @Override
-    public void persistLogToCsv(String formattedLogMap, String path){
-        util.writeTextFile(path, formattedLogMap, true);
-    }
 }
