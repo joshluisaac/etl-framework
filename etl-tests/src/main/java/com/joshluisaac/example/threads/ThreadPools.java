@@ -1,17 +1,12 @@
 package com.joshluisaac.example.threads;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.concurrent.*;
 
 public class ThreadPools implements Runnable {
 
@@ -65,14 +60,14 @@ public class ThreadPools implements Runnable {
     }
 
     executorService.shutdown();
-    log.debug("All com.kollect.etl.tasks submitted");
+    log.debug("All tasks submitted");
 
-    // blocks program execution until all com.kollect.etl.tasks are executed
+    // blocks program execution until all tasks are executed
     boolean isCompleted = false;
     isCompleted = executorService.awaitTermination(1, TimeUnit.DAYS);
 
     log.debug("{}",ftureList.get(0).get());
-    log.debug("All com.kollect.etl.tasks completed");
+    log.debug("All tasks completed");
 
   }
 

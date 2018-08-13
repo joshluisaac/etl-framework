@@ -24,7 +24,7 @@ public class CheckSites {
 		// create a thread pool
 		ExecutorService executor = Executors.newFixedThreadPool(numberOfThreads);
 
-		// create an executor completion com.kollect.etl.service using the
+		// create an executor completion service using the
 		CompletionService<PingResult> compService = new ExecutorCompletionService<PingResult>(executor);
 		
 		for (String url : URLs){

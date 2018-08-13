@@ -1,16 +1,15 @@
 package com.kollect.etl.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
+import com.kollect.etl.util.IRecordDispenser;
+import com.kollect.etl.util.IteratorRecordDispenser;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.kollect.etl.util.IRecordDispenser;
-import com.kollect.etl.util.IteratorRecordDispenser;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 
 @Service
@@ -27,7 +26,7 @@ public class AsyncBatchService implements IAsyncBatchService {
   }
   
   /* (non-Javadoc)
-   * @see com.kollect.etl.com.kollect.etl.service.IAsyncBatchService#execute(java.util.Iterator, com.kollect.etl.com.kollect.etl.service.IRunnableProcess, int, int)
+   * @see com.kollect.etl.service.IAsyncBatchService#execute(java.util.Iterator, com.kollect.etl.service.IRunnableProcess, int, int)
    */
   @Override
   public <T> void execute(Iterator<T> itr, IRunnableProcess runnableProcess,final int thread, final int commitSize) {

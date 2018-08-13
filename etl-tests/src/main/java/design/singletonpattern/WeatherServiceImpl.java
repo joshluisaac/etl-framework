@@ -3,7 +3,7 @@ package design.singletonpattern;
 public class WeatherServiceImpl implements Service {
   
   public WeatherServiceImpl(){
-    System.out.println("Created weather com.kollect.etl.service");
+    System.out.println("Created weather service");
   }
 
   @Override

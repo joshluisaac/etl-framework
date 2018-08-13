@@ -47,7 +47,7 @@ public class EmailUpdatesController {
      * @param recipient
      *                  String of recipients to send emails to, separated by commas(,).
      * @return
-     *        returns the com.kollect.etl.service to be executed.
+     *        returns the service to be executed.
      */
     @PostMapping(value = "/sendtestemail", produces = "application/json")
     @ResponseBody
