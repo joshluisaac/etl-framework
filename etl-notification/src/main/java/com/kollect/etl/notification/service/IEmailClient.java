@@ -18,6 +18,11 @@ public interface IEmailClient {
                        File logFile, IEmailContentBuilder emailContentBuilder,
                        String templateName, String pathToEmailLog);
 
+    void sendExtractLoadEmail(String fromEmail, String recipient,
+                           String title, List<Object> stats,
+                           IEmailContentBuilder emailContentBuilder,
+                           String templateName, String pathToEmailLog);
+
     Map<String, String> sendBatchEmailUpdate(String fromEmail, String recipient,
                                              String title,
                                              IEmailContentBuilder emailContentBuilder,

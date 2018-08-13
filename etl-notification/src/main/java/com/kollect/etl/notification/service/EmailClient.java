@@ -67,11 +67,8 @@ public class EmailClient implements IEmailClient{
             messageHelper.addAttachment(attachment.getOriginalFilename(), attachment);
             messageHelper.addAttachment(logFile.getName(), logFile);
         };
-        String status = executeSendAndSetStatus(messagePreparator);
-        String sendTime = getSendTime();
-        String[] logArray= {recipient, title, logFile.getName(), sendTime, status};
-        List<String> logList = new ArrayList<>(Arrays.asList(logArray));
-        emailLogger.persistLogToCsv(logList, pathToEmailLog);
+        String[] logArray= {recipient, title, logFile.getName(), getSendTime(), executeSendAndSetStatus(messagePreparator)};
+        emailLogger.persistLogToCsv(new ArrayList<>(Arrays.asList(logArray)), pathToEmailLog);
     }
 
     @Override
@@ -87,11 +84,24 @@ public class EmailClient implements IEmailClient{
             messageHelper.setText(emailContentBuilder.buildSimpleEmail(body, templateName), true);
             messageHelper.addAttachment(logFile.getName(), logFile);
         };
-        String status = executeSendAndSetStatus(messagePreparator);
-        String sendTime = getSendTime();
-        String[] logArray= {recipient, title, logFile.getName(), sendTime, status};
-        List<String> logList = new ArrayList<>(Arrays.asList(logArray));
-        emailLogger.persistLogToCsv(logList, pathToEmailLog);
+        String[] logArray= {recipient, title, logFile.getName(), getSendTime(), executeSendAndSetStatus(messagePreparator)};
+        emailLogger.persistLogToCsv(new ArrayList<>(Arrays.asList(logArray)), pathToEmailLog);
+    }
+
+    @Override
+    public void sendExtractLoadEmail(String fromEmail, String recipient,
+                                  String title, List<Object> stats,
+                                  IEmailContentBuilder emailContentBuilder,
+                                  String templateName, String pathToEmailLog){
+        MimeMessagePreparator messagePreparator = mimeMessage -> {
+            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
+            messageHelper.setFrom(fromEmail);
+            messageHelper.setTo(recipient.split(","));
+            messageHelper.setSubject(title);
+            messageHelper.setText(emailContentBuilder.buildExtractLoadEmail(templateName, stats), true);
+        };
+        String[] logArray= {recipient, title, getSendTime(), executeSendAndSetStatus(messagePreparator)};
+        emailLogger.persistLogToCsv(new ArrayList<>(Arrays.asList(logArray)), pathToEmailLog);
     }
 
     //this method hasn't been implemented yet to PowerETL.
@@ -108,7 +118,6 @@ public class EmailClient implements IEmailClient{
             String content = emailContentBuilder.buildBatchUpdateEmail(templateName ,uatStats, prodStats);
             messageHelper.setText(content, true);
         };
-        String status = executeSendAndSetStatus(messagePreparator);
-        return this.emailLogger.saveEmailLog(recipient, title, status);
+        return this.emailLogger.saveEmailLog(recipient, title, executeSendAndSetStatus(messagePreparator));
     }
 }
