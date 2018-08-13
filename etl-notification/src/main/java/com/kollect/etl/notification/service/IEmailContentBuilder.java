@@ -7,4 +7,6 @@ public interface IEmailContentBuilder {
 
     String buildBatchUpdateEmail(String templateName,
                                  List<Object> uatStats, List<Object> prodStats);
+
+    String buildExtractLoadEmail(String templateName, List<Object> stats);
 }
