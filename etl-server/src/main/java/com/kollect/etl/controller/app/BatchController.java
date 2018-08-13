@@ -41,7 +41,7 @@ public class BatchController {
      * @param disable
      *              a toggle to enable/disable batch
      * @return
-     *         returns the addUpdateBatch method from the service
+     *         returns the addUpdateBatch method from the com.kollect.etl.service
      */
     @PostMapping("/batch")
     public Object addUpdateBatch(@RequestParam(required = false) Integer id,@RequestParam String code, @RequestParam String name, @RequestParam String description, @RequestParam (required = false)

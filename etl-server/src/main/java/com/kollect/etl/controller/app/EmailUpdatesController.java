@@ -29,11 +29,11 @@ public class EmailUpdatesController {
     }
 
     /**
-     * POST method that gets values from client to run a service to send out batch email updates manually.
+     * POST method that gets values from client to run a com.kollect.etl.service to send out batch email updates manually.
      * @param recipient
      *                  String of recipients to send emails to, separated by commas(,).
      * @return
-     *        returns the service to be executed.
+     *        returns the com.kollect.etl.service to be executed.
      */
     @PostMapping(value = "/resendemailupdate", produces = "application/json")
     @ResponseBody
@@ -47,7 +47,7 @@ public class EmailUpdatesController {
      * @param recipient
      *                  String of recipients to send emails to, separated by commas(,).
      * @return
-     *        returns the service to be executed.
+     *        returns the com.kollect.etl.service to be executed.
      */
     @PostMapping(value = "/sendtestemail", produces = "application/json")
     @ResponseBody

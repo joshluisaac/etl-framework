@@ -20,14 +20,14 @@ import java.util.Map;
  */
 @Service
 public class EmailUpdatesService {
-    /* Necessary service dependencies */
+    /* Necessary com.kollect.etl.service dependencies */
     private MailClientService mailClientService;
     private BatchHistoryService batchHistoryService;
     private ComponentProvider componentProvider;
     private IReadWriteServiceProvider iRWProvider;
     private static final Logger LOG = LoggerFactory.getLogger(EmailUpdatesService.class);
 
-    /* Necessary service variables */
+    /* Necessary com.kollect.etl.service variables */
     private final SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
     private Timestamp today = new Timestamp(System.currentTimeMillis());
     private String intro = "This is an Automated Notification for KollectValley YYC Batch Statistics for " + sdf.format(today) + ".";

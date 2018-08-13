@@ -20,7 +20,7 @@ public class ExtractionMetric implements IExtractionMetric {
   }
 
   /* (non-Javadoc)
-   * @see com.powerapps.service.bean.IExtractionMetric#getDbName()
+   * @see com.powerapps.com.kollect.etl.service.bean.IExtractionMetric#getDbName()
    */
   @Override
   public String getDbName() {
@@ -28,7 +28,7 @@ public class ExtractionMetric implements IExtractionMetric {
   }
 
   /* (non-Javadoc)
-   * @see com.powerapps.service.bean.IExtractionMetric#setDbName(java.lang.String)
+   * @see com.powerapps.com.kollect.etl.service.bean.IExtractionMetric#setDbName(java.lang.String)
    */
   @Override
   public void setDbName(String dbName) {
@@ -36,7 +36,7 @@ public class ExtractionMetric implements IExtractionMetric {
   }
 
   /* (non-Javadoc)
-   * @see com.powerapps.service.bean.IExtractionMetric#getFileName()
+   * @see com.powerapps.com.kollect.etl.service.bean.IExtractionMetric#getFileName()
    */
   @Override
   public String getFileName() {
@@ -44,7 +44,7 @@ public class ExtractionMetric implements IExtractionMetric {
   }
 
   /* (non-Javadoc)
-   * @see com.powerapps.service.bean.IExtractionMetric#setFileName(java.lang.String)
+   * @see com.powerapps.com.kollect.etl.service.bean.IExtractionMetric#setFileName(java.lang.String)
    */
   @Override
   public void setFileName(String fileName) {
@@ -52,7 +52,7 @@ public class ExtractionMetric implements IExtractionMetric {
   }
 
   /* (non-Javadoc)
-   * @see com.powerapps.service.bean.IExtractionMetric#getQueryRunningTime()
+   * @see com.powerapps.com.kollect.etl.service.bean.IExtractionMetric#getQueryRunningTime()
    */
   @Override
   public long getQueryRunningTime() {
@@ -60,7 +60,7 @@ public class ExtractionMetric implements IExtractionMetric {
   }
 
   /* (non-Javadoc)
-   * @see com.powerapps.service.bean.IExtractionMetric#setQueryRunningTime(int)
+   * @see com.powerapps.com.kollect.etl.service.bean.IExtractionMetric#setQueryRunningTime(int)
    */
   @Override
   public void setQueryRunningTime(int queryRunningTime) {
@@ -68,7 +68,7 @@ public class ExtractionMetric implements IExtractionMetric {
   }
 
   /* (non-Javadoc)
-   * @see com.powerapps.service.bean.IExtractionMetric#getWritingRunningTime()
+   * @see com.powerapps.com.kollect.etl.service.bean.IExtractionMetric#getWritingRunningTime()
    */
   @Override
   public long getWritingRunningTime() {
@@ -76,7 +76,7 @@ public class ExtractionMetric implements IExtractionMetric {
   }
 
   /* (non-Javadoc)
-   * @see com.powerapps.service.bean.IExtractionMetric#setWritingRunningTime(int)
+   * @see com.powerapps.com.kollect.etl.service.bean.IExtractionMetric#setWritingRunningTime(int)
    */
   @Override
   public void setWritingRunningTime(int writingRunningTime) {
@@ -84,7 +84,7 @@ public class ExtractionMetric implements IExtractionMetric {
   }
 
   /* (non-Javadoc)
-   * @see com.powerapps.service.bean.IExtractionMetric#getBytesWritten()
+   * @see com.powerapps.com.kollect.etl.service.bean.IExtractionMetric#getBytesWritten()
    */
   @Override
   public long getBytesWritten() {
@@ -92,7 +92,7 @@ public class ExtractionMetric implements IExtractionMetric {
   }
 
   /* (non-Javadoc)
-   * @see com.powerapps.service.bean.IExtractionMetric#setBytesWritten(int)
+   * @see com.powerapps.com.kollect.etl.service.bean.IExtractionMetric#setBytesWritten(int)
    */
   @Override
   public void setBytesWritten(int bytesWritten) {
@@ -100,7 +100,7 @@ public class ExtractionMetric implements IExtractionMetric {
   }
 
   /* (non-Javadoc)
-   * @see com.powerapps.service.bean.IExtractionMetric#getRecordCount()
+   * @see com.powerapps.com.kollect.etl.service.bean.IExtractionMetric#getRecordCount()
    */
   @Override
   public long getRecordCount() {
@@ -108,7 +108,7 @@ public class ExtractionMetric implements IExtractionMetric {
   }
 
   /* (non-Javadoc)
-   * @see com.powerapps.service.bean.IExtractionMetric#setRecordCount(int)
+   * @see com.powerapps.com.kollect.etl.service.bean.IExtractionMetric#setRecordCount(int)
    */
   @Override
   public void setRecordCount(int recordCount) {

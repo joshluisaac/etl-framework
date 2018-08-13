@@ -65,14 +65,14 @@ public class ThreadPools implements Runnable {
     }
 
     executorService.shutdown();
-    log.debug("All tasks submitted");
+    log.debug("All com.kollect.etl.tasks submitted");
 
-    // blocks program execution until all tasks are executed
+    // blocks program execution until all com.kollect.etl.tasks are executed
     boolean isCompleted = false;
     isCompleted = executorService.awaitTermination(1, TimeUnit.DAYS);
 
     log.debug("{}",ftureList.get(0).get());
-    log.debug("All tasks completed");
+    log.debug("All com.kollect.etl.tasks completed");
 
   }
 

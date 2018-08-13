@@ -27,7 +27,7 @@ public class AsyncBatchService implements IAsyncBatchService {
   }
   
   /* (non-Javadoc)
-   * @see com.kollect.etl.service.IAsyncBatchService#execute(java.util.Iterator, com.kollect.etl.service.IRunnableProcess, int, int)
+   * @see com.kollect.etl.com.kollect.etl.service.IAsyncBatchService#execute(java.util.Iterator, com.kollect.etl.com.kollect.etl.service.IRunnableProcess, int, int)
    */
   @Override
   public <T> void execute(Iterator<T> itr, IRunnableProcess runnableProcess,final int thread, final int commitSize) {

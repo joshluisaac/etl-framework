@@ -41,7 +41,7 @@ public class EmailContentBuilder implements IEmailContentBuilder{
     }
 
     @Override
-    public String buildExtractLoadEmail(String templateName, List<Object> stats){
+    public String buildExtractLoadEmail(String templateName, List<String> stats){
         Context context = new Context();
         context.setVariable("stats", stats);
         return templateEngine.process(

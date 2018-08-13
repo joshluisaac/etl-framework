@@ -90,7 +90,7 @@ public class EmailClient implements IEmailClient{
 
     @Override
     public void sendExtractLoadEmail(String fromEmail, String recipient,
-                                  String title, List<Object> stats,
+                                  String title, List<String> stats,
                                   IEmailContentBuilder emailContentBuilder,
                                   String templateName, String pathToEmailLog){
         MimeMessagePreparator messagePreparator = mimeMessage -> {

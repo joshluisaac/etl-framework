@@ -12,8 +12,8 @@ public class TransferServiceImpl implements TransferService {
 
   @Override
   public String transName() {
-    LOG.debug("{}", "Transfer service initliazed");
-    return "From transfer service";
+    LOG.debug("{}", "Transfer com.kollect.etl.service initliazed");
+    return "From transfer com.kollect.etl.service";
   }
 
 }

@@ -10,7 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * The purpose of this class is to perform adhoc tasks such as reading and writing to files, formatting tasks etc
+ * The purpose of this class is to perform adhoc com.kollect.etl.tasks such as reading and writing to files, formatting com.kollect.etl.tasks etc
  *
  * @author joshua
  */
