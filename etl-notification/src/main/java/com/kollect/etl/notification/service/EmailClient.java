@@ -49,7 +49,7 @@ public class EmailClient implements IEmailClient{
 
     @Override
     public String getSendTime(){
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD HH:MM:ss");
+        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:MM:ss");
         return sdf.format(new Date());
     }
 
