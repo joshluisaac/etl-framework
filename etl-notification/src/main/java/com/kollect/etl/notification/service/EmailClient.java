@@ -11,139 +11,149 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.kollect.etl.notification.entity.Email;
+import com.kollect.etl.util.Preconditions;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import javax.mail.internet.MimeMessage;
+
 /**
- * This class is used to send out HTML emails using JavaMailSender and Thymeleaf template engine
- * There are various types of emails being sent out.
+ * This class is used to send out HTML emails using JavaMailSender and Thymeleaf
+ * template engine There are various types of emails being sent out.
  *
  * @author hashim
  */
 @Service
-public class EmailClient implements IEmailClient{
-    private JavaMailSender mailSender;
-    private IEmailLogger emailLogger;
-    private MimeMessagePreparator messagePrep;
-    private final Logger logger = LoggerFactory.getLogger(EmailClient.class);
+public class EmailClient implements IEmailClient {
+  private JavaMailSender mailSender;
+  private IEmailLogger emailLogger;
+  private MimeMessagePreparator messagePrep;
+  private final Logger logger = LoggerFactory.getLogger(EmailClient.class);
 
-    @Autowired
-    public EmailClient(JavaMailSender mailSender,
-                       IEmailLogger emailLogger) {
-        this.mailSender = mailSender;
-        this.emailLogger = emailLogger;
-    }
+  @Autowired
+  public EmailClient(JavaMailSender mailSender, IEmailLogger emailLogger) {
+    this.mailSender = mailSender;
+    this.emailLogger = emailLogger;
+  }
 
-    @Override
-    public String executeSendAndSetStatus(MimeMessagePreparator messagePreparator){
-        String mailStatus = "Failed";
-        try {
-            mailSender.send(messagePreparator);
-            mailStatus = "Success";
-            logger.info("Email has been sent successfully.");
-        } catch (MailException e) {
-          logger.error("An error occurred during email send." + e);
-        }
-        return mailStatus;
+  @Override
+  public String executeSendAndSetStatus(MimeMessagePreparator messagePreparator) {
+    String mailStatus = "Failed";
+    try {
+      mailSender.send(messagePreparator);
+      mailStatus = "Success";
+      logger.info("Email has been sent successfully.");
+    } catch (MailException e) {
+      logger.error("An error occurred during email send." + e);
     }
+    return mailStatus;
+  }
 
-    @Override
-    public String getSendTime(){
-        SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:MM:ss");
-        return sdf.format(new Date());
-    }
-    
-    
-    //let the client who's calling this method pass the email object
-    private MimeMessagePreparator prepareEmail(Email email) {
-      messagePrep = mimeMessage -> {
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-        helper.setFrom(email.getFrom());
-        helper.setTo(email.getTo().split(","));
-        helper.setSubject(email.getSubject());
-        helper.setText(email.getContent(), true);
-        helper.addAttachment(email.getAttachment().getOriginalFilename(),email.getAttachment());
-        
-      };
-      
-      return messagePrep;
-    }
-    
-    private String sendMail(MimeMessagePreparator messagePrep) {
-      return executeSendAndSetStatus(messagePrep);
-    }
-    
-    public void execute() {
-      messagePrep = prepareEmail(null);
-      String status = sendMail(messagePrep);
-    }
-    
+  @Override
+  public String getSendTime() {
+    SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:MM:ss");
+    return sdf.format(new Date());
+  }
 
-    @Override
-    public void sendAdhocEmail(String fromEmail, String recipient,
-                               String title, String body,
-                               MultipartFile attachment, File logFile, IEmailContentBuilder emailContentBuilder,
-                               String templateName, String pathToEmailLog) {
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
-            messageHelper.setFrom(fromEmail);
-            messageHelper.setTo(recipient.split(","));
-            messageHelper.setSubject(title);
-            messageHelper.setText(emailContentBuilder.buildSimpleEmail(body, templateName), true);
-            messageHelper.addAttachment(attachment.getOriginalFilename(), attachment);
-            messageHelper.addAttachment(logFile.getName(), logFile);
-        };
-        String[] logArray= {recipient, title, logFile.getName(), getSendTime(), executeSendAndSetStatus(messagePreparator)};
-        emailLogger.persistLogToCsv(new ArrayList<>(Arrays.asList(logArray)), pathToEmailLog);
-    }
+  // let the client who's calling this method pass the email object
+  private MimeMessagePreparator prepareEmail(Email email) {
+    messagePrep = mimeMessage -> {
+      MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+      helper.setFrom(email.getFrom());
+      helper.setTo(email.getTo().split(","));
+      helper.setSubject(email.getSubject());
+      helper.setText(email.getContent(), true);
+      if (email.getAttachment() != null)helper.addAttachment(email.getAttachment().getOriginalFilename(), email.getAttachment());
+    };
+    return messagePrep;
+  }
 
-    @Override
-    public void sendAutoEmail(String fromEmail, String recipient,
-                              String title, String body,
-                              File logFile, IEmailContentBuilder emailContentBuilder,
-                              String templateName, String pathToEmailLog) {
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
-            messageHelper.setFrom(fromEmail);
-            messageHelper.setTo(recipient.split(","));
-            messageHelper.setSubject(title);
-            messageHelper.setText(emailContentBuilder.buildSimpleEmail(body, templateName), true);
-            messageHelper.addAttachment(logFile.getName(), logFile);
-        };
-        String[] logArray= {recipient, title, logFile.getName(), getSendTime(), executeSendAndSetStatus(messagePreparator)};
-        emailLogger.persistLogToCsv(new ArrayList<>(Arrays.asList(logArray)), pathToEmailLog);
-    }
+//  private MimeMessagePreparator prepareEmail2(Email email) {
+//    messagePrep = new MimeMessagePreparator() {
+//      @Override
+//      public void prepare(MimeMessage mimeMessage) throws Exception {
+//        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+//        helper.setFrom(email.getFrom());
+//        helper.setTo(email.getTo().split(","));
+//        helper.setSubject(email.getSubject());
+//        helper.setText(email.getContent(), true);
+//        if (email.getAttachment() != null)
+//          helper.addAttachment(email.getAttachment().getOriginalFilename(), email.getAttachment());
+//      }
+//    };
+//    return messagePrep;
+//  }
 
-    @Override
-    public void sendExtractLoadEmail(String fromEmail, String recipient,
-                                  String title, List<String> stats,
-                                  IEmailContentBuilder emailContentBuilder,
-                                  String templateName, String pathToEmailLog){
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
-            messageHelper.setFrom(fromEmail);
-            messageHelper.setTo(recipient.split(","));
-            messageHelper.setSubject(title);
-            messageHelper.setText(emailContentBuilder.buildExtractLoadEmail(templateName, stats), true);
-        };
-        String[] logArray= {recipient, title, getSendTime(), executeSendAndSetStatus(messagePreparator)};
-        emailLogger.persistLogToCsv(new ArrayList<>(Arrays.asList(logArray)), pathToEmailLog);
-    }
 
-    @Override
-    public Map<String, String> sendBatchEmailUpdate(String fromEmail, String recipient,
-                                     String title, IEmailContentBuilder emailContentBuilder,
-                                     String templateName,
-                                     List<Object> uatStats, List<Object> prodStats){
-        MimeMessagePreparator messagePreparator = mimeMessage -> {
-            MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom(fromEmail);
-            messageHelper.setTo(recipient.split(","));
-            messageHelper.setSubject(title);
-            messageHelper.setText(emailContentBuilder.buildBatchUpdateEmail(templateName ,uatStats, prodStats), true);
-        };
-        return this.emailLogger.saveEmailLog(recipient, title, executeSendAndSetStatus(messagePreparator));
-    }
+
+  public String execute(Email email, String emailLogPath) {
+    Preconditions.checkNotNull(email);
+    messagePrep = prepareEmail(email);
+    String status = executeSendAndSetStatus(messagePrep);
+    List<String> list  = new ArrayList<>(Arrays.asList(email.getTo(),email.getSubject(),email.getAttachment().getOriginalFilename(),getSendTime(),status));
+    emailLogger.persistLogToCsv(list,emailLogPath);
+    return status;
+  }
+
+  @Override
+  public void sendAdhocEmail(String fromEmail, String recipient, String title, String body, MultipartFile attachment,
+      File logFile, IEmailContentBuilder emailContentBuilder, String templateName, String pathToEmailLog) {
+    MimeMessagePreparator messagePreparator = mimeMessage -> {
+      MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
+      messageHelper.setFrom(fromEmail);
+      messageHelper.setTo(recipient.split(","));
+      messageHelper.setSubject(title);
+      messageHelper.setText(emailContentBuilder.buildSimpleEmail(body, templateName), true);
+      messageHelper.addAttachment(attachment.getOriginalFilename(), attachment);
+      messageHelper.addAttachment(logFile.getName(), logFile);
+    };
+    String[] logArray = { recipient, title, logFile.getName(), getSendTime(),
+        executeSendAndSetStatus(messagePreparator) };
+    emailLogger.persistLogToCsv(new ArrayList<>(Arrays.asList(logArray)), pathToEmailLog);
+  }
+
+  @Override
+  public void sendAutoEmail(String fromEmail, String recipient, String title, String body, File logFile,
+      IEmailContentBuilder emailContentBuilder, String templateName, String pathToEmailLog) {
+    MimeMessagePreparator messagePreparator = mimeMessage -> {
+      MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
+      messageHelper.setFrom(fromEmail);
+      messageHelper.setTo(recipient.split(","));
+      messageHelper.setSubject(title);
+      messageHelper.setText(emailContentBuilder.buildSimpleEmail(body, templateName), true);
+      messageHelper.addAttachment(logFile.getName(), logFile);
+    };
+    String[] logArray = { recipient, title, logFile.getName(), getSendTime(),
+        executeSendAndSetStatus(messagePreparator) };
+    emailLogger.persistLogToCsv(new ArrayList<>(Arrays.asList(logArray)), pathToEmailLog);
+  }
+
+  @Override
+  public void sendExtractLoadEmail(String fromEmail, String recipient, String title, List<String> stats,
+      IEmailContentBuilder emailContentBuilder, String templateName, String pathToEmailLog) {
+    MimeMessagePreparator messagePreparator = mimeMessage -> {
+      MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
+      messageHelper.setFrom(fromEmail);
+      messageHelper.setTo(recipient.split(","));
+      messageHelper.setSubject(title);
+      messageHelper.setText(emailContentBuilder.buildExtractLoadEmail(templateName, stats), true);
+    };
+    String[] logArray = { recipient, title, getSendTime(), executeSendAndSetStatus(messagePreparator) };
+    emailLogger.persistLogToCsv(new ArrayList<>(Arrays.asList(logArray)), pathToEmailLog);
+  }
+
+  @Override
+  public Map<String, String> sendBatchEmailUpdate(String fromEmail, String recipient, String title,
+      IEmailContentBuilder emailContentBuilder, String templateName, List<Object> uatStats, List<Object> prodStats) {
+    MimeMessagePreparator messagePreparator = mimeMessage -> {
+      MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
+      messageHelper.setFrom(fromEmail);
+      messageHelper.setTo(recipient.split(","));
+      messageHelper.setSubject(title);
+      messageHelper.setText(emailContentBuilder.buildBatchUpdateEmail(templateName, uatStats, prodStats), true);
+    };
+    return this.emailLogger.saveEmailLog(recipient, title, executeSendAndSetStatus(messagePreparator));
+  }
 }

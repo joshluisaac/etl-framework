@@ -8,7 +8,16 @@ public class Email {
   MultipartFile attachment;
   
   
+  public Email() {}
   
+  
+  public Email(String from, String to, String subject, String content, MultipartFile attachment) {
+    this.from = from;
+    this.to = to;
+    this.subject = subject;
+    this.content = content;
+    this.attachment = attachment;
+  }
   
   
   public String getFrom() {

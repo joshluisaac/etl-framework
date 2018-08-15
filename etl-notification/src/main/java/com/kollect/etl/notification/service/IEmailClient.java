@@ -3,33 +3,28 @@ package com.kollect.etl.notification.service;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kollect.etl.notification.entity.Email;
+
 import java.io.File;
 import java.util.List;
 import java.util.Map;
 
 public interface IEmailClient {
-    void sendAdhocEmail(String fromEmail, String recipient,
-                        String title, String body,
-                        MultipartFile attachment, File logFile, IEmailContentBuilder emailContentBuilder,
-                        String templateName, String pathToEmailLog);
+  String execute(Email mail,String emailLogPath);
 
-    void sendAutoEmail(String fromEmail, String recipient,
-                       String title, String body,
-                       File logFile, IEmailContentBuilder emailContentBuilder,
-                       String templateName, String pathToEmailLog);
+  void sendAdhocEmail(String fromEmail, String recipient, String title, String body, MultipartFile attachment,
+      File logFile, IEmailContentBuilder emailContentBuilder, String templateName, String pathToEmailLog);
 
-    void sendExtractLoadEmail(String fromEmail, String recipient,
-                           String title, List<String> stats,
-                           IEmailContentBuilder emailContentBuilder,
-                           String templateName, String pathToEmailLog);
+  void sendAutoEmail(String fromEmail, String recipient, String title, String body, File logFile,
+      IEmailContentBuilder emailContentBuilder, String templateName, String pathToEmailLog);
 
-    Map<String, String> sendBatchEmailUpdate(String fromEmail, String recipient,
-                                             String title,
-                                             IEmailContentBuilder emailContentBuilder,
-                                             String templateName,
-                                             List<Object> uatStats, List<Object> prodStats);
+  void sendExtractLoadEmail(String fromEmail, String recipient, String title, List<String> stats,
+      IEmailContentBuilder emailContentBuilder, String templateName, String pathToEmailLog);
 
-    String executeSendAndSetStatus(MimeMessagePreparator messagePreparator);
+  Map<String, String> sendBatchEmailUpdate(String fromEmail, String recipient, String title,
+      IEmailContentBuilder emailContentBuilder, String templateName, List<Object> uatStats, List<Object> prodStats);
 
-    String getSendTime();
+  String executeSendAndSetStatus(MimeMessagePreparator messagePreparator);
+
+  String getSendTime();
 }
