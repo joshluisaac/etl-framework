@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +42,11 @@ public class ScheduledTasks {
     List<String> pelitaDataSource;
     private @Value("${app.datasource_ictzone}")
     List<String> ictZoneDataSource;
+    
+    @Value("${app.pelitaExtractionPath}")
+    private String pelitaExtractionPath;
+    
+    
     /*This empty list is used to replace the prodStats query since Pelita is not on production yet.*/
     private List<Object> emptyList = new ArrayList<>();
 
@@ -188,15 +194,22 @@ public class ScheduledTasks {
                 batchHistoryService.viewYycSeqAfterSchedulerProd());
     }
 
-    @Scheduled(fixedDelay = 600000)
+    //@Scheduled(fixedDelay = 600000)
     public void runKeepConnectionAliveHack(){
         this.iRWProvider.executeQuery(prodDataSource,
                 "getUpdateDataDateToKeepConnectionOpen", null);
     }
-
+    
+    
     @Scheduled(fixedDelay = 300000)
-    public void sendPelitaExtractEmail(){
-        emailSenderService.sendExtractionEmail("Pelita - Daily Extraction Metrics",
-                "pelita");
+    public void sendPelitaExtractEmail() throws IOException {
+      //String dir = "/home/joshua/Desktop/out";
+      String title = "Pelita - Daily Extraction Metrics";
+      emailSenderService.sendExtractionEmail(pelitaExtractionPath,title);
     }
+    
+    
+    
 }
+
+

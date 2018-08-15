@@ -54,6 +54,13 @@ public class ExtractionMetric {
   public void setRecordCount(long recordCount) {
     this.recordCount = recordCount;
   }
+
+  @Override
+  public String toString() {
+    return "ExtractionMetric [dbName=" + dbName + ", fileName=" + fileName + ", queryRunningTime=" + queryRunningTime
+        + ", writingRunningTime=" + writingRunningTime + ", bytesWritten=" + bytesWritten + ", recordCount="
+        + recordCount + "]";
+  }
   
   
 

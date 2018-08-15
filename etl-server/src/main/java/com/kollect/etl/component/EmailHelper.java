@@ -52,5 +52,11 @@ public class EmailHelper {
       }
     }
   }
+  
+  
+  public void persistToCache(String log) {
+    new FileUtils().writeTextFile(cacheFilePath, log + "\n");
+    logger.info("Persisted {} to cache", log);
+  }
 
 }
