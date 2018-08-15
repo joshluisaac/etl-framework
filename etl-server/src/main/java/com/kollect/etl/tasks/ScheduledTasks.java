@@ -3,6 +3,7 @@ package com.kollect.etl.tasks;
 import com.kollect.etl.component.ComponentProvider;
 import com.kollect.etl.service.IReadWriteServiceProvider;
 import com.kollect.etl.service.app.BatchHistoryService;
+import com.kollect.etl.service.app.EmailSenderService;
 import com.kollect.etl.service.app.MailClientService;
 import com.kollect.etl.service.commonbatches.AsyncBatchExecutorService;
 import com.kollect.etl.service.commonbatches.UpdateDataDateService;
@@ -27,6 +28,7 @@ public class ScheduledTasks {
     private BatchHistoryService batchHistoryService;
     private IReadWriteServiceProvider iRWProvider;
     private ComponentProvider componentProvider;
+    private EmailSenderService emailSenderService;
 
     /*Values coming in application.properties*/
     @Value("${spring.mail.properties.batch.autoupdate.recipients}")
@@ -53,7 +55,8 @@ public class ScheduledTasks {
                           MailClientService mailClientService,
                           BatchHistoryService batchHistoryService,
                           IReadWriteServiceProvider iRWProvider,
-                          ComponentProvider componentProvider){
+                          ComponentProvider componentProvider,
+                          EmailSenderService emailSenderService){
         this.pbklSumPayServ = pbklSumPayServ;
         this.asyncBatchExecutorService = asyncBatchExecutorService;
         this.updateDataDateService = updateDataDateService;
@@ -62,6 +65,7 @@ public class ScheduledTasks {
         this.batchHistoryService = batchHistoryService;
         this.iRWProvider = iRWProvider;
         this.componentProvider = componentProvider;
+        this.emailSenderService=emailSenderService;
     }
 
     @Scheduled(cron = "${app.scheduler.runat430am}")
@@ -187,5 +191,11 @@ public class ScheduledTasks {
     public void runKeepConnectionAliveHack(){
         this.iRWProvider.executeQuery(prodDataSource,
                 "getUpdateDataDateToKeepConnectionOpen", null);
+    }
+
+    @Scheduled(fixedDelay = 300000)
+    public void sendPelitaExtractEmail(){
+        emailSenderService.sendExtractionEmail("Pelita - Daily Extraction Metrics",
+                "pelita");
     }
 }
