@@ -13,7 +13,7 @@ public class EmailLogger implements IEmailLogger {
     private CsvReadWriteUtils csvReadWriteUtils = new CsvReadWriteUtils(new Utils());
 
     @Override
-    public Map<String, String> saveEmailLog(String title, String recipient,
+    public Map<String, String> saveEmailLog(String recipient, String title,
                                              String status){
         Map<String, String> logMap = new HashMap<>();
         logMap.put("subject", title);
