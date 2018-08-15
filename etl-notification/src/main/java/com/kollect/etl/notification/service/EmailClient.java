@@ -114,8 +114,7 @@ public class EmailClient implements IEmailClient{
             messageHelper.setFrom(fromEmail);
             messageHelper.setTo(recipient.split(","));
             messageHelper.setSubject(title);
-            String content = emailContentBuilder.buildBatchUpdateEmail(templateName ,uatStats, prodStats);
-            messageHelper.setText(content, true);
+            messageHelper.setText(emailContentBuilder.buildBatchUpdateEmail(templateName ,uatStats, prodStats), true);
         };
         return this.emailLogger.saveEmailLog(recipient, title, executeSendAndSetStatus(messagePreparator));
     }
