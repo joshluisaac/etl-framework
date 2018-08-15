@@ -11,7 +11,9 @@ import org.thymeleaf.TemplateEngine;
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class EmailSenderService {
@@ -19,12 +21,15 @@ public class EmailSenderService {
     private MailConfig mailConfig;
     private TemplateEngine templateEngine;
     private Utils utils = new Utils();
+    private EmailLogService emailLogService;
 
     @Autowired
     public EmailSenderService(TemplateEngine templateEngine,
-                              MailConfig mailConfig){
+                              MailConfig mailConfig,
+                              EmailLogService emailLogService){
         this.templateEngine=templateEngine;
         this.mailConfig=mailConfig;
+        this.emailLogService=emailLogService;
     }
 
     private String getDailyExtractStatsFile(String tenant){
@@ -47,5 +52,15 @@ public class EmailSenderService {
                 "fragments/template_extract_load",
                 "emailLog/extractorEmailLog.csv");
 
+    }
+
+    public void sendAfterBatch(String fromEmail, String recipient,String subject,
+                               List<Object> uatStats, List<Object> prodStats){
+        final IEmailContentBuilder emailContentBuilder = new EmailContentBuilder(templateEngine);
+        IEmailClient emailClient = new EmailClient( mailConfig.javaMailService(), new EmailLogger());
+        Map<Object, Object> emailLogMap = new HashMap<>(emailClient.sendBatchEmailUpdate(fromEmail, recipient, subject,
+                emailContentBuilder, "fragments/template_batch_mail_template",
+                uatStats, prodStats));
+        emailLogService.logEmails(emailLogMap);
     }
 }
