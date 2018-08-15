@@ -104,7 +104,6 @@ public class EmailClient implements IEmailClient{
         emailLogger.persistLogToCsv(new ArrayList<>(Arrays.asList(logArray)), pathToEmailLog);
     }
 
-    //this method hasn't been implemented yet to PowerETL.
     @Override
     public Map<String, String> sendBatchEmailUpdate(String fromEmail, String recipient,
                                      String title, IEmailContentBuilder emailContentBuilder,
