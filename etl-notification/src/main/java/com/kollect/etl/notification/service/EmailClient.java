@@ -10,6 +10,8 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.kollect.etl.notification.entity.Email;
+
 import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -24,7 +26,8 @@ import java.util.*;
 public class EmailClient implements IEmailClient{
     private JavaMailSender mailSender;
     private IEmailLogger emailLogger;
-    private static final Logger LOG = LoggerFactory.getLogger(EmailClient.class);
+    private MimeMessagePreparator messagePrep;
+    private final Logger logger = LoggerFactory.getLogger(EmailClient.class);
 
     @Autowired
     public EmailClient(JavaMailSender mailSender,
@@ -35,16 +38,15 @@ public class EmailClient implements IEmailClient{
 
     @Override
     public String executeSendAndSetStatus(MimeMessagePreparator messagePreparator){
-        Map<String, String> logMap = new HashMap<>();
+        String mailStatus = "Failed";
         try {
             mailSender.send(messagePreparator);
-            logMap.put("status", "Success");
-            LOG.info("Email has been sent successfully.");
+            mailStatus = "Success";
+            logger.info("Email has been sent successfully.");
         } catch (MailException e) {
-            logMap.put("status", "Failed");
-            LOG.error("An error occurred during email send." + e);
+          logger.error("An error occurred during email send." + e);
         }
-        return logMap.get("status");
+        return mailStatus;
     }
 
     @Override
@@ -52,6 +54,32 @@ public class EmailClient implements IEmailClient{
         SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:MM:ss");
         return sdf.format(new Date());
     }
+    
+    
+    //let the client who's calling this method pass the email object
+    private MimeMessagePreparator prepareEmail(Email email) {
+      messagePrep = mimeMessage -> {
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+        helper.setFrom(email.getFrom());
+        helper.setTo(email.getTo().split(","));
+        helper.setSubject(email.getSubject());
+        helper.setText(email.getContent(), true);
+        helper.addAttachment(email.getAttachment().getOriginalFilename(),email.getAttachment());
+        
+      };
+      
+      return messagePrep;
+    }
+    
+    private String sendMail(MimeMessagePreparator messagePrep) {
+      return executeSendAndSetStatus(messagePrep);
+    }
+    
+    public void execute() {
+      messagePrep = prepareEmail(null);
+      String status = sendMail(messagePrep);
+    }
+    
 
     @Override
     public void sendAdhocEmail(String fromEmail, String recipient,
