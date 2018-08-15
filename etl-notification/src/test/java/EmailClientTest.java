@@ -24,7 +24,7 @@ public class EmailClientTest {
   @Test
   public void execute_email_test() {
     Email mail = new Email("datareceived@kollect.my","joshua@kollect.my","Testing etl notification","This is the content2", null );
-    emailClient.execute(mail,"/home/joshua/Desktop/email.log");
+    emailClient.execute(mail);
   }
 
   

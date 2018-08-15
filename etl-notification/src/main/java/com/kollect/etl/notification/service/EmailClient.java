@@ -17,7 +17,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-import javax.mail.internet.MimeMessage;
 
 /**
  * This class is used to send out HTML emails using JavaMailSender and Thymeleaf
@@ -69,31 +68,15 @@ public class EmailClient implements IEmailClient {
     };
     return messagePrep;
   }
-
-//  private MimeMessagePreparator prepareEmail2(Email email) {
-//    messagePrep = new MimeMessagePreparator() {
-//      @Override
-//      public void prepare(MimeMessage mimeMessage) throws Exception {
-//        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
-//        helper.setFrom(email.getFrom());
-//        helper.setTo(email.getTo().split(","));
-//        helper.setSubject(email.getSubject());
-//        helper.setText(email.getContent(), true);
-//        if (email.getAttachment() != null)
-//          helper.addAttachment(email.getAttachment().getOriginalFilename(), email.getAttachment());
-//      }
-//    };
-//    return messagePrep;
-//  }
-
-
-
-  public String execute(Email email, String emailLogPath) {
+  
+  
+  public String execute(Email email) {
     Preconditions.checkNotNull(email);
     messagePrep = prepareEmail(email);
     String status = executeSendAndSetStatus(messagePrep);
-    List<String> list  = new ArrayList<>(Arrays.asList(email.getTo(),email.getSubject(),email.getAttachment().getOriginalFilename(),getSendTime(),status));
-    emailLogger.persistLogToCsv(list,emailLogPath);
+    //String out = email.getTo()+"|"+email.getSubject()+"|"+email.getAttachment().getOriginalFilename()+"|"+getSendTime()+"|"+status;
+    //List<String> list  = new ArrayList<>(Arrays.asList(email.getTo(),email.getSubject(),email.getAttachment().getOriginalFilename(),getSendTime(),status));
+    //emailLogger.persistLogToCsv(list,emailLogPath);
     return status;
   }
 

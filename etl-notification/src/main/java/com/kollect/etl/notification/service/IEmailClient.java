@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public interface IEmailClient {
-  String execute(Email mail,String emailLogPath);
+  String execute(Email mail);
 
   void sendAdhocEmail(String fromEmail, String recipient, String title, String body, MultipartFile attachment,
       File logFile, IEmailContentBuilder emailContentBuilder, String templateName, String pathToEmailLog);
