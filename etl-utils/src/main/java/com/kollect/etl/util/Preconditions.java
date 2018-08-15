@@ -13,7 +13,7 @@ public class Preconditions {
    */
   public static <T> T checkNotNull(T value) {
     if (value == null) {
-      throw new NullPointerException();
+      throw new NullPointerException("The value of argument is null");
     }
     return value;
   }
