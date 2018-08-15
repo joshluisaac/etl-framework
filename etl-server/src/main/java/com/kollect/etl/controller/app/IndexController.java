@@ -48,7 +48,7 @@ public class IndexController {
 
   @GetMapping("")
   public String redirectToHome(){
-    return "redirect://index";
+    return "index";
   }
   
   @RequestMapping("test")
