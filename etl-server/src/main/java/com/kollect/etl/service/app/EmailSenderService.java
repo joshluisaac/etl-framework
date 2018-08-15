@@ -49,24 +49,28 @@ public class EmailSenderService {
 
 
   
-  public void sendExtractionEmail(String dir, String title) throws IOException {
-    final IEmailContentBuilder emailContentBuilder = new EmailContentBuilder(templateEngine);
-    IEmailClient emailClient = new EmailClient(mailConfig.javaMailService(), new EmailLogger());
+  public void sendExtractionEmail(String manifestDirPath, String title) throws IOException {
     
-    /*Create prefixes*/
+    /*Get the JSON file*/
     List<String> prefixes = new ArrayList<>(Arrays.asList("stats_manifest_pelita_","stats_manifest_cco_","stats_manifest_yyc_","stats_manifest_pbk_"));
-    /*Resolve differences*/
-    List<String> diff = emailHelper.fetchNewManifestLog(new File(dir), prefixes);
+    List<String> diff = emailHelper.fetchNewManifestLog(new File(manifestDirPath), prefixes);
     String manifestLog = diff.get(0);
     logger.info("Processing {}", manifestLog);
     
-    ExtractionMetric[] extractionMetricArray = jsonUtils.fromJson(new FileReader(new File(dir,manifestLog)), ExtractionMetric[].class);
+    /*Deserialize the JSON file into Java objects*/
+    ExtractionMetric[] extractionMetricArray = jsonUtils.fromJson(new FileReader(new File(manifestDirPath,manifestLog)), ExtractionMetric[].class);
     List<ExtractionMetric> metrics = new ArrayList<>(Arrays.asList(extractionMetricArray));
     
+    final IEmailContentBuilder emailContentBuilder = new EmailContentBuilder(templateEngine);
+    IEmailClient emailClient = new EmailClient(mailConfig.javaMailService(), new EmailLogger());
     
-   
+    /*Build email content*/
     String emailContent = emailContentBuilder.buildExtractLoadEmail("fragments/template_extract_load", metrics);
+    
+    /*Construct email object*/
     Email mail = new Email("datareceived@kollect.my", "joshua@kollect.my", title, emailContent, null);
+    
+    /*Send email*/
     emailClient.execute(mail);
     
     /*write difference to cache*/
