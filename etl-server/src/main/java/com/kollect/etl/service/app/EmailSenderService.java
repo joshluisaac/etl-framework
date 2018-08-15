@@ -37,7 +37,7 @@ public class EmailSenderService {
         return "stats_manifest_"+tenant+"_"+sdf.format(new Date())+".json";
     }
 
-    //still working on parsing this list into the email as a table.
+    //still working on parsing this list to the email as a table.
     @SuppressWarnings("unchecked")
     private List<String> getDailyExtractStats(String tenant){
         return jsonUtils.fromJson(utils.readFile(new File(getDailyExtractStatsFile(tenant))).get(0), List.class);
