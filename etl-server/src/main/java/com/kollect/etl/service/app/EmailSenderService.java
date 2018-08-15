@@ -54,29 +54,34 @@ public class EmailSenderService {
     /*Get the JSON file*/
     List<String> prefixes = new ArrayList<>(Arrays.asList("stats_manifest_pelita_","stats_manifest_cco_","stats_manifest_yyc_","stats_manifest_pbk_"));
     List<String> diff = emailHelper.fetchNewManifestLog(new File(manifestDirPath), prefixes);
-    String manifestLog = diff.get(0);
-    logger.info("Processing {}", manifestLog);
     
-    /*Deserialize the JSON file into Java objects*/
-    ExtractionMetric[] extractionMetricArray = jsonUtils.fromJson(new FileReader(new File(manifestDirPath,manifestLog)), ExtractionMetric[].class);
-    List<ExtractionMetric> metrics = new ArrayList<>(Arrays.asList(extractionMetricArray));
-    
-    final IEmailContentBuilder emailContentBuilder = new EmailContentBuilder(templateEngine);
-    IEmailClient emailClient = new EmailClient(mailConfig.javaMailService(), new EmailLogger());
-    
-    /*Build email content*/
-    String emailContent = emailContentBuilder.buildExtractLoadEmail("fragments/template_extract_load", metrics);
-    
-    /*Construct email object*/
-    Email mail = new Email("datareceived@kollect.my", "joshua@kollect.my", title, emailContent, null);
-    
-    /*Send email*/
-    emailClient.execute(mail);
-    
-    /*write difference to cache*/
-    emailHelper.persistToCache(manifestLog);
-    
-    //persists to "emailLog/extractorEmailLog.csv"
+    if(diff.size() > 0) {
+      
+      String manifestLog = diff.get(0);
+      String threadName = Thread.currentThread().getName();
+      logger.info("Processing {} using {}", manifestLog,threadName);
+      
+      /*Deserialize the JSON file into Java objects*/
+      ExtractionMetric[] extractionMetricArray = jsonUtils.fromJson(new FileReader(new File(manifestDirPath,manifestLog)), ExtractionMetric[].class);
+      List<ExtractionMetric> metrics = new ArrayList<>(Arrays.asList(extractionMetricArray));
+      
+      final IEmailContentBuilder emailContentBuilder = new EmailContentBuilder(templateEngine);
+      IEmailClient emailClient = new EmailClient(mailConfig.javaMailService(), new EmailLogger());
+      
+      /*Build email content*/
+      String emailContent = emailContentBuilder.buildExtractLoadEmail("fragments/template_extract_load", metrics);
+      
+      /*Construct and assemble email object*/
+      Email mail = new Email("datareceived@kollect.my", "joshua@kollect.my", title, emailContent, null);
+      
+      /*Send email*/
+      emailClient.execute(mail);
+      
+      /*write difference to cache*/
+      emailHelper.persistToCache(manifestLog);
+      
+      //persists to "emailLog/extractorEmailLog.csv"
+    }
   }
 
 

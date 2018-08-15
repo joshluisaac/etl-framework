@@ -201,9 +201,8 @@ public class ScheduledTasks {
     }
     
     
-    @Scheduled(fixedDelay = 300000)
+    @Scheduled(fixedDelay = 120000)
     public void sendPelitaExtractEmail() throws IOException {
-      //String dir = "/home/joshua/Desktop/out";
       String title = "Pelita - Daily Extraction Metrics";
       emailSenderService.sendExtractionEmail(pelitaExtractionPath,title);
     }
