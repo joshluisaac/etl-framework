@@ -40,4 +40,4 @@ etl-parent.iml
 /logs/
 target/
 
-resources
+#resources
