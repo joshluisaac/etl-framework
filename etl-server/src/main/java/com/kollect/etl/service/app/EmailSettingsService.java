@@ -1,57 +1,28 @@
 package com.kollect.etl.service.app;
 
-import com.kollect.etl.entity.app.EmailSettings;
-import com.kollect.etl.service.IReadWriteServiceProvider;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.kollect.etl.util.JsonToHashMap;
+import com.kollect.etl.util.JsonUtils;
+import com.kollect.etl.util.Utils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
-import java.util.List;
-import java.util.Map;
+import java.util.HashMap;
 
 @Service
 public class EmailSettingsService {
-    private IReadWriteServiceProvider rwProvider;
-    private String dataSource;
-    private static final Logger LOG = LoggerFactory.getLogger(EmailSettingsService.class);
+    private JsonUtils jsonUtils = new JsonUtils();
+    private Utils utils = new Utils();
+    private JsonToHashMap jsonToHashMap = new JsonToHashMap(jsonUtils, utils);
 
-	 @Autowired
-     public EmailSettingsService(IReadWriteServiceProvider rwProvider, @Value("${app.datasource_uat_8}") String dataSource){
-         this.rwProvider = rwProvider;
-         this.dataSource = dataSource;
-     }
+    @Value("${app.generalEmailJson}")
+    private String generalEmailJsonPath;
 
-	public Object getEmailSettings(Model model){
-        List<Object> list = this.rwProvider.executeQuery(dataSource, "getEmailSettings", null);
-        if (list.size() > 0) {
-            @SuppressWarnings("unchecked")
-            Map<String, Object> map = (Map<String, Object>) list.get(0);
-            model.addAttribute("result", map);
-        }
-        return "emailSettingsForm";
+	public Object getEmailSettings(){
+        return jsonToHashMap.toHashMapFromJson(generalEmailJsonPath);
     }
 
-	public void addUpdateEmailSettings(boolean sendEmail, String userAuthentication,
-                                         String userName, String pass, String host,
-                                         String recipient, Integer port, String subject,
-                                         String msg, String subjErr, String msgErr){
-        {
-
-            EmailSettings emailDto = new EmailSettings(sendEmail, userAuthentication, userName, pass, host, recipient, port,
-                    subject, msg, subjErr, msgErr);
-
-            @SuppressWarnings("unchecked")
-            Map<String, Integer> counterMap = (Map<String, Integer>) this.rwProvider.executeQuery(dataSource, "getEmailCounter", null).get(0);
-
-            int numberOfRecAffected = (counterMap.get("emailCounter") > 0)
-                    ? (this.rwProvider.updateQuery(dataSource, "updateEmailSettings", emailDto))
-                    : (this.rwProvider.insertQuery(dataSource, "insertEmailSettings", emailDto));
-
-            LOG.debug("Number of records affected: {}", numberOfRecAffected);
-
-        }
+	public void addUpdateEmailSettings(HashMap<String, String> generalEmailSettings) {
+        String jsonOut = jsonUtils.toJson(generalEmailSettings);
+        utils.writeTextFile(generalEmailJsonPath, jsonOut, false);
     }
 }
