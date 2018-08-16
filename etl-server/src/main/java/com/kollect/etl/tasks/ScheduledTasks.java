@@ -8,6 +8,7 @@ import com.kollect.etl.service.commonbatches.AsyncBatchExecutorService;
 import com.kollect.etl.service.commonbatches.UpdateDataDateService;
 import com.kollect.etl.service.pbk.PbkLumpSumPaymentService;
 import com.kollect.etl.service.yyc.YycQuerySequenceService;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -46,6 +47,7 @@ public class ScheduledTasks {
     @Value("${app.pelitaExtractionPath}")
     private String pelitaExtractionPath;
     private String fromEmail = "datareceived@kollect.my";
+    private final org.slf4j.Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
     
     /*This empty list is used to replace the prodStats query since Pelita is not on production yet.*/
     private List<Object> emptyList = new ArrayList<>();
@@ -203,10 +205,8 @@ public class ScheduledTasks {
     @Scheduled(fixedDelay = 120000)
     public void sendPelitaExtractEmail() throws IOException {
       String title = "Pelita - Daily Extraction Metrics";
-      System.out.println("Extraction Email Scheduler Running...");
+        logger.info("Extraction Email Scheduler Running...");
       emailSenderService.sendExtractionEmail(pelitaExtractionPath,title);
     }
     
 }
-
-
