@@ -14,6 +14,11 @@ public class PropertiesUtils {
 
   private static final Logger LOG = LoggerFactory.getLogger(PropertiesUtils.class);
 
+  /**
+   * Reads properties file from an absolute path
+   * @param file the file name to read 
+   * @return returns the read file as a properties object
+   */
   public final Properties loadPropertiesFile(final String fileName) throws IOException {
     Properties p = new Properties();
     try (FileInputStream in = new FileInputStream(new File(fileName))) {
@@ -42,6 +47,11 @@ public class PropertiesUtils {
     return url.getFile();
   }
 
+  /**
+   * Reads properties file from a classpath
+   * @param file the file name to read 
+   * @return returns the read file as a properties object
+   */
   public final Properties loadPropertiesFileResource(final String fileName) throws IOException {
     Properties p = new Properties();
     try (FileInputStream in = new FileInputStream(getFile(getClassPathResource(fileName)))) {
