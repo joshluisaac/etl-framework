@@ -13,9 +13,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 
-import com.kollect.etl.component.Utils;
 import com.kollect.etl.notification.config.IEmailConfig;
 import com.kollect.etl.notification.entity.EmailConfigEntity;
+import com.kollect.etl.util.JsonUtils;
 
 
 @Component
@@ -23,13 +23,12 @@ public class EmailConfigAssembler {
   
   @Value("${app.generalEmailJson}")
   private String generalEmailJsonPath;
-  private Utils utils;
+  private JsonUtils jsonUtils = new JsonUtils();
   private IEmailConfig config;
   private final Logger logger = LoggerFactory.getLogger(EmailConfigAssembler.class);
   
   @Autowired
-  EmailConfigAssembler(Utils utils, IEmailConfig config){
-    this.utils = utils;
+  EmailConfigAssembler(IEmailConfig config){
     this.config = config;
   }
   
@@ -45,7 +44,7 @@ public class EmailConfigAssembler {
   public EmailConfigEntity deSerializeConfig() {
     EmailConfigEntity configEntity = null;
     try (Reader reader = new FileReader(new File(generalEmailJsonPath))) {
-      configEntity = utils.readJson(reader, EmailConfigEntity.class);
+      configEntity = jsonUtils.fromJson(reader, EmailConfigEntity.class);
       logger.info("Initialized and constructed EmailConfigEntity Bean");
     } catch (IOException e) {
       e.printStackTrace();
