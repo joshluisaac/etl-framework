@@ -83,6 +83,7 @@ public class EmailSenderService {
             String[] logArray = {mail.getTo(), mail.getSubject(), getSendTime(), status};
             emailLogger.persistLogToCsv(new ArrayList<>(Arrays.asList(logArray)), extractionEmailLogPath);
         }
+        else logger.info("No new stats file added to" +manifestDirPath);
     }
 
     public void sendAfterBatch(String fromEmail, String recipient, String subject, List<Object> uatStats,
