@@ -23,7 +23,7 @@ public class EmailClientTest {
   
   @Test
   public void execute_email_test() {
-    Email mail = new Email("datareceived@kollect.my","joshua@kollect.my","Testing etl notification","This is the content2", null );
+    Email mail = new Email("datareceived@kollect.my","joshua@kollect.my","Testing etl notification","This is the content2", null, null );
     emailClient.execute(mail);
   }
 
