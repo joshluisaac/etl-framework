@@ -132,31 +132,4 @@ public class EmailClient implements IEmailClient {
         sendAndSetStatus(messagePreparator) };
     emailLogger.persistLogToCsv(new ArrayList<>(Arrays.asList(logArray)), pathToEmailLog);
   }
-
-  @Override
-  public void sendExtractLoadEmail(String fromEmail, String recipient, String title, List<String> stats,
-      IEmailContentBuilder emailContentBuilder, String templateName, String pathToEmailLog) {
-    MimeMessagePreparator messagePreparator = mimeMessage -> {
-      MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
-      messageHelper.setFrom(fromEmail);
-      messageHelper.setTo(recipient.split(","));
-      messageHelper.setSubject(title);
-      messageHelper.setText(emailContentBuilder.buildExtractLoadEmail(templateName, stats), true);
-    };
-    String[] logArray = { recipient, title, getSendTime(), sendAndSetStatus(messagePreparator) };
-    emailLogger.persistLogToCsv(new ArrayList<>(Arrays.asList(logArray)), pathToEmailLog);
-  }
-
-  @Override
-  public Map<String, String> sendBatchEmailUpdate(String fromEmail, String recipient, String title,
-      IEmailContentBuilder emailContentBuilder, String templateName, List<Object> uatStats, List<Object> prodStats) {
-    MimeMessagePreparator messagePreparator = mimeMessage -> {
-      MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-      messageHelper.setFrom(fromEmail);
-      messageHelper.setTo(recipient.split(","));
-      messageHelper.setSubject(title);
-      messageHelper.setText(emailContentBuilder.buildBatchUpdateEmail(templateName, uatStats, prodStats), true);
-    };
-    return this.emailLogger.saveEmailLog(recipient, title, sendAndSetStatus(messagePreparator));
-  }
 }
