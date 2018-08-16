@@ -3,6 +3,5 @@
 */uploads/*
 *.iml
 *.csv
-*.xml
 resources
 */resources
