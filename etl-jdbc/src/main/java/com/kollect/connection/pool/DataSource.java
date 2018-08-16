@@ -1,14 +1,20 @@
 package com.kollect.connection.pool;
 
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+//import org.springframework.beans.factory.annotation.Value;
+
+import com.kollect.etl.util.PropertiesUtils;
 
 public class DataSource implements IDataSource {
 
@@ -41,9 +47,11 @@ public class DataSource implements IDataSource {
     try {
       //Class.forName("org.postgresql.Driver");
       //conn = DriverManager.getConnection("jdbc:postgresql://192.168.1.25:5432/mahb_prod2x", "kollectvalley", "kollect1234");
-      
-      Class.forName ("com.informix.jdbc.IfxDriver");
-      conn = DriverManager.getConnection("jdbc:informix-sqli://172.20.146.10:9088/uatdata:INFORMIXSERVER=pronto", "informix", "ProC0gN0s");
+    	
+    Properties prop = new PropertiesUtils().loadPropertiesFileResource("server.properties");
+    
+      Class.forName (prop.getProperty("db.driver"));
+      conn = DriverManager.getConnection(prop.getProperty("db.url"), prop.getProperty("db.username"), prop.getProperty("db.password"));
     }
     
     catch (Exception e) {
