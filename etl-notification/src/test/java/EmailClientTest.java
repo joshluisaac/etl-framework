@@ -17,7 +17,7 @@ public class EmailClientTest {
   public EmailClientTest() {
     emailConfig = new EmailConfig();
     mailSender = emailConfig.setEmailSettings("mail.automanage.biz", 587, "datareceived@kollect.my","K@L#eKT#12", "true", "false", "false");
-    emailClient = new EmailClient(mailSender, new EmailLogger());
+    emailClient = new EmailClient(mailSender);
     
   }
   
