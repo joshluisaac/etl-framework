@@ -23,10 +23,8 @@ public class EmailConfigAssembler {
   
   @Value("${app.generalEmailJson}")
   private String generalEmailJsonPath;
-  
   private Utils utils;
   private IEmailConfig config;
-  
   private final Logger logger = LoggerFactory.getLogger(EmailConfigAssembler.class);
   
   @Autowired
@@ -42,7 +40,6 @@ public class EmailConfigAssembler {
     return mailer;
   }
   
-  //new TypeToken<List<EmailConfigEntity>>(){}.getType()
   
   @Bean
   public EmailConfigEntity deSerializeConfig() {
