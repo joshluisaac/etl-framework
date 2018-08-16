@@ -1,5 +1,7 @@
 package com.kollect.etl.notification.service;
 
+import com.kollect.etl.notification.entity.Email;
+import com.kollect.etl.util.Preconditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,14 +10,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
-
-import com.kollect.etl.notification.entity.Email;
-import com.kollect.etl.util.Preconditions;
-
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 
 /**
@@ -27,14 +21,12 @@ import java.util.*;
 @Service
 public class EmailClient implements IEmailClient {
   private JavaMailSender mailSender;
-  private IEmailLogger emailLogger;
   private MimeMessagePreparator messagePrep;
   private final Logger logger = LoggerFactory.getLogger(EmailClient.class);
 
   @Autowired
-  public EmailClient(JavaMailSender mailSender, IEmailLogger emailLogger) {
+  public EmailClient(JavaMailSender mailSender) {
     this.mailSender = mailSender;
-    this.emailLogger = emailLogger;
   }
 
     /**
@@ -56,12 +48,6 @@ public class EmailClient implements IEmailClient {
       logger.error("An error occurred during email send." + e);
     }
     return mailStatus;
-  }
-
-  @Override
-  public String getSendTime() {
-    SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-dd HH:MM:ss");
-    return sdf.format(new Date());
   }
 
     /**
@@ -98,38 +84,5 @@ public class EmailClient implements IEmailClient {
     Preconditions.checkNotNull(email);
     messagePrep = prepareEmail(email);
       return sendAndSetStatus(messagePrep);
-  }
-
-  @Override
-  public void sendAdhocEmail(String fromEmail, String recipient, String title, String body, MultipartFile attachment,
-      File logFile, IEmailContentBuilder emailContentBuilder, String templateName, String pathToEmailLog) {
-    MimeMessagePreparator messagePreparator = mimeMessage -> {
-      MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
-      messageHelper.setFrom(fromEmail);
-      messageHelper.setTo(recipient.split(","));
-      messageHelper.setSubject(title);
-      messageHelper.setText(emailContentBuilder.buildSimpleEmail(body, templateName), true);
-      messageHelper.addAttachment(attachment.getOriginalFilename(), attachment);
-      messageHelper.addAttachment(logFile.getName(), logFile);
-    };
-    String[] logArray = { recipient, title, logFile.getName(), getSendTime(),
-        sendAndSetStatus(messagePreparator) };
-    emailLogger.persistLogToCsv(new ArrayList<>(Arrays.asList(logArray)), pathToEmailLog);
-  }
-
-  @Override
-  public void sendAutoEmail(String fromEmail, String recipient, String title, String body, File logFile,
-      IEmailContentBuilder emailContentBuilder, String templateName, String pathToEmailLog) {
-    MimeMessagePreparator messagePreparator = mimeMessage -> {
-      MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage, true);
-      messageHelper.setFrom(fromEmail);
-      messageHelper.setTo(recipient.split(","));
-      messageHelper.setSubject(title);
-      messageHelper.setText(emailContentBuilder.buildSimpleEmail(body, templateName), true);
-      messageHelper.addAttachment(logFile.getName(), logFile);
-    };
-    String[] logArray = { recipient, title, logFile.getName(), getSendTime(),
-        sendAndSetStatus(messagePreparator) };
-    emailLogger.persistLogToCsv(new ArrayList<>(Arrays.asList(logArray)), pathToEmailLog);
   }
 }
