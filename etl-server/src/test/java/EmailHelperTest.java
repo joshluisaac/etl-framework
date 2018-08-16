@@ -1,14 +1,4 @@
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.junit.Test;
-
-import com.kollect.etl.component.ComponentProvider;
-import com.kollect.etl.component.EmailHelper;
-
+/*
 public class EmailHelperTest {
   
   
@@ -32,16 +22,23 @@ public class EmailHelperTest {
   
   @Test
   public void emailAndPresistToCache_Test() throws IOException {
-    /*Create prefixes*/
+    */
+/*Create prefixes*//*
+
     List<String> prefixes = new ArrayList<>(Arrays.asList("stats_manifest_pelita_"));
     
-    /*Resolve differences*/
+    */
+/*Resolve differences*//*
+
     List<String> diff = emailHelper.fetchNewManifestLog(new File(dir), prefixes);
     
     //email the contents of the differences
     
-    /*write difference to cache*/
+    */
+/*write difference to cache*//*
+
     emailHelper.persistToCache(diff);
   }
   
 }
+*/

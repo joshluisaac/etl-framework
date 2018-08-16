@@ -24,7 +24,7 @@ public interface IEmailClient {
   Map<String, String> sendBatchEmailUpdate(String fromEmail, String recipient, String title,
       IEmailContentBuilder emailContentBuilder, String templateName, List<Object> uatStats, List<Object> prodStats);
 
-  String executeSendAndSetStatus(MimeMessagePreparator messagePreparator);
+  String sendAndSetStatus(MimeMessagePreparator messagePreparator);
 
   String getSendTime();
 }

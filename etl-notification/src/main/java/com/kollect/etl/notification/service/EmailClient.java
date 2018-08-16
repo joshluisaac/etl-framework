@@ -37,8 +37,16 @@ public class EmailClient implements IEmailClient {
     this.emailLogger = emailLogger;
   }
 
+    /**
+     * This method does the sending of emails and sets a status depending on
+     * the success or failure.
+     * @param messagePreparator
+     *                      needed to prepare the email message content.
+     * @return
+     *          returns a String status which is needed in the email logs.
+     */
   @Override
-  public String executeSendAndSetStatus(MimeMessagePreparator messagePreparator) {
+  public String sendAndSetStatus(MimeMessagePreparator messagePreparator) {
     String mailStatus = "Failed";
     try {
       mailSender.send(messagePreparator);
@@ -56,7 +64,14 @@ public class EmailClient implements IEmailClient {
     return sdf.format(new Date());
   }
 
-  // let the client who's calling this method pass the email object
+    /**
+     * Prepares the email message by settings the most needed variables.
+     * @param email
+     *              the email object
+     * @return
+     *          returns the whole message to be sent.
+     */
+  /*Let the client who's calling this method pass the email object*/
   private MimeMessagePreparator prepareEmail(Email email) {
     messagePrep = mimeMessage -> {
       MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
@@ -65,19 +80,24 @@ public class EmailClient implements IEmailClient {
       helper.setSubject(email.getSubject());
       helper.setText(email.getContent(), true);
       if (email.getAttachment() != null)helper.addAttachment(email.getAttachment().getOriginalFilename(), email.getAttachment());
+      if (email.getFile() != null)helper.addAttachment(email.getFile().getName(), email.getFile());
     };
     return messagePrep;
   }
-  
-  
+
+    /**
+     * Executes the email sending. Starts by preparing the email using the email object
+     * and messagePreparator, then sends email and returns the status.
+     * @param email
+     *              email object
+     * @return
+     *          returns the status.
+     */
+  @Override
   public String execute(Email email) {
     Preconditions.checkNotNull(email);
     messagePrep = prepareEmail(email);
-    String status = executeSendAndSetStatus(messagePrep);
-    //String out = email.getTo()+"|"+email.getSubject()+"|"+email.getAttachment().getOriginalFilename()+"|"+getSendTime()+"|"+status;
-    //List<String> list  = new ArrayList<>(Arrays.asList(email.getTo(),email.getSubject(),email.getAttachment().getOriginalFilename(),getSendTime(),status));
-    //emailLogger.persistLogToCsv(list,emailLogPath);
-    return status;
+      return sendAndSetStatus(messagePrep);
   }
 
   @Override
@@ -93,7 +113,7 @@ public class EmailClient implements IEmailClient {
       messageHelper.addAttachment(logFile.getName(), logFile);
     };
     String[] logArray = { recipient, title, logFile.getName(), getSendTime(),
-        executeSendAndSetStatus(messagePreparator) };
+        sendAndSetStatus(messagePreparator) };
     emailLogger.persistLogToCsv(new ArrayList<>(Arrays.asList(logArray)), pathToEmailLog);
   }
 
@@ -109,7 +129,7 @@ public class EmailClient implements IEmailClient {
       messageHelper.addAttachment(logFile.getName(), logFile);
     };
     String[] logArray = { recipient, title, logFile.getName(), getSendTime(),
-        executeSendAndSetStatus(messagePreparator) };
+        sendAndSetStatus(messagePreparator) };
     emailLogger.persistLogToCsv(new ArrayList<>(Arrays.asList(logArray)), pathToEmailLog);
   }
 
@@ -123,7 +143,7 @@ public class EmailClient implements IEmailClient {
       messageHelper.setSubject(title);
       messageHelper.setText(emailContentBuilder.buildExtractLoadEmail(templateName, stats), true);
     };
-    String[] logArray = { recipient, title, getSendTime(), executeSendAndSetStatus(messagePreparator) };
+    String[] logArray = { recipient, title, getSendTime(), sendAndSetStatus(messagePreparator) };
     emailLogger.persistLogToCsv(new ArrayList<>(Arrays.asList(logArray)), pathToEmailLog);
   }
 
@@ -137,6 +157,6 @@ public class EmailClient implements IEmailClient {
       messageHelper.setSubject(title);
       messageHelper.setText(emailContentBuilder.buildBatchUpdateEmail(templateName, uatStats, prodStats), true);
     };
-    return this.emailLogger.saveEmailLog(recipient, title, executeSendAndSetStatus(messagePreparator));
+    return this.emailLogger.saveEmailLog(recipient, title, sendAndSetStatus(messagePreparator));
   }
 }

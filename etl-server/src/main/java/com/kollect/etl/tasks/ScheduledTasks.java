@@ -194,7 +194,7 @@ public class ScheduledTasks {
                 batchHistoryService.viewYycSeqAfterSchedulerProd());
     }
 
-    //@Scheduled(fixedDelay = 600000)
+    @Scheduled(fixedDelay = 600000)
     public void runKeepConnectionAliveHack(){
         this.iRWProvider.executeQuery(prodDataSource,
                 "getUpdateDataDateToKeepConnectionOpen", null);
@@ -204,6 +204,7 @@ public class ScheduledTasks {
     @Scheduled(fixedDelay = 120000)
     public void sendPelitaExtractEmail() throws IOException {
       String title = "Pelita - Daily Extraction Metrics";
+      System.out.println("Extraction Email Scheduler Running...");
       emailSenderService.sendExtractionEmail(pelitaExtractionPath,title);
     }
     
