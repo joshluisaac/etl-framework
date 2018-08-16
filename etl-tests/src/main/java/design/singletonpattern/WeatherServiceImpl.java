@@ -8,7 +8,7 @@ public class WeatherServiceImpl implements Service {
 
   @Override
   public String getName() {
-    return "Weather service";
+    return "Weather com.kollect.etl.service";
   }
 
 }

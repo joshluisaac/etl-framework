@@ -1,16 +1,15 @@
 package com.kollect.etl.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
+import com.kollect.etl.util.IRecordDispenser;
+import com.kollect.etl.util.IteratorRecordDispenser;
 import org.apache.ibatis.exceptions.PersistenceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.kollect.etl.util.IRecordDispenser;
-import com.kollect.etl.util.IteratorRecordDispenser;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 
 @Service

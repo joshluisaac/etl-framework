@@ -200,10 +200,26 @@ public class FileUtils {
   }
   
   
-  
-  
   public URL getClassPathResource(String fileName) {
     return getClass().getClassLoader().getResource("routesConfig.json");
   }
+  
+  /**
+   * Retrieves a list of files from a directory path which starts with a specified prefix
+   * @param directory path
+   * @param prefix the file prefix
+   * @return returns a list of strings with lines starting with specified prefix
+   */
+  public List<String> getFilesStartsWith(File dir, String prefix) {
+    Preconditions.checkNotNull(dir);
+    Preconditions.checkNotNull(prefix);
+    List<String> list = new ArrayList<>();
+    for (String file : new FileUtils().getFileList(dir)) {
+        if (file.startsWith(prefix)) list.add(file);
+    }
+    return list;
+}
+  
+  
 
 }

@@ -8,8 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,17 +19,12 @@ import java.util.Map;
 @Service
 public class EmailUpdatesService {
     /* Necessary service dependencies */
-    private MailClientService mailClientService;
     private BatchHistoryService batchHistoryService;
     private ComponentProvider componentProvider;
     private IReadWriteServiceProvider iRWProvider;
+    private EmailSenderService emailSenderService;
     private static final Logger LOG = LoggerFactory.getLogger(EmailUpdatesService.class);
 
-    /* Necessary service variables */
-    private final SimpleDateFormat sdf = new SimpleDateFormat("dd MMMM, yyyy");
-    private Timestamp today = new Timestamp(System.currentTimeMillis());
-    private String intro = "This is an Automated Notification for KollectValley YYC Batch Statistics for " + sdf.format(today) + ".";
-    private String message = "Batch Summary & Statistics:";
     /*Values coming in application.properties*/
     @Value("${app.datasource_uat_8}")
     private String dataSource;
@@ -39,15 +32,34 @@ public class EmailUpdatesService {
     private List<Object> emptyList = new ArrayList<>();
 
     @Autowired
-    private EmailUpdatesService(MailClientService mailClientService,
-                                BatchHistoryService batchHistoryService,
+    private EmailUpdatesService(BatchHistoryService batchHistoryService,
                                 ComponentProvider componentProvider,
-                                IReadWriteServiceProvider iRWProvider) {
-        this.mailClientService = mailClientService;
+                                IReadWriteServiceProvider iRWProvider,
+                                EmailSenderService emailSenderService) {
         this.batchHistoryService = batchHistoryService;
         this.componentProvider = componentProvider;
         this.iRWProvider = iRWProvider;
+        this.emailSenderService=emailSenderService;
 
+    }
+
+    /**
+     * This method checks if the email was sent the previous 24 hours,
+     * returns the difference to be used in the sending methods
+     * @param queryName
+     *                  either BatchUpdate or TestUpdate queries
+     * @return
+     *          Long difference which can be used to check if email has been sent
+     *          before
+     */
+    private Long checkIfEmailWasSentLast24Hours(String queryName){
+        Long currentTime = System.currentTimeMillis();
+        List<Map<String, Long>> getLastUpdate =
+                this.iRWProvider.executeQuery(dataSource,
+                        queryName, null);
+        Map<String, Long> map = getLastUpdate.get(0);
+        Long lastRunTime = map.get("last_run_time");
+        return currentTime - lastRunTime;
     }
 
     /**
@@ -58,29 +70,30 @@ public class EmailUpdatesService {
      *          returns the difference which is used by Ajax to display appropriate message to client.
      */
     public long resendEmail(String recipient) {
-        Long currentTime = System.currentTimeMillis();
-        List<Map<String, Long>> getLastRunTestUpdate = this.iRWProvider.executeQuery(dataSource, "getLastRunBatchUpdate", null);
-        Map<String, Long> map = getLastRunTestUpdate.get(0);
-        Long lastRunTime = map.get("last_run_time");
-        Long difference = currentTime - lastRunTime;
+        Long difference = checkIfEmailWasSentLast24Hours("getLastRunBatchUpdate");
         if (difference >= 86400000) {
-            this.mailClientService.sendAfterBatch(recipient, "YYC - Daily Batch Report",
-                    this.batchHistoryService.viewYycAfterSchedulerUat(),
-                    this.batchHistoryService.viewYycAfterSchedulerProd());
+            emailSenderService.sendAfterBatch("datareceived@kollect.my",recipient,
+                    "YYC - Daily Batch Report",
+                    batchHistoryService.viewYycAfterSchedulerUat(),
+                    batchHistoryService.viewYycAfterSchedulerProd());
             this.componentProvider.taskSleep();
-            this.mailClientService.sendAfterBatch(recipient,
+            emailSenderService.sendAfterBatch("datareceived@kollect.my",
+                    recipient,
                     "PBK - Daily Batch Report",
-                    this.batchHistoryService.viewPbkAfterSchedulerUat(),
-                    this.batchHistoryService.viewPbkAfterSchedulerProd());
+                    batchHistoryService.viewPbkAfterSchedulerUat(),
+                    batchHistoryService.viewPbkAfterSchedulerProd());
             this.componentProvider.taskSleep();
-            this.mailClientService.sendAfterBatch(recipient,
+            emailSenderService.sendAfterBatch("datareceived@kollect.my",
+                    recipient,
                     "Pelita - Daily Batch Report",
-                    this.batchHistoryService.viewPelitaAfterSchedulerUat(), emptyList);
+                    batchHistoryService.viewPelitaAfterSchedulerUat(),
+                    emptyList);
             this.componentProvider.taskSleep();
-            this.mailClientService.sendAfterBatch(recipient,
+            emailSenderService.sendAfterBatch("datareceived@kollect.my",
+                    recipient,
                     "ICT Zone - Daily Batch Report",
-                    this.batchHistoryService.viewIctZoneAfterSchedulerUat(), emptyList);
-            this.iRWProvider.insertQuery(dataSource, "updateLastRunBatchUpdate", null);
+                    batchHistoryService.viewIctZoneAfterSchedulerUat(), emptyList);
+            iRWProvider.insertQuery(dataSource, "updateLastRunBatchUpdate", null);
             LOG.info("All batch email updates sent successfully.");
         }
         else
@@ -91,20 +104,18 @@ public class EmailUpdatesService {
     /**
      * This method is used to carry out tests on the email settings. It is also useful to test out different templates.
      * @param recipient
-     *                  the recipient from client to whom the emails are sent.
+     *                  recipient from client to whom the emails are sent.
      * @return
      *          returns the difference which is used by Ajax to display appropriate message to client.
      */
     public long sendTestEmail(String recipient) {
-        Long currentTime = System.currentTimeMillis();
-        List<Map<String, Long>> getLastRunTestUpdate = this.iRWProvider.executeQuery(dataSource, "getLastRunTestUpdate", null);
-        Map<String, Long> map = getLastRunTestUpdate.get(0);
-        Long lastRunTime = map.get("last_run_time");
-        Long difference = currentTime - lastRunTime;
+        Long difference = checkIfEmailWasSentLast24Hours
+                ("getLastRunTestUpdate");
         if (difference >= 86400000) {
-            this.mailClientService.sendAfterBatch(recipient,
-                    "YYC - Daily Batch Report",
-                    this.batchHistoryService.viewYycAfterSchedulerUat(), this.batchHistoryService.viewYycAfterSchedulerProd());
+            emailSenderService.sendAfterBatch("datareceived@kollect.my",
+                    recipient, "Test Email To Check Template",
+                    batchHistoryService.viewYycAfterSchedulerUat(),
+                    batchHistoryService.viewYycAfterSchedulerProd());
             this.iRWProvider.insertQuery(dataSource, "updateLastRunTestUpdate", null);
             LOG.info("Test email sent successfully.");
         }

@@ -22,6 +22,7 @@ public class EmailContentBuilder implements IEmailContentBuilder{
         this.templateEngine = templateEngine;
     }
 
+    @Override
     public String buildSimpleEmail(String body, String templateName) {
         Context context = new Context();
         context.setVariable("body", body);
@@ -29,11 +30,19 @@ public class EmailContentBuilder implements IEmailContentBuilder{
                 templateName, context);
     }
 
+    @Override
     public String buildBatchUpdateEmail(String templateName,
                                         List<Object> uatStats, List<Object> prodStats) {
         Context context = new Context();
         context.setVariable("uatStats", uatStats);
         context.setVariable("prodStats", prodStats);
+        return templateEngine.process(
+                templateName, context);
+    }
+
+    public <T> String buildExtractLoadEmail(String templateName, List<T> stats){
+        Context context = new Context();
+        context.setVariable("stats", stats);
         return templateEngine.process(
                 templateName, context);
     }

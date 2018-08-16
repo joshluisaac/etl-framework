@@ -1,6 +1,5 @@
 package com.kollect.etl.notification.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Component;
@@ -21,9 +20,8 @@ import java.util.Properties;
  */
 @Component
 public class EmailConfig implements IEmailConfig {
-    @Bean
-    public JavaMailSender emailService(String host, Integer port, String username,
-                                          String password,String smtpAuth, String startTls, String debug) {
+    public JavaMailSender setEmailSettings(String host, Integer port, String username,
+                                           String password, String smtpAuth, String startTls, String debug) {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
         javaMailSender.setHost(host);
         javaMailSender.setPort(port);
