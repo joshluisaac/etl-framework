@@ -29,8 +29,10 @@ public class EmailSenderService {
   private EmailHelper emailHelper;
 
   @Value("${app.extractionEmailLogPath}")
-  String extractionEmailLogPath;
+  private String extractionEmailLogPath;
   private String fromEmail = "datareceived@kollect.my";
+  @Value("${spring.mail.properties.batch.autoupdate.recipients}")
+  String recipient;
   
   private final Logger logger = LoggerFactory.getLogger(EmailSenderService.class);
 
@@ -71,7 +73,7 @@ public class EmailSenderService {
       /*Build email content*/
       String emailContent = emailContentBuilder.buildExtractLoadEmail("fragments/template_extract_load", metrics);
       /*Construct and assemble email object*/
-      Email mail = new Email(fromEmail, "hashim@kollect.my", title,
+      Email mail = new Email(fromEmail, recipient, title,
               emailContent, null, null);
       /*Send email*/
       String status = emailClient.execute(mail);

@@ -45,7 +45,7 @@ public class ScheduledTasks {
     
     @Value("${app.pelitaExtractionPath}")
     private String pelitaExtractionPath;
-    
+    private String fromEmail = "datareceived@kollect.my";
     
     /*This empty list is used to replace the prodStats query since Pelita is not on production yet.*/
     private List<Object> emptyList = new ArrayList<>();
@@ -88,7 +88,7 @@ public class ScheduledTasks {
         this.updateDataDateService.runUpdateDataDate(66,
                 yycDataSource, "yycUpdateDataDate");
         this.componentProvider.taskSleep();
-        emailSenderService.sendAfterBatch("datareceived@kollect.my",
+        emailSenderService.sendAfterBatch(fromEmail,
                 recipient, "YYC - Daily Batch Report",
                 batchHistoryService.viewYycAfterSchedulerUat(),
                 batchHistoryService.viewYycAfterSchedulerProd());
@@ -105,7 +105,7 @@ public class ScheduledTasks {
         this.componentProvider.taskSleep();
         this.pbklSumPayServ.combinedLumpSumPaymentService(2);
         this.componentProvider.taskSleep();
-        emailSenderService.sendAfterBatch("datareceived@kollect.my",
+        emailSenderService.sendAfterBatch(fromEmail,
                 recipient, "PBK - Daily Batch Report",
                 batchHistoryService.viewPbkAfterSchedulerUat(),
                 batchHistoryService.viewPbkAfterSchedulerProd());
@@ -141,7 +141,7 @@ public class ScheduledTasks {
                 "updatePelitaDebitAmountAfterTax",
                 "COMPUTE_DEBIT");
         this.componentProvider.taskSleep();
-        emailSenderService.sendAfterBatch("datareceived@kollect.my",
+        emailSenderService.sendAfterBatch(fromEmail,
                 recipient, "Pelita - Daily Batch Report",
                 batchHistoryService.viewPelitaAfterSchedulerUat(),
                 emptyList);
@@ -176,7 +176,7 @@ public class ScheduledTasks {
                 "getIctZoneDebitAmountAfterTax",
                 "updateIctZoneDebitAmountAfterTax", "COMPUTE_DEBIT");
         this.componentProvider.taskSleep();
-        emailSenderService.sendAfterBatch("datareceived@kollect.my",
+        emailSenderService.sendAfterBatch(fromEmail,
                 recipient+",syazman@kollect.my,biman@kollect.my",
                 "ICT Zone - Daily Batch Report",
                 batchHistoryService.viewIctZoneAfterSchedulerUat(),
@@ -187,7 +187,7 @@ public class ScheduledTasks {
     public void runYycSequences(){
         this.yycQuerySequenceService.runYycSequenceQuery(62);
         this.componentProvider.taskSleep();
-        emailSenderService.sendAfterBatch("datareceived@kollect.my",
+        emailSenderService.sendAfterBatch(fromEmail,
                 recipient,
                 "YYC - Daily Sequence Batch Report",
                 batchHistoryService.viewYycSeqAfterSchedulerUat(),
@@ -200,15 +200,12 @@ public class ScheduledTasks {
                 "getUpdateDataDateToKeepConnectionOpen", null);
     }
     
-    
     @Scheduled(fixedDelay = 120000)
     public void sendPelitaExtractEmail() throws IOException {
       String title = "Pelita - Daily Extraction Metrics";
       System.out.println("Extraction Email Scheduler Running...");
       emailSenderService.sendExtractionEmail(pelitaExtractionPath,title);
     }
-    
-    
     
 }
 
