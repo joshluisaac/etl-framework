@@ -16,6 +16,19 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+    <scm>
+        <connection>scm:git:https://allan%40kollect.my@gitlab.com/poweretl/poweretl-framework.git</connection>
+        <tag>HEAD</tag>
+    </scm>
+
+    <!-- do not upload to nexus for now. Just shove the build to the system temp folder. If you want to rebuild the version again, do so by checking out the tag from the SCM -->
+    <distributionManagement>
+        <repository>
+            <id>file-repository</id>
+            <url>file://${java.io.tmpdir}</url>
+        </repository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -23,14 +36,6 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-        <!--  https://mvnrepository.com/artifact/org.mockito/mockito-all -->
-        <!--   <dependency> -->
-        <!--    <groupId>org.mockito</groupId> -->
-        <!--    <artifactId>mockito-all</artifactId> -->
-        <!--    <version>1.9.5</version> -->
-        <!--    <scope>test</scope> -->
-        <!--   </dependency> -->
-
 
         <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
         <dependency>
@@ -118,24 +123,22 @@
                         <check/>
                     </configuration>
                 </plugin>
+
+                <!-- maven release plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-release-plugin</artifactId>
+                    <configuration>
+                        <tagBase>http://subversion.djavafactory.com/svn/eskortfacade/tags/releases</tagBase>
+                        <arguments>-Dmaven.test.skip=true -DskipTests=true</arguments>
+                    </configuration>
+                </plugin>
+
             </plugins>
         </pluginManagement>
     </build>
 
 
-    <!--
-     <distributionManagement>
-      <repository>
-       <id>nexus</id>
-       <name>Releases</name>
-       <url>http://localhost:8081/repository/maven-releases</url>
-      </repository>
-      <snapshotRepository>
-       <id>nexus</id>
-       <name>Snapshot</name>
-       <url>http://localhost:8081/repository/maven-snapshots</url>
-      </snapshotRepository>
-     </distributionManagement>
-    -->
+
 
 </project>

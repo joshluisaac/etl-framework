@@ -4,8 +4,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import com.kollect.etl.notification.config.EmailConfig;
 import com.kollect.etl.notification.config.IEmailConfig;
 import com.kollect.etl.notification.entity.Email;
+import com.kollect.etl.notification.entity.EmailConfigEntity;
 import com.kollect.etl.notification.service.EmailClient;
-import com.kollect.etl.notification.service.EmailLogger;
 import com.kollect.etl.notification.service.IEmailClient;
 
 public class EmailClientTest {
@@ -16,8 +16,21 @@ public class EmailClientTest {
   
   public EmailClientTest() {
     emailConfig = new EmailConfig();
-    mailSender = emailConfig.setEmailSettings("mail.automanage.biz", 587, "datareceived@kollect.my","K@L#eKT#12", "true", "false", "false");
+    EmailConfigEntity configEntity = new EmailConfigEntity();
+    assembleEmailConfigEntity(configEntity);
+    mailSender = emailConfig.setEmailSettings(configEntity);
     emailClient = new EmailClient(mailSender);
+    
+  }
+  
+  public void assembleEmailConfigEntity(EmailConfigEntity configEntity) {
+    configEntity.setHost("mail.automanage.biz");
+    configEntity.setPort(587);
+    configEntity.setUsername("datareceived@kollect.my");
+    configEntity.setPassword("K@L#eKT#12");
+    configEntity.setSmtpAuth("true");
+    configEntity.setStartTls("false");
+    configEntity.setDebug("false");
     
   }
   
