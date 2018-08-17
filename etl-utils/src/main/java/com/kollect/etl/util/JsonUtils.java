@@ -3,6 +3,8 @@ package com.kollect.etl.util;
 import java.io.Reader;
 
 import com.google.gson.Gson;
+import java.lang.reflect.Type;
+//com.google.gson.reflect.TypeToken
 
 public class JsonUtils {
   
@@ -24,6 +26,11 @@ public class JsonUtils {
   
   
   public <T> T fromJson(Reader reader, Class<T> t){
+    return  gson.fromJson(reader, t);
+ }
+  
+  
+  public <T> T fromJson(Reader reader, Type t){
     return  gson.fromJson(reader, t);
  }
 

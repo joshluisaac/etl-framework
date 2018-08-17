@@ -4,6 +4,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Component;
 
+import com.kollect.etl.notification.entity.EmailConfigEntity;
+
 import java.util.Properties;
 
 /**
@@ -20,23 +22,26 @@ import java.util.Properties;
  */
 @Component
 public class EmailConfig implements IEmailConfig {
-    public JavaMailSender setEmailSettings(String host, Integer port, String username,
-                                           String password, String smtpAuth, String startTls, String debug) {
+    public JavaMailSender setEmailSettings(EmailConfigEntity configEntity) {
         JavaMailSenderImpl javaMailSender = new JavaMailSenderImpl();
-        javaMailSender.setHost(host);
-        javaMailSender.setPort(port);
-        javaMailSender.setUsername(username);
-        javaMailSender.setPassword(password);
+        javaMailSender.setHost(configEntity.getHost());
+        javaMailSender.setPort(configEntity.getPort());
+        javaMailSender.setUsername(configEntity.getUsername());
+        javaMailSender.setPassword(configEntity.getPassword());
         javaMailSender.setDefaultEncoding("UTF-8");
         javaMailSender.setProtocol("smtp");
-        javaMailSender.setJavaMailProperties(getMailProperties(smtpAuth, startTls, debug));
+        javaMailSender.setJavaMailProperties(getMailProperties(configEntity));
         return javaMailSender;
     }
-    private Properties getMailProperties(String smtpAuth, String startTls, String debug) {
+    private Properties getMailProperties(EmailConfigEntity configEntity) {
         Properties properties = new Properties();
-        properties.setProperty("mail.smtp.auth", smtpAuth);
-        properties.setProperty("mail.smtp.starttls.enable", startTls);
-        properties.setProperty("mail.debug", debug);
+//        properties.setProperty("mail.smtp.auth", configEntity.getSmtpAuth());
+//        properties.setProperty("mail.smtp.starttls.enable", configEntity.getStartTls());
+//        properties.setProperty("mail.debug", configEntity.getDebug());
+        properties.setProperty("mail.smtp.auth", "true");
+        properties.setProperty("mail.smtp.starttls.enable", "false");
+        properties.setProperty("mail.debug", "false");
+        System.out.println(configEntity.hashCode());
         return properties;
     }
 }
