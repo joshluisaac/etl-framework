@@ -35,6 +35,16 @@ public class TotalLoaded {
   public int getRowsPerSec() {
     return rowsPerSec;
   }
+
+  @Override
+  public String toString() {
+    return "TotalLoaded [key=" + key + ", loaded=" + loaded + ", eligible=" + eligible + ", duration=" + duration
+        + ", rowsPerSec=" + rowsPerSec + "]";
+  }
+  
+  
+  
+  
   
 
 
