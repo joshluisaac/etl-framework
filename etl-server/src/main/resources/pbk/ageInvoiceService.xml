@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ageInvoiceSelectFragment">
+
+    <select id="getPbkAgeInvoice" resultType="hmap">
+        <include refid="sqlIncludes.ageInvoiceSelectFragment"/>
+        WHERE statusref.status IN ('PostedAuth', 'PartlyPaidPosted') and tenant_id = 63
+    </select>
+
+    <update id = "updatePbkAgeInvoice">
+        <include refid="sqlIncludes.ageInvoiceUpdateFragment"/>
+        and tenant_id = 63
+    </update>
+</mapper>

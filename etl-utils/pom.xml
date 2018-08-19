@@ -1,84 +1,82 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>com.kollect.etl</groupId>
-    <artifactId>etl-parent</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>etl-utils</artifactId>
-  <name>etl-utils</name>
-  <url>http://maven.apache.org</url>
+    <parent>
+        <groupId>com.kollect.etl</groupId>
+        <artifactId>etl-parent</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+    </parent>
+    <artifactId>etl-utils</artifactId>
+    <name>etl-utils</name>
+    <url>http://maven.apache.org</url>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
 
-  <dependencies>
-    <dependency>
-      <groupId>joda-time</groupId>
-      <artifactId>joda-time</artifactId>
-      <version>2.9.9</version>
-    </dependency>
-    
-    <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on -->
-<dependency>
-    <groupId>org.bouncycastle</groupId>
-    <artifactId>bcprov-jdk15on</artifactId>
-    <version>1.59</version>
-</dependency>
-    
-    
-    
-  </dependencies>
+    <dependencies>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.9.9</version>
+        </dependency>
 
-  <build>
-    <testResources>
-      <testResource>
-        <directory>/home/joshua/martian/kvworkspace/etl_yyc_impl/config</directory>
-      </testResource>
-    </testResources>
-    <resources>
-      <resource>
-        <directory>/home/joshua/martian/kvworkspace/etl_yyc_impl/config</directory>
-      </resource>
-    </resources>
-    <pluginManagement>
-      <plugins>
-        <!-- maven compiler plugin -->
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.7.0</version>
-          <configuration>
-            <source>1.8</source>
-            <target>1.8</target>
-            <verbose>false</verbose>
-          </configuration>
-        </plugin>
-        <!-- maven execution plugin -->
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>exec-maven-plugin</artifactId>
-          <version>1.6.0</version>
-          <executions>
-            <execution>
-              <goals>
-                <goal>java</goal>
-              </goals>
-            </execution>
-          </executions>
-          <configuration>
-            <mainClass></mainClass>
-            <addResourcesToClasspath>true</addResourcesToClasspath>
-            <arguments>
-              <argument></argument>
-              <argument></argument>
-            </arguments>
-          </configuration>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-  </build>
+        <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.59</version>
+        </dependency>
+
+
+    </dependencies>
+
+    <build>
+        <testResources>
+            <testResource>
+                <directory>/home/joshua/martian/kvworkspace/etl_yyc_impl/config</directory>
+            </testResource>
+        </testResources>
+        <resources>
+            <resource>
+                <directory>/home/joshua/martian/kvworkspace/etl_yyc_impl/config</directory>
+            </resource>
+        </resources>
+        <pluginManagement>
+            <plugins>
+                <!-- maven compiler plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.7.0</version>
+                    <configuration>
+                        <source>1.8</source>
+                        <target>1.8</target>
+                        <verbose>false</verbose>
+                    </configuration>
+                </plugin>
+                <!-- maven execution plugin -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.6.0</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>java</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                    <configuration>
+                        <mainClass />
+                        <addResourcesToClasspath>true</addResourcesToClasspath>
+                        <arguments>
+                            <argument />
+                            <argument />
+                        </arguments>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>

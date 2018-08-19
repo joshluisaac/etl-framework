@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="postTransactionLoadService">
+
+<select id="getDepositTransactions" resultType="com.kollect.etl.entity.TransactionLoad">
+select id from transaction_load where spec_gl_ind in ('0', '1', '2', '3', '4', '5', '6', '8', '9')
+</select>
+
+<update id="updateIsDepositTransaction">
+update transaction_load
+set is_deposit = true
+where id = #{id}
+</update>
+
+
+<select id="getInvoiceTransactionType" resultType="com.kollect.etl.entity.TransactionLoad">
+select id from transaction_load where mode = 'S'
+</select>
+
+<select id="getPaymentTransactionType" resultType="com.kollect.etl.entity.TransactionLoad">
+select id from transaction_load where mode = 'H'
+</select>
+
+<update id="updateInvoiceTransactionType">
+update transaction_load set transaction_type_id = 1 where id = #{id}
+</update>
+
+<update id="updatePaymentTransactionType">
+update transaction_load set transaction_type_id = 2 where id = #{id}
+</update>
+
+
+<select id="getInvoiceStatusId" resultType="com.kollect.etl.entity.TransactionLoad">
+select 
+id,
+case when invoice_amount &lt;= 0 then 12 else 6 end as invoice_status_id
+from transaction_load 
+where load_execution_id &gt; 0
+</select>
+
+<update id="updateInvoiceStatusId">
+update transaction_load
+set invoice_status_id = #{invoice_status_id}
+where id = #{id}
+</update>
+
+
+<select id="getInvoiceInAging" resultType="com.kollect.etl.entity.TransactionLoad">
+select 
+id
+from transaction_load 
+where load_execution_id &gt; 0 and invoice_amount &gt; 0
+</select>
+
+<update id="updateInvoiceInAging">
+update transaction_load
+set in_aging = true
+where id = #{id}
+</update>
+
+
+
+<select id="getTransactionLoad" resultType="transactionLoadModel">
+ select id, account_no as accountNo from transaction_load 
+ where SUBSTRING (account_no, 1, 1) = '3'
+</select>
+
+<update id="updateCommercialTransaction1" parameterType="java.util.List" >
+<foreach collection="list" item="p"  separator=";">
+update transaction_load set is_commercial = #{p.isCommercial} where id = #{p.load_id}
+</foreach>
+</update>
+
+
+<update id="updateCommercialTransaction">
+update transaction_load set is_commercial = #{isCommercial} where id = #{id}
+</update>
+
+
+<!-- this logic only applies to doc type AB only -->
+<select id="getTrxPostKeyFlagsForDocTypeAB" resultType="transactionLoadModel">
+select 
+load.id as id,
+coalesce(ref.invoice, false) as invoice, 
+coalesce(ref.credit_note,false) as creditNote  
+from transaction_load load
+left join kv_posting_key_ref ref on load.post_key = ref.key
+where load.doc_type = 'AB'
+</select>
+
+<update id="updateIsInvoiceAndIsCredit">
+update transaction_load
+set 
+is_invoice = case when #{invoice} = true then true else false end,
+is_credit_note = case when #{creditNote} = true then true else false end
+where id = #{id}
+and doc_type = 'AB'
+</update>
+
+
+<update id="updateParentInvoiceNo">
+update transaction_load
+set parent_invoice_no = 
+case 
+when clearing_doc is not null then clearing_doc
+when ((clearing_doc is null or clearing_doc = '') and is_commercial = true) then inv_ref
+when ((clearing_doc is null or clearing_doc = '') and is_commercial = false) then bill_doc  end
+where load_execution_id &gt; 0
+</update>
+
+
+
+
+
+</mapper>

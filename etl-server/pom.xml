@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
 
@@ -41,8 +40,6 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-        <!--<dependency> <groupId>org.mybatis.spring.boot</groupId> <artifactId>mybatis-spring-boot-starter</artifactId>
-         <version>2.0.0-SNAPSHOT</version> </dependency> -->
 
         <dependency>
             <groupId>net.sourceforge.nekohtml</groupId>
@@ -50,16 +47,9 @@
             <version>1.9.22</version>
         </dependency>
 
-<!--         <dependency> -->
-<!--             <groupId>org.springframework.boot</groupId> -->
-<!--             <artifactId>spring-boot-devtools</artifactId> -->
-<!--             <optional>true</optional> -->
-<!--         </dependency> -->
-
         <dependency>
             <groupId>com.kollect.etl</groupId>
             <artifactId>etl-dataaccess</artifactId>
-            <version>${project.version}</version>
         </dependency>
 
         <dependency>
@@ -84,7 +74,6 @@
         <dependency>
             <groupId>com.kollect.etl</groupId>
             <artifactId>etl-notification</artifactId>
-            <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
 
@@ -131,11 +120,11 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass></mainClass>
+                    <mainClass />
                     <addResourcesToClasspath>true</addResourcesToClasspath>
                     <arguments>
-                        <argument></argument>
-                        <argument></argument>
+                        <argument />
+                        <argument />
                     </arguments>
                 </configuration>
             </plugin>
@@ -144,6 +133,51 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>1.5.9.RELEASE</version>
             </plugin>
+
+            <!-- gets git revision number -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <!-- do not fail if there are any local file modifications -->
+                    <doCheck>false</doCheck>
+
+                    <!-- do not update the repo get the latest remote version. Its the responsibility of the dev to do this prior to a release -->
+                    <doUpdate>false</doUpdate>
+
+                    <!-- keep it short -->
+                    <shortRevisionLength>5</shortRevisionLength>
+                </configuration>
+            </plugin>
         </plugins>
+
+        <resources>
+
+            <resource>
+                <directory>src/main/resources/templates/fragments</directory>
+                <targetPath>templates/fragments</targetPath>
+                <includes>
+                    <include>template_footer.html</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/*</include>
+                </includes>
+                <filtering>false</filtering>
+            </resource>
+        </resources>
     </build>
 </project>

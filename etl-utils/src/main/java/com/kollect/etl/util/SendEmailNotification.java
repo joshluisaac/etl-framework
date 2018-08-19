@@ -33,6 +33,7 @@ public class SendEmailNotification {
    *
    * @param userName sender's username login credential
    * @param password sender's password
+   * @throws ConnectException connectException
    * @return an int primitive. 1 means sent while -1 means not sent
    *
    */

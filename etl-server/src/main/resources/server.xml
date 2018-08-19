@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+	PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+	<properties resource="server.properties" />
+
+ <typeAliases>
+  <typeAlias alias="hmap" type="java.util.HashMap" />
+  <typeAlias alias="map" type="java.util.Map" />
+  <typeAlias alias="list" type="java.util.List" />
+  <typeAlias alias="long" type="java.lang.Long" />
+  <typeAlias alias="string" type="java.lang.String" />
+  <typeAlias alias="bool" type="java.lang.Boolean" />
+  <typeAlias alias="int" type="java.lang.Integer" />
+  <typeAlias alias="bouble" type="java.lang.Double" />
+  <typeAlias alias="date" type="java.util.Date" />
+  <typeAlias alias="ts" type="java.sql.Timestamp" />
+  <typeAlias alias="transactionLoadModel" type="com.kollect.etl.entity.TransactionLoad"/>
+ </typeAliases>
+
+	<environments default="postgres">
+		<!--<environment id="aed_elegant">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${DRIVER}" />
+				<property name="url" value="${aed_elegant_url}" />
+				<property name="username" value="${aed_elegant_username}" />
+				<property name="password" value="${aed_elegant_password}" />
+			</dataSource>
+		</environment>
+
+		<environment id="aed_yyc">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${DRIVER}" />
+				<property name="url" value="${aed_yyc_url}" />
+				<property name="username" value="${aed_yyc_username}" />
+				<property name="password" value="${aed_yyc_password}" />
+			</dataSource>
+		</environment>
+
+		<environment id="aed_yyc_8">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${DRIVER}" />
+				<property name="url" value="${aed_yyc8_url}" />
+				<property name="username" value="${aed_yyc8_username}" />
+				<property name="password" value="${aed_yyc8_password}" />
+			</dataSource>
+		</environment>
+
+		<environment id="aed_yyc_12">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${DRIVER}" />
+				<property name="url" value="${aed_yyc12_url}" />
+				<property name="username" value="${aed_yyc12_username}" />
+				<property name="password" value="${aed_yyc12_password}" />
+			</dataSource>
+		</environment> -->
+
+		<environment id="UAT_8">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${postgres_driver}" />
+				<property name="url" value="${postgres_url}" />
+				<property name="username" value="${postgres_username}" />
+				<property name="password" value="${postgres_password}" />
+			</dataSource>
+		</environment>
+		
+				<environment id="PBK_1">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${postgres_driver}" />
+				<property name="url" value="${postgres_pbk_url}" />
+				<property name="username" value="${postgres_username}" />
+				<property name="password" value="${postgres_password}" />
+			</dataSource>
+		</environment>
+
+        <environment id="MAHB_Prod2">
+            <transactionManager type="JDBC" />
+            <dataSource type="POOLED">
+                <property name="driver" value="${postgres_driver}" />
+                <property name="url" value="${postgres_mahb_prod2_url}" />
+                <property name="username" value="${postgres_username}" />
+                <property name="password" value="${postgres_password}" />
+            </dataSource>
+        </environment>
+
+		<environment id="Pelita_Test">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${postgres_driver}" />
+				<property name="url" value="${postgres_pelita_test_url}" />
+				<property name="username" value="${postgres_username}" />
+				<property name="password" value="${postgres_password}" />
+			</dataSource>
+		</environment>
+
+		<environment id="KV_Production">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${postgres_driver}" />
+				<property name="url" value="${kv_production_url}" />
+				<property name="username" value="${postgres_username}" />
+				<property name="password" value="${kv_production_password}" />
+			</dataSource>
+		</environment>
+
+		<environment id="IctZone">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${postgres_driver}" />
+				<property name="url" value="${postgres_ictzone_url}" />
+				<property name="username" value="${postgres_username}" />
+				<property name="password" value="${kv_production_password}" />
+			</dataSource>
+		</environment>
+
+	</environments>
+
+	<mappers>
+        <mapper resource="app/sqlIncludes.xml" />
+		<mapper resource="app/AdhocQueryService.xml" />
+		<mapper resource="app/dcSettingService.xml" />
+		<mapper resource="app/emailSettingService.xml" />
+		<mapper resource="app/sftpSettingService.xml" />
+		<mapper resource="app/databaseSettingService.xml" />
+		<mapper resource="app/hostService.xml" />
+		<mapper resource="app/userManagementService.xml" />
+		<mapper resource="pbk/calcOutstandingService.xml" />
+		<mapper resource="pbk/lumpSumPaymentService.xml" />
+		<mapper resource="pbk/ageInvoiceService.xml" />
+		<mapper resource="app/batchService.xml" />
+		<mapper resource="updateVendorInvoicesGroup1.xml"/>
+        <mapper resource="updateVendorInvoicesGroup2.xml"/>
+        <mapper resource="updateVendorInvoicesGroup3.xml"/>
+        <mapper resource="updateVendorInvoicesGroup4.xml"/>
+        <mapper resource="updateVendorInvoicesGroup5.xml"/>
+        <mapper resource="updateVendorInvoicesGroup6.xml"/>
+		<mapper resource="updateVendorInvoicesGroup7.xml"/>
+		<mapper resource="updateVendorInvoicesGroup8.xml"/>
+		<mapper resource="updateVendorInvoicesGroup9.xml"/>
+		<mapper resource="updateVendorInvoicesGroup10.xml"/>
+		<mapper resource="updateVendorInvoicesGroup11.xml"/>
+		<mapper resource="updateVendorInvoicesGroup12.xml"/>
+		<mapper resource="transactionUpdateService.xml"/>
+        <mapper resource="postTransactionLoadService.xml"/>
+        <mapper resource="invoiceTransactionService.xml"/>
+        <mapper resource="app/batchHistoryService.xml"/>
+		<mapper resource="pbk/updateDataDateService.xml" />
+		<mapper resource="invoiceVendorTransaction.xml" />
+		<mapper resource="app/dataProfilerService.xml" />
+		<mapper resource="pelita/inAgingService.xml" />
+		<mapper resource="pelita/computeInvoiceAmountAfterTaxService.xml" />
+		<mapper resource="pelita/invoiceStatusEvaluation.xml" />
+		<mapper resource="pelita/ageInvoiceService.xml" />
+        <mapper resource="pelita/updateDataDateService.xml" />
+		<mapper resource="pelita/computeDebitAmountAfterTaxService.xml" />
+        <mapper resource="yyc/updateSequenceService.xml" />
+		<mapper resource="yyc/invoiceStatusEvaluation.xml" />
+		<mapper resource="yyc/ageInvoiceService.xml" />
+		<mapper resource="yyc/updateDataDateService.xml" />
+		<mapper resource="yyc/inAgingService.xml" />
+		<mapper resource="app/emailUpdateService.xml" />
+		<mapper resource="app/emailLogService.xml" />
+		<mapper resource="ictzone/inAgingService.xml" />
+		<mapper resource="ictzone/computeInvoiceAmountAfterTaxService.xml" />
+		<mapper resource="ictzone/invoiceStatusEvaluation.xml" />
+		<mapper resource="ictzone/ageInvoiceService.xml" />
+		<mapper resource="ictzone/updateDataDateService.xml" />
+		<mapper resource="ictzone/computeDebitAmountAfterTaxService.xml" />
+	</mappers>
+
+</configuration>

@@ -30,7 +30,7 @@ public abstract class AbstractTextFileProcessor {
 
   /**
    * Abstracted the dirPath property to the source files
-   * 
+   *
    * @return returns the dirPath property
    */
   public String getDirPath() {
@@ -39,7 +39,7 @@ public abstract class AbstractTextFileProcessor {
 
   /**
    * Splits the file prefix property into an array of strings
-   * 
+   *
    * @param regex
    *          the delimiting regular expression
    * @return returns an array of prefixes derived by splitting the file prefix
@@ -52,12 +52,14 @@ public abstract class AbstractTextFileProcessor {
   /**
    * Will remove duplicates from a list either based on a single unique key or
    * composite key leaving behind unique entries
-   * 
-   * @param appendedList
-   *          input list which contains duplicates
-   * @param keyArr
-   *          the list of unique key or keys
-   * 
+   *
+   * @param appendedList input list which contains duplicates
+   * @param keyArr the list of unique key or keys
+   * @param isHashAble true if it should be hashed
+   * @param columnSize the number of columns
+   *
+   * @return the cleaned list
+   *
    */
   public List<String> retainUniqueEntries(List<String> appendedList, String[] keyArr, boolean isHashAble, int columnSize) {
     int uniqueKeyColumn = -1;
@@ -90,12 +92,11 @@ public abstract class AbstractTextFileProcessor {
    * position based on the composite key. Uniqueness is only guaranteed when the
    * columns are combined. The composite key would be used to uniquely identify
    * records within a list. This key would be used to detect duplicates.
-   * 
-   * @param src
-   *          input source list to be worked on
-   * @param position
-   *          keys used to create composite key
-   * 
+   *
+   * @param src input source list to be worked on
+   * @param position keys used to create composite key
+   * @param columnSize total columns
+   *
    * @return returns a composite object
    */
   public Composite incorporateHashedKey(List<String> src, String[] position, int columnSize) {
@@ -105,7 +106,7 @@ public abstract class AbstractTextFileProcessor {
       //System.out.println(s);
       StringBuffer token = new StringBuffer();
       String[] columns = s.split("\\|",-1);
-      
+
       if (columns.length == columnSize) {
         for (int i = 0; i < position.length; i++) {
           int index = Integer.parseInt(position[i]);
@@ -119,19 +120,19 @@ public abstract class AbstractTextFileProcessor {
       else {
         BAD_ROWS.add(s);
       }
-      
+
     }
     return new Composite(result, columnSize);
   }
-  
+
   // will build a list of records that do not satisfy the expectedLength criteria
   void isolateBadRecord() {
-    
+
   }
-  
+
   // will build a list of duplicate rows
   void isolateDuplicateRecord() {
-    
+
   }
 
   /**
@@ -185,7 +186,7 @@ public abstract class AbstractTextFileProcessor {
 
   /**
    * Retrieves the list of files in a directory starting with the specified prefix
-   * 
+   *
    * @param dir
    *          directory from which to get the files
    * @param startsWith
@@ -236,21 +237,22 @@ public abstract class AbstractTextFileProcessor {
 
   /**
    * Appends a set of files starting with the same prefix
-   * 
-   * @param rootPath
-   *          which is the absolute path to the source files
+   *
+   * @param rootPath which is the absolute path to the source files
+   * @param fileNamePrefix the file name prefix
+   * @param stat the stat
    * @return returns an array of prefixes derived by splitting the file prefix
    *         property
-   * @throws IllegalArgumentException
+   * @throws IOException
    *           If <tt>fileSize</tt> is equal to zero
    */
   public List<String> append(String rootPath, String fileNamePrefix, ICsvAppenderReport stat) throws IOException {
     List<String> fileList = retrieveFilesStartingWith(new File(rootPath), fileNamePrefix);
     int fileSize = fileList.size();
     final String LOG_MESSAGE = MessageFormat.format(
-        "The size of {0} is {1}. \n " + "This implies that, file grouping {0} "
-            + "wasn't found in your args[0] directory. \n " + "Please check that first and try again",
-        fileNamePrefix, fileSize);
+            "The size of {0} is {1}. \n " + "This implies that, file grouping {0} "
+                    + "wasn't found in your args[0] directory. \n " + "Please check that first and try again",
+            fileNamePrefix, fileSize);
     if (fileSize == 0) {
       LOG.error(LOG_MESSAGE);
       throw new IllegalArgumentException(LOG_MESSAGE);

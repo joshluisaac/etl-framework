@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="updateKvBatchHistory">
+    <insert id="insertBatchHistory">
+        <selectKey keyProperty="id" resultType="int" order="BEFORE" >
+            select nextval('kvbatch_history_id')
+        </selectKey>
+        insert into kvbatch_history
+        (id, batch_id, number_of_records_updated, updated_date, time_taken, data_source, status)
+        values
+        (#{id}, #{batch_id}, #{number_of_records_updated}, DATE_TRUNC('second', NOW()), #{time_taken}, #{data_source}, #{status})
+    </insert>
+    
+    <sql id="getHistoryFrag">
+        select
+            id,
+            batch_id,
+            TO_CHAR(number_of_records_updated, '999,999') as records,
+            TO_CHAR(updated_date, 'DD Month YYYY "@" HH24:MI:SS') as updatedDate,
+            TO_CHAR(time_taken, '999,999') as timeTaken,
+            data_source,
+            status
+        from kvbatch_history where batch_id = #{batch_id} order by id desc
+    </sql>
+
+    <select id = "getLatestBatchHistory" resultType = "hmap">
+        <include refid="getHistoryFrag"/>
+        limit 1
+    </select>
+
+    <select id = "getLastTenBatchHistory" resultType = "hmap">
+        <include refid="getHistoryFrag"/>
+        limit 10
+    </select>
+
+    <sql id="getHistoryForEmailUpdateFrag">
+        SELECT
+            row_number() over(order by hist.updated_date desc) as rowNum,
+            batch.name as batchName,
+            batch.description as batchDesc,
+            TO_CHAR(hist.number_of_records_updated, '999,999') as records,
+            TO_CHAR(hist.time_taken,'999,999') as timeTaken,
+            TO_CHAR(hist.updated_date, 'DD Month YYYY "@" HH24:MI:SS') as updatedDate,
+            hist.status
+        FROM kvbatch as batch
+        INNER JOIN kvbatch_history hist ON batch.id = hist.batch_id
+    </sql>
+    <select id="getAllBatchHistory" resultType = "hmap">
+        SELECT
+            batch.id as batchId,
+            batch.name as batchName,
+            batch.description as batchDesc,
+            TO_CHAR(hist.number_of_records_updated, '999,999') as records,
+            TO_CHAR(hist.updated_date, 'DD Month YYYY "@" HH24:MI:SS') as updatedDate,
+            TO_CHAR(hist.time_taken,'999,999') as timeTaken,
+            hist.data_source as dataSource,
+            hist.status as status
+        FROM kvbatch batch
+            INNER JOIN kvbatch_history hist ON batch.id = hist.batch_id
+        ORDER BY hist.updated_date desc
+    </select>
+
+    <select id="getDailyPbkHistoryUat" resultType="hmap">
+        <include refid="getHistoryForEmailUpdateFrag"/>
+        WHERE hist.batch_id in (2,3,53) and hist.updated_date >= now()::date + interval '1h' and hist.data_source = 'PBK_1'
+        ORDER BY hist.updated_date desc
+    </select>
+
+    <select id="getDailyPbkHistoryProd" resultType="hmap">
+        <include refid="getHistoryForEmailUpdateFrag"/>
+        WHERE hist.batch_id in (2,3,53) and hist.updated_date >= now()::date + interval '1h'
+        and hist.data_source = 'KV_Production'
+        ORDER BY hist.updated_date desc
+    </select>
+
+    <select id="getDailyPelitaHistoryUat" resultType="hmap">
+        <include refid="getHistoryForEmailUpdateFrag"/>
+        WHERE hist.batch_id in (58,57,56, 59, 60, 61) and hist.updated_date >= now()::date + interval '1h'
+        and hist.data_source = 'Pelita_Test'
+        ORDER BY hist.updated_date desc
+    </select>
+
+    <select id="getDailyPelitaHistoryProd" resultType="hmap">
+        <include refid="getHistoryForEmailUpdateFrag"/>
+        WHERE hist.batch_id in (58,57,56, 59, 60, 61) and hist.updated_date >= now()::date + interval '1h'
+        and hist.data_source = 'KV_Production'
+        ORDER BY hist.updated_date desc
+    </select>
+
+    <select id="getDailyYycSeqHistoryUat" resultType="hmap">
+        <include refid="getHistoryForEmailUpdateFrag"/>
+        WHERE hist.batch_id in (62) and hist.updated_date >= now()::date + interval '1h'
+        and hist.data_source = 'Pelita_Test'
+        ORDER BY hist.updated_date desc
+    </select>
+
+    <select id="getDailyYycSeqHistoryProd" resultType="hmap">
+        <include refid="getHistoryForEmailUpdateFrag"/>
+        WHERE hist.batch_id in (62) and hist.updated_date >= now()::date + interval '1h'
+        and hist.data_source = 'KV_Production'
+        ORDER BY hist.updated_date desc
+    </select>
+    
+    <select id="getDailyYycHistoryUat" resultType="hmap">
+        <include refid="getHistoryForEmailUpdateFrag"/>
+        WHERE hist.batch_id in (63,64,65,66) and hist.updated_date >= now()::date + interval '1h'
+        and hist.data_source = 'Pelita_Test'
+        ORDER BY hist.updated_date desc
+    </select>
+
+    <select id="getDailyYycHistoryProd" resultType="hmap">
+        <include refid="getHistoryForEmailUpdateFrag"/>
+        WHERE hist.batch_id in (63,64,65,66) and hist.updated_date >= now()::date + interval '1h'
+        and hist.data_source = 'KV_Production'
+        ORDER BY hist.updated_date desc
+    </select>
+
+    <select id="getDailyIctZoneHistoryUat" resultType="hmap">
+        <include refid="getHistoryForEmailUpdateFrag"/>
+        WHERE hist.batch_id in (67,68,69,70,71,72) and hist.updated_date >= now()::date + interval '1h'
+        and hist.data_source = 'IctZone'
+        ORDER BY hist.updated_date desc
+    </select>
+
+    <select id="getDailyIctZoneHistoryProd" resultType="hmap">
+        <include refid="getHistoryForEmailUpdateFrag"/>
+        WHERE hist.batch_id in (67,68,69,70,71,72) and hist.updated_date >= now()::date + interval '1h'
+        and hist.data_source = 'KV_Production'
+        ORDER BY hist.updated_date desc
+    </select>
+
+</mapper>

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="sqlIncludes">
+
+    <sql id="sqlVendorInvoicesInsertFragment">
+        INSERT INTO kv_vendor_invoices (
+            id,
+            tenant_id,
+            import_id,
+            account_id,
+            invoice_date,
+            invoice_description,
+            invoice_due_date,
+            invoice_amount,
+            invoice_outstanding,
+            dpd,
+            mpd,
+            status_id,
+            created_at,
+            updated_at,
+            created_by,
+            updated_by,
+            invoice_status_id,
+            invoice_outstanding_with_interest,
+            gst,
+            import_status_id,
+            import_note,
+            branch_id,
+            branch_code,
+            in_aging,
+            invoice_pic_code,
+            invoice_pic_name,
+            last_listener_run,
+            vendor_no,
+            tax_code,
+            tax_id,
+            clearing_doc,
+            reference,
+            assignment,
+            document_id,
+            business_area_id,
+            tax_amount,
+            document_no,
+            mode,
+            amount_dc,
+            amount_lc,
+            purchase_order_no,
+            gst_code,
+            portal_status_id,
+            cheque_no,
+            currency_code,
+            document_status_id,
+            invoice_outstanding_dc,
+            entered_date,
+            transaction_date,
+            payment_term,
+            baseline_date,
+            cleardoc_id,
+            reference_id,
+            alt_payee,
+            item_no,
+            alternate_payee2,
+            load_id,
+            line_of_business,
+            invoice_no,
+            payment_reference
+        )
+    </sql>
+
+
+    <sql id="sqlVendorInvoicesSelectFragment">
+        nextval('kv_vendor_invoices_id') AS id,
+        58 AS tenant_id,
+        0 AS import_id,
+        stage.account_id,
+        stage.invoice_date,
+        stage.invoice_description AS invoice_description,
+        stage.invoice_due_date AS invoice_due_date,
+        stage.invoice_amount,
+        0 AS invoice_outstanding,
+        0 AS dpd,
+        0 AS mpd,
+        0 AS status_id,
+        CURRENT_TIMESTAMP AS created_at,
+        CURRENT_TIMESTAMP AS updated_at,
+        '0' AS created_by,
+        '0' AS updated_by,
+        2 AS invoice_status_id,
+        0 AS invoice_outstanding_with_interest,
+        stage.gst,
+        0 AS import_status_id,
+        CAST ( NULL AS TEXT ) AS import_note,
+        0 AS branch_id,
+        CAST ( NULL AS TEXT ) AS branch_code,
+        FALSE AS in_aging,
+        CAST ( NULL AS TEXT ) AS invoice_pic_code,
+        CAST ( NULL AS TEXT ) AS invoice_pic_name,
+        CURRENT_TIMESTAMP AS last_listener_run,
+        stage.vendor_no AS vendor_no,
+        stage.gst_code AS tax_code,
+        stage.tax_id,
+        stage.clear_doc AS clearing_doc,
+        stage.reference,
+        stage.assignment AS ASSIGNMENT,
+        stage.document_id,
+        stage.business_area_id,
+        stage.tax_amount,
+        stage.transaction_no AS document_no,
+        stage.trx_mode AS MODE,
+        stage.amount_dc,
+        stage.amount_lc,
+        stage.purchase_order_no,
+        stage.gst_code AS gst_code,
+        0 AS portal_status_id,
+        stage.cheque_no,
+        stage.currency_code,
+        stage.document_status_id,
+        0 AS invoice_outstanding_dc,
+        stage.entered_date AS entered_date,
+        stage.transaction_date AS transaction_date,
+        stage.payment_term,
+        stage.baseline_date,
+        0 AS cleardoc_id,
+        0 AS reference_id,
+        stage.alt_payee,
+        stage.item_no AS item_no,
+        CAST ( NULL AS TEXT ) AS alternate_payee2,
+        stage.id AS load_id,
+    </sql>
+
+    <sql id="sqlVendorInvoicesUpdateFragment">
+        ON CONFLICT (load_id)
+        DO UPDATE
+        SET
+        id = EXCLUDED .id,
+        tenant_id = EXCLUDED.tenant_id,
+        import_id = EXCLUDED.import_id,
+        account_id = EXCLUDED.account_id,
+        invoice_date = EXCLUDED.invoice_date,
+        invoice_description = EXCLUDED.invoice_description,
+        invoice_due_date = EXCLUDED.invoice_due_date,
+        invoice_amount = EXCLUDED.invoice_amount,
+        invoice_outstanding = EXCLUDED.invoice_outstanding,
+        dpd = EXCLUDED.dpd,
+        mpd = EXCLUDED.mpd,
+        status_id = EXCLUDED.status_id,
+        created_at = EXCLUDED.created_at,
+        updated_at = EXCLUDED.updated_at,
+        created_by = EXCLUDED.created_by,
+        updated_by = EXCLUDED.updated_by,
+        invoice_status_id = EXCLUDED.invoice_status_id,
+        invoice_outstanding_with_interest = EXCLUDED.invoice_outstanding_with_interest,
+        gst = EXCLUDED.gst,
+        import_status_id = EXCLUDED.import_status_id,
+        import_note = EXCLUDED.import_note,
+        branch_id = EXCLUDED.branch_id,
+        branch_code = EXCLUDED.branch_code,
+        in_aging = EXCLUDED.in_aging,
+        invoice_pic_code = EXCLUDED.invoice_pic_code,
+        invoice_pic_name = EXCLUDED.invoice_pic_name,
+        last_listener_run = EXCLUDED.last_listener_run,
+        vendor_no = EXCLUDED.vendor_no,
+        tax_code = EXCLUDED.tax_code,
+        tax_id = EXCLUDED.tax_id,
+        clearing_doc = EXCLUDED.clearing_doc,
+        reference = EXCLUDED.reference,
+        ASSIGNMENT = EXCLUDED.assignment,
+        document_id = EXCLUDED.document_id,
+        business_area_id = EXCLUDED.business_area_id,
+        tax_amount = EXCLUDED.tax_amount,
+        document_no = EXCLUDED.document_no,
+        MODE = EXCLUDED.mode,
+        amount_dc = EXCLUDED.amount_dc,
+        amount_lc = EXCLUDED.amount_lc,
+        purchase_order_no = EXCLUDED.purchase_order_no,
+        gst_code = EXCLUDED.gst_code,
+        portal_status_id = EXCLUDED.portal_status_id,
+        cheque_no = EXCLUDED.cheque_no,
+        currency_code = EXCLUDED.currency_code,
+        document_status_id = EXCLUDED.document_status_id,
+        invoice_outstanding_dc = EXCLUDED.invoice_outstanding_dc,
+        entered_date = EXCLUDED.entered_date,
+        transaction_date = EXCLUDED.transaction_date,
+        payment_term = EXCLUDED.payment_term,
+        baseline_date = EXCLUDED.baseline_date,
+        cleardoc_id = EXCLUDED.cleardoc_id,
+        reference_id = EXCLUDED.reference_id,
+        alt_payee = EXCLUDED.alt_payee,
+        item_no = EXCLUDED.item_no,
+        alternate_payee2 = EXCLUDED.alternate_payee2,
+        load_id = EXCLUDED.load_id,
+        line_of_business = EXCLUDED.line_of_business,
+        invoice_no = EXCLUDED.invoice_no,
+        payment_reference = EXCLUDED.payment_reference
+    </sql>
+
+    <sql id="ageInvoiceSelectFragment">
+        SELECT
+            inv.invoice_due_date,
+            (DATE_PART('year', current_date :: DATE) - DATE_PART('year', inv.invoice_due_date :: DATE)) * 12 +
+            (DATE_PART('month', current_date :: DATE) - DATE_PART('month', inv.invoice_due_date :: DATE)) AS mpd,
+            inv.tenant_id,
+            inv.id
+        FROM invoices inv 
+        inner join invoice_status statusref on inv.invoice_status_id = statusref.id
+    </sql>
+    <sql id="ageInvoiceUpdateFragment">
+        UPDATE invoices
+        SET
+            dpd = CASE WHEN (0 > (current_date - #{invoice_due_date}))
+                THEN 0
+                  ELSE ((current_date - #{invoice_due_date})) END,
+            mpd = CASE WHEN #{mpd} &lt; 0
+                THEN 0
+                  ELSE #{mpd} END
+        WHERE id = #{id}
+    </sql>
+    <sql id="updateDataDateFragment">
+        UPDATE kv_data_date
+        SET data_date = current_date - 1
+    </sql>
+    <sql id="getInvoiceStatusEvalFragment">
+        select id,tenant_id, case when invoice_outstanding &lt;= 0 then 12 else 6 end as invoice_status_id
+        from invoices
+    </sql>
+    <sql id="updateInvoiceStatusEvalFragment">
+        update invoices set invoice_status_id = #{invoice_status_id}
+        where id = #{id} and tenant_id = #{tenant_id}
+    </sql>
+    <sql id="getInAging">
+      select case when invoice_outstanding > 0 then true
+        else false end as in_aging, id
+      from invoices
+    </sql>
+    <sql id="updateInAging">
+        update invoices set in_aging = #{in_aging} where id = #{id}
+    </sql>
+    <sql id = "getDebitAmountAfterTaxFrag">
+        SELECT
+        id,
+        coalesce(debit_before_gst, 0.0) - coalesce(gst, 0.0) AS debit
+        FROM transactions
+        WHERE gst > 0
+    </sql>
+    <sql id="updateDebitAmountAfterTaxFrag">
+        UPDATE transactions
+        SET
+            debit = #{debit}
+        WHERE id = #{id}
+    </sql>
+    <sql id ="getInvoiceAmountAfterTaxFrag">
+        SELECT
+            id,
+            coalesce(invoice_amount_before_gst, 0.0) - coalesce(gst, 0.0) AS invoice_amount
+        FROM invoices
+        WHERE gst > 0
+    </sql>
+    <sql id="updateInvoiceAmountAfterTaxFrag">
+        UPDATE invoices
+        SET
+            invoice_amount      = #{invoice_amount},
+            invoice_outstanding = #{invoice_amount}
+        WHERE id = #{id}
+    </sql>
+    <select id="getUpdateDataDateToKeepConnectionOpen" resultType="hmap">
+        SELECT * from kv_data_date
+    </select>
+</mapper>

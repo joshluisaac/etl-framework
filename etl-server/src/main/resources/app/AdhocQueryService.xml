@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="AdhocQueryService">
+
+
+ <resultMap type="java.util.HashMap" id="getUpdatedCustomer">
+  <result property="customer_name" column="customer_name" javaType="string" />
+  <result property="customer_no" column="customer_no" javaType="string" />
+  <result property="created_at" column="created_at" javaType="ts" />
+  <result property="updated_at" column="updated_at" javaType="ts" />
+ </resultMap>
+
+
+ <select id="getAllCustomer" resultMap="getUpdatedCustomer">
+  select
+  customer_name,
+  customer_no,
+  created_at,
+  updated_at
+  from customers
+ </select>
+
+ <select id="getCustomerById" resultMap="getUpdatedCustomer">
+  select
+  customer_name,
+  customer_no,
+  created_at,
+  updated_at
+  from customers
+  where id = #{id}
+ </select>
+
+ 
+ 
+ <update id="updateTest">
+  update test set 
+  customer_name = #{customer_name}, 
+  updated_at = #{updated_at} 
+  where customer_no = #{customer_no}
+ </update>
+ 
+<!--  <![CDATA[]]> -->
+ 
+<update id="updateTest2">
+update test as t set 
+customer_name = data_table.customer_name
+
+from
+(select unnest(array[
+
+
+<foreach separator="," collection="list" index="index" item="p">
+#{p.customer_name}
+</foreach>
+<![CDATA[]) as customer_name, unnest(array[]]> 
+
+<foreach separator=","  collection="list" index="index" item="p">       
+#{p.customer_no}
+</foreach>
+<![CDATA[]) as customer_no) as data_table where t.customer_no = data_table.customer_no;]]>
+
+</update>
+
+
+  <select id="getBulkInvoices" resultType="java.util.HashMap">
+  select 
+  invoice_no, 
+  invoice_date, 
+  invoice_description, 
+  invoice_amount, 
+  in_aging, 
+  void_flag 
+  from invoices
+  </select>
+  
+  
+  <insert id="insertInvoices">
+  insert into invoice_test
+  (
+  invoice_no, 
+  invoice_date, 
+  invoice_description, 
+  invoice_amount, 
+  in_aging, 
+  void_flag 
+  )
+  values
+  <foreach item="p" collection="list" separator=",">
+  (
+  #{p.invoice_no}, 
+  #{p.invoice_date}, 
+  #{p.invoice_description},
+  #{p.invoice_amount},
+  #{p.in_aging},
+  #{p.void_flag}
+  )
+  </foreach>
+  </insert>
+
+ 
+
+</mapper>

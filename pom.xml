@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.kollect.etl</groupId>
@@ -14,6 +13,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.javadoc.failOnError>true</maven.javadoc.failOnError>
     </properties>
 
     <scm>
@@ -102,11 +102,11 @@
                         </execution>
                     </executions>
                     <configuration>
-                        <mainClass/>
+                        <mainClass />
                         <addResourcesToClasspath>true</addResourcesToClasspath>
                         <arguments>
-                            <argument/>
-                            <argument/>
+                            <argument />
+                            <argument />
                         </arguments>
                     </configuration>
                 </plugin>
@@ -120,7 +120,7 @@
                             <format>html</format>
                             <format>xml</format>
                         </formats>
-                        <check/>
+                        <check />
                     </configuration>
                 </plugin>
 
@@ -129,8 +129,23 @@
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
                     <configuration>
-                        <tagBase>http://subversion.djavafactory.com/svn/eskortfacade/tags/releases</tagBase>
-                        <arguments>-Dmaven.test.skip=true -DskipTests=true</arguments>
+                        <arguments>-Dmaven.test.skip=true -DskipTests=true -Dmaven.javadoc.skip=true</arguments>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-javadoc-plugin</artifactId>
+                    <configuration>
+                        <additionalOptions>-Xdoclint:none</additionalOptions>
+                    </configuration>
+                </plugin>
+
+                <plugin>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>2.3.1</version>
+                    <configuration>
+                        <createChecksum>true</createChecksum>
                     </configuration>
                 </plugin>
 
@@ -139,6 +154,75 @@
     </build>
 
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.kollect.etl</groupId>
+                <artifactId>etl-core</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
 
+            <dependency>
+                <groupId>com.kollect.etl</groupId>
+                <artifactId>etl-dataaccess</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.kollect.etl</groupId>
+                <artifactId>etl-incubation</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.kollect.etl</groupId>
+                <artifactId>etl-jdbc</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.kollect.etl</groupId>
+                <artifactId>etl-notification</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.kollect.etl</groupId>
+                <artifactId>etl-reports</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.kollect.etl</groupId>
+                <artifactId>etl-server</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.kollect.etl</groupId>
+                <artifactId>etl-serverlite</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.kollect.etl.services</groupId>
+                <artifactId>etl-services</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.kollect.etl</groupId>
+                <artifactId>etl-tests</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.kollect.etl</groupId>
+                <artifactId>etl-utils</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
 
 </project>

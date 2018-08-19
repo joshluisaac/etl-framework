@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="batchService">
+
+    <insert id="insertBatch">
+        <selectKey keyProperty="id" resultType="int" order="BEFORE" >
+            select nextval('kvbatch_id')
+        </selectKey>
+        insert into kvbatch
+        (id, code, name, description, disable)
+        values
+        (#{id}, #{code}, #{name}, #{description}, #{disable})
+    </insert>
+
+    <resultMap type="java.util.HashMap" id="viewBatch-map" >
+        <result property="id" column="id" javaType="java.lang.Long" />
+        <result property="code" column="code" javaType="java.lang.String" />
+        <result property="name" column="name" javaType="java.lang.String" />
+        <result property="description" column="description" javaType="java.lang.String" />
+        <result property="disable" column="disable" javaType="java.lang.Boolean" />
+    </resultMap>
+
+    <select id = "viewBatch" resultMap = "viewBatch-map">
+        select
+        id, code, name, description, disable
+        from kvbatch ORDER BY id asc
+    </select>
+
+    <select id="getBatchById" resultMap="viewBatch-map">
+        select
+            id, code, name, description, disable
+        from kvbatch
+        where id = #{id}
+    </select>
+
+    <update id="updateBatch">
+        UPDATE kvbatch
+        SET
+        code =  #{code},
+        name = #{name},
+        description = #{description},
+        disable = #{disable}
+        where id = #{id}
+    </update>
+
+</mapper>
