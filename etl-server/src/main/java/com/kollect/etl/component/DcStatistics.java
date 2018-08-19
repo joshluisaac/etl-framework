@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import com.kollect.etl.util.JsonUtils;
@@ -16,28 +15,34 @@ import com.kollect.etl.util.dataconnector.TotalLoaded;
 @Component
 public class DcStatistics {
   
-  Regex r;
-  JsonUtils j;
+  Regex regex;
+  JsonUtils jsonUtils;
   
   @Autowired
-  public DcStatistics(Regex r, JsonUtils j) {
-
-    this.r = r;
-    this.j = j;
+  public DcStatistics(Regex regex, JsonUtils jsonUtils) {
+    this.regex = regex;
+    this.jsonUtils = jsonUtils;
   }
   
   
   public List<TotalLoaded> getStats(String serverLog, String daysAgo) {
     List<TotalLoaded> stats = null;
     try {
-      stats = r.getMatchedTokens(serverLog, Integer.parseInt(daysAgo));
+      stats = regex.getMatchedTokens(serverLog, Integer.parseInt(daysAgo));
     } catch (NumberFormatException | IOException e) {
       e.printStackTrace();
     }
     return stats;
   }
   
+  public String jsonEncode(List<TotalLoaded> stats) {
+    return jsonUtils.toJson(stats);
+  }
   
+  public String execute(String serverLog, String daysAgo) {
+    List<TotalLoaded> stats = getStats(serverLog, daysAgo);
+    return jsonEncode(stats);
+  }
   
   
 
