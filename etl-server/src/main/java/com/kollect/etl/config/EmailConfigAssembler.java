@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import com.kollect.etl.notification.config.IEmailConfig;
 import com.kollect.etl.notification.entity.EmailConfigEntity;
+import com.kollect.etl.util.FileUtils;
 import com.kollect.etl.util.JsonUtils;
 
 
@@ -24,6 +25,7 @@ public class EmailConfigAssembler {
   @Value("${app.generalEmailJson}")
   private String generalEmailJsonPath;
   private JsonUtils jsonUtils = new JsonUtils();
+  private FileUtils fileUtils = new FileUtils();
   private IEmailConfig config;
   private final Logger logger = LoggerFactory.getLogger(EmailConfigAssembler.class);
   
@@ -43,7 +45,12 @@ public class EmailConfigAssembler {
   @Bean
   public EmailConfigEntity deSerializeConfig() {
     EmailConfigEntity configEntity = null;
-    try (Reader reader = new FileReader(new File(generalEmailJsonPath))) {
+
+    //get the file from the classpath.
+    File file = fileUtils.getFileFromClasspath(generalEmailJsonPath);
+
+
+    try (Reader reader = new FileReader(file)) {
       configEntity = jsonUtils.fromJson(reader, EmailConfigEntity.class);
       logger.info("Initialized and constructed EmailConfigEntity Bean");
     } catch (IOException e) {

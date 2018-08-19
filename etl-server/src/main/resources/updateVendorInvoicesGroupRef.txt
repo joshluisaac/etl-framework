@@ -1,0 +1,13 @@
+The following are the group references for the MAHB vendor invoice batches:
+Group1: doc_type = AA, AB, GA
+Group2:PB, PD, G1, GE, GR, NA, PH, PS
+Group3: PC, GL, RE
+Group4: PP, PL, RB, RH, Y7, ZP, ZV
+Group5: Y3, NJ, YM
+Group6: GC, GD
+Group7: GH, RC, RD, RG, G2, ZZ
+Group8: GV
+Group9: NI
+Group10: NK, NM, RM, Y6
+Group11: RS
+Group12: Default/Others

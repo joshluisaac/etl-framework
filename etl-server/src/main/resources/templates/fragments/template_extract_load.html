@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<style>
+body {
+	font-family: 'Roboto', sans-serif;
+}
+
+.content {
+	margin: 0 auto;
+	text-align: center;
+	max-width: 60%;
+	/*background-image: url("http://blog.visme.co/wp-content/uploads/2017/07/50-Beautiful-and-Minimalist-Presentation-Backgrounds-045.jpg");*/
+	padding: 25px;
+}
+
+table {
+	border-collapse: collapse;
+	max-width: 100%;
+}
+
+td, th {
+	border: 1px solid #333;
+	text-align: left;
+	padding: 5px;
+}
+
+tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+tr:hover {
+	background-color: #eeeeff;
+}
+
+th {
+	padding-top: 12px;
+	padding-bottom: 12px;
+	text-align: left;
+	background-color: darkslategray;
+	color: white;
+}
+
+.center {
+	text-align: center;
+}
+</style>
+</head>
+<body>
+	<div class="content">
+		<p>
+			Hi there,<br>
+			<br> This is an automated notification for KollectValley
+			extraction statistics for <span
+				th:text="${#dates.format(#dates.createNow(), 'dd MMMM yyyy.')}"></span>
+			<br>
+			<br> Metrics & statistics:
+		</p>
+		<div>
+			<table>
+				<thead>
+					<tr>
+						<th colspan="6" class="center">Extraction Metrics</th>
+					</tr>
+					<tr>
+						<th>DB Name</th>
+						<th>File Name</th>
+						<th>Query Running Time (ms)</th>
+						<th>Writing Running Time (ms)</th>
+						<th>Bytes Written</th>
+						<th>Record Count</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="stat : ${stats}">
+						<td><span th:text="${stat.dbName}"></span></td>
+						<td><span th:text="${stat.fileName}"></span></td>
+						<td><span th:text="${stat.queryRunningTime}"></span></td>
+						<td><span th:text="${stat.writingRunningTime}"></span></td>
+						<td><span th:text="${stat.bytesWritten}"></span></td>
+						<td><span th:text="${stat.recordCount}"></span></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<p>
+			Regards,<br>
+			PowerETL Auto Update<br>
+			<img src="https://i.imgur.com/ymdgJJj.png">
+		</p>
+	</div>
+</body>
+</html>

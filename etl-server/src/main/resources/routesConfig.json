@@ -1,0 +1,37 @@
+[
+  {
+    "index": 0,
+    "name": "updatePostTrx",
+    "description": "A group of post transaction loading batches meant to isDeposit, transactionType, invoiceStatusId & inAging flags",
+    "endPoint": "/updatePostTrx",
+    "isActive": true,
+    "dependency": [
+      "1",
+      "2"
+    ]
+  },
+  {
+    "index": 1,
+    "name": "isCommercial",
+    "description": "Batch to classify accounts as commerical or non-commerical. Commercial account are account numbers which satisfies the pattern ^3[0-9]{8}",
+    "endPoint": "/isCommercial",
+    "isActive": true,
+    "dependency": []
+  },
+  {
+    "index": 2,
+    "name": "updateParentInvoiceNo",
+    "description": "Batch to update parent invoice number which eventually becomes invoice_reference in kv_payments",
+    "endPoint": "/updateParentInvoiceNo",
+    "isActive": true,
+    "dependency": []
+  },
+  {
+    "index": 3,
+    "name": "updateIsInvoiceAndIsCredit",
+    "description": "Batch to update post keys for invoices and credit notes",
+    "endPoint": "/updateIsInvoiceAndIsCredit",
+    "isActive": true,
+    "dependency": []
+  }
+]

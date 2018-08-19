@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ageInvoiceService">
+
+    <select id="getIctZoneAgeInvoices" resultType="hmap">
+        <!-- open = 6, paid = 12 -->
+        <include refid="sqlIncludes.ageInvoiceSelectFragment"/>
+        where invoice_status_id = 6
+        and tenant_id = 102
+    </select>
+
+    <update id = "updateIctZoneAgeInvoices">
+        <include refid="sqlIncludes.ageInvoiceUpdateFragment"/>
+        and tenant_id = 102
+    </update>
+</mapper>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="updateVendorInvoicesGroup12">
+    <resultMap type="java.util.HashMap" id="getUpdateVendorInvoicesGroup12-map" >
+        <result property="doc_type" column="doc_type" javaType="java.lang.String"/>
+        <result property="assignment" column="assignment" javaType="java.lang.String"/>
+        <result property="clear_doc" column="clear_doc" javaType="java.lang.String"/>
+        <result property="trx_mode" column="trx_mode" javaType="java.lang.String"/>
+        <result property="load_id" column="load_id" javaType="java.lang.Long"/>
+        <result property="DOC_TYPE_CODE" column="DOC_TYPE_CODE" javaType="java.lang.String"/>
+        <result property="INVOICE_NO_DERIVED" column="INVOICE_NO_DERIVED" javaType="java.lang.String"/>
+    </resultMap>
+
+    <select id="getUpdateVendorInvoicesGroup12" resultMap="getUpdateVendorInvoicesGroup12-map">
+     select
+        stage.doc_type as doc_type,
+        stage.assignment as assignment,
+        stage.clear_doc as clear_doc,
+        stage.trx_mode as trx_mode,
+        inv.load_id as load_id,
+        'OTHERS' as DOC_TYPE_CODE,
+        case
+          when (stage.clear_doc = null or stage.clear_doc = '') then stage.assignment
+          else stage.clear_doc
+          end as INVOICE_NO_DERIVED
+        from vendor_invoice_load stage
+        where stage.doc_type not in
+       ('AA','AB','GA','PB','PC','PD','PP','Y3','G1','G2','GC','GD','GE','GH','GL','GR','GV','NA','NI','NJ','NK',
+        'NM','PH','PS','PL','RE','RB','RC','RD','RG','RH','RM','RS','Y6','Y7','YM','ZP','ZV','ZZ')
+    </select>
+
+    <update id="mergeVendorInvoicesGroup12">
+
+        <include refid="sqlIncludes.sqlVendorInvoicesInsertFragment" />
+        select
+        <include refid="sqlIncludes.sqlVendorInvoicesSelectFragment"/>
+        'OTHERS' as line_of_business,
+        case
+        when (stage.clear_doc = null or stage.clear_doc = '') then stage.assignment
+        else stage.clear_doc
+        end as invoice_no,
+        case
+        when (stage.clear_doc = null or stage.clear_doc = '') then stage.assignment
+        else stage.clear_doc
+        end as payment_reference
+
+        from vendor_invoice_load stage
+        where stage.doc_type not in
+        ('AA','AB','GA','PB','PC','PD','PP','Y3','G1','G2','GC','GD','GE','GH','GL','GR','GV','NA','NI','NJ','NK', 'NM',
+        'PH','PS','PL','RE','RB','RC','RD','RG','RH','RM','RS','Y6','Y7','YM','ZP','ZV','ZZ')
+
+        <include refid="sqlIncludes.sqlVendorInvoicesUpdateFragment"/>
+    </update>
+</mapper>

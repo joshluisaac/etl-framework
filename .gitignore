@@ -31,11 +31,6 @@ pom.properties
 etl-parent.iml
 /.idea/
 
-# Template files
-*.html
-*.css
-*.js
-*.class
 
 /logs/
 target/

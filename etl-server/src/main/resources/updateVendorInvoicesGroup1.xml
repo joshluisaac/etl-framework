@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="updateVendorInvoicesGroup1">
+
+
+    <update id="mergeVendorTrxForPaymentCasesGroup1">
+        <include refid="sqlIncludes.sqlVendorInvoicesInsertFragment" />
+        select
+        <include refid="sqlIncludes.sqlVendorInvoicesSelectFragment"/>
+        case when stage.trx_mode = 'H' then 'INVOICE' ELSE 'CREDIT' end as line_of_business,
+        case when stage.trx_mode = 'H' then stage.assignment ELSE stage.clear_doc end as invoice_no,
+        case when stage.trx_mode = 'H' then stage.assignment ELSE stage.clear_doc end as payment_reference
+        from vendor_invoice_load stage
+        where stage.doc_type in ('AA', 'AB', 'GA')
+        and case when stage.trx_mode = 'H' then 'INVOICE' ELSE 'CREDIT' END = 'CREDIT'
+        <include refid="sqlIncludes.sqlVendorInvoicesUpdateFragment"/>
+    </update>
+    
+    
+    
+        <update id="mergeVendorTrxForInvoiceCasesGroup1">
+        <include refid="sqlIncludes.sqlVendorInvoicesInsertFragment" />
+        select
+        <include refid="sqlIncludes.sqlVendorInvoicesSelectFragment"/>
+        case when stage.trx_mode = 'H' then 'INVOICE' ELSE 'CREDIT' end as line_of_business,
+        case when stage.trx_mode = 'H' then stage.assignment ELSE stage.clear_doc end as invoice_no,
+        case when stage.trx_mode = 'H' then stage.assignment ELSE stage.clear_doc end as payment_reference
+        from vendor_invoice_load stage
+        where stage.doc_type in ('AA', 'AB', 'GA')
+        and case when stage.trx_mode = 'H' then 'INVOICE' ELSE 'CREDIT' END = 'INVOICE'
+        <include refid="sqlIncludes.sqlVendorInvoicesUpdateFragment"/>
+    </update>
+    
+    
+</mapper>

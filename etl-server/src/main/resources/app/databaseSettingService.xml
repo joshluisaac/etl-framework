@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="databaseSettingService">
+
+<insert id="insertAdminDatabaseProp">
+
+insert into kvdatabase_settings 
+(driver, url, port, additionalArgs, userName, password) 
+values 
+(#{driver},  #{url}, #{port}, #{additionalArgs}, #{username}, #{password} )
+</insert>
+
+<resultMap type="java.util.HashMap" id="getAdminDatabase-map" >
+<result property="server" column="server" javaType="java.lang.String"/>
+<result property="url" column="url" javaType="java.lang.String"/>
+<result property="port" column="port" javaType="java.lang.Integer"/>
+<result property="additionalArgs" column="additionalArgs" javaType="java.lang.String"/>
+<result property="username" column="username" javaType="java.lang.String"/>
+<result property="password" column="password" javaType="java.lang.String"/>
+</resultMap>
+
+<select id="getAdminDatabaseConfig" resultMap="getAdminDatabase-map">
+select
+driver, url, port, additionalArgs, userName, password
+from kvdatabase_settings
+
+</select>
+
+<resultMap type="HashMap" id="getDatabaseCounter-map">
+<result property = "databaseCounter" column="databaseCounter" javaType="Integer" />
+</resultMap>
+
+<select id="getAdminDatabaseCounter" resultMap="getDatabaseCounter-map">
+select count(*) as databaseCounter 
+from kvdatabase_settings
+</select>
+
+<update id="updateAdminDatabaseSettings">
+update kvdatabase_settings set
+driver = #{driver},
+url = #{url},
+port = #{port},
+additionalArgs = #{additionalArgs},
+username = #{username},
+password = #{password}
+</update>
+
+</mapper>

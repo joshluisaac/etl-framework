@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dataProfilerService">
+    <insert id="insertDataProfiler">
+        <selectKey keyProperty="id" resultType="int" order="BEFORE">
+            select nextval('kvdata_profiler_id')
+        </selectKey>
+        insert into kvdata_profiler
+        (id, name, base_path, prefix, cloneAs, cloneBeforeUnique, cloneFile, uniqueKeyFields, uniqueKeyIndex,
+        generateHash, regex,
+        replacement, expectedLength)
+        values
+        (#{id}, #{name}, #{base_path}, #{prefix}, #{cloneAs}, #{cloneBeforeUnique}, #{cloneFile},
+        #{uniqueKeyFields}, #{uniqueKeyIndex}, #{generateHash}, #{regex}, #{replacement}, #{expectedLength})
+    </insert>
+
+    <resultMap type="java.util.HashMap" id="viewDataProfiler-map">
+        <result property="id" column="id" javaType="java.lang.Long" />
+        <result property="name" column="name" javaType="java.lang.String" />
+        <result property="base_path" column="base_path" javaType="java.lang.String" />
+        <result property="prefix" column="prefix" javaType="java.lang.String" />
+        <result property="cloneAs" column="cloneAs" javaType="java.lang.String" />
+        <result property="cloneBeforeUnique" column="cloneBeforeUnique" javaType="java.lang.Boolean" />
+        <result property="cloneFile" column="cloneFile" javaType="java.lang.Boolean" />
+        <result property="uniqueKeyFields" column="uniqueKeyFields" javaType="java.lang.String" />
+        <result property="uniqueKeyIndex" column="uniqueKeyIndex" javaType="java.lang.String" />
+        <result property="generateHash" column="generateHash" javaType="java.lang.Boolean" />
+        <result property="regex" column="regex" javaType="java.lang.String" />
+        <result property="replacement" column="replacement" javaType="java.lang.String" />
+        <result property="expectedLength" column="expectedLength" javaType="java.lang.Long" />
+    </resultMap>
+
+    <select id="viewDataProfiler" resultMap="viewDataProfiler-map">
+        SELECT
+            id,
+            name
+        FROM kvdata_profiler
+    </select>
+
+    <select id="getDataProfilerById" resultMap="viewDataProfiler-map">
+        SELECT
+            id,
+            name,
+            base_path,
+            prefix,
+            cloneAs,
+            cloneBeforeUnique,
+            cloneFile,
+            uniqueKeyFields,
+            uniqueKeyIndex,
+            generateHash,
+            regex,
+            replacement,
+            expectedLength
+        FROM kvdata_profiler
+        WHERE id = #{id}
+    </select>
+
+    <update id="updateDataProfiler">
+        UPDATE kvdata_profiler
+        SET
+            name              = #{name},
+            base_path         = #{base_path},
+            prefix            = #{prefix},
+            cloneAs           = #{cloneAs},
+            cloneBeforeUnique = #{cloneBeforeUnique},
+            cloneFile         = #{cloneFile},
+            uniqueKeyFields   = #{uniqueKeyFields},
+            uniqueKeyIndex    = #{uniqueKeyIndex},
+            generateHash      = #{generateHash},
+            regex             = #{regex},
+            replacement       = #{replacement},
+            expectedLength = #{expectedLength}
+        WHERE id = #{id}
+    </update>
+</mapper>

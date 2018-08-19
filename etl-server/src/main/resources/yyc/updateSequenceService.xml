@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="yycQueryService.xml">
+
+  <resultMap type="java.util.HashMap" id="getUpdateSequence">
+    <result property="id" column="id" javaType="java.lang.Long" />
+  </resultMap>
+
+  <select id="getUpdateCustomerSequence" resultMap="getUpdateSequence">
+    select
+    setval('customers_id', (select max(id) from customers))
+  </select>
+
+
+  <select id="getUpdateAccountSequence" resultMap="getUpdateSequence">
+    select
+    setval('accounts_id', (select max(id) from accounts))
+  </select>
+
+
+  <select id="getUpdateInvoiceSequence" resultMap="getUpdateSequence">
+    select
+    setval('invoices_id', (select max(id) from invoices));
+  </select>
+
+  <select id="getUpdatePaymentTrxSequence" resultMap="getUpdateSequence">
+    select
+    setval('transactions_id', (select max(id) from transactions));
+  </select>
+
+  <select id="getUpdateCustomerPicSequence" resultMap="getUpdateSequence">
+    select
+    setval('customers_person_incharge_id', (select max(id) from
+    customers_person_incharge));
+  </select>
+
+  <select id="getUpdateCustomerPhoneNumberSequence" resultMap="getUpdateSequence">
+    select setval('customers_phone_nos_id', (select max(id) from
+    customers_phone_nos));
+  </select>
+
+  <select id="getUpdateCustomerAddressSequence" resultMap="getUpdateSequence">
+    select
+    setval('customers_addresses_id', (select max(id) from
+    customers_addresses));
+  </select>
+
+  <select id="getUpdateCustomerEmailSequence" resultMap="getUpdateSequence">
+    select
+    setval('customers_emails_id', (select max(id) from
+    customers_emails));
+  </select>
+
+</mapper>

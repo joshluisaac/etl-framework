@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="invoiceVendorTransaction">
+
+    <resultMap type="java.util.HashMap" id="getInvoiceVendorTransaction-map">
+    </resultMap>
+
+
+    <sql id = "sqlSelectVendorTransactionFragment">
+        id,
+        tenant_id,
+        import_id,
+        account_id,
+        invoice_date,
+        invoice_no,
+        invoice_description,
+        invoice_due_date,
+        invoice_amount,
+        invoice_outstanding,
+        dpd,
+        mpd,
+        status_id,
+        created_at,
+        updated_at,
+        created_by,
+        updated_by,
+        invoice_status_id,
+        invoice_outstanding_with_interest,
+        gst,
+        import_status_id,
+        import_note,
+        branch_id,
+        branch_code,
+        in_aging,
+        invoice_pic_code,
+        invoice_pic_name,
+        last_listener_run,
+        line_of_business,
+        vendor_no,
+        tax_code,
+        tax_id,
+        clearing_doc,
+        reference,
+        assignment,
+        document_id,
+        business_area_id,
+        tax_amount,
+        document_no,
+        mode,
+        amount_dc,
+        amount_lc,
+        purchase_order_no,
+        gst_code,
+        cheque_no,
+        currency_code,
+        document_status_id,
+        entered_date,
+        transaction_date,
+        payment_term,
+        baseline_date,
+        cleardoc_id,
+        reference_id,
+        alt_payee,
+        item_no,
+        alternate_payee2,
+
+    </sql>
+
+    <sql id = "sqlVendorTransactionInsertionFragment">
+        #{id},
+        #{tenant_id},
+        #{import_id},
+        #{account_id},
+        #{invoice_date},
+        #{invoice_no},
+        #{invoice_description},
+        #{invoice_due_date},
+        #{invoice_amount},
+        #{invoice_outstanding},
+        #{dpd},
+        #{mpd},
+        #{status_id},
+        #{created_at},
+        #{updated_at},
+        #{created_by},
+        #{updated_by},
+        #{invoice_status_id},
+        #{invoice_outstanding_with_interest},
+        #{gst},
+        #{import_status_id},
+        #{import_note},
+        #{branch_id},
+        #{branch_code},
+        #{in_aging},
+        #{invoice_pic_code},
+        #{invoice_pic_name},
+        #{last_listener_run},
+        #{line_of_business},
+        #{vendor_no},
+        #{tax_code},
+        #{tax_id},
+        #{clearing_doc},
+        #{reference},
+        #{assignment},
+        #{document_id},
+        #{business_area_id},
+        #{tax_amount},
+        #{document_no},
+        #{mode},
+        #{amount_dc},
+        #{amount_lc},
+        #{purchase_order_no},
+        #{gst_code},
+        #{cheque_no},
+        #{currency_code},
+        #{document_status_id},
+        #{entered_date},
+        #{transaction_date},
+        #{payment_term},
+        #{baseline_date},
+        #{cleardoc_id},
+        #{reference_id},
+        #{alt_payee},
+        #{item_no},
+        #{alternate_payee2},
+    </sql>
+
+    <sql id = "sqlVendorTransactionUpdateFragment">
+      id = #{id},
+      tenant_id = #{tenant_id},
+      import_id = #{import_id},
+      account_id = #{account_id},
+      invoice_date = #{invoice_date},
+      invoice_no = #{invoice_no},
+      invoice_description = #{invoice_description},
+      invoice_due_date = #{invoice_due_date},
+      invoice_amount = #{invoice_amount},
+      invoice_outstanding = #{invoice_outstanding},
+      dpd = #{dpd},
+      mpd = #{mpd},
+      status_id = #{status_id},
+      created_at = #{created_at},
+      updated_at = #{updated_at},
+      created_by = #{created_by},
+      updated_by = #{updated_by},
+      invoice_status_id = #{invoice_status_id},
+      invoice_outstanding_with_interest = #{invoice_outstanding_with_interest},
+      gst = #{gst},
+      import_status_id = #{import_status_id},
+      import_note = #{import_note},
+      branch_id = #{branch_id},
+      branch_code = #{branch_code},
+      in_aging = #{in_aging},
+      invoice_pic_code = #{invoice_pic_code},
+      invoice_pic_name = #{invoice_pic_name},
+      last_listener_run = #{last_listener_run},
+      line_of_business = #{line_of_business},
+      vendor_no = #{vendor_no},
+      tax_code = #{tax_code},
+      tax_id = #{tax_id},
+      clearing_doc = #{clearing_doc},
+      reference = #{reference},
+      assignment = #{assignment},
+      document_id = #{document_id},
+      business_area_id = #{business_area_id},
+      tax_amount = #{tax_amount},
+      document_no = #{document_no},
+      mode = #{mode},
+      amount_dc = #{amount_dc},
+      amount_lc = #{amount_lc},
+      purchase_order_no = #{purchase_order_no},
+      gst_code = #{gst_code},
+      cheque_no = #{cheque_no},
+      currency_code = #{currency_code},
+      document_status_id = #{document_status_id},
+      entered_date = #{entered_date},
+      transaction_date = #{transaction_date},
+      payment_term = #{payment_term},
+      baseline_date = #{baseline_date},
+      cleardoc_id = #{cleardoc_id},
+      reference_id = #{reference_id},
+      alt_payee = #{alt_payee},
+      item_no = #{item_no},
+      alternate_payee2 = #{alternate_payee2}
+    </sql>
+    <insert id="insertVendorInvoicesTransaction">
+         <selectKey keyProperty="id" resultType="int" order="BEFORE" >
+            select nextval('kv_vendor_invoices_id')
+         </selectKey>
+        insert into kv_vendor_invoices (
+        <include refid="sqlSelectVendorTransactionFragment"></include>
+        payment_reference,
+        portal_status_id,
+        invoice_outstanding_dc,
+        load_id
+        )
+        values(
+        <include refid="sqlVendorTransactionInsertionFragment"></include>
+        #{payment_reference},
+        #{portal_status_id},
+        #{invoice_outstanding_dc},
+        #{load_id}
+
+        );
+    </insert>
+
+    <update id="updateVendorInvoicesTransaction">
+      update kv_vendor_invoices set
+      <include refid="sqlVendorTransactionUpdateFragment"></include>
+      payment_reference = #{payment_reference},
+      portal_status_id = #{portal_status_id},
+      invoice_outstanding_dc = #{invoice_outstanding_dc},
+      load_id = #{load_id}
+      where load_id = #{load_id}
+    </update>
+
+
+
+
+
+    <insert id="insertVendorPaymentTransaction">
+      <selectKey keyProperty="id" resultType="int" order="BEFORE" >
+      select nextval('kv_vendor_payments_id')
+      </selectKey>
+      insert into kv_vendor_payments (
+      <include refid="sqlSelectVendorTransactionFragment"></include>
+      clearing_date,
+      payment_type_id,
+      invoice_reference
+      )
+      values (
+      <include refid="sqlVendorTransactionInsertionFragment"></include>
+      #{clearing_date},
+      #{payment_type_id},
+      #{invoice_reference}
+      )
+    </insert>
+
+  <update id="UpdateVendorPaymentTransaction">
+    update kv_vendor_payments set
+    <include refid="sqlVendorTransactionUpdateFragment"></include>
+    clearing_date = #{clearing_date},
+    payment_type_id = #{payment_type_id},
+    invoice_reference = #{invoice_reference}
+    where load_id = #{load_id}
+  </update>
+</mapper>

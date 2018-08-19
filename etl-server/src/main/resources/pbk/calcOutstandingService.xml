@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="calcOutstandingService">
+
+<resultMap type="java.util.HashMap" id="getOutstandingByTenantId-map" >
+<result property="invoice_id" column="invoice_id" javaType="java.lang.Integer"/>
+<result property="total_transactions" column="total_transactions" javaType="java.lang.Double"/>
+<result property="invoice_plus_gst" column="invoice_plus_gst" javaType="java.lang.Double"/>
+<result property="invoice_outstanding" column="invoice_outstanding" javaType="java.lang.Double"/>
+</resultMap>
+
+<select id="getOutstandingByTenantId" resultMap="getOutstandingByTenantId-map">
+
+select invoices.id as invoice_id, sum(transactions.credit) as total_transactions, (invoices.invoice_amount+invoices.gst) as invoice_plus_gst, 
+invoices.invoice_outstanding as invoice_outstanding
+from invoices 
+inner join transactions on invoices.id = transactions.invoice_id
+where invoices.tenant_id = 63 and transactions.initial_debit = false group by invoices.id, invoices.invoice_outstanding limit 2000
+
+</select>
+
+<update id="updateOutstanding">
+update invoices set os_dummy = coalesce((#{invoice_plus_gst} - #{total_transactions}), 0.0) where id = #{invoice_id}
+</update>
+
+</mapper>

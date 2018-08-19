@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="emailLogService">
+    <resultMap type="java.util.HashMap" id="getEmailLog-map" >
+        <result property="id" column="id" javaType="java.lang.Long" />
+        <result property="subject" column="subject" javaType="java.lang.String" />
+        <result property="recipient" column="recipient" javaType="java.lang.String" />
+        <result property="time_sent" column="time_sent" javaType="java.lang.String" />
+        <result property="status" column="status" javaType="java.lang.String" />
+    </resultMap>
+
+    <select id="getEmailLog" resultMap="getEmailLog-map">
+        select
+            id,
+            subject,
+            recipient,
+            TO_CHAR(time_sent, 'DD Month YYYY "@" HH24:MI:SS') as time_sent,
+            status
+        from kvemail_log ORDER BY id DESC
+    </select>
+
+    <insert id="insertEmailLog">
+        <selectKey keyProperty="id" resultType="int" order="BEFORE" >
+            select nextval('kvemail_log_id')
+        </selectKey>
+        insert into kvemail_log
+        (id, subject, recipient, time_sent, status)
+        VALUES
+        (#{id}, #{subject}, #{recipient}, DATE_TRUNC('second', NOW()), #{status})
+    </insert>
+</mapper>

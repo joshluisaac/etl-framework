@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="updateInvoices">
+
+    <resultMap type="java.util.HashMap" id="getInvoiceTransaction-map">
+
+        <result property="load_id" column="load_id" javaType="java.lang.Long"/>
+        <result property="tenant_id" column="tenant_id" javaType="java.lang.Long"/>
+        <result property="import_id" column="import_id" javaType="java.lang.Long"/>
+        <result property="account_id" column="account_id" javaType="java.lang.Long"/>
+        <result property="invoice_date" column="invoice_date" javaType="java.sql.Timestamp"/>
+        <result property="invoice_no" column="invoice_no" javaType="java.lang.String"/>
+        <result property="invoice_description" column="invoice_description" javaType="java.lang.String"/>
+        <result property="invoice_due_date" column="invoice_due_date" javaType="java.sql.Timestamp"/>
+        <result property="invoice_amount" column="invoice_amount" javaType="java.lang.Double"/>
+        <result property="invoice_outstanding" column="invoice_outstanding" javaType="java.lang.Double"/>
+        <result property="dpd" column="dpd" javaType="java.lang.Long"/>
+        <result property="mpd" column="mpd" javaType="java.lang.Long"/>
+        <result property="status_id" column="status_id" javaType="java.lang.Long"/>
+        <result property="created_at" column="created_at" javaType="java.sql.Timestamp"/>
+        <result property="updated_at" column="updated_at" javaType="java.sql.Timestamp"/>
+        <result property="created_by" column="created_by" javaType="java.lang.Long"/>
+        <result property="updated_by" column="updated_by" javaType="java.lang.Long"/>
+        <result property="invoice_status_id" column="invoice_status_id" javaType="java.lang.Long"/>
+        <result property="invoice_outstanding_with_interest" column="invoice_outstanding_with_interest" javaType="java.lang.Double"/>
+        <result property="gst" column="gst" javaType="java.lang.Double"/>
+        <result property="import_status_id" column="import_status_id" javaType="java.lang.Long"/>
+        <result property="import_note" column="import_note" javaType="java.lang.String"/>
+        <result property="branch_id" column="branch_id" javaType="java.lang.Long"/>
+        <result property="branch_code" column="branch_code" javaType="java.lang.String"/>
+        <result property="invoice_id" column="invoice_id" javaType="java.lang.Long"/>
+        <result property="in_aging" column="in_aging" javaType="java.lang.Boolean"/>
+        <result property="invoice_pic_code" column="invoice_pic_code" javaType="java.lang.String"/>
+        <result property="invoice_pic_name" column="invoice_pic_name" javaType="java.lang.String"/>
+        <result property="flag_id" column="flag_id" javaType="java.lang.Long"/>
+        <result property="last_listener_run" column="last_listener_run" javaType="java.sql.Timestamp"/>
+        <result property="line_of_business" column="line_of_business" javaType="java.lang.String"/>
+        <result property="account_num" column="account_num" javaType="java.lang.String"/>
+        <result property="contract_id" column="contract_id" javaType="java.lang.Long"/>
+        <result property="recon_acct" column="recon_acct" javaType="java.lang.String"/>
+        <result property="currency" column="currency" javaType="java.lang.String"/>
+        <result property="tax_code" column="tax_code" javaType="java.lang.String"/>
+        <result property="tax_id" column="tax_id" javaType="java.lang.Long"/>
+        <result property="clearing_doc" column="clearing_doc" javaType="java.lang.String"/>
+        <result property="reference" column="reference" javaType="java.lang.String"/>
+        <result property="assignment" column="assignment" javaType="java.lang.String"/>
+        <result property="item_no" column="item_no" javaType="java.lang.Long"/>
+        <result property="document_id" column="document_id" javaType="java.lang.Long"/>
+        <result property="business_area_id" column="business_area_id" javaType="java.lang.Long"/>
+        <result property="payment_id" column="payment_id" javaType="java.lang.Long"/>
+        <result property="balance" column="balance" javaType="java.lang.Double"/>
+        <result property="tax_amount" column="tax_amount" javaType="java.lang.Double"/>
+        <result property="payment_reference" column="payment_reference" javaType="java.lang.String"/>
+        <result property="document_no" column="document_no" javaType="java.lang.String"/>
+        <result property="mode" column="mode" javaType="java.lang.String"/>
+        <result property="spec_gl_ind" column="spec_gl_ind" javaType="java.lang.String"/>
+        <result property="amount_dc" column="amount_dc" javaType="java.lang.Double"/>
+        <result property="post_key" column="post_key" javaType="java.lang.String"/>
+        <result property="trx_date" column="trx_date" javaType="java.sql.Timestamp"/>
+        <result property="reference_id" column="reference_id" javaType="java.lang.Long"/>
+        <result property="cleardoc_id" column="cleardoc_id" javaType="java.lang.Long"/>
+        <result property="invoice_days" column="invoice_days" javaType="java.lang.Long"/>
+        <result property="inv_ref" column="inv_ref" javaType="java.lang.String"/>
+        <result property="bill_doc" column="bill_doc" javaType="java.lang.Long"/>
+        <result property="payment_term" column="payment_term" javaType="java.lang.String"/>
+        <result property="baseline_date" column="baseline_date" javaType="java.sql.Timestamp"/>
+        <result property="contract_num" column="contract_num" javaType="java.lang.String"/>
+        <result property="old_contract_id" column="old_contract_id" javaType="java.lang.Long"/>
+        <result property="kv_amount" column="kv_amount" javaType="java.lang.Double"/>
+        <result property="kv_amount_dc" column="kv_amount_dc" javaType="java.lang.Double"/>
+        <result property="load_execution_id" column="load_execution_id" javaType="java.lang.Long"/>
+        <result property="invoice_reference" column="invoice_reference" javaType="java.lang.String"/>
+        <result property="updateRow" column="updateRow" javaType="java.lang.Boolean"/>
+    </resultMap>
+
+    <select id="getInvoiceTransaction" resultType="com.kollect.etl.entity.Invoice">
+
+        SELECT
+        load.id as load_id,
+        load.tenant_id,
+        load.import_id,
+        load.account_id,
+        load.invoice_date,
+        load.invoice_no,
+        load.invoice_description,
+        load.invoice_due_date,
+        (load.invoice_amount - load.tax_amount) as invoice_amount,
+        load.invoice_outstanding,
+        load.dpd,
+        load.mpd,
+        load.status_id,
+        load.created_at,
+        load.updated_at,
+        load.created_by,
+        load.updated_by,
+        load.invoice_status_id,
+        load.invoice_outstanding_with_interest,
+        load.gst,
+        load.import_status_id,
+        load.import_note,
+        load.branch_id,
+        load.branch_code,
+        load.invoice_id,
+        load.in_aging,
+        load.invoice_pic_code,
+        load.invoice_pic_name,
+        load.flag_id,
+        load.last_listener_run,
+        load.line_of_business,
+        load.account_num,
+        load.contract_id,
+        load.recon_acct,
+        load.currency,
+        load.tax_code,
+        load.tax_id,
+        load.clearing_doc,
+        load.reference,
+        load.assignment,
+        load.item_no,
+        load.document_id,
+        load.business_area_id,
+        load.payment_id,
+        load.balance,
+        load.tax_amount,
+        load.payment_reference,
+        load.document_no,
+        load.mode,
+        load.spec_gl_ind,
+        load.amount_dc,
+        load.post_key,
+        load.trx_date,
+        load.reference_id,
+        load.cleardoc_id,
+        load.invoice_days,
+        load.inv_ref,
+        load.bill_doc,
+        load.payment_term,
+        load.baseline_date,
+        load.contract_num,
+        load.old_contract_id,
+        load.kv_amount,
+        load.kv_amount_dc,
+        load.load_execution_id,
+        load.invoice_reference,
+        case when inv.load_id is not null then true else false end as updateRow
+        FROM transaction_load load
+        left join kv_invoices inv on load.id = inv.load_id 
+        where load.line_of_business in ('INVOICE','LPC','DEBIT')
+        order by load.id asc
+    </select>
+
+    <update id="updateInvoiceTransaction">
+        update kv_invoices set
+        tenant_id = #{tenant_id},
+        import_id = #{import_id},
+        account_id = #{account_id},
+        invoice_date = #{invoice_date},
+        invoice_no = #{invoice_no},
+        invoice_description = #{invoice_description},
+        invoice_due_date = #{invoice_due_date},
+        invoice_amount = #{invoice_amount},
+        invoice_outstanding = #{invoice_outstanding},
+        dpd = #{dpd},
+        mpd = #{mpd},
+        status_id = #{status_id},
+        created_at = #{created_at},
+        updated_at = #{updated_at},
+        created_by = #{created_by},
+        updated_by = #{updated_by},
+        invoice_status_id = #{invoice_status_id},
+        invoice_outstanding_with_interest = #{invoice_outstanding_with_interest},
+        gst = #{gst},
+        import_status_id = #{import_status_id},
+        import_note = #{import_note},
+        branch_id = #{branch_id},
+        branch_code = #{branch_code},
+        invoice_id = #{invoice_id},
+        in_aging = #{in_aging},
+        invoice_pic_code = #{invoice_pic_code},
+        invoice_pic_name = #{invoice_pic_name},
+        flag_id = #{flag_id},
+        last_listener_run = #{last_listener_run},
+        line_of_business = #{line_of_business},
+        account_num = #{account_num},
+        contract_id = #{contract_id},
+        recon_acct = #{recon_acct},
+        currency = #{currency},
+        tax_code = #{tax_code},
+        tax_id = #{tax_id},
+        clearing_doc = #{clearing_doc},
+        reference = #{reference},
+        assignment = #{assignment},
+        item_no = #{item_no},
+        document_id = #{document_id},
+        business_area_id = #{business_area_id},
+        payment_id = #{payment_id},
+        balance = #{balance},
+        tax_amount = #{tax_amount},
+        payment_reference = #{payment_reference},
+        document_no = #{document_no},
+        mode = #{mode},
+        spec_gl_ind = #{spec_gl_ind},
+        amount_dc = #{amount_dc},
+        post_key = #{post_key},
+        trx_date = #{trx_date},
+        reference_id = #{reference_id},
+        cleardoc_id = #{cleardoc_id},
+        invoice_days = #{invoice_days},
+        inv_ref = #{inv_ref},
+        bill_doc = #{bill_doc},
+        payment_term = #{payment_term},
+        baseline_date = #{baseline_date},
+        contract_num = #{contract_num},
+        old_contract_id = #{old_contract_id},
+        kv_amount = #{kv_amount},
+        kv_amount_dc = #{kv_amount_dc},
+        load_execution_id = #{load_execution_id},
+        invoice_reference = #{invoice_reference}
+        where
+        load_id = #{load_id}
+    </update>
+
+    <insert id="insertInvoiceTransaction">
+        <selectKey keyProperty="id" resultType="int" order="BEFORE" >
+            select nextval('kv_invoices_id')
+        </selectKey>
+        insert into kv_invoices
+        (
+        id,
+        load_id,
+        tenant_id,
+        import_id,
+        account_id,
+        invoice_date,
+        invoice_no,
+        invoice_description,
+        invoice_due_date,
+        invoice_amount,
+        invoice_outstanding,
+        dpd,
+        mpd,
+        status_id,
+        created_at,
+        updated_at,
+        created_by,
+        updated_by,
+        invoice_status_id,
+        invoice_outstanding_with_interest,
+        gst,
+        import_status_id,
+        import_note,
+        branch_id,
+        branch_code,
+        invoice_id,
+        in_aging,
+        invoice_pic_code,
+        invoice_pic_name,
+        flag_id,
+        last_listener_run,
+        line_of_business,
+        account_num,
+        contract_id,
+        recon_acct,
+        currency,
+        tax_code,
+        tax_id,
+        clearing_doc,
+        reference,
+        assignment,
+        item_no,
+        document_id,
+        business_area_id,
+        payment_id,
+        balance,
+        tax_amount,
+        payment_reference,
+        document_no,
+        mode,
+        spec_gl_ind,
+        amount_dc,
+        post_key,
+        trx_date,
+        reference_id,
+        cleardoc_id,
+        invoice_days,
+        inv_ref,
+        bill_doc,
+        payment_term,
+        baseline_date,
+        contract_num,
+        old_contract_id,
+        kv_amount,
+        kv_amount_dc,
+        load_execution_id,
+        invoice_reference
+        
+        ) 
+        
+        values
+         (
+        #{id},
+        #{load_id},
+        #{tenant_id},
+        #{import_id},
+        #{account_id},
+        #{invoice_date},
+        #{invoice_no},
+        #{invoice_description},
+        #{invoice_due_date},
+        #{invoice_amount},
+        #{invoice_outstanding},
+        #{dpd},
+        #{mpd},
+        #{status_id},
+        #{created_at},
+        #{updated_at},
+        #{created_by},
+        #{updated_by},
+        #{invoice_status_id},
+        #{invoice_outstanding_with_interest},
+        #{gst},
+        #{import_status_id},
+        #{import_note},
+        #{branch_id},
+        #{branch_code},
+        #{invoice_id},
+        #{in_aging},
+        #{invoice_pic_code},
+        #{invoice_pic_name},
+        #{flag_id},
+        #{last_listener_run},
+        #{line_of_business},
+        #{account_num},
+        #{contract_id},
+        #{recon_acct},
+        #{currency},
+        #{tax_code},
+        #{tax_id},
+        #{clearing_doc},
+        #{reference},
+        #{assignment},
+        #{item_no},
+        #{document_id},
+        #{business_area_id},
+        #{payment_id},
+        #{balance},
+        #{tax_amount},
+        #{payment_reference},
+        #{document_no},
+        #{mode},
+        #{spec_gl_ind},
+        #{amount_dc},
+        #{post_key},
+        #{trx_date},
+        #{reference_id},
+        #{cleardoc_id},
+        #{invoice_days},
+        #{inv_ref},
+        #{bill_doc},
+        #{payment_term},
+        #{baseline_date},
+        #{contract_num},
+        #{old_contract_id},
+        #{kv_amount},
+        #{kv_amount_dc},
+        #{load_execution_id},
+        #{invoice_reference}
+        )
+    </insert>
+
+
+</mapper>
