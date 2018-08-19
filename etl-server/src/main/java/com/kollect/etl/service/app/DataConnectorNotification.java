@@ -1,14 +1,30 @@
 package com.kollect.etl.service.app;
 
-import java.io.IOException;
+import java.util.List;
 
-import com.kollect.etl.util.dataconnector.DcStats2Json;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
+import com.kollect.etl.component.DcStatistics;
+import com.kollect.etl.util.dataconnector.TotalLoaded;
+
+@Service
 public class DataConnectorNotification {
-	
-	private  DcStats2Json dcStats;
-	
-	public DataConnectorNotification() throws IOException {
-		this.dcStats = new DcStats2Json();
-	}
+
+  @Value("${app.serverLogPath}")
+  private String serverLogPath;
+
+  @Value("${app.daysAgo}")
+  private String daysAgo;
+  private DcStatistics dcStats;
+
+  @Autowired
+  public DataConnectorNotification(DcStatistics dcStats) {
+    this.dcStats = dcStats;
+  }
+
+  void jsonEncode() {
+    List<TotalLoaded> stats = dcStats.getStats(serverLogPath, daysAgo);
+  }
 }
