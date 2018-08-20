@@ -5,7 +5,6 @@ import com.kollect.etl.service.app.BatchHistoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,21 +12,18 @@ import java.util.List;
 @Service
 public class YycQuerySequenceService {
     private IReadWriteServiceProvider rwProvider;
-    private List<String> dataSource;
     private BatchHistoryService batchHistoryService;
     private boolean lock;
     private static final Logger LOG = LoggerFactory.getLogger(YycQuerySequenceService.class);
 
     @Autowired
     public YycQuerySequenceService(IReadWriteServiceProvider rwProvider,
-                                   @Value("#{'${app.datasource_all2}'.split(',')}") List<String> dataSource,
                                    BatchHistoryService batchHistoryService){
         this.rwProvider = rwProvider;
-        this.dataSource = dataSource;
         this.batchHistoryService = batchHistoryService;
     }
 
-    public int runYycSequenceQuery(Integer batch_id){
+    public int runYycSequenceQuery(Integer batch_id, List<String> dataSource){
         int numberOfRows = 8;
         long timeTaken = 0;
         String status;
