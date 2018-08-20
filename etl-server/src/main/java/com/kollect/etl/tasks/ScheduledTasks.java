@@ -3,6 +3,7 @@ package com.kollect.etl.tasks;
 import com.kollect.etl.component.ComponentProvider;
 import com.kollect.etl.service.IReadWriteServiceProvider;
 import com.kollect.etl.service.app.BatchHistoryService;
+import com.kollect.etl.service.app.DataConnectorNotification;
 import com.kollect.etl.service.app.EmailSenderService;
 import com.kollect.etl.service.commonbatches.AsyncBatchExecutorService;
 import com.kollect.etl.service.commonbatches.UpdateDataDateService;
@@ -29,6 +30,7 @@ public class ScheduledTasks {
     private IReadWriteServiceProvider iRWProvider;
     private ComponentProvider componentProvider;
     private EmailSenderService emailSenderService;
+    private DataConnectorNotification dcNotificationService;
 
     /*Values coming in application.properties*/
     @Value("${spring.mail.properties.batch.autoupdate.recipients}")
@@ -44,8 +46,13 @@ public class ScheduledTasks {
     private @Value("${app.datasource_ictzone}")
     List<String> ictZoneDataSource;
     
+    
     @Value("${app.pelitaExtractionPath}")
     private String pelitaExtractionPath;
+    @Value("${app.pelitaDcServerLogPath}")
+    private String pelitaDcServerLogPath;
+    
+    
     private String fromEmail = "datareceived@kollect.my";
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
     
@@ -61,7 +68,8 @@ public class ScheduledTasks {
                           BatchHistoryService batchHistoryService,
                           IReadWriteServiceProvider iRWProvider,
                           ComponentProvider componentProvider,
-                          EmailSenderService emailSenderService){
+                          EmailSenderService emailSenderService,
+                          DataConnectorNotification dcNotificationService){
         this.pbklSumPayServ = pbklSumPayServ;
         this.asyncBatchExecutorService = asyncBatchExecutorService;
         this.updateDataDateService = updateDataDateService;
@@ -70,6 +78,7 @@ public class ScheduledTasks {
         this.iRWProvider = iRWProvider;
         this.componentProvider = componentProvider;
         this.emailSenderService=emailSenderService;
+        this.dcNotificationService = dcNotificationService;
     }
 
     @Scheduled(cron = "${app.scheduler.runat430am}")
@@ -202,11 +211,22 @@ public class ScheduledTasks {
                 "getUpdateDataDateToKeepConnectionOpen", null);
     }
     
-    @Scheduled(fixedDelay = 120000)
+    //@Scheduled(fixedDelay = 120000)
     public void sendPelitaExtractEmail() throws IOException {
       String title = "Pelita - Daily Extraction Metrics";
         logger.info("Extraction Email Scheduler Running...");
       emailSenderService.sendExtractionEmail(pelitaExtractionPath,title);
     }
+    
+    //@Scheduled(fixedDelay = 120000)
+    public void sendDataConnectorStats() throws IOException {
+      String title = "Pelita - Daily Data Loading";
+      String context = "pelita";
+      logger.info("DataConnector Email Notification Running...at {} using thread {}", System.currentTimeMillis(), Thread.currentThread().getName());
+      dcNotificationService.execute(title, pelitaDcServerLogPath, context);
+    }
+    
+    
+    
     
 }
