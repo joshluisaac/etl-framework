@@ -32,7 +32,7 @@ public class YycBatchController {
     @ResponseBody
     @PostMapping("/yycsequence")
     public Object runYycSequence(@RequestParam Integer batch_id){
-        return this.yycQuerySequenceService.runYycSequenceQuery(batch_id);
+        return this.yycQuerySequenceService.runYycSequenceQuery(batch_id, dataSource);
     }
 
     @ResponseBody
