@@ -219,7 +219,7 @@ public class ScheduledTasks {
     }
     
     //@Scheduled(fixedDelay = 120000)
-    public void sendDataConnectorStats() throws IOException {
+    public void sendPelitaDataConnectorStatsEmail() throws IOException {
       String title = "Pelita - Daily Data Loading";
       String context = "pelita";
       logger.info("DataConnector Email Notification Running...at {} using thread {}", System.currentTimeMillis(), Thread.currentThread().getName());
