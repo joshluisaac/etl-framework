@@ -81,7 +81,7 @@ public class ScheduledTasks {
         this.dcNotificationService = dcNotificationService;
     }
 
-    private void runYycBatches(List<String> datasource, List<Object> uatStats, List<Object> prodStats) {
+    private void runYycBatches(List<String> datasource, List<Object> uatStats, List<Object> prodStats, String subject) {
         this.asyncBatchExecutorService.execute(63, datasource,
                 "getYycInvoiceStatus",
                 "updateYycInvoiceStatus",
@@ -99,7 +99,7 @@ public class ScheduledTasks {
                 datasource, "yycUpdateDataDate");
         this.componentProvider.taskSleep();
         emailSenderService.sendAfterBatch(fromEmail,
-                recipient, "YYC - Daily Batch Report",
+                recipient, subject,
                 uatStats,
                 prodStats);
     }
@@ -107,16 +107,16 @@ public class ScheduledTasks {
     /*comment this out on production*/
     @Scheduled(cron = "${app.scheduler.runat430am}")
     public void runUatYycBatches() {
-        runYycBatches(yycUatDataSource, batchHistoryService.viewYycAfterSchedulerUat(), emptyList);
+        runYycBatches(yycUatDataSource, batchHistoryService.viewYycAfterSchedulerUat(), emptyList, "YYC - UAT Daily Batch Report");
     }
 
     /*comment this out on uat*/
     @Scheduled(cron = "${app.scheduler.runat430am}")
     public void runProdYycBatches() {
-        runYycBatches(prodDataSource, emptyList, batchHistoryService.viewYycAfterSchedulerProd());
+        runYycBatches(prodDataSource, emptyList, batchHistoryService.viewYycAfterSchedulerProd(), "YYC - Production Daily Batch Report");
     }
 
-    private void runPbkBatches(List<String> dataSource, List<Object> uatStats, List<Object> prodStats) {
+    private void runPbkBatches(List<String> dataSource, List<Object> uatStats, List<Object> prodStats, String subject) {
         this.asyncBatchExecutorService.execute(3, dataSource,
                 "getPbkAgeInvoice",
                 "updatePbkAgeInvoice",
@@ -127,7 +127,7 @@ public class ScheduledTasks {
         this.pbklSumPayServ.combinedLumpSumPaymentService(2);
         this.componentProvider.taskSleep();
         emailSenderService.sendAfterBatch(fromEmail,
-                recipient, "PBK - Daily Batch Report",
+                recipient, subject,
                 uatStats,
                 prodStats);
     }
@@ -135,16 +135,16 @@ public class ScheduledTasks {
     /*comment this out on production*/
     @Scheduled(cron = "${app.scheduler.runat5am}")
     public void runUatPbkBatches() {
-        runPbkBatches(pbkUatDataSource, batchHistoryService.viewPbkAfterSchedulerUat(), emptyList);
+        runPbkBatches(pbkUatDataSource, batchHistoryService.viewPbkAfterSchedulerUat(), emptyList, "PBK - UAT Daily Batch Report");
     }
 
     /*comment this out on uat*/
     @Scheduled(cron = "${app.scheduler.runat5am}")
     public void runProdPbkBatches() {
-        runPbkBatches(prodDataSource, emptyList, batchHistoryService.viewPbkAfterSchedulerProd());
+        runPbkBatches(prodDataSource, emptyList, batchHistoryService.viewPbkAfterSchedulerProd(), "PBK - Production Daily Batch Report");
     }
 
-    private void runPelitaBatches(List<String> dataSource, List<Object> uatStats, List<Object> prodStats) {
+    private void runPelitaBatches(List<String> dataSource, List<Object> uatStats, List<Object> prodStats, String subject) {
         this.asyncBatchExecutorService.execute(57, dataSource,
                 "getPelitaInvoiceAmountAfterTax",
                 "updatePelitaInvoiceAmountAfterTax",
@@ -174,7 +174,7 @@ public class ScheduledTasks {
                 "COMPUTE_DEBIT");
         this.componentProvider.taskSleep();
         emailSenderService.sendAfterBatch(fromEmail,
-                recipient, "Pelita - Daily Batch Report",
+                recipient, subject,
                 uatStats,
                 prodStats);
     }
@@ -182,16 +182,16 @@ public class ScheduledTasks {
     /*comment this out on production*/
     @Scheduled(cron = "${app.scheduler.runat530am}")
     public void runUatPelitaBatches() {
-        runPelitaBatches(pelitaUatDataSource, batchHistoryService.viewPelitaAfterSchedulerUat(), emptyList);
+        runPelitaBatches(pelitaUatDataSource, batchHistoryService.viewPelitaAfterSchedulerUat(), emptyList, "Pelita - UAT Daily Batch Report");
     }
 
     /*comment this out on uat*/
 /*    @Scheduled(cron = "${app.scheduler.runat530am}")
     public void runProdPelitaBatches() {
-        runPelitaBatches(prodDataSource, emptyList, batchHistoryService.viewPelitaAfterSchedulerProd());
+        runPelitaBatches(prodDataSource, emptyList, batchHistoryService.viewPelitaAfterSchedulerProd(), "Pelita - Production Daily Batch Report");
     }*/
 
-    private void runIctZoneBatches(List<String> dataSource, List<Object> uatStats, List<Object> prodStats) {
+    private void runIctZoneBatches(List<String> dataSource, List<Object> uatStats, List<Object> prodStats, String subject) {
         this.asyncBatchExecutorService.execute(68,
                 dataSource,
                 "getIctZoneInvoiceAmountAfterTax",
@@ -221,7 +221,7 @@ public class ScheduledTasks {
         this.componentProvider.taskSleep();
         emailSenderService.sendAfterBatch(fromEmail,
                 recipient + ",syazman@kollect.my,biman@kollect.my",
-                "ICT Zone - Daily Batch Report",
+                subject,
                 uatStats,
                 prodStats);
     }
@@ -229,21 +229,21 @@ public class ScheduledTasks {
     /*comment this out on production*/
     @Scheduled(cron = "${app.scheduler.runat6am}")
     public void runUatIctZoneBatches() {
-        runIctZoneBatches(ictZoneUatDataSource, batchHistoryService.viewIctZoneAfterSchedulerUat(), emptyList);
+        runIctZoneBatches(ictZoneUatDataSource, batchHistoryService.viewIctZoneAfterSchedulerUat(), emptyList, "ICT Zone - UAT Daily Batch Report");
     }
 
     /*comment this out on uat*/
     @Scheduled(cron = "${app.scheduler.runat6am}")
     public void runProdIctZoneBatches() {
-        runIctZoneBatches(prodDataSource, emptyList, batchHistoryService.viewIctZoneAfterSchedulerProd());
+        runIctZoneBatches(prodDataSource, emptyList, batchHistoryService.viewIctZoneAfterSchedulerProd(), "ICT Zone - Production Daily Batch Report");
     }
 
-    private void runYycSequences(List<String> datasource, List<Object> uatStats, List<Object> prodStats) {
+    private void runYycSequences(List<String> datasource, List<Object> uatStats, List<Object> prodStats, String subject) {
         this.yycQuerySequenceService.runYycSequenceQuery(62, datasource);
         this.componentProvider.taskSleep();
         emailSenderService.sendAfterBatch(fromEmail,
                 recipient,
-                "YYC - Daily Sequence Batch Report",
+                subject,
                 uatStats,
                 prodStats);
     }
@@ -251,13 +251,13 @@ public class ScheduledTasks {
     /*comment this out on production*/
     @Scheduled(cron = "${app.scheduler.runat7pm}")
     public void runUatYycSequences() {
-        runYycSequences(yycUatDataSource, batchHistoryService.viewYycSeqAfterSchedulerUat(), emptyList);
+        runYycSequences(yycUatDataSource, batchHistoryService.viewYycSeqAfterSchedulerUat(), emptyList, "YYC - UAT Daily Sequence Batch Report");
     }
 
     /*comment this out on uat*/
     @Scheduled(cron = "${app.scheduler.runat7pm}")
     public void runProdYycSequences() {
-        runYycSequences(yycUatDataSource, emptyList, batchHistoryService.viewYycSeqAfterSchedulerProd());
+        runYycSequences(yycUatDataSource, emptyList, batchHistoryService.viewYycSeqAfterSchedulerProd(), "YYC - Production Daily Sequence Batch Report");
     }
 
     @Scheduled(fixedDelay = 600000)
