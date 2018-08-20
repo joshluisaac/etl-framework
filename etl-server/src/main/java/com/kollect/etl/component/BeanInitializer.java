@@ -24,7 +24,7 @@ public class BeanInitializer {
   
   
   
-  @Bean
+/*  @Bean
   public IType initializeBean() {
     return new IType() {
       
@@ -34,6 +34,6 @@ public class BeanInitializer {
         
       }
     };
-  }
+  }*/
 
 }
