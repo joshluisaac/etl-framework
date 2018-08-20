@@ -100,9 +100,7 @@ public class ScheduledTasks {
                 "ICT Zone - Daily Batch Report", batchHistoryService.viewIctZoneAfterSchedulerUat(),
                 emptyList);
         componentProvider.taskSleep();
-        emailSenderService.sendAfterBatch(fromEmail, recipient,"YYC - Daily Sequence Batch Report",
-                batchHistoryService.viewYycSeqAfterSchedulerUat(), batchHistoryService.viewYycSeqAfterSchedulerProd());
-    }
+        }
 
     private void runYycBatches(List<String> datasource) {
         this.asyncBatchExecutorService.execute(63, datasource,
@@ -271,6 +269,8 @@ public class ScheduledTasks {
     @Scheduled(cron = "${app.scheduler.runat7pm}")
     public void yycSequences(){
         runYycSequences(dataSourceAll2);
+        emailSenderService.sendAfterBatch(fromEmail, recipient,"YYC - Daily Sequence Batch Report",
+                batchHistoryService.viewYycSeqAfterSchedulerUat(), batchHistoryService.viewYycSeqAfterSchedulerProd());
     }
 
 /*    *//*comment this out on production*//*
