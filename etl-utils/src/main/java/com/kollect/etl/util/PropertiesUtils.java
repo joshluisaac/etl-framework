@@ -43,7 +43,7 @@ public class PropertiesUtils {
   }
 
   private String getClassPathResource(String fileName) {
-    URL url = getClass().getResource(fileName);
+    URL url = getClass().getClassLoader().getResource(fileName);
     return url.getFile();
   }
 
