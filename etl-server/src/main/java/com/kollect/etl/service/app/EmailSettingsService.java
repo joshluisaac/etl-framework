@@ -1,5 +1,6 @@
 package com.kollect.etl.service.app;
 
+import com.kollect.etl.util.FileUtils;
 import com.kollect.etl.util.JsonToHashMap;
 import com.kollect.etl.util.JsonUtils;
 import com.kollect.etl.util.Utils;
@@ -16,13 +17,16 @@ public class EmailSettingsService {
 
     @Value("${app.generalEmailJson}")
     private String generalEmailJsonPath;
+    private FileUtils fileUtils = new FileUtils();
 
 	public Object getEmailSettings(){
-        return jsonToHashMap.toHashMapFromJson(generalEmailJsonPath);
+        return jsonToHashMap.toHashMapFromJson(fileUtils.getFileFromClasspath(
+                generalEmailJsonPath).toString());
     }
 
 	public void addUpdateEmailSettings(HashMap<String, String> generalEmailSettings) {
         String jsonOut = jsonUtils.toJson(generalEmailSettings);
-        utils.writeTextFile(generalEmailJsonPath, jsonOut, false);
+        utils.writeTextFile(fileUtils.getFileFromClasspath(
+                generalEmailJsonPath).toString(), jsonOut, false);
     }
 }
