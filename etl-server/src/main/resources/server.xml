@@ -92,11 +92,11 @@
             </dataSource>
         </environment>
 
-		<environment id="Pelita_Test">
+		<environment id="Pelita_YYC_IctZone">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
 				<property name="driver" value="${postgres_driver}" />
-				<property name="url" value="${postgres_pelita_test_url}" />
+				<property name="url" value="${kollectvalley_uat_url}" />
 				<property name="username" value="${postgres_username}" />
 				<property name="password" value="${postgres_password}" />
 			</dataSource>
@@ -112,7 +112,7 @@
 			</dataSource>
 		</environment>
 
-		<environment id="IctZone">
+<!--		<environment id="IctZone">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
 				<property name="driver" value="${postgres_driver}" />
@@ -120,7 +120,7 @@
 				<property name="username" value="${postgres_username}" />
 				<property name="password" value="${kv_production_password}" />
 			</dataSource>
-		</environment>
+		</environment>-->
 
 	</environments>
 
