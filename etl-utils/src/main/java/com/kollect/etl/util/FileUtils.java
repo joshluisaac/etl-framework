@@ -4,10 +4,16 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -177,7 +183,7 @@ public class FileUtils {
                 deleteDir(f);
             } else {
                 isDeleted = f.delete();
-                LOG.debug("File {} has been deleted from {}", new Object[]{fileName, f.getAbsolutePath()});
+                LOG.info("File {} has been deleted from {}", new Object[]{fileName, f.getAbsolutePath()});
             }
         }
         return isDeleted;
@@ -233,6 +239,34 @@ public class FileUtils {
         ClassLoader classLoader = getClass().getClassLoader();
         return new File(classLoader.getResource(path).getFile());
     }
+    
+    
+    public static void streamOrientedCopy(File src, File dest) throws IOException {
+      try(InputStream in = new FileInputStream(src);
+          OutputStream out = new FileOutputStream(dest);
+          ){
+        
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+        
+        while( (bytesRead = in.read(buffer)) > 0 ){
+            out.write(buffer, 0, bytesRead);
+        }
+        
+       
+        
+      }
+     
+    }
+    
+    
+    public static String readFile(String path, Charset encoding) 
+        throws IOException 
+      {
+        byte[] encoded = Files.readAllBytes(Paths.get(path));
+        return new String(encoded, encoding);
+      }
+    
 
 
 
