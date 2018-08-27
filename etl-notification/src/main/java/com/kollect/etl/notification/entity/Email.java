@@ -67,4 +67,14 @@ public class Email {
     public void setFile(File file) {
         this.file = file;
     }
+
+    @Override
+    public String toString() {
+      return "Email [from=" + from + ", to=" + to + ", subject=" + subject + ", content=" + content + ", attachment="
+          + attachment + ", file=" + file + "]";
+    }
+    
+    
+    
+    
 }

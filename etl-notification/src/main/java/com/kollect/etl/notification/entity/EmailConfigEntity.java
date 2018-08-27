@@ -5,14 +5,28 @@ public class EmailConfigEntity {
   String host; 
   Integer port;
   String username;
+  String fromEmail;
   String password; 
   String smtpAuth; 
   String startTls;
   String debug;
+  String transportProtocol;
   
   
   
   
+  public String getFromEmail() {
+    return fromEmail;
+  }
+  public void setFromEmail(String fromEmail) {
+    this.fromEmail = fromEmail;
+  }
+  public String getTransportProtocol() {
+    return transportProtocol;
+  }
+  public void setTransportProtocol(String transportProtocol) {
+    this.transportProtocol = transportProtocol;
+  }
   public String getHost() {
     return host;
   }
