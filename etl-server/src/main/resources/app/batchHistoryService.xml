@@ -57,7 +57,7 @@
             TO_CHAR(hist.number_of_records_updated, '999,999') as records,
             TO_CHAR(hist.updated_date, 'DD Month YYYY "@" HH24:MI:SS') as updatedDate,
             TO_CHAR(hist.time_taken,'999,999') as timeTaken,
-            TO_CHAR(time_taken_in_sec, '999,999') as timeTakenInSec,
+            TO_CHAR(hist.time_taken_in_sec, '999,999') as timeTakenInSec,
             hist.data_source as dataSource,
             hist.status as status
         FROM kvbatch batch
