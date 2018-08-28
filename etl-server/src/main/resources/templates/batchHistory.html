@@ -17,6 +17,7 @@
                         <th>Date & Time</th>
                         <th>Number of Records Updated</th>
                         <th>Time Taken (ms)</th>
+                        <th>Time Taken (s)</th>
                         <th>Data Source</th>
                         <th>Status</th>
                     </tr>
@@ -28,6 +29,8 @@
                         <td th:text="${batch?.records}">
                         </td>
                         <td th:text="${batch?.timetaken}">
+                        </td>
+                        <td th:text="${batch?.timetakeninsec}">
                         </td>
                         <td th:text="${batch?.data_source}">
                         </td>
@@ -50,6 +53,7 @@
                         <th>Date & Time</th>
                         <th>Number of Records Updated</th>
                         <th>Time Taken (ms)</th>
+                        <th>Time Taken (s)</th>
                         <th>Data Source</th>
                         <th>Status</th>
                     </tr>
@@ -62,6 +66,8 @@
                         <td th:text="${batch?.records}">
                         </td>
                         <td th:text="${batch?.timetaken}">
+                        </td>
+                        <td th:text="${batch?.timetakeninsec}">
                         </td>
                         <td th:text="${batch?.data_source}">
                         </td>

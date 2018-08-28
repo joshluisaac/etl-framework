@@ -30,6 +30,7 @@
                     <th>Updated Date</th>
                     <th>Number of Records Updated</th>
                     <th>Time Taken (ms)</th>
+                    <th>Time Taken (s)</th>
                     <th>Data Source</th>
                     <th>Status</th>
 
@@ -43,6 +44,7 @@
                     <td th:text="${history.updateddate}"></td>
                     <td th:text="${history.records}"></td>
                     <td th:text="${history.timetaken}"></td>
+                    <td th:text="${history.timetakeninsec}"></td>
                     <td th:text="${history.datasource}"></td>
                     <td th:text="${history.status}"></td>
                 </tr>
