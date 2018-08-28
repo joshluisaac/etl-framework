@@ -11,7 +11,7 @@
         insert into kvbatch_history
         (id, batch_id, number_of_records_updated, updated_date, time_taken, data_source, status)
         values
-        (#{id}, #{batch_id}, #{number_of_records_updated}, DATE_TRUNC('second', NOW()), #{time_taken}, #{data_source}, #{status})
+        (#{id}, #{batch_id}, #{number_of_records_updated}, DATE_TRUNC('second', NOW()), #{time_taken}, #{time_taken_in_sec},#{data_source}, #{status})
     </insert>
     
     <sql id="getHistoryFrag">

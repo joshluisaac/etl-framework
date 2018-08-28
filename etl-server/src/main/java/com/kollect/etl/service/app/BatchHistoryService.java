@@ -39,6 +39,7 @@ public class BatchHistoryService {
         args.put("batch_id", batch_id);
         args.put("number_of_records_updated", numberOfRows);
         args.put("time_taken", timeTaken);
+        args.put("time_taken_in_sec", timeTaken/1000);
         args.put("data_source", dataFrom);
         args.put("status", status);
         this.rwProvider.insertQuery(dataSource, "insertBatchHistory", args);
