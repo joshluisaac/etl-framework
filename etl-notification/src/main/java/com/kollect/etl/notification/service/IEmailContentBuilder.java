@@ -9,4 +9,6 @@ public interface IEmailContentBuilder {
                                  List<Object> uatStats, List<Object> prodStats);
 
    <T> String buildExtractLoadEmail(String templateName, List<T> stats);
+   
+   public <T> String buildEmailTemplate(String templateName, Object object);
 }

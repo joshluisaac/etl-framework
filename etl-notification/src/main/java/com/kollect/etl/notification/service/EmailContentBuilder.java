@@ -46,4 +46,14 @@ public class EmailContentBuilder implements IEmailContentBuilder{
         return templateEngine.process(
                 templateName, context);
     }
+    
+    public <T> String buildEmailTemplate(String templateName, Object object){
+      Context context = new Context();
+      context.setVariable("stats", object);
+      return templateEngine.process(templateName, context);
+  }
+    
+    
+    
+    
 }
