@@ -11,7 +11,7 @@
         insert into kvbatch_history
         (id, batch_id, number_of_records_updated, updated_date, time_taken, data_source, status)
         values
-        (#{id}, #{batch_id}, #{number_of_records_updated}, DATE_TRUNC('second', NOW()), #{time_taken}, #{data_source}, #{status})
+        (#{id}, #{batch_id}, #{number_of_records_updated}, DATE_TRUNC('second', NOW()), #{time_taken}, #{time_taken_in_sec},#{data_source}, #{status})
     </insert>
     
     <sql id="getHistoryFrag">
@@ -21,6 +21,7 @@
             TO_CHAR(number_of_records_updated, '999,999') as records,
             TO_CHAR(updated_date, 'DD Month YYYY "@" HH24:MI:SS') as updatedDate,
             TO_CHAR(time_taken, '999,999') as timeTaken,
+            TO_CHAR(time_taken_in_sec, '999,999') as timeTakenInSec,
             data_source,
             status
         from kvbatch_history where batch_id = #{batch_id} order by id desc
@@ -42,7 +43,7 @@
             batch.name as batchName,
             batch.description as batchDesc,
             TO_CHAR(hist.number_of_records_updated, '999,999') as records,
-            TO_CHAR(hist.time_taken,'999,999') as timeTaken,
+            TO_CHAR(hist.time_taken_in_sec, '999,999') as timeTakenInSec,
             TO_CHAR(hist.updated_date, 'DD Month YYYY "@" HH24:MI:SS') as updatedDate,
             hist.status
         FROM kvbatch as batch
@@ -56,6 +57,7 @@
             TO_CHAR(hist.number_of_records_updated, '999,999') as records,
             TO_CHAR(hist.updated_date, 'DD Month YYYY "@" HH24:MI:SS') as updatedDate,
             TO_CHAR(hist.time_taken,'999,999') as timeTaken,
+            TO_CHAR(hist.time_taken_in_sec, '999,999') as timeTakenInSec,
             hist.data_source as dataSource,
             hist.status as status
         FROM kvbatch batch

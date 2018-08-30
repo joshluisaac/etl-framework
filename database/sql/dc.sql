@@ -184,3 +184,8 @@ CREATE table kvemail_log(
 );
 
 create SEQUENCE kvemail_log_id;
+
+
+alter table kvbatch_history add COLUMN time_taken_in_sec BIGINT;
+
+update kvbatch_history set time_taken_in_sec = time_taken/1000;
