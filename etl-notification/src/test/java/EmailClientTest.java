@@ -24,19 +24,19 @@ public class EmailClientTest {
   }
   
   public void assembleEmailConfigEntity(EmailConfigEntity configEntity) {
-    configEntity.setHost("mail.automanage.biz");
-    configEntity.setPort(587);
-    configEntity.setUsername("datareceived@kollect.my");
-    configEntity.setPassword("K@L#eKT#12");
+    configEntity.setHost("168.8.1.151");
+    configEntity.setPort(25);
+    configEntity.setUsername("MBSBDOM\\powerkollect");
+    configEntity.setPassword("password@456");
     configEntity.setSmtpAuth("true");
-    configEntity.setStartTls("false");
+    configEntity.setStartTls("true");
     configEntity.setDebug("false");
     
   }
   
   @Test
   public void execute_email_test() {
-    Email mail = new Email("datareceived@kollect.my","joshua@kollect.my","Testing etl notification","This is the content2", null, null );
+    Email mail = new Email("powerkollect@mbsbbank.com","joshua@kollect.my","Testing etl notification","This is the content2", null, null );
     emailClient.execute(mail);
   }
 
