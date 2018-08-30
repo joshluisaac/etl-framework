@@ -9,7 +9,7 @@
             select nextval('kvbatch_history_id')
         </selectKey>
         insert into kvbatch_history
-        (id, batch_id, number_of_records_updated, updated_date, time_taken, data_source, status)
+        (id, batch_id, number_of_records_updated, updated_date, time_taken,time_taken_in_sec, data_source, status)
         values
         (#{id}, #{batch_id}, #{number_of_records_updated}, DATE_TRUNC('second', NOW()), #{time_taken}, #{time_taken_in_sec},#{data_source}, #{status})
     </insert>
@@ -45,7 +45,7 @@
             TO_CHAR(hist.number_of_records_updated, '999,999') as records,
             TO_CHAR(hist.time_taken_in_sec, '999,999') as timeTakenInSec,
             TO_CHAR(hist.updated_date, 'DD Month YYYY "@" HH24:MI:SS') as updatedDate,
-            hist.status
+            hist.status as status
         FROM kvbatch as batch
         INNER JOIN kvbatch_history hist ON batch.id = hist.batch_id
     </sql>
