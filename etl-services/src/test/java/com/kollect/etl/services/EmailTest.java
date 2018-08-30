@@ -16,8 +16,8 @@ public class EmailTest {
 
   @Test
   public void sendEmail() {
-    service.sendEmail("datareceived@kollect.my", "", "mail.automanage.biz", "Some subject", "Testing",
-        "datareceived@kollect.my", 587, new String[] { "nwankwo.joshua@gmail.com" }, false);
+    service.sendEmail("powerkollect@mbsbbank.com", "password@456", "mail.mbsbbank.com", "Some subject", "Testing",
+        "MBSBDOM\\powerkollect", 25, new String[] { "joshua@kollect.my","hashim@kollect.my" }, false);
   }
 
 }
