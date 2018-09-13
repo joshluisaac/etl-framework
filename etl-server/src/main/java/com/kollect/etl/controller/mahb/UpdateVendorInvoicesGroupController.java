@@ -1,13 +1,11 @@
-package com.kollect.etl.controller;
+package com.kollect.etl.controller.mahb;
 
 
-import com.kollect.etl.service.UpdateVendorInvoicesGroupService;
+import com.kollect.etl.service.mahb.UpdateVendorInvoicesGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import java.util.List;
 
 @Controller
 public class UpdateVendorInvoicesGroupController {

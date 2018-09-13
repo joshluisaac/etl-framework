@@ -285,7 +285,7 @@ public class ScheduledTasks {
         runYycSequences(yycUatDataSource);
     }*/
 
-    @Scheduled(fixedDelay = 600000)
+    //@Scheduled(fixedDelay = 600000)
     public void runKeepConnectionAliveHack() {
         this.iRWProvider.executeQuery(prodDataSource.get(0),
                 "getUpdateDataDateToKeepConnectionOpen", null);
