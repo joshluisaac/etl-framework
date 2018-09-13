@@ -82,11 +82,11 @@
 			</dataSource>
 		</environment>
 
-        <environment id="MAHB_Prod2">
+        <environment id="MAHB_Prod4">
             <transactionManager type="JDBC" />
             <dataSource type="POOLED">
                 <property name="driver" value="${postgres_driver}" />
-                <property name="url" value="${postgres_mahb_prod2_url}" />
+                <property name="url" value="${postgres_mahb_prod4_url}" />
                 <property name="username" value="${postgres_username}" />
                 <property name="password" value="${postgres_password}" />
             </dataSource>
