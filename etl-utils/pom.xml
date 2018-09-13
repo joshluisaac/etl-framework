@@ -34,12 +34,12 @@
     <build>
         <testResources>
             <testResource>
-                <directory>/home/joshua/martian/kvworkspace/etl_yyc_impl/config</directory>
+                <directory>src/test/resources</directory>
             </testResource>
         </testResources>
         <resources>
             <resource>
-                <directory>/home/joshua/martian/kvworkspace/etl_yyc_impl/config</directory>
+                <directory>src/main/resources</directory>
             </resource>
         </resources>
         <pluginManagement>

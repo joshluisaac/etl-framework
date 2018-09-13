@@ -7,12 +7,13 @@ public class Configuration {
  
   private Properties p;
   private Properties appProp;
-  private static String APPLICATION_PROPERTIES = "/application.properties";
+  private static String APPLICATION_PROPERTIES = "application.properties";
   private static final String CONCAT = "concatenator.";
 
   public Configuration() throws IOException {
-    this.appProp = new PropertiesUtils().loadPropertiesFileResource(APPLICATION_PROPERTIES);
-    this.p = new PropertiesUtils().loadPropertiesFileResource(appProp.getProperty("util.properties"));
+    this.p = new PropertiesUtils().loadPropertiesFileResource("util.properties");
+    //this.appProp = new PropertiesUtils().loadPropertiesFileResource(APPLICATION_PROPERTIES);
+    //this.p = new PropertiesUtils().loadPropertiesFileResource(appProp.getProperty("util.properties"));
   }
   
   public String getRegex(String impl) {
