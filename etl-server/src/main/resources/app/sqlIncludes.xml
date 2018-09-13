@@ -135,7 +135,7 @@
         ON CONFLICT (load_id)
         DO UPDATE
         SET
-        id = EXCLUDED .id,
+        id = EXCLUDED.id,
         tenant_id = EXCLUDED.tenant_id,
         import_id = EXCLUDED.import_id,
         account_id = EXCLUDED.account_id,
