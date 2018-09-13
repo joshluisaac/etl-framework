@@ -1,4 +1,4 @@
-package com.kollect.etl.service;
+package com.kollect.etl.service.mahb;
 
 import com.kollect.etl.dataaccess.UpdateVendorInvoicesGroupDao;
 import org.springframework.beans.factory.annotation.Autowired;
