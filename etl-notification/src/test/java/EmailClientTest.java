@@ -23,20 +23,34 @@ public class EmailClientTest {
     
   }
   
+//  public void assembleEmailConfigEntity(EmailConfigEntity configEntity) {
+//    configEntity.setHost("168.8.1.151");
+//    configEntity.setPort(25);
+//    configEntity.setUsername("MBSBDOM\\powerkollect");
+//    configEntity.setPassword("password@456");
+//    configEntity.setSmtpAuth("true");
+//    configEntity.setStartTls("true");
+//    configEntity.setDebug("true");
+//    
+//  }
+  
   public void assembleEmailConfigEntity(EmailConfigEntity configEntity) {
-    configEntity.setHost("168.8.1.151");
-    configEntity.setPort(25);
+    configEntity.setHost("smtp.gmail.com");
+    configEntity.setPort(587);
     configEntity.setUsername("MBSBDOM\\powerkollect");
-    configEntity.setPassword("password@456");
+    configEntity.setPassword("powerintegrator@k88");
     configEntity.setSmtpAuth("true");
     configEntity.setStartTls("true");
-    configEntity.setDebug("false");
+    configEntity.setDebug("true");
     
   }
   
+  
+  
+  
   @Test
   public void execute_email_test() {
-    Email mail = new Email("powerkollect@mbsbbank.com","joshua@kollect.my","Testing etl notification","This is the content2", null, null );
+    Email mail = new Email("powerintegrator@gmail.com","joshua@kollect.my","Testing etl notification","This is the content2", null, null );
     emailClient.execute(mail);
   }
 

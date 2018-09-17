@@ -7,6 +7,7 @@ public class TotalLoaded {
   int eligible;
   int duration;
   int rowsPerSec;
+  String context;
   
   public TotalLoaded(String key, int loaded, int eligible, int duration, int rowsPerSec ) {
     this.key = key;
@@ -35,11 +36,19 @@ public class TotalLoaded {
   public int getRowsPerSec() {
     return rowsPerSec;
   }
+  
+  public String getContext() {
+    return context;
+  }
+
+  public void setContext(String context) {
+    this.context = context;
+  }
 
   @Override
   public String toString() {
     return "TotalLoaded [key=" + key + ", loaded=" + loaded + ", eligible=" + eligible + ", duration=" + duration
-        + ", rowsPerSec=" + rowsPerSec + "]";
+        + ", rowsPerSec=" + rowsPerSec + ", context=" + context + "]";
   }
   
   

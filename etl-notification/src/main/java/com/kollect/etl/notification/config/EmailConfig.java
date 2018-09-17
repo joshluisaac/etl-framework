@@ -38,11 +38,7 @@ public class EmailConfig implements IEmailConfig {
         properties.setProperty("mail.smtp.auth", configEntity.getSmtpAuth());
         properties.setProperty("mail.smtp.starttls.enable", configEntity.getStartTls());
         properties.setProperty("mail.smtp.ssl.trust", "*");
-        
         properties.setProperty("mail.debug", configEntity.getDebug());
-//        properties.setProperty("mail.smtp.auth", "true");
-//        properties.setProperty("mail.smtp.starttls.enable", "true");
-//        properties.setProperty("mail.debug", "false");
         return properties;
     }
 }

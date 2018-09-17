@@ -6,8 +6,6 @@ import java.util.Properties;
 public class Configuration {
  
   private Properties p;
-  private Properties appProp;
-  private static String APPLICATION_PROPERTIES = "application.properties";
   private static final String CONCAT = "concatenator.";
 
   public Configuration() throws IOException {
