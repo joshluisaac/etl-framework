@@ -32,7 +32,7 @@ import com.kollect.etl.util.FileUtils;
     if (m.find()) {
       if (patternKey.equals("totalLoaded")) {
         return new TotalLoaded(m.group(1), Integer.parseInt(m.group(2)), Integer.parseInt(m.group(3)),
-            Integer.parseInt(m.group(4)), Integer.parseInt(m.group(5)));
+            Integer.parseInt(m.group(4)), Integer.parseInt(m.group(5).replaceAll("\\,", "")));
       }
     }
     return null;

@@ -10,7 +10,7 @@ public enum RegexPattern {
   DB_LATENCY_ERROR("dbLatency","failed due to database taking too long to process request"),
   DB_COMMITS_ERROR("dbCommit","failed due to failed database commits"),
   TOTAL_FAIL_ERROR("totalFailure","total failures and rejects"),
-  TOTAL_LOADED("totalLoaded","([A-Za-z0-9_\\-]+)\\u0020+loaded\\u0020+([\\d]+)\\u0020+of\\u0020+([\\d]+)\\u0020+eligible\\u0020+lines\\u0020+in\\u0020+(\\d+)\\u0020+seconds\\u0020+(\\d+)");
+  TOTAL_LOADED("totalLoaded","([A-Za-z0-9_\\-]+)\\u0020+loaded\\u0020+([\\d]+)\\u0020+of\\u0020+([\\d]+)\\u0020+eligible\\u0020+lines\\u0020+in\\u0020+(\\d+)\\u0020+seconds\\u0020+([0-9,]+)");
 
   private final String key;
   private final String suffixMsg;
