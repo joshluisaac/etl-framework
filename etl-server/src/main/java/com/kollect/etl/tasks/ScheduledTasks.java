@@ -125,18 +125,6 @@ public class ScheduledTasks {
         runYycBatches(dataSourceAll2);
     }
 
-/*    *//*comment this out on production*//*
-    @Scheduled(cron = "${app.scheduler.runat430am}")
-    public void runUatYycBatches() {
-        runYycBatches(yycUatDataSource);
-    }
-
-    *//*comment this out on uat*//*
-    @Scheduled(cron = "${app.scheduler.runat430am}")
-    public void runProdYycBatches() {
-        runYycBatches(prodDataSource);
-    }*/
-
     private void runPbkBatches(List<String> dataSource) {
         this.asyncBatchExecutorService.execute(3, dataSource,
                 "getPbkAgeInvoice",
@@ -153,18 +141,6 @@ public class ScheduledTasks {
     public void pbkBatches(){
         runPbkBatches(dataSourceAll);
     }
-
-/*    *//*comment this out on production*//*
-    @Scheduled(cron = "${app.scheduler.runat5am}")
-    public void runUatPbkBatches() {
-        runPbkBatches(pbkUatDataSource);
-    }
-
-    *//*comment this out on uat*//*
-    @Scheduled(cron = "${app.scheduler.runat5am}")
-    public void runProdPbkBatches() {
-        runPbkBatches(prodDataSource);
-    }*/
 
     private void runPelitaBatches(List<String> dataSource) {
         this.asyncBatchExecutorService.execute(57, dataSource,
@@ -202,18 +178,6 @@ public class ScheduledTasks {
         runPelitaBatches(dataSourceAll2);
     }
 
-/*    *//*comment this out on production*//*
-    @Scheduled(cron = "${app.scheduler.runat530am}")
-    public void runUatPelitaBatches() {
-        runPelitaBatches(pelitaUatDataSource);
-    }
-
-    *//*comment this out on uat*//*
-    @Scheduled(cron = "${app.scheduler.runat530am}")
-    public void runProdPelitaBatches() {
-        runPelitaBatches(prodDataSource);
-    }*/
-
     private void runIctZoneBatches(List<String> dataSource) {
         this.asyncBatchExecutorService.execute(68,
                 dataSource,
@@ -249,43 +213,19 @@ public class ScheduledTasks {
         runIctZoneBatches(ictZoneUatDataSource);
     }
 
-/*    *//*comment this out on production*//*
-    @Scheduled(cron = "${app.scheduler.runat6am}")
-    public void runUatIctZoneBatches() {
-        runIctZoneBatches(ictZoneUatDataSource);
-    }
-
-    *//*comment this out on uat*//*
-    @Scheduled(cron = "${app.scheduler.runat6am}")
-    public void runProdIctZoneBatches() {
-        runIctZoneBatches(prodDataSource);
-    }*/
-
     private void runYycSequences(List<String> datasource) {
         this.yycQuerySequenceService.runYycSequenceQuery(62, datasource);
         this.componentProvider.taskSleep();
     }
 
-    @Scheduled(cron = "${app.scheduler.runat7pm}")
+    @Scheduled(cron = "${app.scheduler.runat1220am}")
     public void yycSequences(){
         runYycSequences(dataSourceAll2);
         emailSenderService.sendAfterBatch(fromEmail, recipient,"YYC - Daily Sequence Batch Report",
                 batchHistoryService.viewYycSeqAfterSchedulerUat(), batchHistoryService.viewYycSeqAfterSchedulerProd());
     }
 
-/*    *//*comment this out on production*//*
-    @Scheduled(cron = "${app.scheduler.runat7pm}")
-    public void runUatYycSequences() {
-        runYycSequences(yycUatDataSource);
-    }
-
-    *//*comment this out on uat*//*
-    @Scheduled(cron = "${app.scheduler.runat7pm}")
-    public void runProdYycSequences() {
-        runYycSequences(yycUatDataSource);
-    }*/
-
-    //@Scheduled(fixedDelay = 600000)
+    @Scheduled(fixedDelay = 600000)
     public void runKeepConnectionAliveHack() {
         this.iRWProvider.executeQuery(prodDataSource.get(0),
                 "getUpdateDataDateToKeepConnectionOpen", null);
@@ -305,6 +245,4 @@ public class ScheduledTasks {
         logger.info("DataConnector Email Notification Running...at {} using thread {}", System.currentTimeMillis(), Thread.currentThread().getName());
         dcNotificationService.execute(title, pelitaDcServerLogPath, context);
     }
-
-
 }
