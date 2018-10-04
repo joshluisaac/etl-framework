@@ -36,3 +36,4 @@ etl-parent.iml
 target/
 
 #resources
+etl-server/uploads
