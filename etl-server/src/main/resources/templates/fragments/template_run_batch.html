@@ -659,6 +659,102 @@
                     </td>
                 </tr>
 
+                <tr>
+                    <td>40</td>
+                    <td>Cheng&Co - In Aging Invoice</td>
+                    <td>
+                        <form class="submitBatchForm" action="/ccoinaging"
+                              method="POST" data-parsley-validate>
+                            <input type=number required name=batch_id value=73 hidden>
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="/batch_history?batch_id=73" class="btn-sm">
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>41</td>
+                    <td>Cheng&Co - Compute Invoice Amount After Tax</td>
+                    <td>
+                        <form class="submitBatchForm" action="/ccocompinvamtafttax"
+                              method="POST" data-parsley-validate>
+                            <input type=number required name=batch_id value=74 hidden>
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="/batch_history?batch_id=74" class="btn-sm">
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>42</td>
+                    <td>Cheng&Co - Invoice Status Evaluation</td>
+                    <td>
+                        <form class="submitBatchForm" action="/ccoinvstateval"
+                              method="POST" data-parsley-validate>
+                            <input type=number required name=batch_id value=75 hidden>
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="/batch_history?batch_id=75" class="btn-sm">
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>43</td>
+                    <td>Cheng&Co - Age Invoice</td>
+                    <td>
+                        <form class="submitBatchForm" action="/ccoageinvoice"
+                              method="POST" data-parsley-validate>
+                            <input type=number required name=batch_id value=76 hidden>
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="/batch_history?batch_id=76" class="btn-sm">
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>44</td>
+                    <td>Cheng&Co - Update Data Date</td>
+                    <td>
+                        <form class="submitBatchForm" action="/ccodatadate"
+                              method="POST" data-parsley-validate>
+                            <input type=number required name=batch_id value=77 hidden>
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="/batch_history?batch_id=77" class="btn-sm">
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>45</td>
+                    <td>Cheng&Co - Compute Debit Amount After Tax</td>
+                    <td>
+                        <form class="submitBatchForm" action="/ccocomputedebit"
+                              method="POST" data-parsley-validate>
+                            <input type=number required name=batch_id value=78 hidden>
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="/batch_history?batch_id=78" class="btn-sm">
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
+                    </td>
+                </tr>
+
                 </tbody>
             </table>
         </div>

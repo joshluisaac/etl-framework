@@ -175,6 +175,12 @@
 		<mapper resource="ictzone/ageInvoiceService.xml" />
 		<mapper resource="ictzone/updateDataDateService.xml" />
 		<mapper resource="ictzone/computeDebitAmountAfterTaxService.xml" />
+		<mapper resource="cco/inAgingService.xml" />
+		<mapper resource="cco/computeInvoiceAmountAfterTaxService.xml" />
+		<mapper resource="cco/invoiceStatusEvaluation.xml" />
+		<mapper resource="cco/ageInvoiceService.xml" />
+		<mapper resource="cco/updateDataDateService.xml" />
+		<mapper resource="cco/computeDebitAmountAfterTaxService.xml" />
 	</mappers>
 
 </configuration>

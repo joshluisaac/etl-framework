@@ -1,6 +1,7 @@
-package com.kollect.etl.controller.ictzone;
+package com.kollect.etl.controller.cco;
 
-import com.kollect.etl.service.commonbatches.*;
+import com.kollect.etl.service.commonbatches.AsyncBatchExecutorService;
+import com.kollect.etl.service.commonbatches.UpdateDataDateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -11,70 +12,70 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-public class IctZoneBatchController {
+public class CcoBatchController {
     private AsyncBatchExecutorService asyncBatchExecutorService;
     private UpdateDataDateService updateDataDateService;
     private @Value("${app.datasource_ictzone}")
     List<String> dataSource;
 
     @Autowired
-    public IctZoneBatchController(AsyncBatchExecutorService asyncBatchExecutorService,
+    public CcoBatchController(AsyncBatchExecutorService asyncBatchExecutorService,
                                   UpdateDataDateService updateDataDateService){
         this.asyncBatchExecutorService = asyncBatchExecutorService;
         this.updateDataDateService = updateDataDateService;
     }
 
-    @PostMapping(value = "/ictzoneageinvoice", produces = "application/json")
+    @PostMapping(value = "/ccoageinvoice", produces = "application/json")
     @ResponseBody
     public Object ageInvoice (@RequestParam Integer batch_id){
         return this.asyncBatchExecutorService.execute(batch_id, dataSource,
-                "getIctZoneAgeInvoices",
-                "updateIctZoneAgeInvoices", "AGE_INV");
+                "getCcoAgeInvoices",
+                "updateCcoAgeInvoices", "AGE_INV");
     }
 
-    @PostMapping("/ictzonecomputedebit")
+    @PostMapping("/ccocomputedebit")
     @ResponseBody
     public Object computeDebit(@RequestParam Integer batch_id){
         return this.asyncBatchExecutorService.execute(batch_id, dataSource,
-                "getIctZoneDebitAmountAfterTax",
-                "updateIctZoneDebitAmountAfterTax", "COMPUTE_DEBIT");
+                "getCcoDebitAmountAfterTax",
+                "updateCcoAmountAfterTax", "COMPUTE_DEBIT");
     }
 
-    @PostMapping(value = "/ictzonecompinvamtafttax", produces="application/json")
+    @PostMapping(value = "/ccocompinvamtafttax", produces="application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object computeInv (@RequestParam Integer batch_id) {
         return this.asyncBatchExecutorService.execute(batch_id,
                 dataSource,
-                "getIctZoneInvoiceAmountAfterTax",
-                "updateIctZoneInvoiceAmountAfterTax",
+                "getCcoInvoiceAmountAfterTax",
+                "updateCcoInvoiceAmountAfterTax",
                 "COMPUTE_INV");
     }
 
-    @PostMapping(value = "/ictzoneinaging", produces = "application/json")
+    @PostMapping(value = "/ccoinaging", produces = "application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object inAging (@RequestParam Integer batch_id){
         return this.asyncBatchExecutorService.execute(batch_id,
-                dataSource, "getIctZoneInAging",
-                "updateIctZoneInAging",
+                dataSource, "getCcoInAging",
+                "updateCcoInAging",
                 "IN_AGING");
     }
 
-    @PostMapping(value = "/ictzoneinvstateval", produces="application/json")
+    @PostMapping(value = "/ccoinvstateval", produces="application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
     public Object invStatEvaluation (@RequestParam Integer batch_id) {
         return this.asyncBatchExecutorService.execute(batch_id,
-                dataSource, "getIctZoneInvoiceStatus",
-                "updateIctZoneInvoiceStatus",
+                dataSource, "getCcoInvoiceStatus",
+                "updateCcoInvoiceStatus",
                 "INV_STAT_EVAL");
     }
 
-    @PostMapping("/ictzonedatadate")
+    @PostMapping("/ccodatadate")
     @ResponseBody
     public Object updateDataDate(@RequestParam Integer batch_id) {
         return this.updateDataDateService.runUpdateDataDate(batch_id, dataSource,
-                "ictZoneUpdateDataDate");
+                "ccoUpdateDataDate");
     }
 }
