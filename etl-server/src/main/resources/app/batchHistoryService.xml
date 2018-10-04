@@ -67,69 +67,69 @@
 
     <select id="getDailyPbkHistoryUat" resultType="hmap">
         <include refid="getHistoryForEmailUpdateFrag"/>
-        WHERE hist.batch_id in (2,3,53) and hist.updated_date >= now()::date + interval '1h' and hist.data_source = 'PBK_1'
+        WHERE hist.batch_id in (2,3,53) and hist.updated_date >= now()::date  and hist.data_source = 'PBK_1'
         ORDER BY hist.updated_date desc
     </select>
 
     <select id="getDailyPbkHistoryProd" resultType="hmap">
         <include refid="getHistoryForEmailUpdateFrag"/>
-        WHERE hist.batch_id in (2,3,53) and hist.updated_date >= now()::date + interval '1h'
+        WHERE hist.batch_id in (2,3,53) and hist.updated_date >= now()::date 
         and hist.data_source = 'KV_Production'
         ORDER BY hist.updated_date desc
     </select>
 
     <select id="getDailyPelitaHistoryUat" resultType="hmap">
         <include refid="getHistoryForEmailUpdateFrag"/>
-        WHERE hist.batch_id in (58,57,56, 59, 60, 61) and hist.updated_date >= now()::date + interval '1h'
+        WHERE hist.batch_id in (58,57,56, 59, 60, 61) and hist.updated_date >= now()::date 
         and hist.data_source = 'Pelita_YYC_IctZone'
         ORDER BY hist.updated_date desc
     </select>
 
     <select id="getDailyPelitaHistoryProd" resultType="hmap">
         <include refid="getHistoryForEmailUpdateFrag"/>
-        WHERE hist.batch_id in (58,57,56, 59, 60, 61) and hist.updated_date >= now()::date + interval '1h'
+        WHERE hist.batch_id in (58,57,56, 59, 60, 61) and hist.updated_date >= now()::date 
         and hist.data_source = 'KV_Production'
         ORDER BY hist.updated_date desc
     </select>
 
     <select id="getDailyYycSeqHistoryUat" resultType="hmap">
         <include refid="getHistoryForEmailUpdateFrag"/>
-        WHERE hist.batch_id in (62) and hist.updated_date >= now()::date + interval '1h'
+        WHERE hist.batch_id in (62) and hist.updated_date >= now()::date 
         and hist.data_source = 'Pelita_YYC_IctZone'
         ORDER BY hist.updated_date desc
     </select>
 
     <select id="getDailyYycSeqHistoryProd" resultType="hmap">
         <include refid="getHistoryForEmailUpdateFrag"/>
-        WHERE hist.batch_id in (62) and hist.updated_date >= now()::date + interval '1h'
+        WHERE hist.batch_id in (62) and hist.updated_date >= now()::date 
         and hist.data_source = 'KV_Production'
         ORDER BY hist.updated_date desc
     </select>
     
     <select id="getDailyYycHistoryUat" resultType="hmap">
         <include refid="getHistoryForEmailUpdateFrag"/>
-        WHERE hist.batch_id in (63,64,65,66) and hist.updated_date >= now()::date + interval '1h'
+        WHERE hist.batch_id in (63,64,65,66) and hist.updated_date >= now()::date 
         and hist.data_source = 'Pelita_YYC_IctZone'
         ORDER BY hist.updated_date desc
     </select>
 
     <select id="getDailyYycHistoryProd" resultType="hmap">
         <include refid="getHistoryForEmailUpdateFrag"/>
-        WHERE hist.batch_id in (63,64,65,66) and hist.updated_date >= now()::date + interval '1h'
+        WHERE hist.batch_id in (63,64,65,66) and hist.updated_date >= now()::date 
         and hist.data_source = 'KV_Production'
         ORDER BY hist.updated_date desc
     </select>
 
     <select id="getDailyIctZoneHistoryUat" resultType="hmap">
         <include refid="getHistoryForEmailUpdateFrag"/>
-        WHERE hist.batch_id in (67,68,69,70,71,72) and hist.updated_date >= now()::date + interval '1h'
+        WHERE hist.batch_id in (67,68,69,70,71,72) and hist.updated_date >= now()::date 
         and hist.data_source = 'Pelita_YYC_IctZone'
         ORDER BY hist.updated_date desc
     </select>
 
     <select id="getDailyIctZoneHistoryProd" resultType="hmap">
         <include refid="getHistoryForEmailUpdateFrag"/>
-        WHERE hist.batch_id in (67,68,69,70,71,72) and hist.updated_date >= now()::date + interval '1h'
+        WHERE hist.batch_id in (67,68,69,70,71,72) and hist.updated_date >= now()::date 
         and hist.data_source = 'KV_Production'
         ORDER BY hist.updated_date desc
     </select>
