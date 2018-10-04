@@ -37,14 +37,8 @@ public class ScheduledTasks {
     private String recipient;
     private @Value("${app.datasource_kv_production}")
     List<String> prodDataSource;
-    private @Value("${app.datasource_pelita_test}")
-    List<String> yycUatDataSource;
-    private @Value("${app.datasource_pbk1}")
-    List<String> pbkUatDataSource;
-    private @Value("${app.datasource_pelita_test}")
-    List<String> pelitaUatDataSource;
-    private @Value("${app.datasource_ictzone}")
-    List<String> ictZoneUatDataSource;
+    private @Value("${app.datasource_kv_uat}")
+    List<String> kvUat;
     @Value("#{'${app.datasource_all2}'.split(',')}")
     List<String> dataSourceAll2;
     @Value("#{'${app.datasource_all}'.split(',')}")
@@ -210,7 +204,7 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "${app.scheduler.runat6am}")
     public void ictZoneBatches(){
-        runIctZoneBatches(ictZoneUatDataSource);
+        runIctZoneBatches(kvUat);
     }
 
     private void runYycSequences(List<String> datasource) {
