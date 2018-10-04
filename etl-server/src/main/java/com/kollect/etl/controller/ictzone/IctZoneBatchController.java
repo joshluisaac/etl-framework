@@ -14,7 +14,7 @@ import java.util.List;
 public class IctZoneBatchController {
     private AsyncBatchExecutorService asyncBatchExecutorService;
     private UpdateDataDateService updateDataDateService;
-    private @Value("${app.datasource_ictzone}")
+    private @Value("${app.datasource_kv_uat}")
     List<String> dataSource;
 
     @Autowired

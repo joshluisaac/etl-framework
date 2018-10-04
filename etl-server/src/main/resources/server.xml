@@ -92,7 +92,7 @@
             </dataSource>
         </environment>
 
-		<environment id="Pelita_YYC_IctZone">
+		<environment id="KV_UAT">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
 				<property name="driver" value="${postgres_driver}" />
