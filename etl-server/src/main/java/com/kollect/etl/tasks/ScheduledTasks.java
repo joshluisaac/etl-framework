@@ -51,7 +51,6 @@ public class ScheduledTasks {
     private String pelitaDcServerLogPath;
 
 
-    private String fromEmail = "datareceived@kollect.my";
     private final org.slf4j.Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 
     /*This empty list is used to replace the prodStats query since Pelita is not on production yet.*/
@@ -79,22 +78,15 @@ public class ScheduledTasks {
         this.dcNotificationService = dcNotificationService;
     }
 
-    @Scheduled(cron = "${app.scheduler.runat7am}")
-    public void sendBatchEmails(){
-        emailSenderService.sendAfterBatch(fromEmail, recipient, "YYC - Daily Batch report",
-                batchHistoryService.viewYycAfterSchedulerUat(), batchHistoryService.viewYycAfterSchedulerProd());
-        componentProvider.taskSleep();
-        emailSenderService.sendAfterBatch(fromEmail, recipient, "PBK - Daily Batch Report",
-                batchHistoryService.viewPbkAfterSchedulerUat(), batchHistoryService.viewPbkAfterSchedulerProd());
-        componentProvider.taskSleep();
-        emailSenderService.sendAfterBatch(fromEmail, recipient, "Pelita - Daily Batch Report",
-                batchHistoryService.viewPelitaAfterSchedulerUat(), batchHistoryService.viewPelitaAfterSchedulerProd());
-        componentProvider.taskSleep();
-        emailSenderService.sendAfterBatch(fromEmail,recipient + ",syazman@kollect.my,biman@kollect.my",
-                "ICT Zone - Daily Batch Report", batchHistoryService.viewIctZoneAfterSchedulerUat(),
-                emptyList);
-        componentProvider.taskSleep();
-        }
+    private void runYycSequences(List<String> datasource) {
+        this.yycQuerySequenceService.runYycSequenceQuery(62, datasource);
+        this.componentProvider.taskSleep();
+    }
+
+    @Scheduled(cron = "${app.scheduler.runat1220am}")
+    public void yycSequences() {
+        runYycSequences(dataSourceAll2);
+    }
 
     private void runYycBatches(List<String> datasource) {
         this.asyncBatchExecutorService.execute(63, datasource,
@@ -114,8 +106,8 @@ public class ScheduledTasks {
                 datasource, "yycUpdateDataDate");
     }
 
-    @Scheduled(cron = "${app.scheduler.runat430am}")
-    public void yycBatches(){
+    @Scheduled(cron = "${app.scheduler.runat2am}")
+    public void yycBatches() {
         runYycBatches(dataSourceAll2);
     }
 
@@ -131,8 +123,8 @@ public class ScheduledTasks {
         this.componentProvider.taskSleep();
     }
 
-    @Scheduled(cron = "${app.scheduler.runat5am}")
-    public void pbkBatches(){
+    @Scheduled(cron = "${app.scheduler.runat215am}")
+    public void pbkBatches() {
         runPbkBatches(dataSourceAll);
     }
 
@@ -167,8 +159,8 @@ public class ScheduledTasks {
         this.componentProvider.taskSleep();
     }
 
-    @Scheduled(cron = "${app.scheduler.runat530am}")
-    public void pelitaBatches(){
+    @Scheduled(cron = "${app.scheduler.runat230am}")
+    public void pelitaBatches() {
         runPelitaBatches(dataSourceAll2);
     }
 
@@ -202,21 +194,29 @@ public class ScheduledTasks {
         this.componentProvider.taskSleep();
     }
 
-    @Scheduled(cron = "${app.scheduler.runat6am}")
-    public void ictZoneBatches(){
+    @Scheduled(cron = "${app.scheduler.runat3am}")
+    public void ictZoneBatches() {
         runIctZoneBatches(kvUat);
     }
 
-    private void runYycSequences(List<String> datasource) {
-        this.yycQuerySequenceService.runYycSequenceQuery(62, datasource);
-        this.componentProvider.taskSleep();
-    }
-
-    @Scheduled(cron = "${app.scheduler.runat1220am}")
-    public void yycSequences(){
-        runYycSequences(dataSourceAll2);
-        emailSenderService.sendAfterBatch(fromEmail, recipient,"YYC - Daily Sequence Batch Report",
+    @Scheduled(cron = "${app.scheduler.runat7am}")
+    public void sendBatchEmails() {
+        String fromEmail = "datareceived@kollect.my";
+        emailSenderService.sendAfterBatch(fromEmail, recipient, "YYC - Daily Sequence Batch Report",
                 batchHistoryService.viewYycSeqAfterSchedulerUat(), batchHistoryService.viewYycSeqAfterSchedulerProd());
+        emailSenderService.sendAfterBatch(fromEmail, recipient, "YYC - Daily Batch report",
+                batchHistoryService.viewYycAfterSchedulerUat(), batchHistoryService.viewYycAfterSchedulerProd());
+        componentProvider.taskSleep();
+        emailSenderService.sendAfterBatch(fromEmail, recipient, "PBK - Daily Batch Report",
+                batchHistoryService.viewPbkAfterSchedulerUat(), batchHistoryService.viewPbkAfterSchedulerProd());
+        componentProvider.taskSleep();
+        emailSenderService.sendAfterBatch(fromEmail, recipient, "Pelita - Daily Batch Report",
+                batchHistoryService.viewPelitaAfterSchedulerUat(), batchHistoryService.viewPelitaAfterSchedulerProd());
+        componentProvider.taskSleep();
+        emailSenderService.sendAfterBatch(fromEmail, recipient + ",syazman@kollect.my,biman@kollect.my",
+                "ICT Zone - Daily Batch Report", batchHistoryService.viewIctZoneAfterSchedulerUat(),
+                emptyList);
+        componentProvider.taskSleep();
     }
 
     @Scheduled(fixedDelay = 600000)
