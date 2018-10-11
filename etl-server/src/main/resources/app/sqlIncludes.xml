@@ -256,7 +256,6 @@
             id,
             coalesce(invoice_amount_before_gst, 0.0) - coalesce(gst, 0.0) AS invoice_amount
         FROM invoices
-        WHERE gst > 0
     </sql>
     <sql id="updateInvoiceAmountAfterTaxFrag">
         UPDATE invoices

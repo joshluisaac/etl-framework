@@ -7,7 +7,7 @@
 
     <select id="getIctZoneInvoiceAmountAfterTax" resultType="hmap">
         <include refid="sqlIncludes.getInvoiceAmountAfterTaxFrag"/>
-        and tenant_id = 102
+        WHERE tenant_id = 102
     </select>
 
 

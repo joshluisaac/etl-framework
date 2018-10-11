@@ -2,6 +2,7 @@ package com.kollect.etl.controller.pelita;
 
 import com.kollect.etl.service.commonbatches.AsyncBatchExecutorService;
 import com.kollect.etl.service.commonbatches.UpdateDataDateService;
+import com.kollect.etl.service.pelita.UpdateInvoiceNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -15,14 +16,17 @@ import java.util.List;
 public class PelitaBatchController {
     private AsyncBatchExecutorService asyncBatchExecutorService;
     private UpdateDataDateService updateDataDateService;
+    private UpdateInvoiceNumber updateInvoiceNumber;
     private @Value("#{'${app.datasource_all2}'.split(',')}")
     List<String> dataSource;
 
     @Autowired
     public PelitaBatchController(AsyncBatchExecutorService asyncBatchExecutorService,
-                                 UpdateDataDateService updateDataDateService){
+                                 UpdateDataDateService updateDataDateService,
+                                 UpdateInvoiceNumber updateInvoiceNumber){
         this.asyncBatchExecutorService = asyncBatchExecutorService;
         this.updateDataDateService = updateDataDateService;
+        this.updateInvoiceNumber=updateInvoiceNumber;
     }
 
     @PostMapping(value = "/pelitaageinvoice", produces = "application/json")
@@ -79,5 +83,11 @@ public class PelitaBatchController {
     public Object runUpdateDataDate(@RequestParam Integer batch_id) {
         return this.updateDataDateService.runUpdateDataDate(batch_id,
                 dataSource, "pelitaUpdateDataDate");
+    }
+
+    @PostMapping("/pelitaupdateinvoiceno")
+    @ResponseBody
+    public Object updateInvoiceNo(@RequestParam Integer batch_id) {
+        return this.updateInvoiceNumber.execute(batch_id);
     }
 }

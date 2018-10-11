@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="updateCustomerEmails">
+    <select id="selectCcoCustomerEmailsWithDash">
+        select * from customers_emails where tenant_id = 58 and email = '-';
+    </select>
+
+    <delete id="updateCcoCustomerEmailsWithDash">
+        delete from customers_emails where tenant_id = 58 and email = '-';
+    </delete>
+
+</mapper>

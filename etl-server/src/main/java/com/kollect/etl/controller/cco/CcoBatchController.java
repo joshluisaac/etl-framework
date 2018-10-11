@@ -15,7 +15,7 @@ import java.util.List;
 public class CcoBatchController {
     private AsyncBatchExecutorService asyncBatchExecutorService;
     private UpdateDataDateService updateDataDateService;
-    private @Value("${app.datasource_kv_uat4}")
+    private @Value("${app.datasource_kv_uat}")
     List<String> dataSource;
 
     @Autowired
@@ -77,5 +77,12 @@ public class CcoBatchController {
     public Object updateDataDate(@RequestParam Integer batch_id) {
         return this.updateDataDateService.runUpdateDataDate(batch_id, dataSource,
                 "ccoUpdateDataDate");
+    }
+
+    @PostMapping("/ccoupdateemails")
+    @ResponseBody
+    public Object updateEmails(@RequestParam Integer batch_id) {
+        return this.asyncBatchExecutorService.execute(batch_id, dataSource, "selectCcoCustomerEmailsWithDash",
+                "updateCcoCustomerEmailsWithDash", "CCO_UPDATE_EMAILS");
     }
 }
