@@ -36,11 +36,11 @@ public class AsyncBatchExecutorService {
                 if (!lock) {
                     long startTime = System.nanoTime();
                     lock = true;
-                    List<Object> ageInvoiceList = this.rwProvider.executeQuery(src, getQuery, null);
+                    List<Object> selectList = this.rwProvider.executeQuery(src, getQuery, null);
                     Map<String, CrudProcessHolder> map = new TreeMap<>();
                     map.put(getName, new CrudProcessHolder(src, "NONE", 10, 100, new ArrayList<>(Arrays.asList(updateQuery))));
-                    executorService.processEntries(map, ageInvoiceList);
-                    int numberOfRecords = ageInvoiceList.size();
+                    executorService.processEntries(map, selectList);
+                    int numberOfRecords = selectList.size();
                     lock = false;
                     numberOfRows = numberOfRecords;
                     long endTime = System.nanoTime();

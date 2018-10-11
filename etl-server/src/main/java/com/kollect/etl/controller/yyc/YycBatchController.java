@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -65,5 +66,14 @@ public class YycBatchController {
     public Object yycUpdateDataDate(@RequestParam Integer batch_id){
         return this.yycUpdateDataDateService.runUpdateDataDate(batch_id,
                 dataSource, "yycUpdateDataDate");
+    }
+
+    @PostMapping("/yycupdatephonenos")
+    @ResponseBody
+    public Object updatePhoneNos(@RequestParam Integer batch_id) {
+        List<String> uatDB = new ArrayList<>();
+        uatDB.add("KV_UAT");
+        return this.asyncBatchExecutorService.execute(batch_id, uatDB, "getYycPhoneNosNotListed",
+                "updateYycPhoneNosNotListed", "YYC_UPDATE_PHONES");
     }
 }

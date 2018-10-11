@@ -18,7 +18,7 @@ public class UpdateInvoiceNumber {
 
     @Autowired
     public UpdateInvoiceNumber(IReadWriteServiceProvider rwProvider,
-                                    @Value("#{'${app.datasource_kv_uat}'.split(',')}") List<String> dataSource, BatchHistoryService batchHistoryService) {
+                                    @Value("#{'${app.datasource_pelita_uat}'.split(',')}") List<String> dataSource, BatchHistoryService batchHistoryService) {
         this.rwProvider = rwProvider;
         this.dataSource = dataSource;
         this.batchHistoryService = batchHistoryService;

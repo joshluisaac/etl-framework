@@ -31,16 +31,6 @@
 				<property name="password" value="${postgres_password}" />
 			</dataSource>
 		</environment>
-		
-				<environment id="PBK_1">
-			<transactionManager type="JDBC" />
-			<dataSource type="POOLED">
-				<property name="driver" value="${postgres_driver}" />
-				<property name="url" value="${postgres_pbk_url}" />
-				<property name="username" value="${postgres_username}" />
-				<property name="password" value="${postgres_password}" />
-			</dataSource>
-		</environment>
 
         <environment id="MAHB_Prod4">
             <transactionManager type="JDBC" />
@@ -57,6 +47,26 @@
 			<dataSource type="POOLED">
 				<property name="driver" value="${postgres_driver}" />
 				<property name="url" value="${kollectvalley_uat_url}" />
+				<property name="username" value="${postgres_username}" />
+				<property name="password" value="${postgres_password}" />
+			</dataSource>
+		</environment>
+
+		<environment id="Pelita_UAT">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${postgres_driver}" />
+				<property name="url" value="${kollectvalley_uat_url_pelita}" />
+				<property name="username" value="${postgres_username}" />
+				<property name="password" value="${postgres_password}" />
+			</dataSource>
+		</environment>
+
+		<environment id="PBK_UAT">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${postgres_driver}" />
+				<property name="url" value="${kollectvalley_uat_url_pbk}" />
 				<property name="username" value="${postgres_username}" />
 				<property name="password" value="${postgres_password}" />
 			</dataSource>
@@ -132,6 +142,7 @@
 		<mapper resource="cco/computeDebitAmountAfterTaxService.xml" />
 		<mapper resource="cco/updateCustomerEmails.xml" />
 		<mapper resource="pelita/updateInvoiceNumber.xml" />
+		<mapper resource="yyc/updatePhoneNos.xml" />
 	</mappers>
 
 </configuration>

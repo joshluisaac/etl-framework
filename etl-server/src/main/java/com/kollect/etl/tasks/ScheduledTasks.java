@@ -8,6 +8,7 @@ import com.kollect.etl.service.app.EmailSenderService;
 import com.kollect.etl.service.commonbatches.AsyncBatchExecutorService;
 import com.kollect.etl.service.commonbatches.UpdateDataDateService;
 import com.kollect.etl.service.pbk.PbkLumpSumPaymentService;
+import com.kollect.etl.service.pelita.UpdateInvoiceNumber;
 import com.kollect.etl.service.yyc.YycQuerySequenceService;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,7 @@ public class ScheduledTasks {
     private ComponentProvider componentProvider;
     private EmailSenderService emailSenderService;
     private DataConnectorNotification dcNotificationService;
+    private UpdateInvoiceNumber updateInvoiceNumber;
 
     /*Values coming in application.properties*/
     @Value("${spring.mail.properties.batch.autoupdate.recipients}")
@@ -66,7 +68,8 @@ public class ScheduledTasks {
                           IReadWriteServiceProvider iRWProvider,
                           ComponentProvider componentProvider,
                           EmailSenderService emailSenderService,
-                          DataConnectorNotification dcNotificationService) {
+                          DataConnectorNotification dcNotificationService,
+                          UpdateInvoiceNumber updateInvoiceNumber) {
         this.pbklSumPayServ = pbklSumPayServ;
         this.asyncBatchExecutorService = asyncBatchExecutorService;
         this.updateDataDateService = updateDataDateService;
@@ -76,6 +79,7 @@ public class ScheduledTasks {
         this.componentProvider = componentProvider;
         this.emailSenderService = emailSenderService;
         this.dcNotificationService = dcNotificationService;
+        this.updateInvoiceNumber=updateInvoiceNumber;
     }
 
     private void runYycSequences(List<String> datasource) {
@@ -104,6 +108,8 @@ public class ScheduledTasks {
         this.componentProvider.taskSleep();
         this.updateDataDateService.runUpdateDataDate(66,
                 datasource, "yycUpdateDataDate");
+        this.asyncBatchExecutorService.execute(81, kvUat, "getYycPhoneNosNotListed",
+                "updateYycPhoneNosNotListed", "YYC_UPDATE_PHONES");
     }
 
     @Scheduled(cron = "${app.scheduler.runat2am}")
@@ -157,6 +163,7 @@ public class ScheduledTasks {
                 "updatePelitaDebitAmountAfterTax",
                 "COMPUTE_DEBIT");
         this.componentProvider.taskSleep();
+        this.updateInvoiceNumber.execute(80);
     }
 
     @Scheduled(cron = "${app.scheduler.runat230am}")
