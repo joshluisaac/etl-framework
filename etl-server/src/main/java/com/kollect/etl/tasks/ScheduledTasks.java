@@ -108,7 +108,7 @@ public class ScheduledTasks {
         this.componentProvider.taskSleep();
         this.updateDataDateService.runUpdateDataDate(66,
                 datasource, "yycUpdateDataDate");
-        this.asyncBatchExecutorService.execute(81, kvUat, "getYycPhoneNosNotListed",
+        this.asyncBatchExecutorService.execute(81, datasource, "getYycPhoneNosNotListed",
                 "updateYycPhoneNosNotListed", "YYC_UPDATE_PHONES");
     }
 
