@@ -73,4 +73,11 @@ public class YycBatchController {
         return this.asyncBatchExecutorService.execute(batch_id, dataSource, "getYycPhoneNosNotListed",
                 "updateYycPhoneNosNotListed", "YYC_UPDATE_PHONES");
     }
+
+    @PostMapping("/yycupdatepic")
+    @ResponseBody
+    public Object updatePicName(@RequestParam Integer batch_id) {
+        return this.asyncBatchExecutorService.execute(82, dataSource,
+                "getYycDefPicName", "updateYycPicName", "YYC_UPDATE_PIC");
+    }
 }

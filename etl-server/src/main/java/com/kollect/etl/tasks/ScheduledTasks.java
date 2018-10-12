@@ -110,6 +110,8 @@ public class ScheduledTasks {
                 datasource, "yycUpdateDataDate");
         this.asyncBatchExecutorService.execute(81, datasource, "getYycPhoneNosNotListed",
                 "updateYycPhoneNosNotListed", "YYC_UPDATE_PHONES");
+        this.asyncBatchExecutorService.execute(82, datasource,
+                "getYycDefPicName", "updateYycPicName", "YYC_UPDATE_PIC");
     }
 
     @Scheduled(cron = "${app.scheduler.runat2am}")
@@ -158,11 +160,6 @@ public class ScheduledTasks {
         this.updateDataDateService.runUpdateDataDate(60,
                 dataSource, "pelitaUpdateDataDate");
         this.componentProvider.taskSleep();
-        this.asyncBatchExecutorService.execute(61,
-                dataSource, "getPelitaDebitAmountAfterTax",
-                "updatePelitaDebitAmountAfterTax",
-                "COMPUTE_DEBIT");
-        this.componentProvider.taskSleep();
         this.updateInvoiceNumber.execute(80);
     }
 
@@ -194,10 +191,6 @@ public class ScheduledTasks {
         this.componentProvider.taskSleep();
         this.updateDataDateService.runUpdateDataDate(71, dataSource,
                 "ictZoneUpdateDataDate");
-        this.componentProvider.taskSleep();
-        this.asyncBatchExecutorService.execute(72, dataSource,
-                "getIctZoneDebitAmountAfterTax",
-                "updateIctZoneDebitAmountAfterTax", "COMPUTE_DEBIT");
         this.componentProvider.taskSleep();
     }
 

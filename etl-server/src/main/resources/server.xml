@@ -143,6 +143,7 @@
 		<mapper resource="cco/updateCustomerEmails.xml" />
 		<mapper resource="pelita/updateInvoiceNumber.xml" />
 		<mapper resource="yyc/updatePhoneNos.xml" />
+		<mapper resource="yyc/updatePersonInChargeNames.xml" />
 	</mappers>
 
 </configuration>

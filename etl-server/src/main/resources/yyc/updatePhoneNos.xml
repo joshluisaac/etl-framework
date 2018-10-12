@@ -5,10 +5,10 @@
 
 <mapper namespace="updatePhoneNos">
     <select id="getYycPhoneNosNotListed" resultType="hmap">
-        select * from customers_phone_nos where tenant_id = 65 and phone_no = 'Not listed';
+        select * from customers_phone_nos where tenant_id = 65 and phone_no = 'Not listed'
     </select>
     <delete id="updateYycPhoneNosNotListed">
-        DELETE from customers_phone_nos where tenant_id = 65 and phone_no = 'Not listed';
+        DELETE from customers_phone_nos where tenant_id = 65 and phone_no = 'Not listed'
     </delete>
 
 </mapper>
