@@ -6,6 +6,7 @@ import com.kollect.etl.service.app.BatchHistoryService;
 import com.kollect.etl.service.app.DataConnectorNotification;
 import com.kollect.etl.service.app.EmailSenderService;
 import com.kollect.etl.service.commonbatches.AsyncBatchExecutorService;
+import com.kollect.etl.service.commonbatches.CleanDefault;
 import com.kollect.etl.service.commonbatches.UpdateDataDateService;
 import com.kollect.etl.service.pbk.PbkLumpSumPaymentService;
 import com.kollect.etl.service.pelita.UpdateInvoiceNumber;
@@ -25,6 +26,7 @@ public class ScheduledTasks {
     /*Required services*/
     private PbkLumpSumPaymentService pbklSumPayServ;
     private AsyncBatchExecutorService asyncBatchExecutorService;
+    private CleanDefault cleanDefault;
     private UpdateDataDateService updateDataDateService;
     private YycQuerySequenceService yycQuerySequenceService;
     private BatchHistoryService batchHistoryService;
@@ -69,7 +71,8 @@ public class ScheduledTasks {
                           ComponentProvider componentProvider,
                           EmailSenderService emailSenderService,
                           DataConnectorNotification dcNotificationService,
-                          UpdateInvoiceNumber updateInvoiceNumber) {
+                          UpdateInvoiceNumber updateInvoiceNumber,
+                          CleanDefault cleanDefault) {
         this.pbklSumPayServ = pbklSumPayServ;
         this.asyncBatchExecutorService = asyncBatchExecutorService;
         this.updateDataDateService = updateDataDateService;
@@ -80,6 +83,7 @@ public class ScheduledTasks {
         this.emailSenderService = emailSenderService;
         this.dcNotificationService = dcNotificationService;
         this.updateInvoiceNumber=updateInvoiceNumber;
+        this.cleanDefault=cleanDefault;
     }
 
     private void runYycSequences(List<String> datasource) {
@@ -108,10 +112,10 @@ public class ScheduledTasks {
         this.componentProvider.taskSleep();
         this.updateDataDateService.runUpdateDataDate(66,
                 datasource, "yycUpdateDataDate");
-        this.asyncBatchExecutorService.execute(81, datasource, "getYycPhoneNosNotListed",
-                "updateYycPhoneNosNotListed", "YYC_UPDATE_PHONES");
-        this.asyncBatchExecutorService.execute(82, datasource,
-                "getYycDefPicName", "updateYycPicName", "YYC_UPDATE_PIC");
+        cleanDefault.runDefaultClean(81, datasource, "getYycPhoneNosNotListed",
+                "updateYycPhoneNosNotListed");
+        cleanDefault.runDefaultClean(82, datasource,
+                "getYycDefPicName", "updateYycPicName");
     }
 
     @Scheduled(cron = "${app.scheduler.runat2am}")

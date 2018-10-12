@@ -5,11 +5,11 @@
 
 <mapper namespace="updateCustomerEmails">
     <select id="selectCcoCustomerEmailsWithDash" resultType="hmap">
-        select * from customers_emails where tenant_id = 58 and email = '-'
+        select id from customers_emails where tenant_id = 58 and email = '-'
     </select>
 
     <delete id="updateCcoCustomerEmailsWithDash">
-        delete from customers_emails where tenant_id = 58 and email = '-'
+        delete from customers_emails where id = #{id}
     </delete>
 
 </mapper>

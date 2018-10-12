@@ -2,6 +2,7 @@ package com.kollect.etl.controller.yyc;
 
 import com.kollect.etl.service.commonbatches.AsyncBatchExecutorService;
 import com.kollect.etl.service.commonbatches.UpdateDataDateService;
+import com.kollect.etl.service.commonbatches.CleanDefault;
 import com.kollect.etl.service.yyc.YycQuerySequenceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +16,7 @@ import java.util.List;
 @Controller
 public class YycBatchController {
     private YycQuerySequenceService yycQuerySequenceService;
+    private CleanDefault cleanDefault;
     private AsyncBatchExecutorService asyncBatchExecutorService;
     private UpdateDataDateService yycUpdateDataDateService;
     private @Value("#{'${app.datasource_all2}'.split(',')}")
@@ -23,10 +25,12 @@ public class YycBatchController {
     @Autowired
     public YycBatchController (YycQuerySequenceService yycQuerySequenceService,
                                AsyncBatchExecutorService asyncBatchExecutorService,
-                               UpdateDataDateService yycUpdateDataDateService){
+                               UpdateDataDateService yycUpdateDataDateService,
+                               CleanDefault cleanDefault){
         this.yycQuerySequenceService = yycQuerySequenceService;
         this.asyncBatchExecutorService = asyncBatchExecutorService;
         this.yycUpdateDataDateService = yycUpdateDataDateService;
+        this.cleanDefault = cleanDefault;
     }
 
     @ResponseBody
@@ -70,14 +74,15 @@ public class YycBatchController {
     @PostMapping("/yycupdatephonenos")
     @ResponseBody
     public Object updatePhoneNos(@RequestParam Integer batch_id) {
-        return this.asyncBatchExecutorService.execute(batch_id, dataSource, "getYycPhoneNosNotListed",
-                "updateYycPhoneNosNotListed", "YYC_UPDATE_PHONES");
+        return cleanDefault.runDefaultClean(batch_id, dataSource,
+                "getYycPhoneNosNotListed",
+                "updateYycPhoneNosNotListed");
     }
 
     @PostMapping("/yycupdatepic")
     @ResponseBody
     public Object updatePicName(@RequestParam Integer batch_id) {
-        return this.asyncBatchExecutorService.execute(82, dataSource,
-                "getYycDefPicName", "updateYycPicName", "YYC_UPDATE_PIC");
+        return cleanDefault.runDefaultClean(batch_id, dataSource,
+                "getYycDefPicName", "updateYycPicName");
     }
 }
