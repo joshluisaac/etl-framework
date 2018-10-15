@@ -25,7 +25,7 @@ public class CleanDefault {
 
     public int runDefaultClean(Integer batch_id, List<String> dataSource,
                                String selectQuery, String updateQuery){
-        int numberOfRows = 8;
+        int numberOfRows = 0;
         long timeTaken = 0;
         String status;
         for (String src : dataSource) {
