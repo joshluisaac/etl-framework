@@ -36,7 +36,6 @@ public class UpdateInvoiceNumber {
                 lock = true;
                 List<HashMap<String, Object>> invoiceNoList = rwProvider.executeQuery(
                         src, "getPelitaInvoiceNumbers", null);
-                System.out.println(invoiceNoList);
                 HashMap<String, Object> args = new HashMap<>();
 
                 for (HashMap obj : invoiceNoList){
