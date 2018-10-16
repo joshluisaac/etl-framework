@@ -81,7 +81,7 @@
     <select id="getDailyPelitaHistoryUat" resultType="hmap">
         <include refid="getHistoryForEmailUpdateFrag"/>
         WHERE hist.batch_id in (58,57,56, 59, 60, 61) and hist.updated_date >= now()::date 
-        and hist.data_source = 'Pelita_UAT'
+        and hist.data_source = 'KV_UAT'
         ORDER BY hist.updated_date desc
     </select>
 

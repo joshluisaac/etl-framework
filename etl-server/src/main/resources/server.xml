@@ -144,6 +144,7 @@
 		<mapper resource="pelita/updateInvoiceNumber.xml" />
 		<mapper resource="yyc/updatePhoneNos.xml" />
 		<mapper resource="yyc/updatePersonInChargeNames.xml" />
+		<mapper resource="pelita/computeInvoiceOutstanding.xml" />
 	</mappers>
 
 </configuration>

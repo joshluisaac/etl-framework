@@ -90,4 +90,12 @@ public class PelitaBatchController {
     public Object updateInvoiceNo(@RequestParam Integer batch_id) {
         return this.updateInvoiceNumber.execute(batch_id);
     }
+
+    @PostMapping("/pelitacomputeinvoiceoutstanding")
+    @ResponseBody
+    public Object computeInvoiceOutstanding(@RequestParam Integer batch_id) {
+        return asyncBatchExecutorService.execute(batch_id, dataSource, "getPelitaOutstanding",
+                "updatePelitaInvoiceOutstanding", "PELITA_INV_OUTSTANDING");
+    }
+
 }
