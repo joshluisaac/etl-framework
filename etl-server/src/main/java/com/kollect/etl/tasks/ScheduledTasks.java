@@ -112,8 +112,10 @@ public class ScheduledTasks {
         this.componentProvider.taskSleep();
         this.updateDataDateService.runUpdateDataDate(66,
                 datasource, "yycUpdateDataDate");
+        this.componentProvider.taskSleep();
         cleanDefault.runDefaultClean(81, datasource, "getYycPhoneNosNotListed",
                 "updateYycPhoneNosNotListed");
+        this.componentProvider.taskSleep();
         cleanDefault.runDefaultClean(82, datasource,
                 "getYycDefPicName", "updateYycPicName");
     }
@@ -141,6 +143,9 @@ public class ScheduledTasks {
     }
 
     private void runPelitaBatches(List<String> dataSource) {
+        this.asyncBatchExecutorService.execute(84, dataSource, "getPelitaOutstanding",
+                "updatePelitaInvoiceOutstanding", "PELITA_INV_OUTSTANDING");
+        this.componentProvider.taskSleep();
         this.asyncBatchExecutorService.execute(57, dataSource,
                 "getPelitaInvoiceAmountAfterTax",
                 "updatePelitaInvoiceAmountAfterTax",
