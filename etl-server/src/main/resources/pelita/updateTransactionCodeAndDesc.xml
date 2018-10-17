@@ -11,10 +11,15 @@
         where tenant_id = 59
     </select>
 
-    <update id="updateTrxCodeAndDesc">
+    <update id="updateTrxCode">
         update transactions SET
-            transaction_code = #{invoice_no},
-            transaction_description = #{invoice_no}
-        where id = #{id}
+            transaction_code = #{invoice_no}
+        where invoice_id = #{id} and transaction_code = '0' and tenant_id = 59
+    </update>
+
+    <update id="updateTrxDesc">
+        update transactions SET
+        transaction_description = #{invoice_no}
+        where invoice_id = #{id} and transaction_description = '0' and tenant_id = 59
     </update>
 </mapper>
