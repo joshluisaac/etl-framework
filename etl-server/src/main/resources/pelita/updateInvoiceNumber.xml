@@ -18,7 +18,7 @@
         update invoices set
             invoice_no = #{updated_invoice_no},
             invoice_description = #{updated_invoice_no}
-            where invoice_no_old = #{invoice_no} and tenant_id = 59 and id = #{id}
+            where tenant_id = 59 and id = #{id}
     </update>
 
 </mapper>

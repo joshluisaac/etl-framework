@@ -41,7 +41,7 @@ public class UpdateInvoiceNumber {
 
                 for (HashMap obj : invoiceNoList){
                     invoiceNo = obj.get("invoice_no").toString();
-                    id = (Integer) obj.get("id");
+                    id = Integer.valueOf(obj.get("id").toString());
                     if (invoiceNo.length() == 5)
                         updatedInvoiceNo = invoiceNo + "/" + obj.get("month").toString() + "/" +
                                 obj.get("year").toString();
@@ -59,7 +59,6 @@ public class UpdateInvoiceNumber {
                                 obj.get("year").toString();
 
                     args.put("id", id);
-                    args.put("invoice_no", invoiceNo);
                     args.put("updated_invoice_no", updatedInvoiceNo);
                     rwProvider.updateQuery(src, updateQuery, args);
                     numberOfRows += 1;
