@@ -29,7 +29,7 @@ public class UpdateInvoiceNumber {
         long timeTaken = 0;
         String status;
         String invoiceNo;
-        String updatedInvoiceNo = "";
+        String updatedInvoiceNo;
         for (String src:dataSource) {
             if (!lock) {
                 long startTime = System.nanoTime();
@@ -55,11 +55,17 @@ public class UpdateInvoiceNumber {
                     else if (invoiceNo.length() == 1)
                         updatedInvoiceNo = "0000" + invoiceNo + "/" + obj.get("month").toString() + "/" +
                                 obj.get("year").toString();
+                    else {
+                        updatedInvoiceNo = invoiceNo;
+                        numberOfRows=0;
+                    }
 
-                    args.put("invoice_no", invoiceNo);
-                    args.put("updated_invoice_no", updatedInvoiceNo);
-                    rwProvider.updateQuery(src,"updatePelitaInvoiceNumbers", args);
-                    numberOfRows+=1;
+                    if (!updatedInvoiceNo.equals(invoiceNo)) {
+                        args.put("invoice_no", invoiceNo);
+                        args.put("updated_invoice_no", updatedInvoiceNo);
+                        rwProvider.updateQuery(src, "updatePelitaInvoiceNumbers", args);
+                        numberOfRows += 1;
+                    }
                 }
                 lock = false;
                 long endTime = System.nanoTime();
