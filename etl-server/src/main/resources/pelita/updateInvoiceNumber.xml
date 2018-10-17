@@ -6,7 +6,7 @@
 <mapper namespace="updateInvoiceNumber">
     <select id="getPelitaInvoiceNumbers" resultType="hmap">
         select
-            invoice_no as invoice_no,
+            invoice_no_old as invoice_no,
             to_char(invoice_date, 'MM') as month,
             to_char(invoice_date, 'YYYY') as year
         from invoices
