@@ -29,6 +29,7 @@ public class UpdateInvoiceNumber {
         long timeTaken = 0;
         String status;
         String invoiceNo;
+        Integer id;
         String updatedInvoiceNo = "";
         for (String src:dataSource) {
             if (!lock) {
@@ -40,6 +41,7 @@ public class UpdateInvoiceNumber {
 
                 for (HashMap obj : invoiceNoList){
                     invoiceNo = obj.get("invoice_no").toString();
+                    id = (Integer) obj.get("id");
                     if (invoiceNo.length() == 5)
                         updatedInvoiceNo = invoiceNo + "/" + obj.get("month").toString() + "/" +
                                 obj.get("year").toString();
@@ -56,11 +58,10 @@ public class UpdateInvoiceNumber {
                         updatedInvoiceNo = "0000" + invoiceNo + "/" + obj.get("month").toString() + "/" +
                                 obj.get("year").toString();
 
+                    args.put("id", id);
                     args.put("invoice_no", invoiceNo);
                     args.put("updated_invoice_no", updatedInvoiceNo);
                     rwProvider.updateQuery(src, updateQuery, args);
-                    args.remove("invoice_no");
-                    args.remove("updated_invoice_no");
                     numberOfRows += 1;
                 }
                 lock = false;
