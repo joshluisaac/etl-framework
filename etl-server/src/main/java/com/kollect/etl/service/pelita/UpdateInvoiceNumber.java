@@ -29,7 +29,7 @@ public class UpdateInvoiceNumber {
         long timeTaken = 0;
         String status;
         String invoiceNo;
-        String updatedInvoiceNo;
+        String updatedInvoiceNo = "";
         for (String src:dataSource) {
             if (!lock) {
                 long startTime = System.nanoTime();
@@ -55,13 +55,12 @@ public class UpdateInvoiceNumber {
                     else if (invoiceNo.length() == 1)
                         updatedInvoiceNo = "0000" + invoiceNo + "/" + obj.get("month").toString() + "/" +
                                 obj.get("year").toString();
-                    else {
-                        updatedInvoiceNo = invoiceNo;
-                        numberOfRows=0;
-                    }
+
                     args.put("invoice_no", invoiceNo);
                     args.put("updated_invoice_no", updatedInvoiceNo);
                     rwProvider.updateQuery(src, updateQuery, args);
+                    args.remove("invoice_no");
+                    args.remove("updated_invoice_no");
                     numberOfRows += 1;
                 }
                 lock = false;
