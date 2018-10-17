@@ -59,13 +59,10 @@ public class UpdateInvoiceNumber {
                         updatedInvoiceNo = invoiceNo;
                         numberOfRows=0;
                     }
-
-                    if (!updatedInvoiceNo.equals(invoiceNo)) {
-                        args.put("invoice_no", invoiceNo);
-                        args.put("updated_invoice_no", updatedInvoiceNo);
-                        rwProvider.updateQuery(src, "updatePelitaInvoiceNumbers", args);
-                        numberOfRows += 1;
-                    }
+                    args.put("invoice_no", invoiceNo);
+                    args.put("updated_invoice_no", updatedInvoiceNo);
+                    rwProvider.updateQuery(src, "updatePelitaInvoiceNumbers", args);
+                    numberOfRows += 1;
                 }
                 lock = false;
                 long endTime = System.nanoTime();
