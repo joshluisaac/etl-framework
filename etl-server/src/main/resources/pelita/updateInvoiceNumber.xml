@@ -15,7 +15,7 @@
 
     <update id="updatePelitaInvoiceNumbers">
         update invoices set invoice_no =
-        #{updated_invoice_no} where invoice_no = #{invoice_no} and tenant_id = 59
+        #{updated_invoice_no} where invoice_no_old = #{invoice_no} and tenant_id = 59
     </update>
 
 </mapper>

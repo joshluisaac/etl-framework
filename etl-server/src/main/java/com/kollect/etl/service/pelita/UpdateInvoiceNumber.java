@@ -58,9 +58,7 @@ public class UpdateInvoiceNumber {
 
                     args.put("invoice_no", invoiceNo);
                     args.put("updated_invoice_no", updatedInvoiceNo);
-                    rwProvider.updateQuery("KV_UAT","updatePelitaInvoiceNumbers", args);
-                    args.remove("invoice_no");
-                    args.remove("updated_invoice_no");
+                    rwProvider.updateQuery(src,"updatePelitaInvoiceNumbers", args);
                     numberOfRows+=1;
                 }
                 lock = false;
