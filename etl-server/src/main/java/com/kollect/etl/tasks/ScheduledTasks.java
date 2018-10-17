@@ -169,7 +169,11 @@ public class ScheduledTasks {
         this.updateDataDateService.runUpdateDataDate(60,
                 dataSource, "pelitaUpdateDataDate");
         this.componentProvider.taskSleep();
-        this.updateInvoiceNumber.execute(80);
+        this.updateInvoiceNumber.execute(80, "getPelitaInvoiceNumbers",
+                "updatePelitaInvoiceNumbers");
+        this.componentProvider.taskSleep();
+        this.asyncBatchExecutorService.execute(85, dataSource, "getTrxCodeAndDesc",
+                "updateTrxCodeAndDesc", "UPDATE_TRX_CODE_DESC");
     }
 
     @Scheduled(cron = "${app.scheduler.runat230am}")

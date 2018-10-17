@@ -770,6 +770,22 @@
                                 <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
                         </td>
                     </tr>
+
+                    <tr>
+                        <td>47</td>
+                        <td>Pelita - Update Transaction Invoice No</td>
+                        <td>
+                            <form class="submitBatchForm" action="/pelitaupdatetransactioninvno"
+                                  method="POST" data-parsley-validate>
+                                <input type=number required name=batch_id value=85 hidden>
+                                <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
+                            </form>
+                        </td>
+                        <td>
+                            <a href="/batch_history?batch_id=85" class="btn-sm">
+                                <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

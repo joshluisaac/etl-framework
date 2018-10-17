@@ -24,7 +24,7 @@ public class UpdateInvoiceNumber {
         this.batchHistoryService = batchHistoryService;
     }
 
-    public int execute(Integer batch_id) {
+    public int execute(Integer batch_id, String getQuery, String updateQuery) {
         int numberOfRows = -1;
         long timeTaken = 0;
         String status;
@@ -35,7 +35,7 @@ public class UpdateInvoiceNumber {
                 long startTime = System.nanoTime();
                 lock = true;
                 List<HashMap<String, Object>> invoiceNoList = rwProvider.executeQuery(
-                        src, "getPelitaInvoiceNumbers", null);
+                        src, getQuery, null);
                 HashMap<String, Object> args = new HashMap<>();
 
                 for (HashMap obj : invoiceNoList){
@@ -61,7 +61,7 @@ public class UpdateInvoiceNumber {
                     }
                     args.put("invoice_no", invoiceNo);
                     args.put("updated_invoice_no", updatedInvoiceNo);
-                    rwProvider.updateQuery(src, "updatePelitaInvoiceNumbers", args);
+                    rwProvider.updateQuery(src, updateQuery, args);
                     numberOfRows += 1;
                 }
                 lock = false;
