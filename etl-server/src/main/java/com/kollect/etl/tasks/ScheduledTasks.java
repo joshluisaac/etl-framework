@@ -143,13 +143,13 @@ public class ScheduledTasks {
     }
 
     private void runPelitaBatches(List<String> dataSource) {
-        this.asyncBatchExecutorService.execute(84, dataSource, "getPelitaOutstanding",
-                "updatePelitaInvoiceOutstanding", "PELITA_INV_OUTSTANDING");
-        this.componentProvider.taskSleep();
         this.asyncBatchExecutorService.execute(57, dataSource,
                 "getPelitaInvoiceAmountAfterTax",
                 "updatePelitaInvoiceAmountAfterTax",
                 "COMPUTE_INV");
+        this.componentProvider.taskSleep();
+        this.asyncBatchExecutorService.execute(84, dataSource, "getPelitaOutstanding",
+                "updatePelitaInvoiceOutstanding", "PELITA_INV_OUTSTANDING");
         this.componentProvider.taskSleep();
         this.asyncBatchExecutorService.execute(58, dataSource,
                 "getPelitaInvoiceStatus",
