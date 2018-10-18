@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="deleteZeroCreditTrx">
+    <select id="getCcoZeroCreditTrx" resultType="hmap">
+        select id from transactions where tenant_id = 58 and credit &lt;= 0
+    </select>
+
+    <delete id="deleteCcoZeroCreditTrx">
+        delete from transactions where tenant_id = 58 and id = #{id}
+    </delete>
+</mapper>

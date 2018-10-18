@@ -89,4 +89,11 @@ public class CcoBatchController {
         return cleanDefault.runDefaultClean(batch_id, dataSource, "selectCcoCustomerEmailsWithDash",
                 "updateCcoCustomerEmailsWithDash");
     }
+
+    @PostMapping("/ccodeletezerocredittrx")
+    @ResponseBody
+    public Object deleteZeroCredit(@RequestParam Integer batch_id) {
+        return asyncBatchExecutorService.execute(batch_id, dataSource, "getCcoZeroCreditTrx",
+                "deleteCcoZeroCreditTrx", "DEL_ZERO_CREDIT");
+    }
 }

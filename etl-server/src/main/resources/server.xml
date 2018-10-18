@@ -146,6 +146,7 @@
 		<mapper resource="yyc/updatePersonInChargeNames.xml" />
 		<mapper resource="pelita/computeInvoiceOutstanding.xml" />
 		<mapper resource="pelita/updateTransactionCodeAndDesc.xml" />
+		<mapper resource="cco/deleteZeroCreditTrx.xml" />
 	</mappers>
 
 </configuration>
