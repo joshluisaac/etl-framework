@@ -92,13 +92,6 @@ public class PelitaBatchController {
                 "updatePelitaInvoiceNumbers");
     }
 
-    @PostMapping("/pelitaupdatetrxcode")
-    @ResponseBody
-    public Object updateTrxCode(@RequestParam Integer batch_id) {
-        return asyncBatchExecutorService.execute(batch_id, dataSource, "getTrxCodeAndDesc",
-                "updateTrxCode", "UPDATE_TRX_CODE_DESC");
-    }
-
     @PostMapping("/pelitaupdatetrxdesc")
     @ResponseBody
     public Object updateTrxDesc(@RequestParam Integer batch_id) {
