@@ -14,7 +14,7 @@
     <update id="updateTrxCode">
         update transactions SET
             transaction_code = #{invoice_no}
-        where invoice_id = #{id} and transaction_code = '0' and tenant_id = 59 and initial_debit = true
+        where invoice_id = #{id} and transaction_code = '0' and tenant_id = 59 and debit &gt;0
     </update>
 
     <update id="updateTrxDesc">
