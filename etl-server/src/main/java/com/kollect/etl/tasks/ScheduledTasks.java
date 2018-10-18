@@ -172,9 +172,6 @@ public class ScheduledTasks {
         this.updateInvoiceNumber.execute(80, "getPelitaInvoiceNumbers",
                 "updatePelitaInvoiceNumbers");
         this.componentProvider.taskSleep();
-        this.asyncBatchExecutorService.execute(85, dataSource, "getTrxCodeAndDesc",
-                "updateTrxCode", "UPDATE_TRX_CODE");
-        this.componentProvider.taskSleep();
         this.asyncBatchExecutorService.execute(86, dataSource, "getTrxCodeAndDesc",
                 "updateTrxDesc", "UPDATE_TRX_CODE");
     }
