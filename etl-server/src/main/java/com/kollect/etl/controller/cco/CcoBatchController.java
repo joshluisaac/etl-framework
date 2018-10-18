@@ -37,25 +37,6 @@ public class CcoBatchController {
                 "updateCcoAgeInvoices", "AGE_INV");
     }
 
-    @PostMapping("/ccocomputedebit")
-    @ResponseBody
-    public Object computeDebit(@RequestParam Integer batch_id){
-        return this.asyncBatchExecutorService.execute(batch_id, dataSource,
-                "getCcoDebitAmountAfterTax",
-                "updateCcoAmountAfterTax", "COMPUTE_DEBIT");
-    }
-
-    @PostMapping(value = "/ccocompinvamtafttax", produces="application/json")
-    @SuppressWarnings("unchecked")
-    @ResponseBody
-    public Object computeInv (@RequestParam Integer batch_id) {
-        return this.asyncBatchExecutorService.execute(batch_id,
-                dataSource,
-                "getCcoInvoiceAmountAfterTax",
-                "updateCcoInvoiceAmountAfterTax",
-                "COMPUTE_INV");
-    }
-
     @PostMapping(value = "/ccoinaging", produces = "application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody

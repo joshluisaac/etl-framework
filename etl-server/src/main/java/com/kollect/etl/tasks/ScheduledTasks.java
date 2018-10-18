@@ -207,7 +207,6 @@ public class ScheduledTasks {
         this.componentProvider.taskSleep();
         this.updateDataDateService.runUpdateDataDate(71, dataSource,
                 "ictZoneUpdateDataDate");
-        this.componentProvider.taskSleep();
     }
 
     @Scheduled(cron = "${app.scheduler.runat3am}")
@@ -215,7 +214,37 @@ public class ScheduledTasks {
         runIctZoneBatches(kvUat);
     }
 
-    @Scheduled(cron = "${app.scheduler.runat7am}")
+    private void runCcoBatches(List<String> dataSource) {
+        this.asyncBatchExecutorService.execute(76, dataSource,
+                "getCcoAgeInvoices",
+                "updateCcoAgeInvoices", "AGE_INV");
+        this.componentProvider.taskSleep();
+        this.asyncBatchExecutorService.execute(73,
+                dataSource, "getCcoInAging",
+                "updateCcoInAging",
+                "IN_AGING");
+        this.componentProvider.taskSleep();
+        this.asyncBatchExecutorService.execute(75,
+                dataSource, "getCcoInvoiceStatus",
+                "updateCcoInvoiceStatus",
+                "INV_STAT_EVAL");
+        this.componentProvider.taskSleep();
+        this.updateDataDateService.runUpdateDataDate(77, dataSource,
+                "ccoUpdateDataDate");
+        this.componentProvider.taskSleep();
+        cleanDefault.runDefaultClean(79, dataSource, "selectCcoCustomerEmailsWithDash",
+                "updateCcoCustomerEmailsWithDash");
+        this.componentProvider.taskSleep();
+        asyncBatchExecutorService.execute(87, dataSource, "getCcoZeroCreditTrx",
+                "deleteCcoZeroCreditTrx", "DEL_ZERO_CREDIT");
+    }
+
+    @Scheduled(cron = "${app.scheduler.runat315am}")
+    public void ccoBatches() {
+        runCcoBatches(kvUat);
+    }
+
+        @Scheduled(cron = "${app.scheduler.runat7am}")
     public void sendBatchEmails() {
         String fromEmail = "datareceived@kollect.my";
         emailSenderService.sendAfterBatch(fromEmail, recipient, "YYC - Daily Sequence Batch Report",
@@ -233,6 +262,8 @@ public class ScheduledTasks {
                 "ICT Zone - Daily Batch Report", batchHistoryService.viewIctZoneAfterSchedulerUat(),
                 emptyList);
         componentProvider.taskSleep();
+        emailSenderService.sendAfterBatch(fromEmail, recipient, "Cheng&Co - Daily Batch Report", batchHistoryService.viewCcoAfterSchedulerUat(),
+                emptyList);
     }
 
     @Scheduled(fixedDelay = 600000)
