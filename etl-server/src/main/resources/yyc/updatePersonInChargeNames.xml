@@ -11,7 +11,7 @@
     </select>
     <delete id="updateYycPicName">
         delete from customers_person_incharge where
-            id = #{id}
+            id = #{id} and tenant_id = 65
     </delete>
 
 </mapper>

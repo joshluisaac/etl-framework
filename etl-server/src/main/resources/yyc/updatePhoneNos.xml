@@ -8,7 +8,7 @@
         select id from customers_phone_nos where tenant_id = 65 and phone_no = 'Not listed'
     </select>
     <delete id="updateYycPhoneNosNotListed">
-        DELETE from customers_phone_nos where id = #{id}
+        DELETE from customers_phone_nos where id = #{id} and tenant_id = 65
     </delete>
 
 </mapper>

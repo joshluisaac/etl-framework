@@ -113,4 +113,26 @@ public class PelitaBatchController {
                 "updatePelitaInvoiceOutstanding", "PELITA_INV_OUTSTANDING");
     }
 
+    @PostMapping("/pelitadeletedefemail")
+    @ResponseBody
+    public Object deleteDefEmails(@RequestParam Integer batch_id) {
+        return asyncBatchExecutorService.execute(batch_id, dataSource, "getPelitaEmailsDefault",
+                "deletePelitaEmailsDefault", "PELITA_DEF_EMAILS");
+    }
+
+    @PostMapping("/pelitadeletedefphone")
+    @ResponseBody
+    public Object deleteDefPhones(@RequestParam Integer batch_id) {
+        return asyncBatchExecutorService.execute(batch_id, dataSource, "getPelitaPhoneNosDefault",
+                "deletePelitaPhoneNosDefault", "PELITA_DEF_PHONES");
+    }
+
+    @PostMapping("/pelitadeletedefpic")
+    @ResponseBody
+    public Object deleteDefPics(@RequestParam Integer batch_id) {
+        return asyncBatchExecutorService.execute(batch_id, dataSource, "getPelitaPicDefault",
+                "deletePelitaPicDefault", "PELITA_DEF_PIC");
+    }
+
+
 }

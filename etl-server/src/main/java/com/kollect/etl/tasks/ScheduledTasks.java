@@ -177,6 +177,13 @@ public class ScheduledTasks {
         this.componentProvider.taskSleep();
         this.asyncBatchExecutorService.execute(86, dataSource, "getTrxCodeAndDesc",
                 "updateTrxDesc", "UPDATE_TRX_CODE");
+        this.componentProvider.taskSleep();
+        asyncBatchExecutorService.execute(88, dataSource, "getPelitaEmailsDefault",
+                "deletePelitaEmailsDefault", "PELITA_DEF_EMAILS");
+        asyncBatchExecutorService.execute(89, dataSource, "getPelitaPhoneNosDefault",
+                "deletePelitaPhoneNosDefault", "PELITA_DEF_PHONES");
+        asyncBatchExecutorService.execute(90, dataSource, "getPelitaPicDefault",
+                "deletePelitaPicDefault", "PELITA_DEF_PIC");
     }
 
     @Scheduled(cron = "${app.scheduler.runat230am}")

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cleanDefault">
+    <select id="getPelitaPhoneNosDefault" resultType="hmap">
+        select id from customers_phone_nos where tenant_id = 59 and phone_no = '-'
+    </select>
+    <delete id="deletePelitaPhoneNosDefault">
+        DELETE from customers_phone_nos where id = #{id} and tenant_id = 59
+    </delete>
+
+    <select id="getPelitaPicDefault" resultType="hmap">
+        select id from customers_person_incharge where tenant_id = 59 and person_incharge = '-No Sales Employee-'
+    </select>
+    <delete id="deletePelitaPicDefault">
+        DELETE from customers_person_incharge where id = #{id} and tenant_id = 59
+    </delete>
+
+    <select id="getPelitaEmailsDefault" resultType="hmap">
+        select id from customers_emails where tenant_id = 59 and email = '-'
+    </select>
+    <delete id="deletePelitaEmailsDefault">
+        DELETE from customers_emails where id = #{id} and tenant_id = 59
+    </delete>
+
+</mapper>

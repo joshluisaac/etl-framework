@@ -147,6 +147,7 @@
 		<mapper resource="pelita/computeInvoiceOutstanding.xml" />
 		<mapper resource="pelita/updateTransactionCodeAndDesc.xml" />
 		<mapper resource="cco/deleteZeroCreditTrx.xml" />
+		<mapper resource="pelita/cleanDefault.xml" />
 	</mappers>
 
 </configuration>
