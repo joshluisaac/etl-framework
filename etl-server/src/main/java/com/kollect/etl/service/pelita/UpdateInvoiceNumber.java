@@ -32,6 +32,7 @@ public class UpdateInvoiceNumber {
         Integer id;
         String updatedInvoiceNo = "";
         for (String src:dataSource) {
+            int numberOfRecords = 0;
             if (!lock) {
                 long startTime = System.nanoTime();
                 lock = true;
@@ -61,8 +62,9 @@ public class UpdateInvoiceNumber {
                     args.put("id", id);
                     args.put("updated_invoice_no", updatedInvoiceNo);
                     rwProvider.updateQuery(src, updateQuery, args);
-                    numberOfRows += 1;
+                    numberOfRecords += 1;
                 }
+                numberOfRows = numberOfRecords;
                 lock = false;
                 long endTime = System.nanoTime();
                 timeTaken = (endTime - startTime) / 1000000;
