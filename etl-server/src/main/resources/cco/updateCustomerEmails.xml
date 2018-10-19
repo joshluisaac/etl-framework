@@ -9,7 +9,7 @@
     </select>
 
     <delete id="updateCcoCustomerEmailsWithDash">
-        delete from customers_emails where id = #{id}
+        delete from customers_emails where id = #{id} and tenant_id = 58
     </delete>
 
 </mapper>

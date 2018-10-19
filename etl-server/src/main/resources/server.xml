@@ -142,8 +142,7 @@
 		<mapper resource="cco/computeDebitAmountAfterTaxService.xml" />
 		<mapper resource="cco/updateCustomerEmails.xml" />
 		<mapper resource="pelita/updateInvoiceNumber.xml" />
-		<mapper resource="yyc/updatePhoneNos.xml" />
-		<mapper resource="yyc/updatePersonInChargeNames.xml" />
+		<mapper resource="yyc/cleanDefault.xml" />
 		<mapper resource="pelita/computeInvoiceOutstanding.xml" />
 		<mapper resource="pelita/updateTransactionCodeAndDesc.xml" />
 		<mapper resource="cco/deleteZeroCreditTrx.xml" />

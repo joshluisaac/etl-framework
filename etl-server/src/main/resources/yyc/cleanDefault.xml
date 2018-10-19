@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cleanDefault">
+    <select id="getYycDefPicName" resultType="int">
+        SELECT id from customers_person_incharge where
+        tenant_id = 65 and person_incharge = '-No Sales Employee-'
+
+    </select>
+    <delete id="updateYycPicName">
+        delete from customers_person_incharge where
+        id = #{id} and tenant_id = 65
+    </delete>
+
+    <select id="getYycPhoneNosNotListed" resultType="hmap">
+        select id from customers_phone_nos where tenant_id = 65 and phone_no = 'Not listed'
+    </select>
+    <delete id="updateYycPhoneNosNotListed">
+        DELETE from customers_phone_nos where id = #{id} and tenant_id = 65
+    </delete>
+
+    <select id="getYycDefEmails" resultType="hmap">
+        select id from customers_emails where tenant_id = 65 and email = 'Not listed'
+    </select>
+    <delete id="deleteYycDefEmails">
+        DELETE from customers_emails where id = #{id} and tenant_id = 65
+    </delete>
+
+
+</mapper>

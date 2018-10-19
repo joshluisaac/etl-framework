@@ -1,7 +1,6 @@
 package com.kollect.etl.controller.cco;
 
 import com.kollect.etl.service.commonbatches.AsyncBatchExecutorService;
-import com.kollect.etl.service.commonbatches.CleanDefault;
 import com.kollect.etl.service.commonbatches.UpdateDataDateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +13,6 @@ import java.util.List;
 
 @Controller
 public class CcoBatchController {
-    private CleanDefault cleanDefault;
     private AsyncBatchExecutorService asyncBatchExecutorService;
     private UpdateDataDateService updateDataDateService;
     private @Value("${app.datasource_kv_uat}")
@@ -22,11 +20,9 @@ public class CcoBatchController {
 
     @Autowired
     public CcoBatchController(AsyncBatchExecutorService asyncBatchExecutorService,
-                                  UpdateDataDateService updateDataDateService,
-                              CleanDefault cleanDefault){
+                                  UpdateDataDateService updateDataDateService){
         this.asyncBatchExecutorService = asyncBatchExecutorService;
         this.updateDataDateService = updateDataDateService;
-        this.cleanDefault=cleanDefault;
     }
 
     @PostMapping(value = "/ccoageinvoice", produces = "application/json")
@@ -67,8 +63,9 @@ public class CcoBatchController {
     @PostMapping("/ccoupdateemails")
     @ResponseBody
     public Object updateEmails(@RequestParam Integer batch_id) {
-        return cleanDefault.runDefaultClean(batch_id, dataSource, "selectCcoCustomerEmailsWithDash",
-                "updateCcoCustomerEmailsWithDash");
+        return asyncBatchExecutorService.execute(batch_id, dataSource,
+                "selectCcoCustomerEmailsWithDash",
+                "updateCcoCustomerEmailsWithDash", "CCO_DEF_EMAILS");
     }
 
     @PostMapping("/ccodeletezerocredittrx")
