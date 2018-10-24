@@ -62,7 +62,7 @@
             hist.status as status
         FROM kvbatch batch
             INNER JOIN kvbatch_history hist ON batch.id = hist.batch_id
-        ORDER BY hist.updated_date desc
+        ORDER BY hist.updated_date desc limit 500
     </select>
 
     <select id="getDailyPbkHistoryUat" resultType="hmap">
