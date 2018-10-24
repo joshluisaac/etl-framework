@@ -25,4 +25,11 @@
         DELETE from customers_emails where id = #{id} and tenant_id = 59
     </delete>
 
+    <select id="getPelitaAddressDefault" resultType="hmap">
+        select id from customers_addresses where tenant_id = 59 and address_1 = '-'
+    </select>
+    <delete id="deletePelitaAddressDefault">
+        DELETE from customers_addresses where id = #{id} and tenant_id = 59
+    </delete>
+
 </mapper>

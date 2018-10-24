@@ -92,32 +92,35 @@ public class ScheduledTasks {
         runYycSequences(dataSourceAll2);
     }
 
-    private void runYycBatches(List<String> datasource) {
-        this.asyncBatchExecutorService.execute(63, datasource,
+    private void runYycBatches(List<String> dataSource) {
+        this.asyncBatchExecutorService.execute(63, dataSource,
                 "getYycInvoiceStatus",
                 "updateYycInvoiceStatus",
                 "INV_STAT_EVAL");
         this.componentProvider.taskSleep();
-        this.asyncBatchExecutorService.execute(64, datasource,
+        this.asyncBatchExecutorService.execute(64, dataSource,
                 "getYycAgeInvoice", "updateYycAgeInvoice",
                 "AGE_INV");
         this.componentProvider.taskSleep();
-        this.asyncBatchExecutorService.execute(65, datasource,
+        this.asyncBatchExecutorService.execute(65, dataSource,
                 "getYycInAging", "updateYycInAging",
                 "IN_AGING");
         this.componentProvider.taskSleep();
         this.updateDataDateService.runUpdateDataDate(66,
-                datasource, "yycUpdateDataDate");
+                dataSource, "yycUpdateDataDate");
         this.componentProvider.taskSleep();
-        asyncBatchExecutorService.execute(81, datasource,
+        asyncBatchExecutorService.execute(81, dataSource,
                 "getYycPhoneNosNotListed",
                 "updateYycPhoneNosNotListed", "YYC_DEF_PHONE");
         this.componentProvider.taskSleep();
-        asyncBatchExecutorService.execute(82, datasource,
+        asyncBatchExecutorService.execute(82, dataSource,
                 "getYycDefPicName", "updateYycPicName", "YYC_DEF_PIC");
         this.componentProvider.taskSleep();
-        asyncBatchExecutorService.execute(91, datasource,
+        asyncBatchExecutorService.execute(91, dataSource,
                 "getYycDefEmails", "deleteYycDefEmails", "YYC_DEF_EMAILS");
+        this.componentProvider.taskSleep();
+        asyncBatchExecutorService.execute(93, dataSource,
+                "getYycDefAddress", "deleteYycDefAddress", "YYC_DEF_ADDR");
     }
 
     @Scheduled(cron = "${app.scheduler.runat2am}")
@@ -184,6 +187,8 @@ public class ScheduledTasks {
                 "deletePelitaPhoneNosDefault", "PELITA_DEF_PHONES");
         asyncBatchExecutorService.execute(90, dataSource, "getPelitaPicDefault",
                 "deletePelitaPicDefault", "PELITA_DEF_PIC");
+        asyncBatchExecutorService.execute(92, dataSource, "getPelitaAddressDefault",
+                "deletePelitaAddressDefault", "PELITA_DEF_ADDR");
     }
 
     @Scheduled(cron = "${app.scheduler.runat230am}")

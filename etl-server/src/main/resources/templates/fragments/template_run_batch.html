@@ -883,6 +883,38 @@
                                 <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
                         </td>
                     </tr>
+
+                    <tr>
+                        <td>54</td>
+                        <td>Pelita - Delete Default Addresses</td>
+                        <td>
+                            <form class="submitBatchForm" action="/pelitadeletedefaddresses"
+                                  method="POST" data-parsley-validate>
+                                <input type=number required name=batch_id value=92 hidden>
+                                <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
+                            </form>
+                        </td>
+                        <td>
+                            <a href="/batch_history?batch_id=92" class="btn-sm">
+                                <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>55</td>
+                        <td>YYC - Delete Default Addresses</td>
+                        <td>
+                            <form class="submitBatchForm" action="/yycdeletedefaddresses"
+                                  method="POST" data-parsley-validate>
+                                <input type=number required name=batch_id value=93 hidden>
+                                <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
+                            </form>
+                        </td>
+                        <td>
+                            <a href="/batch_history?batch_id=93" class="btn-sm">
+                                <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

@@ -88,4 +88,11 @@ public class YycBatchController {
         return asyncBatchExecutorService.execute(batch_id, dataSource,
                 "getYycDefEmails", "deleteYycDefEmails", "YYC_DEF_EMAILS");
     }
+
+    @PostMapping("/yycdeletedefaddresses")
+    @ResponseBody
+    public Object updateDefAddress(@RequestParam Integer batch_id) {
+        return asyncBatchExecutorService.execute(batch_id, dataSource,
+                "getYycDefAddress", "deleteYycDefAddress", "YYC_DEF_ADDR");
+    }
 }

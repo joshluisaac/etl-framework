@@ -134,5 +134,10 @@ public class PelitaBatchController {
                 "deletePelitaPicDefault", "PELITA_DEF_PIC");
     }
 
-
+    @PostMapping("/pelitadeletedefaddresses")
+    @ResponseBody
+    public Object deleteDefAddresses(@RequestParam Integer batch_id) {
+        return asyncBatchExecutorService.execute(batch_id, dataSource, "getPelitaAddressDefault",
+                "deletePelitaAddressDefault", "PELITA_DEF_ADDR");
+    }
 }

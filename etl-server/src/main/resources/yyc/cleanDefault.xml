@@ -28,5 +28,10 @@
         DELETE from customers_emails where id = #{id} and tenant_id = 65
     </delete>
 
-
+    <select id="getYycDefAddress" resultType="hmap">
+        select id from customers_addresses where tenant_id = 65 and address_1 ISNULL
+    </select>
+    <delete id="deleteYycDefAddress">
+        DELETE from customers_addresses where id = #{id} and tenant_id = 65
+    </delete>
 </mapper>
