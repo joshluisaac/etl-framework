@@ -41,10 +41,12 @@ public class ScheduledTasks {
     List<String> prodDataSource;
     private @Value("${app.datasource_kv_uat}")
     List<String> kvUat;
-    @Value("#{'${app.datasource_all2}'.split(',')}")
+    private @Value("#{'${app.datasource_all2}'.split(',')}")
     List<String> dataSourceAll2;
-    @Value("#{'${app.datasource_all}'.split(',')}")
+    private @Value("#{'${app.datasource_all}'.split(',')}")
     List<String> dataSourceAll;
+    private @Value("#{'${app.datasource_all3}'.split(',')}")
+    List<String> dataSourceAll3;
 
 
     @Value("${app.pelitaExtractionPath}")
@@ -193,7 +195,7 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "${app.scheduler.runat230am}")
     public void pelitaBatches() {
-        runPelitaBatches(dataSourceAll2);
+        runPelitaBatches(dataSourceAll3);
     }
 
     private void runIctZoneBatches(List<String> dataSource) {

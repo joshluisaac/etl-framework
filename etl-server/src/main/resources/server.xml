@@ -91,6 +91,26 @@
 				<property name="password" value="${kv_production_password}" />
 			</dataSource>
 		</environment>
+
+		<environment id="KV_Production_2_Pelita">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${postgres_driver}" />
+				<property name="url" value="${kv_production_url_2_pelita_url}" />
+				<property name="username" value="${postgres_username}" />
+				<property name="password" value="${kv_production_password}" />
+			</dataSource>
+		</environment>
+
+		<environment id="KV_Production_2_PBK">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${postgres_driver}" />
+				<property name="url" value="${kv_production_url_2_pbk_url}" />
+				<property name="username" value="${postgres_username}" />
+				<property name="password" value="${kv_production_password}" />
+			</dataSource>
+		</environment>
 	</environments>
 
 	<mappers>

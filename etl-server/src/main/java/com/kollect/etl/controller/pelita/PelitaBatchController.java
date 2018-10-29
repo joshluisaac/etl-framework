@@ -17,7 +17,7 @@ public class PelitaBatchController {
     private AsyncBatchExecutorService asyncBatchExecutorService;
     private UpdateDataDateService updateDataDateService;
     private UpdateInvoiceNumber updateInvoiceNumber;
-    private @Value("#{'${app.datasource_all2}'.split(',')}")
+    private @Value("#{'${app.datasource_all3}'.split(',')}")
     List<String> dataSource;
 
     @Autowired
