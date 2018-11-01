@@ -72,7 +72,7 @@
 			</dataSource>
 		</environment>
 
-		<environment id="KV_Production">
+<!--		<environment id="KV_Production">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
 				<property name="driver" value="${postgres_driver}" />
@@ -80,9 +80,9 @@
 				<property name="username" value="${postgres_username}" />
 				<property name="password" value="${kv_production_password}" />
 			</dataSource>
-		</environment>
+		</environment>-->
 
-		<environment id="KV_Production_2">
+		<environment id="KV_Production">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
 				<property name="driver" value="${postgres_driver}" />
@@ -92,7 +92,7 @@
 			</dataSource>
 		</environment>
 
-		<environment id="KV_Production_2_Pelita">
+		<environment id="KV_Production_Pelita">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
 				<property name="driver" value="${postgres_driver}" />
@@ -102,7 +102,7 @@
 			</dataSource>
 		</environment>
 
-		<environment id="KV_Production_2_PBK">
+		<environment id="KV_Production_PBK">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
 				<property name="driver" value="${postgres_driver}" />
