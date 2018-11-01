@@ -256,7 +256,7 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "${app.scheduler.runat315am}")
     public void ccoBatches() {
-        runCcoBatches(kvUat);
+        runCcoBatches(prodDataSource);
     }
 
         @Scheduled(cron = "${app.scheduler.runat7am}")
@@ -285,20 +285,5 @@ public class ScheduledTasks {
     public void runKeepConnectionAliveHack() {
         this.iRWProvider.executeQuery(prodDataSource.get(0),
                 "getUpdateDataDateToKeepConnectionOpen", null);
-    }
-
-    //@Scheduled(fixedDelay = 120000)
-    public void sendPelitaExtractEmail() throws IOException {
-        String title = "Pelita - Daily Extraction Metrics";
-        logger.info("Extraction Email Scheduler Running...");
-        emailSenderService.sendExtractionEmail(pelitaExtractionPath, title);
-    }
-
-    //@Scheduled(fixedDelay = 120000)
-    public void sendPelitaDataConnectorStatsEmail() throws IOException {
-        String title = "Pelita - Daily Data Loading";
-        String context = "pelita";
-        logger.info("DataConnector Email Notification Running...at {} using thread {}", System.currentTimeMillis(), Thread.currentThread().getName());
-        dcNotificationService.execute(title, pelitaDcServerLogPath, context);
     }
 }
