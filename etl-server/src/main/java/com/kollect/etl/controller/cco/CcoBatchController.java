@@ -15,7 +15,7 @@ import java.util.List;
 public class CcoBatchController {
     private AsyncBatchExecutorService asyncBatchExecutorService;
     private UpdateDataDateService updateDataDateService;
-    private @Value("${app.datasource_kv_production_2}")
+    private @Value("${app.datasource_kv_production}")
     List<String> dataSource;
 
     @Autowired
