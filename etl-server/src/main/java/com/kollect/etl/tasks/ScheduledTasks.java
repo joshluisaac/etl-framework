@@ -225,7 +225,7 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "${app.scheduler.runat3am}")
     public void ictZoneBatches() {
-        runIctZoneBatches(kvUat);
+        runIctZoneBatches(dataSourceAll2);
     }
 
     private void runCcoBatches(List<String> dataSource) {

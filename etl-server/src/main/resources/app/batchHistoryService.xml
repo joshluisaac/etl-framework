@@ -74,7 +74,7 @@
     <select id="getDailyPbkHistoryProd" resultType="hmap">
         <include refid="getHistoryForEmailUpdateFrag"/>
         WHERE hist.batch_id in (2,3,53) and hist.updated_date >= now()::date 
-        and hist.data_source = 'KV_Production'
+        and hist.data_source = 'KV_Production_PBK'
         ORDER BY hist.updated_date desc
     </select>
 
@@ -90,7 +90,7 @@
         <include refid="getHistoryForEmailUpdateFrag"/>
         WHERE hist.batch_id in (58,57,56, 59, 60, 61, 80, 84, 85, 86, 88, 89, 90, 92)
         and hist.updated_date >= now()::date
-        and hist.data_source = 'KV_Production'
+        and hist.data_source = 'KV_Production_Pelita'
         ORDER BY hist.updated_date desc
     </select>
 
