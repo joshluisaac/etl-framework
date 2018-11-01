@@ -275,10 +275,10 @@ public class ScheduledTasks {
         componentProvider.taskSleep();
         emailSenderService.sendAfterBatch(fromEmail, recipient + ",syazman@kollect.my,biman@kollect.my",
                 "ICT Zone - Daily Batch Report", batchHistoryService.viewIctZoneAfterSchedulerUat(),
-                emptyList);
+                batchHistoryService.viewIctZoneAfterSchedulerProd());
         componentProvider.taskSleep();
         emailSenderService.sendAfterBatch(fromEmail, recipient, "Cheng&Co - Daily Batch Report", batchHistoryService.viewCcoAfterSchedulerUat(),
-                emptyList);
+                batchHistoryService.viewCcoAfterSchedulerProd());
     }
 
     @Scheduled(fixedDelay = 600000)
