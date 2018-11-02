@@ -185,11 +185,11 @@ public class ScheduledTasks {
         this.componentProvider.taskSleep();
         asyncBatchExecutorService.execute(88, dataSource, "getPelitaEmailsDefault",
                 "deletePelitaEmailsDefault", "PELITA_DEF_EMAILS");
-        asyncBatchExecutorService.execute(89, dataSource, "getPelitaPhoneNosDefault",
+        asyncBatchExecutorService.execute(88, dataSource, "getPelitaPhoneNosDefault",
                 "deletePelitaPhoneNosDefault", "PELITA_DEF_PHONES");
-        asyncBatchExecutorService.execute(90, dataSource, "getPelitaPicDefault",
+        asyncBatchExecutorService.execute(88, dataSource, "getPelitaPicDefault",
                 "deletePelitaPicDefault", "PELITA_DEF_PIC");
-        asyncBatchExecutorService.execute(92, dataSource, "getPelitaAddressDefault",
+        asyncBatchExecutorService.execute(88, dataSource, "getPelitaAddressDefault",
                 "deletePelitaAddressDefault", "PELITA_DEF_ADDR");
     }
 
@@ -249,6 +249,15 @@ public class ScheduledTasks {
         asyncBatchExecutorService.execute(79, dataSource,
                 "selectCcoCustomerEmailsWithDash",
                 "updateCcoCustomerEmailsWithDash", "CCO_DEF_EMAILS");
+        asyncBatchExecutorService.execute(79, dataSource,
+                "getCcoPhoneNosDefault",
+                "deleteCcoPhoneNosDefault", "CCO_DEF_PHONES");
+        asyncBatchExecutorService.execute(79, dataSource,
+                "getCcoPicDefault",
+                "deleteCcoPicDefault", "CCO_DEF_PIC");
+        asyncBatchExecutorService.execute(79, dataSource,
+                "getCcoAddressDefault",
+                "deleteCcoAddressDefault", "CCO_DEF_ADDRESS");
         this.componentProvider.taskSleep();
         asyncBatchExecutorService.execute(87, dataSource, "getCcoZeroCreditTrx",
                 "deleteCcoZeroCreditTrx", "DEL_ZERO_CREDIT");

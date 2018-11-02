@@ -60,12 +60,23 @@ public class CcoBatchController {
                 "ccoUpdateDataDate");
     }
 
-    @PostMapping("/ccoupdateemails")
+    @PostMapping("/ccocleandefault")
     @ResponseBody
-    public Object updateEmails(@RequestParam Integer batch_id) {
-        return asyncBatchExecutorService.execute(batch_id, dataSource,
+    public Object cleanDefault(@RequestParam Integer batch_id) {
+        Integer updatedSize = asyncBatchExecutorService.execute(batch_id, dataSource,
                 "selectCcoCustomerEmailsWithDash",
                 "updateCcoCustomerEmailsWithDash", "CCO_DEF_EMAILS");
+        updatedSize += asyncBatchExecutorService.execute(batch_id, dataSource,
+                "getCcoPhoneNosDefault",
+                "deleteCcoPhoneNosDefault", "CCO_DEF_PHONES");
+        updatedSize += asyncBatchExecutorService.execute(batch_id, dataSource,
+                "getCcoPicDefault",
+                "deleteCcoPicDefault", "CCO_DEF_PIC");
+        updatedSize += asyncBatchExecutorService.execute(batch_id, dataSource,
+                "getCcoAddressDefault",
+                "deleteCcoAddressDefault", "CCO_DEF_ADDRESS");
+
+        return updatedSize;
     }
 
     @PostMapping("/ccodeletezerocredittrx")

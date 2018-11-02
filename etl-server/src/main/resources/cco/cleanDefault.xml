@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="updateCustomerEmails">
+    <select id="selectCcoCustomerEmailsWithDash" resultType="hmap">
+        select id from customers_emails where tenant_id = 58 and email = '-'
+    </select>
+
+    <delete id="updateCcoCustomerEmailsWithDash">
+        delete from customers_emails where id = #{id} and tenant_id = 58
+    </delete>
+
+    <select id="getCcoPhoneNosDefault" resultType="hmap">
+        select id from customers_phone_nos where tenant_id = 58 and phone_no = '-'
+    </select>
+
+    <delete id="deleteCcoPhoneNosDefault">
+        DELETE from customers_phone_nos where id = #{id} and tenant_id = 58
+    </delete>
+
+    <select id="getCcoPicDefault" resultType="hmap">
+        select id from customers_person_incharge where tenant_id = 58 and person_incharge = '-'
+    </select>
+    <delete id="deleteCcoPicDefault">
+        DELETE from customers_person_incharge where id = #{id} and tenant_id = 58
+    </delete>
+
+    <select id="getCcoAddressDefault" resultType="hmap">
+        select id from customers_addresses where tenant_id = 58 and address_1 = '-'
+    </select>
+    <delete id="deleteCcoAddressDefault">
+        DELETE from customers_addresses where id = #{id} and tenant_id = 58
+    </delete>
+</mapper>

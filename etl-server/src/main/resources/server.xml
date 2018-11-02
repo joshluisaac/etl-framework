@@ -170,7 +170,7 @@
 		<mapper resource="cco/ageInvoiceService.xml" />
 		<mapper resource="cco/updateDataDateService.xml" />
 		<mapper resource="cco/computeDebitAmountAfterTaxService.xml" />
-		<mapper resource="cco/updateCustomerEmails.xml" />
+		<mapper resource="cco/cleanDefault.xml" />
 		<mapper resource="pelita/updateInvoiceNumber.xml" />
 		<mapper resource="yyc/cleanDefault.xml" />
 		<mapper resource="pelita/computeInvoiceOutstanding.xml" />
