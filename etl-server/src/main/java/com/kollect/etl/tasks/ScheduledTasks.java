@@ -205,6 +205,9 @@ public class ScheduledTasks {
                 "updateIctZoneInvoiceAmountAfterTax",
                 "COMPUTE_INV");
         this.componentProvider.taskSleep();
+        this.asyncBatchExecutorService.execute(94, dataSource, "getInvoiceOutstanding", "updateInvoiceOutstanding",
+                "ICTZONE_OUTSTANDING_INVOICE");
+        this.componentProvider.taskSleep();
         this.asyncBatchExecutorService.execute(69,
                 dataSource, "getIctZoneInvoiceStatus",
                 "updateIctZoneInvoiceStatus",

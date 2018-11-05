@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="invoiceOutstanding">
+    <select id="getInvoiceOutstanding" resultType="hmap">
+        SELECT
+            invoices.id                                                          AS id,
+            (invoices.invoice_amount - transactions.credit + transactions.debit) AS invoice_outstanding
+        FROM invoices AS invoices
+            INNER JOIN transactions AS transactions
+                ON (invoices.id = transactions.invoice_id)
+        WHERE invoices.tenant_id = 102 AND transactions.transaction_type_id IN (1, 2, 3, 4, 5);
+    </select>
+
+    <update id="updateInvoiceOutstanding">
+        UPDATE invoices
+        SET invoice_outstanding = #{invoice_outstanding}
+        WHERE id = #{id} AND tenant_id = 102
+    </update>
+</mapper>

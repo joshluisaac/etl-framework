@@ -77,4 +77,11 @@ public class IctZoneBatchController {
         return this.updateDataDateService.runUpdateDataDate(batch_id, dataSource,
                 "ictZoneUpdateDataDate");
     }
+
+    @PostMapping("/ictzoneinvoiceoutstanding")
+    @ResponseBody
+    public Object updateInvoiceOutstanding(@RequestParam Integer batch_id) {
+        return this.asyncBatchExecutorService.execute(batch_id, dataSource, "getInvoiceOutstanding", "updateInvoiceOutstanding",
+                "ICTZONE_OUTSTANDING_INVOICE");
+    }
 }
