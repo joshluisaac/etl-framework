@@ -232,6 +232,11 @@ public class ScheduledTasks {
     }
 
     private void runCcoBatches(List<String> dataSource) {
+        this.asyncBatchExecutorService.execute(75,
+                dataSource, "getCcoInvoiceStatus",
+                "updateCcoInvoiceStatus",
+                "INV_STAT_EVAL");
+        this.componentProvider.taskSleep();
         this.asyncBatchExecutorService.execute(76, dataSource,
                 "getCcoAgeInvoices",
                 "updateCcoAgeInvoices", "AGE_INV");
@@ -240,11 +245,6 @@ public class ScheduledTasks {
                 dataSource, "getCcoInAging",
                 "updateCcoInAging",
                 "IN_AGING");
-        this.componentProvider.taskSleep();
-        this.asyncBatchExecutorService.execute(75,
-                dataSource, "getCcoInvoiceStatus",
-                "updateCcoInvoiceStatus",
-                "INV_STAT_EVAL");
         this.componentProvider.taskSleep();
         this.updateDataDateService.runUpdateDataDate(77, dataSource,
                 "ccoUpdateDataDate");
