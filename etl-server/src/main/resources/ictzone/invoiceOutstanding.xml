@@ -6,12 +6,19 @@
 <mapper namespace="invoiceOutstanding">
     <select id="getInvoiceOutstanding" resultType="hmap">
         SELECT
-            invoices.id                                     AS id,
-            (invoices.invoice_amount - transactions.credit) AS invoice_outstanding
-        FROM invoices AS invoices
-            INNER JOIN transactions AS transactions
-                ON (invoices.id = transactions.invoice_id)
-        WHERE invoices.tenant_id = 102 AND transactions.transaction_type_id IN (1, 2, 3, 4, 5)
+            i.id                                                                            AS id,
+            COALESCE(i.invoice_amount, 0) + COALESCE(i.gst, 0) + COALESCE(t.transaction, 0) AS outstanding
+        FROM invoices AS i
+            LEFT JOIN (
+                          SELECT
+                              t.invoice_id,
+                              sum(COALESCE(t.debit, 0) - COALESCE(t.credit, 0)) AS transaction
+                          FROM transactions AS t
+                          WHERE initial_debit = FALSE
+                                AND t.transaction_type_id IN (1, 2, 3, 4, 5)
+                          GROUP BY t.invoice_id
+                      ) AS t ON t.invoice_id = i.id
+        WHERE i.tenant_id = 102
     </select>
 
     <update id="updateInvoiceOutstanding">
