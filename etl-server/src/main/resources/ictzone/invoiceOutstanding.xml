@@ -7,9 +7,6 @@
     <select id="getInvoiceOutstanding" resultType="hmap">
         SELECT
             invoices.id                                     AS id,
-            invoices.invoice_amount,
-            transactions.credit,
-            transactions.debit,
             (invoices.invoice_amount - transactions.credit) AS invoice_outstanding
         FROM invoices AS invoices
             INNER JOIN transactions AS transactions
