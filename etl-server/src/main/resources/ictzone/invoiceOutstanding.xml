@@ -7,7 +7,7 @@
     <select id="getInvoiceOutstanding" resultType="hmap">
         SELECT
             i.id                                                                            AS id,
-            COALESCE(i.invoice_amount, 0) + COALESCE(i.gst, 0) + COALESCE(t.transaction, 0) AS outstanding
+            COALESCE(i.invoice_amount, 0) + COALESCE(i.gst, 0) + COALESCE(t.transaction, 0) AS invoice_outstanding
         FROM invoices AS i
             LEFT JOIN (
                           SELECT
