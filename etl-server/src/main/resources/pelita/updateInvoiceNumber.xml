@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="updateInvoiceNumber">
+    <select id="getPelitaInvoiceNumbers" resultType="hmap">
+        select
+            id as id,
+            invoice_no_old as invoice_no,
+            to_char(invoice_date, 'MM') as month,
+            to_char(invoice_date, 'YYYY') as year
+        from invoices
+        where tenant_id = 59 and invoice_no ISNULL
+    </select>
+
+    <update id="updatePelitaInvoiceNumbers">
+        update invoices set
+            invoice_no = #{updated_invoice_no},
+            invoice_description = #{updated_invoice_no}
+            where tenant_id = 59 and id = #{id}
+    </update>
+
+</mapper>

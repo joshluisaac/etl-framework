@@ -21,9 +21,9 @@ public class YycBatchController {
     List<String> dataSource;
 
     @Autowired
-    public YycBatchController (YycQuerySequenceService yycQuerySequenceService,
-                               AsyncBatchExecutorService asyncBatchExecutorService,
-                               UpdateDataDateService yycUpdateDataDateService){
+    public YycBatchController(YycQuerySequenceService yycQuerySequenceService,
+                              AsyncBatchExecutorService asyncBatchExecutorService,
+                              UpdateDataDateService yycUpdateDataDateService) {
         this.yycQuerySequenceService = yycQuerySequenceService;
         this.asyncBatchExecutorService = asyncBatchExecutorService;
         this.yycUpdateDataDateService = yycUpdateDataDateService;
@@ -31,13 +31,13 @@ public class YycBatchController {
 
     @ResponseBody
     @PostMapping("/yycsequence")
-    public Object runYycSequence(@RequestParam Integer batch_id){
+    public Object runYycSequence(@RequestParam Integer batch_id) {
         return this.yycQuerySequenceService.runYycSequenceQuery(batch_id, dataSource);
     }
 
     @ResponseBody
     @PostMapping("/yycinvstatevaluation")
-    public Object invStatEvaluation(@RequestParam Integer batch_id){
+    public Object invStatEvaluation(@RequestParam Integer batch_id) {
         return this.asyncBatchExecutorService.execute
                 (batch_id, dataSource, "getYycInvoiceStatus",
                         "updateYycInvoiceStatus",
@@ -46,7 +46,7 @@ public class YycBatchController {
 
     @ResponseBody
     @PostMapping("/yycageinvoice")
-    public Object ageInvoice(@RequestParam Integer batch_id){
+    public Object ageInvoice(@RequestParam Integer batch_id) {
         return this.asyncBatchExecutorService.execute(batch_id, dataSource,
                 "getYycAgeInvoice", "updateYycAgeInvoice",
                 "AGE_INV");
@@ -54,7 +54,7 @@ public class YycBatchController {
 
     @ResponseBody
     @PostMapping("/yycinaging")
-    public Object inAging(@RequestParam Integer batch_id){
+    public Object inAging(@RequestParam Integer batch_id) {
         return this.asyncBatchExecutorService.execute(batch_id, dataSource,
                 "getYycInAging", "updateYycInAging",
                 "IN_AGING");
@@ -62,8 +62,37 @@ public class YycBatchController {
 
     @ResponseBody
     @PostMapping("/yycupdatedatadate")
-    public Object yycUpdateDataDate(@RequestParam Integer batch_id){
+    public Object yycUpdateDataDate(@RequestParam Integer batch_id) {
         return this.yycUpdateDataDateService.runUpdateDataDate(batch_id,
                 dataSource, "yycUpdateDataDate");
+    }
+
+    @PostMapping("/yycupdatephonenos")
+    @ResponseBody
+    public Object updatePhoneNos(@RequestParam Integer batch_id) {
+        return asyncBatchExecutorService.execute(batch_id, dataSource,
+                "getYycPhoneNosNotListed",
+                "updateYycPhoneNosNotListed", "YYC_DEF_PHONE");
+    }
+
+    @PostMapping("/yycupdatepic")
+    @ResponseBody
+    public Object updatePicName(@RequestParam Integer batch_id) {
+        return asyncBatchExecutorService.execute(batch_id, dataSource,
+                "getYycDefPicName", "updateYycPicName", "YYC_DEF_PIC");
+    }
+
+    @PostMapping("/yycupdatedefemails")
+    @ResponseBody
+    public Object updateDefEmails(@RequestParam Integer batch_id) {
+        return asyncBatchExecutorService.execute(batch_id, dataSource,
+                "getYycDefEmails", "deleteYycDefEmails", "YYC_DEF_EMAILS");
+    }
+
+    @PostMapping("/yycdeletedefaddresses")
+    @ResponseBody
+    public Object updateDefAddress(@RequestParam Integer batch_id) {
+        return asyncBatchExecutorService.execute(batch_id, dataSource,
+                "getYycDefAddress", "deleteYycDefAddress", "YYC_DEF_ADDR");
     }
 }

@@ -7,7 +7,7 @@
 
     <select id="getPelitaInvoiceAmountAfterTax" resultType="hmap">
         <include refid="sqlIncludes.getInvoiceAmountAfterTaxFrag"/>
-        and tenant_id = 59
+        WHERE tenant_id = 59
     </select>
 
 

@@ -2,6 +2,7 @@ package com.kollect.etl.controller.pelita;
 
 import com.kollect.etl.service.commonbatches.AsyncBatchExecutorService;
 import com.kollect.etl.service.commonbatches.UpdateDataDateService;
+import com.kollect.etl.service.pelita.UpdateInvoiceNumber;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -15,14 +16,17 @@ import java.util.List;
 public class PelitaBatchController {
     private AsyncBatchExecutorService asyncBatchExecutorService;
     private UpdateDataDateService updateDataDateService;
-    private @Value("#{'${app.datasource_all2}'.split(',')}")
+    private UpdateInvoiceNumber updateInvoiceNumber;
+    private @Value("#{'${app.datasource_all3}'.split(',')}")
     List<String> dataSource;
 
     @Autowired
     public PelitaBatchController(AsyncBatchExecutorService asyncBatchExecutorService,
-                                 UpdateDataDateService updateDataDateService){
+                                 UpdateDataDateService updateDataDateService,
+                                 UpdateInvoiceNumber updateInvoiceNumber){
         this.asyncBatchExecutorService = asyncBatchExecutorService;
         this.updateDataDateService = updateDataDateService;
+        this.updateInvoiceNumber=updateInvoiceNumber;
     }
 
     @PostMapping(value = "/pelitaageinvoice", produces = "application/json")
@@ -79,5 +83,47 @@ public class PelitaBatchController {
     public Object runUpdateDataDate(@RequestParam Integer batch_id) {
         return this.updateDataDateService.runUpdateDataDate(batch_id,
                 dataSource, "pelitaUpdateDataDate");
+    }
+
+    @PostMapping("/pelitaupdateinvoiceno")
+    @ResponseBody
+    public Object updateInvoiceNo(@RequestParam Integer batch_id) {
+        return this.updateInvoiceNumber.execute(batch_id, "getPelitaInvoiceNumbers",
+                "updatePelitaInvoiceNumbers");
+    }
+
+    @PostMapping("/pelitaupdatetrxcode")
+    @ResponseBody
+    public Object updateTrxCode(@RequestParam Integer batch_id) {
+        return asyncBatchExecutorService.execute(batch_id, dataSource, "getTrxCodeAndDesc",
+                "updateTrxCode", "UPDATE_TRX_CODE_DESC");
+    }
+
+    @PostMapping("/pelitaupdatetrxdesc")
+    @ResponseBody
+    public Object updateTrxDesc(@RequestParam Integer batch_id) {
+        return asyncBatchExecutorService.execute(batch_id, dataSource, "getTrxCodeAndDesc",
+                "updateTrxDesc", "UPDATE_TRX_CODE");
+    }
+
+    @PostMapping("/pelitacomputeinvoiceoutstanding")
+    @ResponseBody
+    public Object computeInvoiceOutstanding(@RequestParam Integer batch_id) {
+        return asyncBatchExecutorService.execute(batch_id, dataSource, "getPelitaOutstanding",
+                "updatePelitaInvoiceOutstanding", "PELITA_INV_OUTSTANDING");
+    }
+
+    @PostMapping("/pelitacleandefault")
+    @ResponseBody
+    public Object cleanDefault(@RequestParam Integer batch_id) {
+        Integer updatedRows = asyncBatchExecutorService.execute(batch_id, dataSource, "getPelitaEmailsDefault",
+                "deletePelitaEmailsDefault", "PELITA_DEF_EMAILS");
+        updatedRows += asyncBatchExecutorService.execute(batch_id, dataSource, "getPelitaPhoneNosDefault",
+                "deletePelitaPhoneNosDefault", "PELITA_DEF_PHONES");
+        updatedRows += asyncBatchExecutorService.execute(batch_id, dataSource, "getPelitaPicDefault",
+                "deletePelitaPicDefault", "PELITA_DEF_PIC");
+        updatedRows += asyncBatchExecutorService.execute(batch_id, dataSource, "getPelitaAddressDefault",
+                "deletePelitaAddressDefault", "PELITA_DEF_ADDR");
+        return updatedRows;
     }
 }

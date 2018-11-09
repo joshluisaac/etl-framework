@@ -100,4 +100,14 @@ public class BatchHistoryService {
         return this.rwProvider.executeQuery(dataSource, "getDailyIctZoneHistoryProd",
                 null);
     }
+
+    public List<Object> viewCcoAfterSchedulerUat(){
+        return this.rwProvider.executeQuery(dataSource, "getDailyCcoHistoryUat",
+                null);
+    }
+
+    public List<Object> viewCcoAfterSchedulerProd(){
+        return this.rwProvider.executeQuery(dataSource, "getDailyCcoHistoryProd",
+                null);
+    }
 }

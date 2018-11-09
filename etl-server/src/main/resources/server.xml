@@ -22,61 +22,11 @@
  </typeAliases>
 
 	<environments default="postgres">
-		<!--<environment id="aed_elegant">
-			<transactionManager type="JDBC" />
-			<dataSource type="POOLED">
-				<property name="driver" value="${DRIVER}" />
-				<property name="url" value="${aed_elegant_url}" />
-				<property name="username" value="${aed_elegant_username}" />
-				<property name="password" value="${aed_elegant_password}" />
-			</dataSource>
-		</environment>
-
-		<environment id="aed_yyc">
-			<transactionManager type="JDBC" />
-			<dataSource type="POOLED">
-				<property name="driver" value="${DRIVER}" />
-				<property name="url" value="${aed_yyc_url}" />
-				<property name="username" value="${aed_yyc_username}" />
-				<property name="password" value="${aed_yyc_password}" />
-			</dataSource>
-		</environment>
-
-		<environment id="aed_yyc_8">
-			<transactionManager type="JDBC" />
-			<dataSource type="POOLED">
-				<property name="driver" value="${DRIVER}" />
-				<property name="url" value="${aed_yyc8_url}" />
-				<property name="username" value="${aed_yyc8_username}" />
-				<property name="password" value="${aed_yyc8_password}" />
-			</dataSource>
-		</environment>
-
-		<environment id="aed_yyc_12">
-			<transactionManager type="JDBC" />
-			<dataSource type="POOLED">
-				<property name="driver" value="${DRIVER}" />
-				<property name="url" value="${aed_yyc12_url}" />
-				<property name="username" value="${aed_yyc12_username}" />
-				<property name="password" value="${aed_yyc12_password}" />
-			</dataSource>
-		</environment> -->
-
 		<environment id="UAT_8">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
 				<property name="driver" value="${postgres_driver}" />
 				<property name="url" value="${postgres_url}" />
-				<property name="username" value="${postgres_username}" />
-				<property name="password" value="${postgres_password}" />
-			</dataSource>
-		</environment>
-		
-				<environment id="PBK_1">
-			<transactionManager type="JDBC" />
-			<dataSource type="POOLED">
-				<property name="driver" value="${postgres_driver}" />
-				<property name="url" value="${postgres_pbk_url}" />
 				<property name="username" value="${postgres_username}" />
 				<property name="password" value="${postgres_password}" />
 			</dataSource>
@@ -102,17 +52,27 @@
 			</dataSource>
 		</environment>
 
-		<environment id="KV_UAT4">
+		<environment id="Pelita_UAT">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
 				<property name="driver" value="${postgres_driver}" />
-				<property name="url" value="${kollectvalley_uat_4_url}" />
+				<property name="url" value="${kollectvalley_uat_url_pelita}" />
 				<property name="username" value="${postgres_username}" />
 				<property name="password" value="${postgres_password}" />
 			</dataSource>
 		</environment>
 
-		<environment id="KV_Production">
+		<environment id="PBK_UAT">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${postgres_driver}" />
+				<property name="url" value="${kollectvalley_uat_url_pbk}" />
+				<property name="username" value="${postgres_username}" />
+				<property name="password" value="${postgres_password}" />
+			</dataSource>
+		</environment>
+
+<!--		<environment id="KV_Production">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
 				<property name="driver" value="${postgres_driver}" />
@@ -120,18 +80,37 @@
 				<property name="username" value="${postgres_username}" />
 				<property name="password" value="${kv_production_password}" />
 			</dataSource>
-		</environment>
+		</environment>-->
 
-<!--		<environment id="IctZone">
+		<environment id="KV_Production">
 			<transactionManager type="JDBC" />
 			<dataSource type="POOLED">
 				<property name="driver" value="${postgres_driver}" />
-				<property name="url" value="${postgres_ictzone_url}" />
+				<property name="url" value="${kv_production_url_2}" />
 				<property name="username" value="${postgres_username}" />
 				<property name="password" value="${kv_production_password}" />
 			</dataSource>
-		</environment>-->
+		</environment>
 
+		<environment id="KV_Production_Pelita">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${postgres_driver}" />
+				<property name="url" value="${kv_production_url_2_pelita_url}" />
+				<property name="username" value="${postgres_username}" />
+				<property name="password" value="${kv_production_password}" />
+			</dataSource>
+		</environment>
+
+		<environment id="KV_Production_PBK">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${postgres_driver}" />
+				<property name="url" value="${kv_production_url_2_pbk_url}" />
+				<property name="username" value="${postgres_username}" />
+				<property name="password" value="${kv_production_password}" />
+			</dataSource>
+		</environment>
 	</environments>
 
 	<mappers>
@@ -191,6 +170,14 @@
 		<mapper resource="cco/ageInvoiceService.xml" />
 		<mapper resource="cco/updateDataDateService.xml" />
 		<mapper resource="cco/computeDebitAmountAfterTaxService.xml" />
+		<mapper resource="cco/cleanDefault.xml" />
+		<mapper resource="pelita/updateInvoiceNumber.xml" />
+		<mapper resource="yyc/cleanDefault.xml" />
+		<mapper resource="pelita/computeInvoiceOutstanding.xml" />
+		<mapper resource="pelita/updateTransactionCodeAndDesc.xml" />
+		<mapper resource="cco/deleteZeroCreditTrx.xml" />
+		<mapper resource="pelita/cleanDefault.xml" />
+		<mapper resource="ictzone/invoiceOutstanding.xml"/>
 	</mappers>
 
 </configuration>

@@ -7,7 +7,7 @@
 
     <select id="getCcoInvoiceAmountAfterTax" resultType="hmap">
         <include refid="sqlIncludes.getInvoiceAmountAfterTaxFrag"/>
-        and tenant_id = 58
+        WHERE tenant_id = 58
     </select>
 
 

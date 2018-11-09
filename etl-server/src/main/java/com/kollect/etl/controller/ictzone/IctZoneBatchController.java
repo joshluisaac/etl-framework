@@ -14,7 +14,7 @@ import java.util.List;
 public class IctZoneBatchController {
     private AsyncBatchExecutorService asyncBatchExecutorService;
     private UpdateDataDateService updateDataDateService;
-    private @Value("${app.datasource_kv_uat}")
+    private @Value("${app.datasource_kv_production}")
     List<String> dataSource;
 
     @Autowired
@@ -76,5 +76,12 @@ public class IctZoneBatchController {
     public Object updateDataDate(@RequestParam Integer batch_id) {
         return this.updateDataDateService.runUpdateDataDate(batch_id, dataSource,
                 "ictZoneUpdateDataDate");
+    }
+
+    @PostMapping("/ictzoneinvoiceoutstanding")
+    @ResponseBody
+    public Object updateInvoiceOutstanding(@RequestParam Integer batch_id) {
+        return this.asyncBatchExecutorService.execute(batch_id, dataSource, "getInvoiceOutstanding", "updateInvoiceOutstanding",
+                "ICTZONE_OUTSTANDING_INVOICE");
     }
 }
