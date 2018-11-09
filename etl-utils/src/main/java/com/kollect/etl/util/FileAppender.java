@@ -12,16 +12,14 @@ import org.slf4j.LoggerFactory;
 import com.google.gson.Gson;
 
 //The role of this is to append a group of CSV files starting with the same prefix and the same structure into one file
-public class FileAppender  extends AbstractTextFileProcessor {
-  
-  
+public class FileAppender extends AbstractTextFileProcessor {
+
   private static final Logger LOG = LoggerFactory.getLogger(FileAppender.class);
 
   public FileAppender(Configuration config) {
     super(config);
   }
-  
-  
+
   public void execute(String rootPath, String fileNamePrefix, ICsvAppendContext csvContext) throws IOException {
     final ICsvAppenderReport stat = csvContext.getReport();
     final long rowsWritten, bytesWritten;
@@ -49,7 +47,7 @@ public class FileAppender  extends AbstractTextFileProcessor {
     dwStats = deleteAndWriteToDisk(appendedList, destDir, destFileName);
     deleteAndWriteToDisk(BAD_ROWS, destDir, badFileName);
     deleteAndWriteToDisk(DUPLICATE_ROWS, destDir, duplicateFileName);
-    
+
     rowsWritten = dwStats[0];
     bytesWritten = dwStats[1];
     stat.setRecordCount(rowsWritten);
@@ -57,14 +55,42 @@ public class FileAppender  extends AbstractTextFileProcessor {
     LOG.info("Final size of appended list: {}", appendedList.size());
     LOG.info("Appended files starting with {} to {}", new Object[] { fileNamePrefix, destFileName });
   }
-  
-  
-  
+
+  private static void displayUsage() {
+    System.out.println("Usage: java com.kollect.etl.util.FileAppender outputDirectory");
+    System.out.println("Flags are:");
+    System.out.println("-v or --verbose: log statistics");
+    System.out.println("-d or --distinct: prune duplicate lines");
+    System.out.println("-h or --help: display this message");
+  }
+
   public static void main(String[] args) throws Exception {
+    String rootPath = null;
+    String context = null;
+    boolean verbose = false;
+
+    for (int param = 0; param < args.length; param++) {
+      if (args[param].equals("-v") || args[param].equals("--verbose")) {
+        verbose = true;
+      } else if ((args[param].equals("-h") || args[param].equals("--help"))) {
+        displayUsage();
+        return;
+      } else {
+        if (rootPath == null) rootPath = args[param];
+        else if (context == null) context = args[param];
+        else
+          System.out.println("Unparsed: " + args[param]);
+      }
+    }
+    if (context == null) {
+      System.out.println("please provide input directory and context names");
+      displayUsage();
+      return;
+    }
+
     Configuration configr = new Configuration();
     FileAppender appender = new FileAppender(configr);
-    
-    String rootPath = args[0];
+
     if (rootPath == null) {
       LOG.debug("Directory path is null, will check dirPath property in util.properties");
       rootPath = appender.getDirPath();
@@ -83,7 +109,7 @@ public class FileAppender  extends AbstractTextFileProcessor {
     List<ICsvAppenderReport> statList = new ArrayList<>();
     for (String p : prefixes) {
       ICsvAppenderReport stat = new CsvAppenderReport();
-      //Argument Defined Anonymous inner class
+      // Argument Defined Anonymous inner class
       appender.execute(rootPath, p, new ICsvAppendContext() {
         @Override
         public ICsvAppenderReport getReport() {
@@ -92,13 +118,10 @@ public class FileAppender  extends AbstractTextFileProcessor {
       });
       statList.add(stat);
     }
-    String json = new Gson().toJson(statList );
-    LOG.debug("{}", json);
+    String json = new Gson().toJson(statList);
+    if (verbose)
+      LOG.debug("{}", json);
+    new FileUtils().writeTextFile(configr.getFileDestination() + "/" + context + "_transformation.control", null);
   }
-  
-  
-  
-  
-
 
 }
