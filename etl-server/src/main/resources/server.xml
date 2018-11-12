@@ -178,6 +178,10 @@
 		<mapper resource="cco/deleteZeroCreditTrx.xml" />
 		<mapper resource="pelita/cleanDefault.xml" />
 		<mapper resource="ictzone/invoiceOutstanding.xml"/>
+		<mapper resource="nationwide/ageInvoiceService.xml"/>
+		<mapper resource="nationwide/inAgingService.xml"/>
+		<mapper resource="nationwide/invoiceStatusEvaluation.xml"/>
+		<mapper resource="nationwide/updateDataDateService.xml"/>
 	</mappers>
 
 </configuration>

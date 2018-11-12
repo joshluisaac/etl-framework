@@ -37,23 +37,18 @@ public class PbkBatchController {
      *
      * ResponseBody is used to return a json value to the URL needed as a result of the ajax
      *
-     * @param tenant_id
-     *            this is the tenant id that determines the client, e.g. 63 for PBK
-     *
      * @return returns the number of rows updated as json
      */
 
     @PostMapping(value = "/pbkcalcoutstanding", produces="application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
-    public Object calcOutstanding (@RequestParam Integer batch_id) {
-        return this.pbkCalcOutstandingService.combinedCalcOutstanding(batch_id);
+    public Object calcOutstanding () {
+        return this.pbkCalcOutstandingService.combinedCalcOutstanding(1);
     }
 
     /**
      * POST method to get the tenant_id from user to run the age invoice batch
-     * @param batch_id
-     *                  used to run the batchhistoryservice for this batch
      * @return
      *          returns the number of rows updated by the batch
      */
@@ -61,8 +56,8 @@ public class PbkBatchController {
     @PostMapping(value = "/pbkageinvoice", produces = "application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
-    public Object ageInvoice (@RequestParam Integer batch_id){
-        return this.asyncBatchExecutorService.execute(batch_id,
+    public Object ageInvoice (){
+        return this.asyncBatchExecutorService.execute(3,
                 dataSource, "getPbkAgeInvoice",
                 "updatePbkAgeInvoice",
                 "AGE_INV");
@@ -71,14 +66,14 @@ public class PbkBatchController {
     @PostMapping(value ="/pbklumpsumpayment")
     @SuppressWarnings("unchecked")
     @ResponseBody
-    public Object lumSumPayment (@RequestParam Integer batch_id) {
-        return pbkLumpSumPaymentService.combinedLumpSumPaymentService(batch_id);
+    public Object lumSumPayment () {
+        return pbkLumpSumPaymentService.combinedLumpSumPaymentService(2);
     }
 
     @PostMapping("/pbkdatadate")
     @ResponseBody
-    public Object updateDataDate(@RequestParam Integer batch_id){
-        return this.pbkUpdateDataDateService.runUpdateDataDate(batch_id,
+    public Object updateDataDate(){
+        return this.pbkUpdateDataDateService.runUpdateDataDate(53,
                 dataSource, "pbkUpdateDataDate");
     }
 }

@@ -32,27 +32,18 @@ public class PelitaBatchController {
     @PostMapping(value = "/pelitaageinvoice", produces = "application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
-    public Object ageInvoice (@RequestParam Integer batch_id){
-        return this.asyncBatchExecutorService.execute(batch_id,
+    public Object ageInvoice (){
+        return this.asyncBatchExecutorService.execute(59,
                 dataSource, "getPelitaAgeInvoices",
                 "updatePelitaAgeInvoices",
                 "AGE_INV");
     }
 
-    @PostMapping("/pelitacomputedebit")
-    @ResponseBody
-    public Object computeDebit(@RequestParam Integer batch_id){
-        return this.asyncBatchExecutorService.execute(batch_id,
-                dataSource, "getPelitaDebitAmountAfterTax",
-                "updatePelitaDebitAmountAfterTax",
-                "COMPUTE_DEBIT");
-    }
-
     @PostMapping(value = "/pelitacompinvamtafttax", produces="application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
-    public Object computeInv (@RequestParam Integer batch_id) {
-        return this.asyncBatchExecutorService.execute(batch_id,
+    public Object computeInv () {
+        return this.asyncBatchExecutorService.execute(57,
                 dataSource, "getPelitaInvoiceAmountAfterTax",
                 "updatePelitaInvoiceAmountAfterTax",
                 "COMPUTE_INV");
@@ -61,8 +52,8 @@ public class PelitaBatchController {
     @PostMapping(value = "/pelitainaging", produces = "application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
-    public Object inAging (@RequestParam Integer batch_id){
-        return this.asyncBatchExecutorService.execute(batch_id,
+    public Object inAging (){
+        return this.asyncBatchExecutorService.execute(56,
                 dataSource, "getPelitaInAging",
                 "updatePelitaInAging",
                 "IN_AGING");
@@ -71,8 +62,8 @@ public class PelitaBatchController {
     @PostMapping(value = "/pelitainvstateval", produces="application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
-    public Object invStatEvaluation (@RequestParam Integer batch_id) {
-        return this.asyncBatchExecutorService.execute(batch_id,
+    public Object invStatEvaluation () {
+        return this.asyncBatchExecutorService.execute(58,
                 dataSource, "getPelitaInvoiceStatus",
                 "updatePelitaInvoiceStatus",
                 "INV_STAT_EVAL");
@@ -80,42 +71,43 @@ public class PelitaBatchController {
 
     @PostMapping("/pelitadatadate")
     @ResponseBody
-    public Object runUpdateDataDate(@RequestParam Integer batch_id) {
-        return this.updateDataDateService.runUpdateDataDate(batch_id,
+    public Object runUpdateDataDate() {
+        return this.updateDataDateService.runUpdateDataDate(60,
                 dataSource, "pelitaUpdateDataDate");
     }
 
     @PostMapping("/pelitaupdateinvoiceno")
     @ResponseBody
-    public Object updateInvoiceNo(@RequestParam Integer batch_id) {
-        return this.updateInvoiceNumber.execute(batch_id, "getPelitaInvoiceNumbers",
+    public Object updateInvoiceNo() {
+        return this.updateInvoiceNumber.execute(80, "getPelitaInvoiceNumbers",
                 "updatePelitaInvoiceNumbers");
     }
 
     @PostMapping("/pelitaupdatetrxcode")
     @ResponseBody
-    public Object updateTrxCode(@RequestParam Integer batch_id) {
-        return asyncBatchExecutorService.execute(batch_id, dataSource, "getTrxCodeAndDesc",
+    public Object updateTrxCode() {
+        return asyncBatchExecutorService.execute(85, dataSource, "getTrxCodeAndDesc",
                 "updateTrxCode", "UPDATE_TRX_CODE_DESC");
     }
 
     @PostMapping("/pelitaupdatetrxdesc")
     @ResponseBody
-    public Object updateTrxDesc(@RequestParam Integer batch_id) {
-        return asyncBatchExecutorService.execute(batch_id, dataSource, "getTrxCodeAndDesc",
+    public Object updateTrxDesc() {
+        return asyncBatchExecutorService.execute(86, dataSource, "getTrxCodeAndDesc",
                 "updateTrxDesc", "UPDATE_TRX_CODE");
     }
 
     @PostMapping("/pelitacomputeinvoiceoutstanding")
     @ResponseBody
-    public Object computeInvoiceOutstanding(@RequestParam Integer batch_id) {
-        return asyncBatchExecutorService.execute(batch_id, dataSource, "getPelitaOutstanding",
+    public Object computeInvoiceOutstanding() {
+        return asyncBatchExecutorService.execute(84, dataSource, "getPelitaOutstanding",
                 "updatePelitaInvoiceOutstanding", "PELITA_INV_OUTSTANDING");
     }
 
     @PostMapping("/pelitacleandefault")
     @ResponseBody
-    public Object cleanDefault(@RequestParam Integer batch_id) {
+    public Object cleanDefault() {
+        Integer batch_id = 88;
         Integer updatedRows = asyncBatchExecutorService.execute(batch_id, dataSource, "getPelitaEmailsDefault",
                 "deletePelitaEmailsDefault", "PELITA_DEF_EMAILS");
         updatedRows += asyncBatchExecutorService.execute(batch_id, dataSource, "getPelitaPhoneNosDefault",

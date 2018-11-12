@@ -26,25 +26,17 @@ public class IctZoneBatchController {
 
     @PostMapping(value = "/ictzoneageinvoice", produces = "application/json")
     @ResponseBody
-    public Object ageInvoice (@RequestParam Integer batch_id){
-        return this.asyncBatchExecutorService.execute(batch_id, dataSource,
+    public Object ageInvoice (){
+        return this.asyncBatchExecutorService.execute(70, dataSource,
                 "getIctZoneAgeInvoices",
                 "updateIctZoneAgeInvoices", "AGE_INV");
-    }
-
-    @PostMapping("/ictzonecomputedebit")
-    @ResponseBody
-    public Object computeDebit(@RequestParam Integer batch_id){
-        return this.asyncBatchExecutorService.execute(batch_id, dataSource,
-                "getIctZoneDebitAmountAfterTax",
-                "updateIctZoneDebitAmountAfterTax", "COMPUTE_DEBIT");
     }
 
     @PostMapping(value = "/ictzonecompinvamtafttax", produces="application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
-    public Object computeInv (@RequestParam Integer batch_id) {
-        return this.asyncBatchExecutorService.execute(batch_id,
+    public Object computeInv () {
+        return this.asyncBatchExecutorService.execute(68,
                 dataSource,
                 "getIctZoneInvoiceAmountAfterTax",
                 "updateIctZoneInvoiceAmountAfterTax",
@@ -54,8 +46,8 @@ public class IctZoneBatchController {
     @PostMapping(value = "/ictzoneinaging", produces = "application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
-    public Object inAging (@RequestParam Integer batch_id){
-        return this.asyncBatchExecutorService.execute(batch_id,
+    public Object inAging (){
+        return this.asyncBatchExecutorService.execute(67,
                 dataSource, "getIctZoneInAging",
                 "updateIctZoneInAging",
                 "IN_AGING");
@@ -64,8 +56,8 @@ public class IctZoneBatchController {
     @PostMapping(value = "/ictzoneinvstateval", produces="application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
-    public Object invStatEvaluation (@RequestParam Integer batch_id) {
-        return this.asyncBatchExecutorService.execute(batch_id,
+    public Object invStatEvaluation () {
+        return this.asyncBatchExecutorService.execute(69,
                 dataSource, "getIctZoneInvoiceStatus",
                 "updateIctZoneInvoiceStatus",
                 "INV_STAT_EVAL");
@@ -73,15 +65,15 @@ public class IctZoneBatchController {
 
     @PostMapping("/ictzonedatadate")
     @ResponseBody
-    public Object updateDataDate(@RequestParam Integer batch_id) {
-        return this.updateDataDateService.runUpdateDataDate(batch_id, dataSource,
+    public Object updateDataDate() {
+        return this.updateDataDateService.runUpdateDataDate(71, dataSource,
                 "ictZoneUpdateDataDate");
     }
 
     @PostMapping("/ictzoneinvoiceoutstanding")
     @ResponseBody
-    public Object updateInvoiceOutstanding(@RequestParam Integer batch_id) {
-        return this.asyncBatchExecutorService.execute(batch_id, dataSource, "getInvoiceOutstanding", "updateInvoiceOutstanding",
+    public Object updateInvoiceOutstanding() {
+        return this.asyncBatchExecutorService.execute(94, dataSource, "getInvoiceOutstanding", "updateInvoiceOutstanding",
                 "ICTZONE_OUTSTANDING_INVOICE");
     }
 }
