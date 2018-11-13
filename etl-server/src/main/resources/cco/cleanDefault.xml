@@ -28,7 +28,10 @@
     </delete>
 
     <select id="getCcoAddressDefault" resultType="hmap">
-        select id from customers_addresses where tenant_id = 58 and address_1 = '-'
+        select id from customers_addresses
+        where tenant_id = 58
+              and address_1 = '-'
+              and address_2 = '-'
     </select>
     <delete id="deleteCcoAddressDefault">
         DELETE from customers_addresses where id = #{id} and tenant_id = 58

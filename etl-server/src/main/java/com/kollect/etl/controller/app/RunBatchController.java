@@ -10,9 +10,38 @@ public class RunBatchController {
      *
      * @return runbatch - used to return the HTML for first time visit.
      */
-    @GetMapping("/runbatch")
-    public Object allBatches() {
+    @GetMapping("/runpbkbatch")
+    public Object runPbkBatch() {
+        return "runPbkBatch";
+    }
 
-        return "runBatch";
+    @GetMapping("/runpelitabatch")
+    public Object runPelitaBatch() {
+        return "runPelitaBatch";
+    }
+
+    @GetMapping("/runpyycatch")
+    public Object runYycBatch() {
+        return "runpyycatch";
+    }
+
+    @GetMapping("/runccobatch")
+    public Object runCcoBatch() {
+        return "runCcoBatch";
+    }
+
+    @GetMapping("/runictzonebatch")
+    public Object runIctZoneBatch() {
+        return "runIctZoneBatch";
+    }
+
+    @GetMapping("/runnationwidebatch")
+    public Object runNationwideBatch() {
+        return "runNationwideBatch";
+    }
+
+    @GetMapping("/runmahbbatch")
+    public Object runMahbBatch() {
+        return "runMahbBatch";
     }
 }
