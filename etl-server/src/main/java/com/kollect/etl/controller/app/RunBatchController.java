@@ -20,9 +20,9 @@ public class RunBatchController {
         return "runPelitaBatch";
     }
 
-    @GetMapping("/runpyycatch")
+    @GetMapping("/runyycbatch")
     public Object runYycBatch() {
-        return "runpyycatch";
+        return "runYycBatch";
     }
 
     @GetMapping("/runccobatch")
