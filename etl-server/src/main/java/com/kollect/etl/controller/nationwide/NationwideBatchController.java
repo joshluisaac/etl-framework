@@ -59,4 +59,24 @@ public class NationwideBatchController {
         return this.updateDataDateService.runUpdateDataDate(98, dataSource,
                 "nationwideUpdateDataDate");
     }
+
+    @PostMapping("/nationwidecleandefault")
+    @ResponseBody
+    public Object cleanDefault() {
+        Integer batch_id = 99;
+        Integer updatedSize = asyncBatchExecutorService.execute(batch_id, dataSource,
+                "getNationwideEmailsWithDash",
+                "deleteNationwideEmailsWithDash", "NATIONWIDE_DEF_EMAILS");
+        updatedSize += asyncBatchExecutorService.execute(batch_id, dataSource,
+                "getNationwidePhoneNosDefault",
+                "deleteNationwidePhoneNosDefault", "NATIONWIDE_DEF_PHONES");
+        updatedSize += asyncBatchExecutorService.execute(batch_id, dataSource,
+                "getNationwidePicDefault",
+                "deleteNationwidePicDefault", "NATIONWIDE_DEF_PIC");
+        updatedSize += asyncBatchExecutorService.execute(batch_id, dataSource,
+                "getNationwideAddressDefault",
+                "deleteNationwideAddressDefault", "NATIONWIDE_DEF_ADDRESS");
+
+        return updatedSize;
+    }
 }

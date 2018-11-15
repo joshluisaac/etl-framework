@@ -65,7 +65,7 @@ public class CcoBatchController {
     public Object cleanDefault() {
         Integer batch_id = 79;
         Integer updatedSize = asyncBatchExecutorService.execute(batch_id, dataSource,
-                "selectCcoCustomerEmailsWithDash",
+                "getCcoCustomerEmailsWithDash",
                 "updateCcoCustomerEmailsWithDash", "CCO_DEF_EMAILS");
         updatedSize += asyncBatchExecutorService.execute(batch_id, dataSource,
                 "getCcoPhoneNosDefault",

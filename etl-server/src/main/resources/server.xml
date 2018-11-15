@@ -172,6 +172,7 @@
 		<mapper resource="nationwide/inAgingService.xml"/>
 		<mapper resource="nationwide/invoiceStatusEvaluation.xml"/>
 		<mapper resource="nationwide/updateDataDateService.xml"/>
+		<mapper resource="nationwide/cleanDefault.xml"/>
 	</mappers>
 
 </configuration>

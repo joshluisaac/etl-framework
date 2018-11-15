@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cleanDefault">
+    <select id="getNationwideEmailsWithDash" resultType="hmap">
+        select id from customers_emails where tenant_id = 103 and email = '-'
+    </select>
+
+    <delete id="deleteNationwideEmailsWithDash">
+        delete from customers_emails where id = #{id} and tenant_id = 103
+    </delete>
+
+    <select id="getNationwidePhoneNosDefault" resultType="hmap">
+        select id from customers_phone_nos where tenant_id = 103 and phone_no = '-'
+    </select>
+
+    <delete id="deleteNationwidePhoneNosDefault">
+        DELETE from customers_phone_nos where id = #{id} and tenant_id = 103
+    </delete>
+
+    <select id="getNationwidePicDefault" resultType="hmap">
+        select id from customers_person_incharge where tenant_id = 103 and person_incharge = '-'
+    </select>
+    <delete id="deleteNationwidePicDefault">
+        DELETE from customers_person_incharge where id = #{id} and tenant_id = 103
+    </delete>
+
+    <select id="getNationwideAddressDefault" resultType="hmap">
+        select id from customers_addresses
+        where tenant_id = 103
+        and address_1 = '-'
+        and address_2 = '-'
+        and address_3 = '-'
+    </select>
+    <delete id="deleteNationwideAddressDefault">
+        DELETE from customers_addresses where id = #{id} and tenant_id = 103
+    </delete>
+</mapper>

@@ -3,8 +3,8 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="updateCustomerEmails">
-    <select id="selectCcoCustomerEmailsWithDash" resultType="hmap">
+<mapper namespace="cleanDefault">
+    <select id="getCcoCustomerEmailsWithDash" resultType="hmap">
         select id from customers_emails where tenant_id = 58 and email = '-'
     </select>
 

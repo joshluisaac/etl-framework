@@ -95,6 +95,21 @@
                             <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
                     </td>
                 </tr>
+
+                <tr>
+                    <td>5</td>
+                    <td>Nationwide - Clean Default</td>
+                    <td>
+                        <form class="submitBatchForm" action="/nationwidecleandefault"
+                              method="POST" data-parsley-validate>
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="/batch_history?batch_id=99" class="btn-sm">
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>

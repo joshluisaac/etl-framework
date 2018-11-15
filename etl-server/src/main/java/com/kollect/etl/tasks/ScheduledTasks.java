@@ -250,7 +250,7 @@ public class ScheduledTasks {
                 "ccoUpdateDataDate");
         this.componentProvider.taskSleep();
         asyncBatchExecutorService.execute(79, dataSource,
-                "selectCcoCustomerEmailsWithDash",
+                "getCcoCustomerEmailsWithDash",
                 "updateCcoCustomerEmailsWithDash", "CCO_DEF_EMAILS");
         asyncBatchExecutorService.execute(79, dataSource,
                 "getCcoPhoneNosDefault",
