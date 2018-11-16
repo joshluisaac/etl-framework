@@ -5,7 +5,7 @@
 
 <mapper namespace="deleteZeroCreditTrx">
     <select id="getCcoZeroCreditTrx" resultType="hmap">
-        select id from transactions where tenant_id = 58 and credit &lt;= 0 and transaction_type_id = 1
+        select id from transactions where tenant_id = 58 and credit = 0 and transaction_type_id = 1
     </select>
 
     <delete id="deleteCcoZeroCreditTrx">
