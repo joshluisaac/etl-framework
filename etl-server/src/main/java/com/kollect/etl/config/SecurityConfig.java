@@ -25,7 +25,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable();
         httpSecurity.authorizeRequests()
                 .antMatchers("/", "/index**", "/datavisualiser", "/dctablesettings",
-                        "/dsv", "/misc", "/addbatch", "/batch", "/runbatch", "/allbatchhistory", "/logerrorvisualizer").hasAnyRole(ADMIN, USER)
+                        "/dsv", "/misc", "/addbatch", "/batch", "/run**", "/allbatchhistory", "/logerrorvisualizer").hasAnyRole(ADMIN, USER)
                 .antMatchers("/adminEmailSettings", "/adminSftp", "/adminDatabase", "/host**", "/usermanagement**"
                 , "/emailupdate").hasRole(ADMIN)
                 .and()
