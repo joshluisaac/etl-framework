@@ -228,7 +228,7 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "${app.scheduler.runat3am}")
     public void ictZoneBatches() {
-        runIctZoneBatches(prodDataSource);
+        runIctZoneBatches(dataSourceAll2);
     }
 
     private void runCcoBatches(List<String> dataSource) {
@@ -250,7 +250,7 @@ public class ScheduledTasks {
                 "ccoUpdateDataDate");
         this.componentProvider.taskSleep();
         asyncBatchExecutorService.execute(79, dataSource,
-                "selectCcoCustomerEmailsWithDash",
+                "getCcoCustomerEmailsWithDash",
                 "updateCcoCustomerEmailsWithDash", "CCO_DEF_EMAILS");
         asyncBatchExecutorService.execute(79, dataSource,
                 "getCcoPhoneNosDefault",
@@ -268,7 +268,7 @@ public class ScheduledTasks {
 
     @Scheduled(cron = "${app.scheduler.runat315am}")
     public void ccoBatches() {
-        runCcoBatches(prodDataSource);
+        runCcoBatches(dataSourceAll2);
     }
 
         @Scheduled(cron = "${app.scheduler.runat7am}")

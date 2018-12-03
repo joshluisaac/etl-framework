@@ -15,7 +15,7 @@ import java.util.List;
 public class CcoBatchController {
     private AsyncBatchExecutorService asyncBatchExecutorService;
     private UpdateDataDateService updateDataDateService;
-    private @Value("${app.datasource_kv_production}")
+    private @Value("#{'${app.datasource_all2}'.split(',')}")
     List<String> dataSource;
 
     @Autowired
@@ -27,8 +27,8 @@ public class CcoBatchController {
 
     @PostMapping(value = "/ccoageinvoice", produces = "application/json")
     @ResponseBody
-    public Object ageInvoice (@RequestParam Integer batch_id){
-        return this.asyncBatchExecutorService.execute(batch_id, dataSource,
+    public Object ageInvoice (){
+        return this.asyncBatchExecutorService.execute(76, dataSource,
                 "getCcoAgeInvoices",
                 "updateCcoAgeInvoices", "AGE_INV");
     }
@@ -36,8 +36,8 @@ public class CcoBatchController {
     @PostMapping(value = "/ccoinaging", produces = "application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
-    public Object inAging (@RequestParam Integer batch_id){
-        return this.asyncBatchExecutorService.execute(batch_id,
+    public Object inAging (){
+        return this.asyncBatchExecutorService.execute(73,
                 dataSource, "getCcoInAging",
                 "updateCcoInAging",
                 "IN_AGING");
@@ -46,8 +46,8 @@ public class CcoBatchController {
     @PostMapping(value = "/ccoinvstateval", produces="application/json")
     @SuppressWarnings("unchecked")
     @ResponseBody
-    public Object invStatEvaluation (@RequestParam Integer batch_id) {
-        return this.asyncBatchExecutorService.execute(batch_id,
+    public Object invStatEvaluation () {
+        return this.asyncBatchExecutorService.execute(75,
                 dataSource, "getCcoInvoiceStatus",
                 "updateCcoInvoiceStatus",
                 "INV_STAT_EVAL");
@@ -55,16 +55,17 @@ public class CcoBatchController {
 
     @PostMapping("/ccodatadate")
     @ResponseBody
-    public Object updateDataDate(@RequestParam Integer batch_id) {
-        return this.updateDataDateService.runUpdateDataDate(batch_id, dataSource,
+    public Object updateDataDate() {
+        return this.updateDataDateService.runUpdateDataDate(77, dataSource,
                 "ccoUpdateDataDate");
     }
 
     @PostMapping("/ccocleandefault")
     @ResponseBody
-    public Object cleanDefault(@RequestParam Integer batch_id) {
+    public Object cleanDefault() {
+        Integer batch_id = 79;
         Integer updatedSize = asyncBatchExecutorService.execute(batch_id, dataSource,
-                "selectCcoCustomerEmailsWithDash",
+                "getCcoCustomerEmailsWithDash",
                 "updateCcoCustomerEmailsWithDash", "CCO_DEF_EMAILS");
         updatedSize += asyncBatchExecutorService.execute(batch_id, dataSource,
                 "getCcoPhoneNosDefault",

@@ -34,6 +34,4 @@ etl-parent.iml
 
 /logs/
 target/
-
-#resources
 etl-server/uploads
