@@ -1,5 +1,6 @@
 package com.kollect.etl.util;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -267,7 +268,11 @@ public class FileUtils {
         return new String(encoded, encoding);
       }
     
-
+    void countLines() throws Exception{
+      
+      
+      InputStream is =  new BufferedInputStream(new FileInputStream(new File("")));
+    }
 
 
 }

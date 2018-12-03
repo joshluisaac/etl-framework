@@ -34,5 +34,11 @@ public class DateUtilsTest {
     System.out.println("An example of a timestamp: " + new Timestamp(date.getTime()));
     System.out.println("An example of an EPOCH: " + date.getTime());
   }
+  
+  @Test
+  public void dateFormatterTest() {
+    String date = DateUtils.dateFormatter(new Date());
+    System.out.println("Datetime:" + date);
+  }
 
 }

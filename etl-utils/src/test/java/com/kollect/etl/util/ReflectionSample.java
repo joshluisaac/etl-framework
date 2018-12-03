@@ -34,7 +34,8 @@ public class ReflectionSample {
     
     Class<Math> clazz0 = Math.class;
     Method cbrtMethod = clazz0.getMethod("cbrt", double.class);
-    cbrtMethod.invoke(null, 27.0);
+    Object resultCbrt = cbrtMethod.invoke(null, 27.0);
+    System.out.println(resultCbrt);
     
     
 

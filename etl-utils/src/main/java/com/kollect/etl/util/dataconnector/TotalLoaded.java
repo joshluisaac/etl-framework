@@ -9,6 +9,8 @@ public class TotalLoaded {
   int rowsPerSec;
   String context;
   
+  double percentageLoaded, percentageRejected;
+  
   public TotalLoaded(String key, int loaded, int eligible, int duration, int rowsPerSec ) {
     this.key = key;
     this.loaded = loaded;
@@ -43,6 +45,24 @@ public class TotalLoaded {
 
   public void setContext(String context) {
     this.context = context;
+  }
+  
+  
+
+  public double getPercentageLoaded() {
+    return percentageLoaded;
+  }
+
+  public void setPercentageLoaded() {
+    this.percentageLoaded = ((double)this.loaded/this.eligible) * 100;
+  }
+
+  public double getPercentageRejected() {
+    return percentageRejected;
+  }
+
+  public void setPercentageRejected() {
+    this.percentageRejected = ((double)(this.eligible - this.loaded)/this.eligible) * 100;
   }
 
   @Override

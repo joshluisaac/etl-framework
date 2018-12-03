@@ -2,8 +2,10 @@ package com.kollect.etl.util;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -57,7 +59,7 @@ public class FileAppender extends AbstractTextFileProcessor {
   }
 
   private static void displayUsage() {
-    System.out.println("Usage: java com.kollect.etl.util.FileAppender outputDirectory");
+    System.out.println("Usage: java com.kollect.etl.util.FileAppender rootPath context");
     System.out.println("Flags are:");
     System.out.println("-v or --verbose: log statistics");
     System.out.println("-d or --distinct: prune duplicate lines");
@@ -121,7 +123,7 @@ public class FileAppender extends AbstractTextFileProcessor {
     String json = new Gson().toJson(statList);
     if (verbose)
       LOG.debug("{}", json);
-    new FileUtils().writeTextFile(configr.getFileDestination() + "/" + context + "_transformation.control", null);
+    new FileUtils().writeTextFile(configr.getFileDestination() + "/" + context + "_transformation.control", DateUtils.dateFormatter(new Date()));
   }
 
 }

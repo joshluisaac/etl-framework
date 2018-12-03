@@ -18,7 +18,7 @@ public class Thread1 {
         new FakeService().loop();
       }
     });
-    
+    t1.setName("Test1Thread");
     t1.start();
 
   }

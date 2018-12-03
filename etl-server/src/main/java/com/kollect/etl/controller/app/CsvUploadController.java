@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.kollect.etl.service.app.CsvUploadService;
+import com.kollect.etl.component.ServerProperties;;
 
 @Controller
 public class CsvUploadController {
 	public MultipartFile paths;
 	@Autowired
 	private CsvUploadService csvUploadService;
+	
+	@Autowired
+	public ServerProperties servProp;
 
 	@GetMapping("/datavisualiser")
 	public String getCsv(){
