@@ -22,8 +22,6 @@ public class CsvUploadController {
 	@Autowired
 	private CsvUploadService csvUploadService;
 	
-	@Autowired
-	public ServerProperties servProp;
 
 	@GetMapping("/datavisualiser")
 	public String getCsv(){
