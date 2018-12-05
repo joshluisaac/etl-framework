@@ -15,11 +15,9 @@
             sum(COALESCE(t.debit,0) - COALESCE(t.credit,0)) AS transaction
             FROM transactions AS t
             WHERE initial_debit=false
-            AND void_flag_char='N'
             GROUP BY t.invoice_id
             ) AS t on t.invoice_id = i.id
             WHERE i.tenant_id=59
-            AND i.void_flag_char='N'
     </select>
 
     <update id="updatePelitaInvoiceOutstanding">
