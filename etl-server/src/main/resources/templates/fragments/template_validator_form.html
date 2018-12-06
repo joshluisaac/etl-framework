@@ -1,0 +1,75 @@
+<div th:fragment="validatorForm">
+              <div class="col-md-6 col-sm-6 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Validator Definition <small>Add or manipulate validators</small></h2>
+                    <ul class="nav navbar-right panel_toolbox">
+                      <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                      </li>
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><i class="fa fa-wrench"></i></a>
+                        <ul class="dropdown-menu" role="menu">
+                          <li><a href="#">Settings 1</a>
+                          </li>
+                          <li><a href="#">Settings 2</a>
+                          </li>
+                        </ul>
+                      </li>
+                      <li><a class="close-link"><i class="fa fa-close"></i></a>
+                      </li>
+                    </ul>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                    <form id="mainform" name="mainform" data-parsley-validate class="form-horizontal form-label-left">
+						<input type="hidden" id="identifier" value="">
+						<div class="row">
+	                    	<div class="col-md-6 col-sm-6 col-xs-12 form-group">
+	                    		<label class="control-label col-md-6 col-sm-6 col-xs-12" for="last-name">Project Name <span class="required">*</span></label>
+	                        	<div class="col-md-6 col-sm-6 col-xs-12">
+			                         <select class="form-control input-sm" name="project_id" id="project_id">
+			                             <option value="" selected>Select Project</option>
+    									 <option th:each="project : ${projects.entrySet()}" th:value="${project.key}" th:text="${project.value}"></option>
+		                             </select>
+								</div>
+	                    	</div>
+	                      <div class="col-md-6 col-sm-6 col-xs-12 form-group">
+	                        <label class="control-label col-md-6 col-sm-6 col-xs-12" for="first-name">Validator name<span class="required">*</span>
+	                        </label>
+	                        <div class="col-md-6 col-sm-6 col-xs-12">
+	                          <input type="text" placeholder="Validator name" class="form-control input-sm" name="name" id="name">
+	                        </div>
+	                      </div>
+
+	                    </div>
+	                    <div class="row">
+	                      <div class="col-md-12 col-sm-12 col-xs-12 form-group">
+	                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Description</label>
+	                        <div class="col-md-9 col-sm-9 col-xs-12">
+	                          <textarea placeholder="Description" class="form-control input-sm" name="description" id="description"></textarea>
+	                        </div>
+	                      </div>
+	                    </div>
+	                    <div class="ln_solid"></div>
+				        <div class="formg-group container-fluid">
+					    	<div  style="float:right;">
+					               <button type="button" id="register" class="btn btn-space btn-primary">Add</button>
+					               <button type="button" id="change" style="display:none" class="btn btn-space btn-warning">Update</button>
+					               <button type="button" id="delete" style="display:none" class="btn btn-space btn-danger">Delete</button>
+					               <button type="button" id="cancel" style="display:none" class="btn btn-space btn-success">Cancel</button>
+					    	</div>
+							<div  style="float:left;">
+								<button type="button" id="addrow" class="btn btn-space btn-primary">Add row<img src="../build/images/add.png" style="padding-left:4px;"></button>
+								<button type="button" id="delrow" class="btn btn-space btn-primary">Delete row<img src="../build/images/minus.png" style="padding-left:4px;"></button>
+					        </div>
+				        </div>
+
+				        
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+
+</div>
