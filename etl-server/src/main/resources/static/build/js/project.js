@@ -40,7 +40,7 @@ $(document).ready(function() {
 			        cache: false,
 			        processData: false,
 			        success: function (val) {
-			        	alert("Success\n" + val);
+			        	alert(val);
 			        	ShowProject();
 					},
 					error: function(val){
