@@ -28,7 +28,7 @@
 	                    	<div class="col-md-6 col-sm-6 col-xs-12 form-group">
 	                    		<label class="control-label col-md-6 col-sm-6 col-xs-12" for="last-name">Project Name <span class="required">*</span></label>
 	                        	<div class="col-md-6 col-sm-6 col-xs-12">
-			                         <select class="form-control input-sm" name="project_id" id="project_id">
+			                         <select class="chosen-select-no-results form-control input-sm" name="project_id" id="project_id">
 			                             <option value="" selected>Select Project</option>
     									 <option th:each="project : ${projects.entrySet()}" th:value="${project.key}" th:text="${project.value}"></option>
 		                             </select>

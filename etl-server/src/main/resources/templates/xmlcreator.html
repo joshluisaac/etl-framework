@@ -90,7 +90,7 @@
 	                    	<div class="col-md-4 col-sm-4 col-xs-12 form-group">
 	                    		<label class="control-label col-md-4 col-sm-4 col-xs-12" for="last-name">Project Name <span class="required">*</span></label>
 	                        	<div class="col-md-6 col-sm-6 col-xs-12">
-			                         <select class="form-control input-sm" name="project_id" id="project_id">
+			                         <select class="chosen-select-no-results form-control input-sm" name="project_id" id="project_id">
 			                             <option value="" selected>Select Project</option>
     									 <option th:each="project : ${projects.entrySet()}" th:value="${project.key}" th:text="${project.value}"></option>
 		                             </select>
@@ -99,7 +99,7 @@
 	                    	<div class="col-md-4 col-sm-4 col-xs-12 form-group">
 	                    		<label class="control-label col-md-4 col-sm-4 col-xs-12" for="last-name">Database name <span class="required">*</span></label>
 	                        	<div class="col-md-6 col-sm-6 col-xs-12">
-			                         <select class="form-control input-sm" name="dbid" id="dbid">
+			                         <select class="chosen-select-no-results form-control input-sm" name="dbid" id="dbid">
 			                             <option value="" selected>Select Database</option>
 		                             </select>
 								</div>
@@ -107,7 +107,7 @@
 	                    	<div class="col-md-4 col-sm-4 col-xs-12 form-group">
 	                    		<label class="control-label col-md-4 col-sm-4 col-xs-12" for="last-name">Main table<span class="required">*</span></label>
 	                        	<div class="col-md-6 col-sm-6 col-xs-12">
-			                         <select class="form-control input-sm" name="tablename" id="tablename">
+			                         <select class="chosen-select-no-results form-control input-sm" name="tablename" id="tablename">
 			                             <option value="" selected>Select Table</option>
 		                             </select>
 	                             </div>
@@ -257,26 +257,20 @@
 								</div>
 							</div>
 				 		</div>
-						<div class="row" id="modifycol" style="display:none;">
-			        		<div class="col-sm-4">
-				                 <div class="form-group row">
-					                 <label class="col-sm-4 control-label">type</label>
-					                 <div class="col-sm-6">
-			                         	<select class="form-control input-sm" name="columns" id="columns">
-			                            </select>	
-			                            <span class="help-block" style="display:none">
-						                	<strong></strong>
-						                </span>
-									</div>
+						<div class="row" id="modifycol">
+			        		<div class="col-md-4 col-sm-4 col-xs-12 form-group">
+				                 <label class="control-label col-md-4 col-sm-4 col-xs-12">type</label>
+				                 <div class="col-md-6 col-sm-6 col-xs-12">
+		                         	<select class="chosen-select" name="columns" id="columns">
+        			                     <option value="" selected>Select Column</option>
+		                            </select>	
 								</div>
-				            </div>			
-			        		<div class="col-sm-4">
-				                 <div class="form-group row">
-					                 <div class="col-sm-2">
+				            </div>		
+			        		<div class="col-md-4 col-sm-4 col-xs-12 form-group">
+				                 <div class="col-md-2 col-sm-2 col-xs-6">
 						               <button id="addcolxml" class="btn btn-primary">Add</button>
-									</div>
-									<label class="col-sm-6 control-label">Click to add columns to XML</label>
 								</div>
+								<label class="col-sm-6 control-label">Click to add columns to XML</label>
 				            </div>			
 						</div>	
 						<div class="ln_solid"></div>
@@ -322,24 +316,23 @@
                   <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
-			         <table id="showlist" class="table table-striped table-hover">
+			         <table id="showlist" class="display nowrap" style="width:100%">
 			             <thead>
-			             <tr>
-			             	 <th>Field Name</th>
-			                 <th>Start</th>
-			                 <th>end</th>
-			                 <th>Is key</th>
-			                 <th>Is Optional</th>
-			                 <th>Is External</th>
-			                 <th>Default value</th>
-			                 <th>Is lookup</th>
-			                 <th>Data type</th>
-		                 	 <th>Nullable</th>
-			                 <th></th>
-			             </tr>
+				             <tr>
+				             	 <th>Field Name</th>
+				                 <th>Start</th>
+				                 <th>end</th>
+				                 <th>Is key</th>
+				                 <th>Is Optional</th>
+				                 <th>Is External</th>
+				                 <th>Default value</th>
+				                 <th>Is lookup</th>
+				                 <th>Data type</th>
+			                 	 <th>Nullable</th>
+				                 <th></th>
+				             </tr>
 			             </thead>
 			         </table>
-
                 </div>
               </div>
             </div>

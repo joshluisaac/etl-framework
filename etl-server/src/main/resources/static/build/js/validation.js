@@ -158,6 +158,7 @@ $(document).ready(function() {
 		            $.each(obj, function (id, value) {
 		            	$('#dbid').append('<option value="'+value.id+'">'+value.dbname+'</option>');
 		            });
+		            $('#dbid').trigger("chosen:updated");
 				},
 				error: function(val){
 					alert("Problem Occured");
@@ -175,7 +176,7 @@ $(document).ready(function() {
 			        $.each(obj, function (id, value) {
 			        	validatorCombo.append('<option value="'+value.id+'">'+value.name+'</option>');
 			        });
-			        
+			        $('#validator_id').trigger("chosen:updated");
 			        //alert(optionOfTables);
 				},
 				error: function(val){

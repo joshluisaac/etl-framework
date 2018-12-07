@@ -91,7 +91,7 @@ public class ValidatorConfigController {
 	
 	
 	@PostMapping("/validator")
-	public ResponseEntity<String> Manipuldate(@RequestParam HttpServletRequest request){
+	public ResponseEntity<String> manipulate(@RequestParam HttpServletRequest request){
 
 		int action = Integer.valueOf(request.getParameter("action"));
 		String name = request.getParameter("name");
@@ -110,16 +110,16 @@ public class ValidatorConfigController {
 					mainConPtr.Connect();
 					mainConPtr.StartTransaction();
 					String query="insert into validator(name,project_id,description) values('"+name+"',"+project_id+",'"+description+"');";
-					System.out.println(query);
+					//System.out.println(query);
 					int rowId=mainConPtr.ExecuteNoneQuery1(query);
 					System.out.println("length is:"+csvOrder.length);
 					for(int i = 0; i< csvOrder.length; i++){
 						String colName="";
 						String type="null";
 						if (columnName[i].length()>0) {
-							System.out.println("column name is: "+columnName[i]);
+							//System.out.println("column name is: "+columnName[i]);
 							int indexOfCol = columnName[i].indexOf('#');
-							System.out.println("# index is: "+indexOfCol+" col is: "+columnName[i].substring(0,indexOfCol));
+							//System.out.println("# index is: "+indexOfCol+" col is: "+columnName[i].substring(0,indexOfCol));
 							colName=columnName[i].substring(0,indexOfCol);
 							type=columnName[i].substring(indexOfCol+1);
 						}
@@ -135,7 +135,7 @@ public class ValidatorConfigController {
 							  ",'"+desc[i]+"'"+
 							  ","+rowId+
 							  ");";
-						System.out.println(query);
+						//System.out.println(query);
 						mainConPtr.ExecuteNoneQuery1(query);
 					}
 					mainConPtr.Commit();

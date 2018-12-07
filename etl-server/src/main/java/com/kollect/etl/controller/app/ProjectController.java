@@ -58,7 +58,7 @@ public class ProjectController {
     }
 	
 	@PostMapping("/project")
-	public ResponseEntity<String> Manipuldate(@RequestParam Integer action, @RequestParam Integer id, @RequestParam String name,
+	public ResponseEntity<String> manipulate(@RequestParam Integer action, @RequestParam Integer id, @RequestParam String name,
 											  @RequestParam String customer,@RequestParam String description){
 		
 		Boolean isConnect=false;

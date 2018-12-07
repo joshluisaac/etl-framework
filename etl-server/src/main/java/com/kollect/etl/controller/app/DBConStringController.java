@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-import com.kollect.etl.util.dctemporary.PostgresPtr;
 import com.google.gson.Gson;
 import com.google.gson.stream.JsonWriter;
-import com.kollect.etl.util.dctemporary.ColumnMetaData;;
+import com.kollect.etl.util.dctemporary.ColumnMetaData;
+import com.kollect.etl.util.dctemporary.PostgresPtr;;
 
 
 @Controller
@@ -35,7 +34,7 @@ public class DBConStringController {
 
 
 	@GetMapping("/database/{action}")
-    public ResponseEntity<String> GetRelatedDatabase(@PathVariable Integer action,@RequestParam(required=false) String pid,
+    public ResponseEntity<String> getRelatedInfo(@PathVariable Integer action,@RequestParam(required=false) String pid,
     												 @RequestParam(required=false) String dbid,@RequestParam(required=false) String tablename) {
 		Writer writer = new StringWriter();
 		JsonWriter json = new JsonWriter(writer);
@@ -113,7 +112,7 @@ public class DBConStringController {
 	
 	
 	@PostMapping("/database")
-	public ResponseEntity<String> Manipuldate(@RequestParam Integer action, @RequestParam Integer id, @RequestParam String project_id,
+	public ResponseEntity<String> manipuldate(@RequestParam Integer action, @RequestParam Integer id, @RequestParam String project_id,
 											  @RequestParam String dbname, @RequestParam String dburl, @RequestParam Integer dbport,
 											  @RequestParam String dbuser, @RequestParam String dbpass){
 
@@ -126,12 +125,12 @@ public class DBConStringController {
 					if ( dbname!=null && dburl!=null && dbport!=null && dburl!=null && dbpass!=null)
 					{
 						PostgresPtr dbPtr = new PostgresPtr(dburl, dbport, dbname, dbuser, dbpass);
+		
 						if(dbPtr.Connect()) {
 							isConnect=true;
 							dbPtr.DisConnect();
 							responseText="Connected";
-						}
-						else
+						}else
 							return new ResponseEntity<>("Can't Connect", HttpStatus.OK);
 					}
 			        break;
@@ -172,8 +171,7 @@ public class DBConStringController {
 			}
 			return new ResponseEntity<>(responseText, HttpStatus.OK);
 		}catch (Exception e) {
-			return new ResponseEntity<>(e.getMessage(), HttpStatus.FAILED_DEPENDENCY);
-		}
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.FAILED_DEPENDENCY);		}
 	}
 	
 }

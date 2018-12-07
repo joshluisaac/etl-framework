@@ -80,7 +80,7 @@ public class ValidationController {
 						csvColTitle[i]=csvTitle.get(i-1);
 						emptyFlags[i-1]=false;
 					}
-				    System.out.println("size of: "+csvColCount);
+				    //System.out.println("size of: "+csvColCount);
 					Writer writer = new StringWriter();
 					JsonWriter json = new JsonWriter(writer);
 				    int count=0;
@@ -125,7 +125,7 @@ public class ValidationController {
 						    		
 						    		json.beginObject();
 		    	                	json.name("rowNumber");
-		    	                	System.out.println("creating error row number: "+count);
+		    	                	System.out.println("creating error for row number: "+count);
 		    	                    gson.toJson(count,Integer.class, json);
 
 		    	                    json.name("accuracy");
@@ -149,7 +149,7 @@ public class ValidationController {
 				    	}
 				    	if(isAccurateRow==false) {
 				    		++errorCount;
-				    		System.out.println(count+" line not available on database");
+				    		System.out.println(count+" row is not available on database");
 				    	}
 				    	
 				    }
@@ -163,9 +163,9 @@ public class ValidationController {
                     json.endObject();
 
 				    json.endArray();
-				    System.out.println(writer.toString());
-
-				    System.out.println(fileName);
+//				    System.out.println(writer.toString());
+//
+//				    System.out.println(fileName);
 				    responseText=writer.toString();
 				    isConnect=true;
 				    mainConPtr.DisConnect();

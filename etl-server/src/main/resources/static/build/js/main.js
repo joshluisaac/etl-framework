@@ -54,9 +54,9 @@ function changeFormInfo(identifier,action)
     for (i=1; i<elements.length;i++)
     {
         cellContent=row.cells[j].innerHTML.trim();
-//         alert("element type ="+elements[i].type +"  value=  "+cellContent );
+        //alert("element type ="+elements[i].type +"  value=  "+cellContent );
 
-        if(elements[i].type!="button" && elements[i].type!="hidden" && elements[i].name!="dontFill")
+        if(elements[i].type!="button" && elements[i].type!="hidden" && elements[i].name!="dontFill" && (!elements[i].classList.contains("chosen-search-input")))
         {
             //alert(cellContent);
             if(elements[i].type=="radio")
@@ -95,7 +95,9 @@ function changeFormInfo(identifier,action)
                     // alert(elements[i].id);
                     // alert($("#"+elements[i].id+" option:contains('Yes')").val());
                     // alert($("#"+elements[i].id+" option:contains('"+cellContent+"')").val());
+                	
                     $("#"+elements[i].id).val($("#"+elements[i].id+" option:contains('"+cellContent+"')").val());
+                    $("#"+elements[i].id).trigger("chosen:updated");
                 }
                 else {
 

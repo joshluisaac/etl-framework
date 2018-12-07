@@ -37,11 +37,11 @@ public class XMLCreatorController {
 
 
 	@PostMapping("/xmlcreator")
-	public ResponseEntity<String> CreatingXML(@RequestParam Map<String,String> request,@RequestParam(value="lookuptypepost[]", required=false) String[] lookuptypepost,
+	public ResponseEntity<String> creatingXML(@RequestParam Map<String,String> request,@RequestParam(value="lookuptypepost[]", required=false) String[] lookuptypepost,
 											  @RequestParam(value="querypost[]",required=false) String[] querypost){
 		
-		System.out.println(request.keySet().toString());
-		System.out.println(request.toString());
+//		System.out.println(request.keySet().toString());
+//		System.out.println(request.toString());
 		String isDefault=request.get("isdefault");
 		DCBuilder dcBuilder;
 		HashMap<String, String> setAttr = new HashMap<String,String>();
@@ -141,8 +141,8 @@ public class XMLCreatorController {
 					 break;
 				 case "islookup":
 					 if(request.get(paramName).equals("on")) {
-						System.out.println("lokuptype is:		 "+request.get("lookuptype"+rowId+"[]"));
-						System.out.println("query is: "+request.get("query"+rowId+"[]"));
+//						System.out.println("lokuptype is:		 "+request.get("lookuptype"+rowId+"[]"));
+//						System.out.println("query is: "+request.get("query"+rowId+"[]"));
 						xmlFieldData.isLookup=true;
 						int i=0;
 						while(request.containsKey("lookuptype"+rowId+"["+i+"]")) {
@@ -150,15 +150,6 @@ public class XMLCreatorController {
 							++i;
 						}
 					 }
-					 else
-						 System.out.println("offffffffffffffffffff");
-//				 	String[] lookupType=request.getParameterValues("lookuptype"+rowId+"[]");
-//					String[] query=request.getParameterValues("query"+rowId+"[]");
-//					if (lookupType != null && lookupType.length != 0 && query != null && query.length != 0) {
-//						for (int i = 0; i < lookupType.length; i++) { 
-//							xmlFieldData.lookup.put(lookupType[i], query[i]);
-//						}
-//					}
 					 break;
 				 case "nullable":
 				 case "lookuptype":
@@ -181,7 +172,7 @@ public class XMLCreatorController {
 	
 	
 	@PostMapping("/xmltest")
-	public ResponseEntity<String> CreatingXML(HttpServletRequest request){
+	public ResponseEntity<String> creatingXMLMain(HttpServletRequest request){
 		
 		String isDefault=request.getParameter("isdefault");
 		DCBuilder dcBuilder;

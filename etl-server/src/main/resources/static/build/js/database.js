@@ -84,7 +84,7 @@ function ShowDatabases() {
                     buttons
                 ] ).node().id="tr_" + value.id;
                 mytable.draw( false );
-
+                $('#project_id').trigger("chosen:updated");
             });
         }
     });

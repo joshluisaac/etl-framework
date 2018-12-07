@@ -9,43 +9,24 @@ var editor;
 var unkhownRows="";
 
 
+
+$(window).load(function(){
+	//alert("inload")
+
+	
+});
+
 $(document).ready(function() {
    columnType[1]="integer";
    columnType[2]="currency";
    columnType[3]="string";
    columnType[4]="timestamp";
    columnType[5]="bool";
+   
    mytable = $('#showlist').DataTable({
 	   "paging": false,
-//	   "scrollX": true,
-	   "columnDefs": [
-//		    { className: "details-control", "targets": [ 7 ] }
-//           {
-//               "targets": [ 9 ],
-//               "visible": false,
-//               "searchable": false
-//           },
-//           {
-//               "targets": [ 10 ],
-//               "visible": false,
-//               "searchable": false
-//           }
-       ],
-       lengthMenu: [
-           [ 50, 100, -1 ],
-           [ '50 rows', '100 rows', 'Show all' ]
-       ],
-       buttons: [
-           'pageLength'
-       ],
-       select: {
-           style:    'os',
-           selector: 'td:first-child'
-       }
-   });	
-
-   
-   
+	   "scrollX": true,
+   });	   
 
 	$.ajaxSetup({
         header: {
@@ -158,6 +139,7 @@ $(document).ready(function() {
 		            $.each(obj, function (id, value) {
 		            	$('#dbid').append('<option value="'+value.id+'">'+value.dbname+'</option>');
 		            });
+		            $('#dbid').trigger("chosen:updated");
 				},
 				error: function(val){
 					alert("Problem Occured");
@@ -182,6 +164,7 @@ $(document).ready(function() {
 		            	
 		            	$('#tablename').append('<option value="'+value+'">'+value+'</option>');
 		            });
+		            $('#tablename').trigger("chosen:updated");
 				},
 				error: function(val){
 					alert("Problem Occured");
@@ -236,7 +219,9 @@ $(document).ready(function() {
 	                
 		            });
 		            mytable.draw( false );
-
+		            $('#modifycol').show();
+		            $('#columns').trigger("chosen:updated");
+		            $('#modifycol').hide();
 				},
 				error: function(val){
 					alert("Problem Occured");
@@ -366,6 +351,9 @@ $(document).ready(function() {
 			$("#modifycol").hide();
 		}
 	});
+	
+	
+    $('#modifycol').hide();
 });
 
 
