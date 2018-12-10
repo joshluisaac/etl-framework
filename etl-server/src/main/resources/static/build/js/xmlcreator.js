@@ -10,11 +10,6 @@ var unkhownRows="";
 
 
 
-$(window).load(function(){
-	//alert("inload")
-
-	
-});
 
 $(document).ready(function() {
    columnType[1]="integer";
@@ -231,9 +226,10 @@ $(document).ready(function() {
 	});	
 	
 
-	$("#filename").on('change',function(){
+	$("#filename2").on('change',function(){
 		var event = $(this);
-	    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xml)$/;  
+	    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xml)$/;
+	    var regexCSV = /^([a-zA-Z0-9\s_\\.\-:])+(.csv)$/;
 	    //Checks whether the file is a valid xml file  
 	    if (regex.test(event.val().toLowerCase())) {  
 	    	//Checks whether the browser supports HTML5  
@@ -322,6 +318,27 @@ $(document).ready(function() {
 	    }  	
 	});
 	
+	
+	$("#filename").on('change',function(){
+		var event = $(this);
+	    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xml)$/;
+	    var regexCSV = /^([a-zA-Z0-9\s_\\.\-:])+(.csv)$/;
+	    //Checks whether the browser supports HTML5
+	    if (typeof (FileReader) == "undefined") 
+	    	alert("Sorry! Your browser does not support HTML5!"); 
+	    var reader = new FileReader();
+	    //Checks whether the file is a valid xml or csv file
+	    if (regex.test(event.val().toLowerCase())) {
+	    	readerForXML(reader);
+	    	reader.readAsText($("#filename")[0].files[0]);
+	    }else if (regexCSV.test(event.val().toLowerCase())) {
+	    	readerForCSV(reader);
+	    	reader.readAsText($("#filename")[0].files[0]);
+	    }else
+	        alert("Please upload a valid XML or CSV file!");
+	});
+	
+	
 	$("#ispost").on('change',function(){
 		if($(this).prop('checked')){
 			$("#post").html(CreatePostTable('post'));
@@ -355,6 +372,104 @@ $(document).ready(function() {
 	
     $('#modifycol').hide();
 });
+
+
+function readerForXML(reader){
+    reader.onload = function (e) {
+    	try{
+    		var xmlDoc = $.parseXML(e.target.result);
+            $(xmlDoc).find("generatedkey").each(function(id,value){
+            	FillTexbox("generatedkey",$(value).text());
+            });
+            $(xmlDoc).find("generatedkeyseqname").each(function(id,value){
+            	FillTexbox("generatedkeyseqname",$(value).text());
+            });
+
+            $(xmlDoc).find("refreshdata").each(function(id,value){
+            	FillTexbox("refreshtimeout",$(value).attr('timeout'));
+            	
+        		if ($(value).attr('key')=="true"){
+        			$("input[name=refreshdata][value='true']").prop('checked', true);
+        		}
+        		else{
+        			$("input[name=refreshdata][value='false']").prop('checked', true);
+    			}
+            });
+            unkhownRows="";
+            
+//            $(xmlDoc).find("load").each(function(id,value){
+//            	alert(value.attr('type')+"\n"+
+//        			value.attr('delimiter')+"\n"+
+//        			value.attr('fullcache')+"\n"+
+//        			value.attr('mode')+"\n"+
+//        			value.attr('padline')+"\n"+
+//        			value.attr('verifyfilekey')+"\n"
+//            	);
+//            }
+
+            
+            $(xmlDoc).find("field").each(function(id,value){
+        		
+//            	alert("key is: "+$(value).attr('iskey')+"\n"+
+//            	"external is: "+$(value).attr('isexternal')+"\n"+
+//            	"optional is: "+$(value).attr('isoptional')+"\n"+
+//            	"column name is: "+$(value).find('name').text()+"\n"+
+//            	"column defaultval is: "+$(value).find('default').text()+"\n"+
+//            	"location start is: "+$(value).find('location').attr('start')+" end is: "+$(value).find('location').attr('end'));
+            	var isLookup=false;
+            	var lookup_query =RemoveAllSpaces($(value).find('lookup').find('query').text());
+            	var lookup_fullcache = $(value).find('lookup').find('fullcache');
+            	var lookup_insert = RemoveAllSpaces($(value).find('lookup').find('fullcatche').text());
+            	var lookup_insertkey = RemoveAllSpaces($(value).find('lookup').find('insertkey').text());
+            	if(lookup_query.length || lookup_fullcache.length || lookup_insert.length || lookup_insertkey.length){
+            		isLookup=true;
+//            		alert($(value).find('name').text().toLowerCase()+"\n"+
+//            				lookup_query+"\n"+
+//            				lookup_fullcache+"\n"+
+//            				lookup_insert+"\n"+
+//            				lookup_insertkey+"\n");
+            	}
+            	FillRowData($(value).find('name').text().toLowerCase(),$(value).find('location').attr('start'),
+            			$(value).find('location').attr('end'),$(value).attr('iskey'),$(value).attr('isoptional'),
+            			$(value).attr('isexternal'),$(value).find('default').text(),isLookup,lookup_query,
+        				lookup_fullcache,lookup_insert,lookup_insertkey);
+            	
+            	//check the lookup
+            	//trigger lookup
+            	//for each lookup add proper
+            });
+            if (unkhownRows.length>0)
+            	alert("Column which are not on table structure are\n"+unkhownRows)
+    	}
+    	catch(event){
+    		alert("The file is not Valid XML");
+    	}
+    }  
+
+}
+
+function readerForCSV(reader){
+	
+	reader.onload = function(e){
+		unkhownRows="";
+		var lines = e.target.result.split(/\r?\n/);
+	    for(var i = 0; i < lines.length; i++){
+
+	    	var cols = lines[i].split(",");
+		    if(cols.length==1)
+		    	continue;
+	    	if(cols.length!=7){
+	    		
+	    		alert("The file is not valid CSV");
+	    		return;
+	    	}
+	    	FillRowByCSV(cols[0],cols[1],cols[2],cols[3],cols[4],cols[5],cols[6]);
+	    }
+	    if (unkhownRows.length>0)
+	 	   alert("Column which are not on table structure are\n"+unkhownRows)
+	};
+}
+
 
 
 function AddRow(rowNumber,colName,colType,isNull,defVal){
@@ -477,7 +592,39 @@ function FillTexbox(name,value){
 	$("#"+name).val(value);
 }
 		                
-//function FillRowData(id,start,end,isKey,isOptional,isExternal,defaultVal)
+function FillRowByCSV(id,start,end,isKey,isOptional,isExternal,defaultVal)
+{
+	var x="#tr_"+id;
+	if($(x).length==0)
+	{
+		//alert("Column "+id+" is not in structure of this table");
+		unkhownRows+=id+"\n";
+	}
+	else{
+		$(x).find('td:nth-child(2) input[type="text"]').val(start);
+		$(x).find('td:nth-child(3) input[type="text"]').val(end);
+		
+		if (isKey==1)
+			$(x).find('td:nth-child(4) input[type="checkbox"]').prop('checked', true);
+		else
+			$(x).find('td:nth-child(4) input[type="checkbox"]').prop('checked', false);
+
+		if (isOptional==1)
+			$(x).find('td:nth-child(5) input[type="checkbox"]').prop('checked', true);
+		else
+			$(x).find('td:nth-child(5) input[type="checkbox"]').prop('checked', false);
+
+		if (isExternal==1)
+			$(x).find('td:nth-child(6) input[type="checkbox"]').prop('checked', true);
+		else
+			$(x).find('td:nth-child(6) input[type="checkbox"]').prop('checked', false);
+		$(x).find('td:nth-child(7) input[type="text"]').val(defaultVal);
+
+	}
+}
+
+
+
 function FillRowData(id,start,end,iskey,isoptional,isexternal,defaultval,islookup,lookup_query,
 		lookup_fullcache,lookup_insert,lookup_insertkey)
 {
