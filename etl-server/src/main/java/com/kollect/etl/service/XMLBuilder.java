@@ -1,4 +1,4 @@
-package com.kollect.etl.util.dctemporary;
+package com.kollect.etl.service;
 
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -8,86 +8,66 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import com.kollect.etl.entity.XMLDataType;
+import com.kollect.etl.entity.app.DCXMLFieldData;
 
 import java.io.File;
 import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DCBuilder {
+public class XMLBuilder implements IXMLBuilder{
 
-	public DCBuilder(String tableName, String outputFile) {
+
+	@Autowired
+	public XMLBuilder(String outputFile, String rootElementName, HashMap<String, String> rootAttributes) {
 		try {
 			this.outputFile=outputFile;
 			this.dbFactory = DocumentBuilderFactory.newInstance();
 			this.dBuilder = this.dbFactory.newDocumentBuilder();
 			this.doc = this.dBuilder.newDocument();
 
-			this.root = doc.createElement("load");
-			this.AddAttr(this.root, "delimiter", "|");
-			this.AddAttr(this.root, "fullcache", "false");
-			this.AddAttr(this.root, "mode", "mixed");
-			this.AddAttr(this.root, "padline", "true");
-			this.AddAttr(this.root, "type", "del");
-			this.AddAttr(this.root, "verifyfilekey", "false");
+			this.root = doc.createElement(rootElementName);
+			for (String key : rootAttributes.keySet())
+			{
+				this.addAttributes(this.root, key, rootAttributes.get(key));
+			}
 			this.doc.appendChild(this.root);
-
-			this.AddElement(this.root, "table",tableName);
-		}
-		catch (Exception e) {
-			// TODO: handle exception
-		}
-	}
-
-	public DCBuilder(String tableName, String outputFile, HashMap<String, String> attributes) {
-		try {
-			this.outputFile=outputFile;
-			this.dbFactory = DocumentBuilderFactory.newInstance();
-			this.dBuilder = this.dbFactory.newDocumentBuilder();
-			this.doc = this.dBuilder.newDocument();
-
-			this.root = doc.createElement("load");
-			this.AddAttr(this.root, "delimiter", attributes.get("delimiter"));
-			this.AddAttr(this.root, "fullcache", attributes.get("fullcache"));
-			this.AddAttr(this.root, "mode", attributes.get("mode"));
-			this.AddAttr(this.root, "padline", attributes.get("padline"));
-			this.AddAttr(this.root, "type", attributes.get("type"));
-			this.AddAttr(this.root, "verifyfilekey", attributes.get("verifyfilekey"));
-			this.doc.appendChild(this.root);
-
-			this.AddElement(this.root, "table",tableName);
+//			this.addElement(this.root, "table",tableName);
 		}
 		catch (Exception e) {
 			// TODO: handle exception
 		}
 	}
 	
-	
-	public void AddField(XMLFieldData xmlFieldData)
+	@Override
+	public void addField(DCXMLFieldData xmlFieldData)
 	{
 		
 		Element fieldElement = doc.createElement("field");
-        this.AddAttr(fieldElement, "isoptional", xmlFieldData.isOptional.toString());
-        this.AddAttr(fieldElement, "isexternal", xmlFieldData.isExternal.toString());
-        this.AddAttr(fieldElement, "iskey", xmlFieldData.isKey.toString());
+        this.addAttributes(fieldElement, "isoptional", xmlFieldData.isOptional.toString());
+        this.addAttributes(fieldElement, "isexternal", xmlFieldData.isExternal.toString());
+        this.addAttributes(fieldElement, "iskey", xmlFieldData.isKey.toString());
         this.root.appendChild(fieldElement);
 
         
-        this.AddElement(fieldElement, "name", xmlFieldData.colName);
-        this.AddElement(fieldElement, "default", xmlFieldData.defaultVal);
+        this.addElement(fieldElement, "name", xmlFieldData.colName);
+        this.addElement(fieldElement, "default", xmlFieldData.defaultVal);
         
         Element locationELement = doc.createElement("location");
-        this.AddAttr(locationELement, "start", xmlFieldData.start);
-        this.AddAttr(locationELement, "end", xmlFieldData.end);
+        this.addAttributes(locationELement, "start", xmlFieldData.start);
+        this.addAttributes(locationELement, "end", xmlFieldData.end);
         fieldElement.appendChild(locationELement);
         
         //<handler config="" name="com.profitera.dc.handler.LongHandler" />
         Element handlerELement = doc.createElement("handler");
-        this.AddAttr(handlerELement, "config", "");
+        this.addAttributes(handlerELement, "config", "");
         String handlerPath="";
         switch (xmlFieldData.colType) {
 	        case 1:
@@ -106,7 +86,7 @@ public class DCBuilder {
 				handlerPath="com.profitera.dc.handler.YNBooleanHandler";
 				break;        
 		}
-        this.AddAttr(handlerELement, "name", handlerPath);
+        this.addAttributes(handlerELement, "name", handlerPath);
         fieldElement.appendChild(handlerELement);
         
         
@@ -117,35 +97,38 @@ public class DCBuilder {
             	String key = attrMap.getKey();
             	String value = attrMap.getValue();
             	if(key.equals("fullcache"))
-            		this.AddElement(lookupELement, key);
+            		this.addElement(lookupELement, key);
             	else
-            		this.AddElement(lookupELement, key, value);
+            		this.addElement(lookupELement, key, value);
             }
             fieldElement.appendChild(lookupELement);
-        	//this.AddElement(fieldElement, "lookup");
+        	//this.addElement(fieldElement, "lookup");
         }
 
 	}
 
-	public void AddElement(Element el, String name)
+	@Override
+	public void addElement(Element el, String name)
 	{
         Element nameELement = doc.createElement(name);
         el.appendChild(nameELement);
 	}
 
 	
-	public void AddElement(Element el, String name, String value)
+	@Override
+	public void addElement(Element el, String name, String value)
 	{
         Element nameELement = doc.createElement(name);
         nameELement.appendChild(doc.createTextNode(value));
         el.appendChild(nameELement);
 	}
 	
-	public void AddElement(Element el, String name,  HashMap<String, String> attributes)
+	@Override
+	public void addElement(Element el, String name,  HashMap<String, String> attributes)
 	{
         Element nameELement = doc.createElement(name);
         for(Map.Entry<String,String> attrMap: attributes.entrySet()) {
-            this.AddAttr(nameELement, attrMap.getKey(), attrMap.getValue());
+            this.addAttributes(nameELement, attrMap.getKey(), attrMap.getValue());
         }
         el.appendChild(nameELement);
 	}
@@ -156,44 +139,48 @@ public class DCBuilder {
 	 * @param mainElement is the element that we want add attributes and child
 	 * @param contentXML the childs informations
 	 */
-	public void AddElement(Element mainElement,XMLDataType contentXML)
+	@Override
+	public void addElement(Element mainElement,XMLDataType contentXML)
 	{
 		Element newELement = doc.createElement(contentXML.name);
         for(Map.Entry<String,String> attrMap: contentXML.attributes.entrySet()) {
-            this.AddAttr(newELement, attrMap.getKey(), attrMap.getValue());
+            this.addAttributes(newELement, attrMap.getKey(), attrMap.getValue());
         }
         if (contentXML.text.length()!=0) {
         	newELement.appendChild(doc.createTextNode(contentXML.text));
         }else {
 			for (XMLDataType childs : contentXML.childs)
-				this.AddElement(newELement, childs);
+				this.addElement(newELement, childs);
         }
 		mainElement.appendChild(newELement);
 	}
 	
-	
-	public void AddRootElement(XMLDataType contentXML)
+	@Override
+	public void addRootElement(XMLDataType contentXML)
 	{
-		this.AddElement(this.root,contentXML);
+		this.addElement(this.root,contentXML);
 	}
 	
-	
-	public void AddRootElement(String name) 
+	@Override
+	public void addRootElement(String name) 
 	{
-		this.AddElement(this.root,name);
-	}
-
-	public void AddRootElement(String name, String value)
-	{
-		this.AddElement(this.root,name,value);
+		this.addElement(this.root,name);
 	}
 
-	public void AddRootElement( String name,  HashMap<String, String> attributes)
+	@Override
+	public void addRootElement(String name, String value)
 	{
-		this.AddElement(this.root, name, attributes);
+		this.addElement(this.root,name,value);
+	}
+
+	@Override
+	public void addRootElement( String name,  HashMap<String, String> attributes)
+	{
+		this.addElement(this.root, name, attributes);
 	}
 	
-	public void AddAttr(Element el, String name, String value)
+	@Override
+	public void addAttributes(Element el, String name, String value)
 	{
         Attr attr = doc.createAttribute(name);
         attr.setValue(value);
@@ -201,7 +188,7 @@ public class DCBuilder {
         
 	}
 	
-	public void PrintXML()
+	public void printXML()
 	{
 		try {
 	        TransformerFactory transformerFactory = TransformerFactory.newInstance();
@@ -210,7 +197,7 @@ public class DCBuilder {
 	        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
 	        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
 	        DOMSource source = new DOMSource(doc);
-	        StreamResult result = new StreamResult(new File("/home/mohsen/"+this.outputFile+".xml"));
+	        StreamResult result = new StreamResult(new File("/home/poweretl-master/poweretl/etl-server/loadinxmlconfig/"+this.outputFile+".xml"));
 	        transformer.transform(source, result);
 	        
 	        // Output to console for testing
@@ -224,7 +211,7 @@ public class DCBuilder {
 	
 
 
-	public String ToString() {
+	public String toString() {
 	    try {
 	        StringWriter sw = new StringWriter();
 	        TransformerFactory tf = TransformerFactory.newInstance();

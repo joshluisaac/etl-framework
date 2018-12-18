@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="validatorManagementService">
+
+	<select id = "getValidators" resultType="hashmap">
+		select * from pi_validator
+	</select>
+
+
+	<select id = "getValidatorItems" resultType="hashmap">
+		select * from pi_validationitems 
+		where 
+			validator_id=#{validatorId} 
+		order by csvorder
+	</select>
+	
+
+	<select id = "getValidatorCombo" resultType="hashmap">
+		select
+			id,name
+		from pi_validator
+		where project_id=#{pid}
+	</select>
+	
+<!-- 	<insert id="insertDBInfo">
+		insert into pi_dbinfo
+			(project_id,dburl,dbport,dbname,dbuser,dbpass)
+		values
+			(${project_id},#{dbUrl},#{dbPort},#{dbName},#{dbUser},#{dbPass})
+	</insert>
+	
+	<update id="updateDBInfo">
+		UPDATE pi_dbinfo
+		SET
+			project_id = #{project_id},
+			dburl = #{dbUrl},
+			dbport = #{dbPort},
+			dbname = #{dbName},
+			dbuser = #{dbUser},
+			dbpass = #{dbPass}
+		where id = #{id}
+	</update>	
+
+	<delete id="deleteDBInfo">
+		delete from pi_dbinfo where id = #{id}
+	</delete>
+-->
+</mapper>

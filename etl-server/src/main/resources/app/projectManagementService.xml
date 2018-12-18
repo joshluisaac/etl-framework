@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="projectManagementService">
+
+	<select id = "getProjects" resultType="hashmap">
+		select * from pi_project
+	</select>
+	
+	<resultMap type="java.util.HashMap" id="comboMap" >
+		<result property="id" column="id" javaType="java.lang.Long" />
+		<result property="name" column="name" javaType="java.lang.String" />
+	</resultMap>
+
+
+	<select id = "getProjectsCombo" resultMap="comboMap">
+		select  
+		id,name 
+		from pi_project
+	</select>
+
+	<insert id="insertProject">
+		insert into pi_project
+			(name, customer, description) 
+		values 
+			(#{name}, #{customer}, #{description})
+	</insert>
+
+	<update id="updateProject">
+		UPDATE pi_project
+		SET
+			name =  #{name},
+			customer = #{customer},
+			description = #{description}
+		where id = #{id}
+	</update>
+
+	<delete id="deleteProject">
+		delete from pi_project where id = #{id}
+	</delete>
+
+</mapper>

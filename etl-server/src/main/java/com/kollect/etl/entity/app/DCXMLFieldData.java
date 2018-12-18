@@ -1,14 +1,14 @@
-package com.kollect.etl.util.dctemporary;
+package com.kollect.etl.entity.app;
 
 
 import java.util.LinkedHashMap;
 
-public class XMLFieldData {
-	public XMLFieldData() {
+public class DCXMLFieldData {
+	public DCXMLFieldData() {
 		lookup = new LinkedHashMap<String,String>();
-		this.ClearData();
+		this.clearData();
 	}
-	public void ClearData() {
+	public void clearData() {
 		colName="";
 		defaultVal="&#x200B";
 		start="";

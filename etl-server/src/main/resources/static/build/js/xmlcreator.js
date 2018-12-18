@@ -33,7 +33,8 @@ $(document).ready(function() {
 		
 	    event.preventDefault();
 	    var action=0;
-	    var postData = new FormData($("#mainform")[0]);
+	    //var postData = new FormData($("#mainform")[0]);
+
 	    
 		switch(this.id){
 			case "test":
@@ -64,59 +65,32 @@ $(document).ready(function() {
 			case "exitmodal":
 				return;
 		}
-		postData.append('action', action);
-		if(action!=4){
-			$.ajax({
-				        type: 'post',
-				        url: 'xmltest',
-				        contentType: false, // The content type used when sending data to the server.
-				        data: postData,
-				        cache: false,
-				        processData: false,
-				        success: function (val) {
-				        	alert("Success\n" + val);
-						},
-						error: function(val){
-							var errMessage="The problem occured\n";
 		
-		//		            var error = jQuery.parseJSON(val.responseText);
-		//		            $.each(error.message,function(key,value){
-		//	                    errMessage+=value;
-		//		            });
-				            alert(errMessage);
-		
-						}
-			});
-		}else{
-			var postData = $("#mainform").serialize();
-			
+		var postData = $("#mainform").serialize()+'&action='+action;
 
-			
-			$.ajax({
-		        type: 'post',
-		        url: 'xmltest',
-		        data: postData,
-		        success: function (val) {
-		        	alert("The XML config created Successfully\n");
+		$.ajax({
+	        type: 'post',
+	        url: 'xmlcreator',
+	        data: postData,
+	        success: function (val) {
+	        	alert("The XML config created Successfully\n");
 //		        	alert(val);
-		        	$('#modalHeader').text("The XML "+$('#name').val()+" is as follow");
-		        	$('#modalXML').text(val);
-		        	$('#xmlModal').modal('toggle');
-		        	$('#xmlModal').modal('show');
-				},
-				error: function(val){
-					var errMessage="The problem occured\n";
+	        	$('#modalHeader').text("The XML "+$('#name').val()+" is as follow");
+	        	$('#modalXML').text(val);
+	        	$('#xmlModal').modal('toggle');
+	        	$('#xmlModal').modal('show');
+			},
+			error: function(val){
+				var errMessage="The problem occured\n";
 
 //		            var error = jQuery.parseJSON(val.responseText);
 //		            $.each(error.message,function(key,value){
 //	                    errMessage+=value;
 //		            });
-		            alert(errMessage);
+	            alert(errMessage);
 
-				}
-			});
-		}
-
+			}
+		});
 	});
 	
 
@@ -143,6 +117,8 @@ $(document).ready(function() {
 		}
 	});
 	
+	
+	
 	$('select[name="dbid"]').on('change', function() {
 		
 		var dbid=$("#dbid").val();
@@ -168,6 +144,8 @@ $(document).ready(function() {
 		}
 	});	
 
+	
+	
 	$('select[name="tablename"]').on('change', function() {
 		
 		var dbid=$("#dbid").val();
@@ -226,98 +204,6 @@ $(document).ready(function() {
 	});	
 	
 
-	$("#filename2").on('change',function(){
-		var event = $(this);
-	    var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.xml)$/;
-	    var regexCSV = /^([a-zA-Z0-9\s_\\.\-:])+(.csv)$/;
-	    //Checks whether the file is a valid xml file  
-	    if (regex.test(event.val().toLowerCase())) {  
-	    	//Checks whether the browser supports HTML5  
-	        if (typeof (FileReader) != "undefined") {
-	            var reader = new FileReader(); 
-	            reader.onload = function (e) {
-	            	try{
-	            		var xmlDoc = $.parseXML(e.target.result);
-		                $(xmlDoc).find("generatedkey").each(function(id,value){
-		                	FillTexbox("generatedkey",$(value).text());
-		                });
-		                $(xmlDoc).find("generatedkeyseqname").each(function(id,value){
-		                	FillTexbox("generatedkeyseqname",$(value).text());
-		                });
-
-		                $(xmlDoc).find("refreshdata").each(function(id,value){
-		                	FillTexbox("refreshtimeout",$(value).attr('timeout'));
-		                	
-		            		if ($(value).attr('key')=="true"){
-		            			$("input[name=refreshdata][value='true']").prop('checked', true);
-		            		}
-		            		else{
-		            			$("input[name=refreshdata][value='false']").prop('checked', true);
-	            			}
-		                });
-		                unkhownRows="";
-		                
-//		                $(xmlDoc).find("load").each(function(id,value){
-//		                	alert(value.attr('type')+"\n"+
-//	                			value.attr('delimiter')+"\n"+
-//	                			value.attr('fullcache')+"\n"+
-//	                			value.attr('mode')+"\n"+
-//	                			value.attr('padline')+"\n"+
-//	                			value.attr('verifyfilekey')+"\n"
-//		                	);
-//		                }
-
-		                
-		                $(xmlDoc).find("field").each(function(id,value){
-	                		
-//		                	alert("key is: "+$(value).attr('iskey')+"\n"+
-//		                	"external is: "+$(value).attr('isexternal')+"\n"+
-//		                	"optional is: "+$(value).attr('isoptional')+"\n"+
-//		                	"column name is: "+$(value).find('name').text()+"\n"+
-//		                	"column defaultval is: "+$(value).find('default').text()+"\n"+
-//		                	"location start is: "+$(value).find('location').attr('start')+" end is: "+$(value).find('location').attr('end'));
-		                	var isLookup=false;
-		                	var lookup_query =RemoveAllSpaces($(value).find('lookup').find('query').text());
-		                	var lookup_fullcache = $(value).find('lookup').find('fullcache');
-		                	var lookup_insert = RemoveAllSpaces($(value).find('lookup').find('fullcatche').text());
-		                	var lookup_insertkey = RemoveAllSpaces($(value).find('lookup').find('insertkey').text());
-		                	if(lookup_query.length || lookup_fullcache.length || lookup_insert.length || lookup_insertkey.length){
-		                		isLookup=true;
-//		                		alert($(value).find('name').text().toLowerCase()+"\n"+
-//		                				lookup_query+"\n"+
-//		                				lookup_fullcache+"\n"+
-//		                				lookup_insert+"\n"+
-//		                				lookup_insertkey+"\n");
-		                	}
-		                	FillRowData($(value).find('name').text().toLowerCase(),$(value).find('location').attr('start'),
-		                			$(value).find('location').attr('end'),$(value).attr('iskey'),$(value).attr('isoptional'),
-		                			$(value).attr('isexternal'),$(value).find('default').text(),isLookup,lookup_query,
-	                				lookup_fullcache,lookup_insert,lookup_insertkey);
-		                	
-		                	//check the lookup
-		                	//trigger lookup
-		                	//for each lookup add proper
-		                });
-		                if (unkhownRows.length>0)
-		                	alert("Column which are not on table structure are\n"+unkhownRows)
-	            	}
-	            	catch(event){
-	            		alert("The file is not Valid XML");
-	            	}
-	            }  
-
-	            reader.readAsText($("#filename")[0].files[0]);
-
-	        }  
-	        else {  
-	            alert("Sorry! Your browser does not support HTML5!");  
-	        }  
-	    }  
-	    else {  
-	        alert("Please upload a valid XML file!");  
-	    }  	
-	});
-	
 	
 	$("#filename").on('change',function(){
 		var event = $(this);

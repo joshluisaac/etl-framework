@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="dBConManagementService">
+
+	<select id = "getDBInfo" resultType="hashmap">
+		select * from pi_dbinfo
+	</select>
+	
+
+	<select id = "getDBInfoCombo" resultType="hashmap">
+		select
+			id,dbname
+		from pi_dbinfo
+		where project_id=#{pid}
+	</select>
+	
+	<insert id="insertDBInfo">
+		insert into pi_dbinfo
+			(project_id,dburl,dbport,dbname,dbuser,dbpass)
+		values
+			(${project_id},#{dbUrl},#{dbPort},#{dbName},#{dbUser},#{dbPass})
+	</insert>
+	
+	<update id="updateDBInfo">
+		UPDATE pi_dbinfo
+		SET
+			project_id = #{project_id},
+			dburl = #{dbUrl},
+			dbport = #{dbPort},
+			dbname = #{dbName},
+			dbuser = #{dbUser},
+			dbpass = #{dbPass}
+		where id = #{id}
+	</update>	
+
+	<delete id="deleteDBInfo">
+		delete from pi_dbinfo where id = #{id}
+	</delete>
+
+</mapper>

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.google.gson.stream.JsonWriter;
+import com.kollect.etl.entity.ColumnMetaData;
 
 
 public class DbPtr {

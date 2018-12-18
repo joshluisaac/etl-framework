@@ -173,6 +173,9 @@
 		<mapper resource="nationwide/invoiceStatusEvaluation.xml"/>
 		<mapper resource="nationwide/updateDataDateService.xml"/>
 		<mapper resource="nationwide/cleanDefault.xml"/>
+        <mapper resource="app/projectManagementService.xml" />
+        <mapper resource="app/dBConManagementService.xml" />
+        <mapper resource="app/validatorManagementService.xml" />
 	</mappers>
 
 </configuration>

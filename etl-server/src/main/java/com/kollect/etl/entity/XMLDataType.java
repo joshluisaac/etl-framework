@@ -1,4 +1,4 @@
-package com.kollect.etl.util.dctemporary;
+package com.kollect.etl.entity;
 
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
