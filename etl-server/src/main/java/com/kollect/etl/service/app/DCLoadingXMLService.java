@@ -1,5 +1,7 @@
 package com.kollect.etl.service.app;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -9,14 +11,17 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
-
+import com.google.gson.Gson;
 import com.kollect.etl.entity.XMLDataType;
 import com.kollect.etl.entity.app.Combo;
+import com.kollect.etl.entity.app.DCLoadingConf;
 import com.kollect.etl.entity.app.DCXMLFieldData;
 import com.kollect.etl.service.IReadWriteServiceProvider;
 import com.kollect.etl.service.IXMLBuilder;
@@ -42,9 +47,57 @@ public class DCLoadingXMLService {
 		model.addAttribute("projects", projects);
 		return "xmlcreator";
 	}
+
 	
-	public  ResponseEntity<String> creatingXML(HttpServletRequest request){
+	public Object loadDCListPage(Model model) {
+		ProjectManagementService project= new ProjectManagementService(rwProvider,dataSource);
+		List<Combo> projects = project.fillProjectsCombo();
+		model.addAttribute("projects", projects);
+		return "loadingxmllist";
+	}
+	
+
+	public ResponseEntity<InputStreamResource> downloadXML(String name) {
+		File file = new File("/home/poweretl-master/poweretl/etl-server/loadinxmlconfig/"+name+".xml");
+		
+		String[] outputName = name.split("_");
+		try {
+			InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+			return ResponseEntity.ok()
+	               // Content-Disposition
+	               .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" +outputName[2]+".xml")
+	               // Content-Type
+	               //.contentType(mediaType)
+	               // Contet-Length
+	               .contentLength(file.length()) //
+	               .body(resource);
+		} catch (Exception e) {
+			 return new ResponseEntity<>(null, HttpStatus.FAILED_DEPENDENCY);
+		}
+	}
+	
+	
+	public ResponseEntity<String> getLoadingConfList(Integer project_id, Integer dbid, String tablename) {
+		try {
+			HashMap<String, Object> newObj=new HashMap<String, Object>();
+			newObj.put("project_id", project_id);
+			newObj.put("dbinfo_id", dbid);
+			newObj.put("tablename", tablename);
+			List<Object> databaseList = this.rwProvider.executeQuery(dataSource, "getLoadingConf",newObj);
+			Gson gson = new Gson();
+			String result=gson.toJson(databaseList);
+			return new ResponseEntity<>(result, HttpStatus.OK);
+//			return new ResponseEntity<>("unkhown", HttpStatus.OK);			
+		}catch(Exception e) {
+			return new ResponseEntity<>(e.getMessage(), HttpStatus.FAILED_DEPENDENCY);
+		}
+	}	
+	
+	
+	public  ResponseEntity<String> creatingXML(HttpServletRequest request, Integer project_id, Integer dbinfo_id, String name,
+												String tablename, String description,Integer action){
 		String isDefault=request.getParameter("isdefault");
+		String filename=project_id+"_"+dbinfo_id+"_"+name;
 		IXMLBuilder dcBuilder;
 		HashMap<String, String> setAttr = new HashMap<String,String>();
 
@@ -69,10 +122,10 @@ public class DCLoadingXMLService {
 			
 		}
 
-		dcBuilder = new XMLBuilder(request.getParameter("name"), "load", setAttr);
+		dcBuilder = new XMLBuilder(filename, "load", setAttr);
 		setAttr.clear();
 
-		dcBuilder.addRootElement(request.getParameter("tablename"));
+		dcBuilder.addRootElement(tablename);
 		
 		Enumeration<String> params = request.getParameterNames(); 
 		
@@ -177,8 +230,26 @@ public class DCLoadingXMLService {
 		 if(isFirst) 
 			 dcBuilder.addField(xmlFieldData);
 		dcBuilder.printXML();
+		String xmlconfig=dcBuilder.toString();
+		switch (action) {
+			case 1:
+					DCLoadingConf dCLoadingConf = new DCLoadingConf(project_id, dbinfo_id, name, tablename, xmlconfig, description);
+					try {
+						int insertCount=this.rwProvider.insertQuery(dataSource, "insertLoadingConf", dCLoadingConf);
+						if (insertCount != 0)
+							return new ResponseEntity<>("Inserted successfuly", HttpStatus.OK);
+						else
+							return new ResponseEntity<>("Nothing inserted", HttpStatus.OK);
+						
+					}catch(Exception e) {
+						return new ResponseEntity<>(e.getMessage(), HttpStatus.FAILED_DEPENDENCY);
+					}
+			case 4:
+				return new ResponseEntity<>(xmlconfig, HttpStatus.OK);
+			default:
+				return new ResponseEntity<>("Unkhown action", HttpStatus.FAILED_DEPENDENCY);				
+		}
 		
-		return new ResponseEntity<>(dcBuilder.toString(), HttpStatus.OK);
 		
 	}
 }

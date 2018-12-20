@@ -176,6 +176,7 @@
         <mapper resource="app/projectManagementService.xml" />
         <mapper resource="app/dBConManagementService.xml" />
         <mapper resource="app/validatorManagementService.xml" />
+        <mapper resource="app/dCLoadingXMLService.xml" />
 	</mappers>
 
 </configuration>

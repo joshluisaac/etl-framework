@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="dCLoadingXMLService">
+
+	<select id = "getLoadingConf" resultType="hashmap">
+		select * from pi_loadingconfigs
+		where
+				project_id=#{project_id}
+<!-- 
+			<if test="dbinfo_id != null">
+			    AND dbinfo_id= #{dbinfo_id}
+			</if>
+			<if test="tablename != null">
+			    AND tablename= #{tablename}
+			</if>
+ -->
+	</select>
+	
+	
+	<insert id="insertLoadingConf">
+		insert into pi_loadingconfigs
+			(project_id,dbinfo_id,name,tablename,xmlconfig,description)
+		values
+			(${project_id},#{dbinfo_id},#{name},#{tablename},null,#{description})
+	</insert>
+	
+	<update id="updateLoadingConf">
+		UPDATE pi_loadingconfigs
+		SET
+			project_id = #{project_id},
+			dbinfo_id = #{dbinfo_id},
+			name = #{name},
+			tablename = #{tablename},
+			xmlconfig = #{xmlconfig},
+			description = #{description}
+		where id = #{id}
+	</update>	
+
+	<delete id="deleteLoadingConf">
+		delete from pi_loadingconfigs where id = #{id}
+	</delete>
+
+</mapper>
