@@ -200,20 +200,20 @@
     <sql id="ageInvoiceSelectFragment">
         SELECT
             inv.invoice_due_date,
-            (DATE_PART('year', current_date :: DATE) - DATE_PART('year', inv.invoice_due_date :: DATE)) * 12 +
-            (DATE_PART('month', current_date :: DATE) - DATE_PART('month', inv.invoice_due_date :: DATE)) AS mpd,
+            extract('days' from (current_timestamp- inv.invoice_due_date)) as dpd,
+            ceil(extract('days' from (current_timestamp- inv.invoice_due_date))/30) as mpd,
             inv.tenant_id,
             inv.id
-        FROM invoices inv 
-        inner join invoice_status statusref on inv.invoice_status_id = statusref.id
+        FROM invoices inv
+            inner join invoice_status statusref on inv.invoice_status_id = statusref.id
     </sql>
     <sql id="ageInvoiceUpdateFragment">
         UPDATE invoices
         SET
-            dpd = CASE WHEN (0 > (current_date - #{invoice_due_date}))
+            dpd = CASE WHEN (0 > #{dpd})
                 THEN 0
-                  ELSE ((current_date - #{invoice_due_date})) END,
-            mpd = CASE WHEN #{mpd} &lt; 0
+                  ELSE #{dpd} END,
+            mpd = CASE WHEN (0 > #{mpd})
                 THEN 0
                   ELSE #{mpd} END
         WHERE id = #{id}
