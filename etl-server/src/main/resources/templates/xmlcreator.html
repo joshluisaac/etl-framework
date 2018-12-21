@@ -70,11 +70,11 @@
 	     <!-- Modal content-->
 	     <div class="modal-content">
 	       <div class="modal-header">
-	         <button type="button" class="close" data-dismiss="modal">&times;</button>
+	         <button type="button" class="close" data-dismiss="modal" id="exitmodal">&times;</button>
 	         <h4 class="modal-title" id="modalHeader">Modal Header</h4>
 	       </div>
 	       <div class="modal-body">
-	         <textarea rows="30" class="boxsizingBorder" id="modalXML">Some text in the modal.</textarea>
+	         <pre lang="xml" id="modalXML">Some text in the modal.</pre>
 	       </div>
 	       <div class="modal-footer">
 	         <button type="button" class="btn btn-default" data-dismiss="modal" id="exitmodal">Close</button>
@@ -319,6 +319,13 @@
 			         <table id="showlist" class="display nowrap" style="width:100%">
 			             <thead>
 				             <tr>
+				             	 <th>
+			             	 		<input type="checkbox" id="isSelectGroup" name="isSelectGroup" class="editor-active">
+			             	 		&nbsp;
+			             	 		<img src="../build/images/remove.png" id="deleteSelectGroup">
+       	 						    &nbsp;
+			             	 		<img src="../build/images/reverse.png" id="reverseSelectGroup">
+				             	 </th>
 				             	 <th>Field Name</th>
 				                 <th>Start</th>
 				                 <th>end</th>
@@ -329,7 +336,6 @@
 				                 <th>Is lookup</th>
 				                 <th>Data type</th>
 			                 	 <th>Nullable</th>
-				                 <th></th>
 				             </tr>
 			             </thead>
 			         </table>

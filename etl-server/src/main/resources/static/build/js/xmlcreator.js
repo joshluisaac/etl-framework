@@ -21,6 +21,10 @@ $(document).ready(function() {
    mytable = $('#showlist').DataTable({
 	   "paging": false,
 	   "scrollX": true,
+	   "columnDefs": [ {
+		   "targets": 0,
+		   "orderable": false
+		   } ]
    });	   
 
 	$.ajaxSetup({
@@ -237,6 +241,7 @@ $(document).ready(function() {
 		}
 	});
 
+
 	$("#isdefault").on('change',function(){
 		if($(this).prop('checked')){
 			$("#usedefault").hide();
@@ -245,6 +250,7 @@ $(document).ready(function() {
 			$("#usedefault").show();
 		}
 	});
+
 
 	$("#ismodifycol").on('change',function(){
 		if($(this).prop('checked')){
@@ -255,8 +261,36 @@ $(document).ready(function() {
 		}
 	});
 	
+
+	$("#isSelectGroup").on('change',function(){
+		if($(this).prop('checked')){
+			$('.isSelect').prop('checked', true);
+		}else{
+			$('.isSelect').prop('checked', false);
+		}
+	});
 	
-    $('#modifycol').hide();
+	$("#reverseSelectGroup").on('click',function(){
+		$('.isSelect').each(function (index, obj){
+			if($(obj).prop('checked'))
+				$(obj).prop('checked', false);
+			else
+				$(obj).prop('checked', true);
+		});
+	});
+	
+	$("#deleteSelectGroup").on('click',function(){
+		$('.isSelect').each(function (index, obj){
+			if($(obj).prop('checked')){
+				var res=$(obj).prop("id").split("-");
+				mytable.row($("#tr_"+res[1])).remove().draw();
+			}
+
+		});
+	});
+
+	
+	$('#modifycol').hide();
 });
 
 
@@ -359,9 +393,11 @@ function readerForCSV(reader){
 
 
 function AddRow(rowNumber,colName,colType,isNull,defVal){
-    var buttons= '<img src="'+imagePath+'/remove.png" onclick="deleteRow(\''+colName+'\')">';
+    //var buttons= '<img src="'+imagePath+'/remove.png" onclick="deleteRow(\''+colName+'\')">';
+
     var defaultVal=(defVal==null?"&#x200B":defVal);
     mytable.row.add( [
+    	'<input type="checkbox" id="isSelected-'+colName+'" class="isSelect">',
     	'<input type="text" name="fieldname['+rowNumber+']" class="input2lable"  value="'+colName+'" readonly="readonly"/>',
     	'<input type="text" name="start['+rowNumber+']" value="'+rowNumber+'"class="editor-active" size="10">',
     	'<input type="text" name="end['+rowNumber+']" value="'+rowNumber+'"class="editor-active" size="10">',
@@ -375,8 +411,7 @@ function AddRow(rowNumber,colName,colType,isNull,defVal){
 								'<img src="'+imagePath+'/minus.png" style="padding-left:2px;" onclick="DelLookupRow('+rowNumber+')">'+
 								'</div>',
     	'<input type="text" name="coltype['+rowNumber+']" class="input2lable"  size="5" value="'+colType+'">',
-    	'<input type="text" name="nullable['+rowNumber+']" class="input2lable" size="5" value="'+isNull+'">',
-    	buttons
+    	'<input type="text" name="nullable['+rowNumber+']" class="input2lable" size="5" value="'+isNull+'">'
     ] ).node().id="tr_" + colName;
 }
 
@@ -487,24 +522,24 @@ function FillRowByCSV(id,start,end,isKey,isOptional,isExternal,defaultVal)
 		unkhownRows+=id+"\n";
 	}
 	else{
-		$(x).find('td:nth-child(2) input[type="text"]').val(start);
-		$(x).find('td:nth-child(3) input[type="text"]').val(end);
+		$(x).find('td:nth-child(3) input[type="text"]').val(start);
+		$(x).find('td:nth-child(4) input[type="text"]').val(end);
 		
 		if (isKey==1)
-			$(x).find('td:nth-child(4) input[type="checkbox"]').prop('checked', true);
-		else
-			$(x).find('td:nth-child(4) input[type="checkbox"]').prop('checked', false);
-
-		if (isOptional==1)
 			$(x).find('td:nth-child(5) input[type="checkbox"]').prop('checked', true);
 		else
 			$(x).find('td:nth-child(5) input[type="checkbox"]').prop('checked', false);
 
-		if (isExternal==1)
+		if (isOptional==1)
 			$(x).find('td:nth-child(6) input[type="checkbox"]').prop('checked', true);
 		else
 			$(x).find('td:nth-child(6) input[type="checkbox"]').prop('checked', false);
-		$(x).find('td:nth-child(7) input[type="text"]').val(defaultVal);
+
+		if (isExternal==1)
+			$(x).find('td:nth-child(7) input[type="checkbox"]').prop('checked', true);
+		else
+			$(x).find('td:nth-child(7) input[type="checkbox"]').prop('checked', false);
+		$(x).find('td:nth-child(8) input[type="text"]').val(defaultVal);
 
 	}
 }
@@ -521,26 +556,26 @@ function FillRowData(id,start,end,iskey,isoptional,isexternal,defaultval,islooku
 		unkhownRows+=id+"\n";
 	}
 	else{
-		$(x).find('td:nth-child(2) input[type="text"]').val(start);
-		$(x).find('td:nth-child(3) input[type="text"]').val(end);
+		$(x).find('td:nth-child(3) input[type="text"]').val(start);
+		$(x).find('td:nth-child(4) input[type="text"]').val(end);
 		if (iskey=="true")
-			$(x).find('td:nth-child(4) input[type="checkbox"]').prop('checked', true);
-		else
-			$(x).find('td:nth-child(4) input[type="checkbox"]').prop('checked', false);
-
-		if (isoptional=="true")
 			$(x).find('td:nth-child(5) input[type="checkbox"]').prop('checked', true);
 		else
 			$(x).find('td:nth-child(5) input[type="checkbox"]').prop('checked', false);
 
-		if (isexternal=="true")
+		if (isoptional=="true")
 			$(x).find('td:nth-child(6) input[type="checkbox"]').prop('checked', true);
 		else
 			$(x).find('td:nth-child(6) input[type="checkbox"]').prop('checked', false);
-		$(x).find('td:nth-child(7) input[type="text"]').val(defaultval);
+
+		if (isexternal=="true")
+			$(x).find('td:nth-child(7) input[type="checkbox"]').prop('checked', true);
+		else
+			$(x).find('td:nth-child(7) input[type="checkbox"]').prop('checked', false);
+		$(x).find('td:nth-child(8) input[type="text"]').val(defaultval);
 
 		
-		var cbObject=$(x).find('td:nth-child(8) input[type="checkbox"]');
+		var cbObject=$(x).find('td:nth-child(9) input[type="checkbox"]');
 		if (islookup){
 
 //			$(x).find('td:nth-child(8) input[type="checkbox"]').prop('checked', true);
