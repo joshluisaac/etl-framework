@@ -522,24 +522,24 @@ function FillRowByCSV(id,start,end,isKey,isOptional,isExternal,defaultVal)
 		unkhownRows+=id+"\n";
 	}
 	else{
-		$(x).find('td:nth-child(2) input[type="text"]').val(start);
-		$(x).find('td:nth-child(3) input[type="text"]').val(end);
+		$(x).find('td:nth-child(3) input[type="text"]').val(start);
+		$(x).find('td:nth-child(4) input[type="text"]').val(end);
 		
 		if (isKey==1)
-			$(x).find('td:nth-child(4) input[type="checkbox"]').prop('checked', true);
-		else
-			$(x).find('td:nth-child(4) input[type="checkbox"]').prop('checked', false);
-
-		if (isOptional==1)
 			$(x).find('td:nth-child(5) input[type="checkbox"]').prop('checked', true);
 		else
 			$(x).find('td:nth-child(5) input[type="checkbox"]').prop('checked', false);
 
-		if (isExternal==1)
+		if (isOptional==1)
 			$(x).find('td:nth-child(6) input[type="checkbox"]').prop('checked', true);
 		else
 			$(x).find('td:nth-child(6) input[type="checkbox"]').prop('checked', false);
-		$(x).find('td:nth-child(7) input[type="text"]').val(defaultVal);
+
+		if (isExternal==1)
+			$(x).find('td:nth-child(7) input[type="checkbox"]').prop('checked', true);
+		else
+			$(x).find('td:nth-child(7) input[type="checkbox"]').prop('checked', false);
+		$(x).find('td:nth-child(8) input[type="text"]').val(defaultVal);
 
 	}
 }
@@ -556,26 +556,26 @@ function FillRowData(id,start,end,iskey,isoptional,isexternal,defaultval,islooku
 		unkhownRows+=id+"\n";
 	}
 	else{
-		$(x).find('td:nth-child(2) input[type="text"]').val(start);
-		$(x).find('td:nth-child(3) input[type="text"]').val(end);
+		$(x).find('td:nth-child(3) input[type="text"]').val(start);
+		$(x).find('td:nth-child(4) input[type="text"]').val(end);
 		if (iskey=="true")
-			$(x).find('td:nth-child(4) input[type="checkbox"]').prop('checked', true);
-		else
-			$(x).find('td:nth-child(4) input[type="checkbox"]').prop('checked', false);
-
-		if (isoptional=="true")
 			$(x).find('td:nth-child(5) input[type="checkbox"]').prop('checked', true);
 		else
 			$(x).find('td:nth-child(5) input[type="checkbox"]').prop('checked', false);
 
-		if (isexternal=="true")
+		if (isoptional=="true")
 			$(x).find('td:nth-child(6) input[type="checkbox"]').prop('checked', true);
 		else
 			$(x).find('td:nth-child(6) input[type="checkbox"]').prop('checked', false);
-		$(x).find('td:nth-child(7) input[type="text"]').val(defaultval);
+
+		if (isexternal=="true")
+			$(x).find('td:nth-child(7) input[type="checkbox"]').prop('checked', true);
+		else
+			$(x).find('td:nth-child(7) input[type="checkbox"]').prop('checked', false);
+		$(x).find('td:nth-child(8) input[type="text"]').val(defaultval);
 
 		
-		var cbObject=$(x).find('td:nth-child(8) input[type="checkbox"]');
+		var cbObject=$(x).find('td:nth-child(9) input[type="checkbox"]');
 		if (islookup){
 
 //			$(x).find('td:nth-child(8) input[type="checkbox"]').prop('checked', true);

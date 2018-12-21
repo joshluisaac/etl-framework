@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.gson.Gson;
 import com.kollect.etl.entity.XMLDataType;
@@ -125,7 +126,7 @@ public class DCLoadingXMLService {
 		dcBuilder = new XMLBuilder(filename, "load", setAttr);
 		setAttr.clear();
 
-		dcBuilder.addRootElement(tablename);
+		dcBuilder.addRootElement("table",tablename);
 		
 		Enumeration<String> params = request.getParameterNames(); 
 		
