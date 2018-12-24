@@ -14,7 +14,7 @@
 
     <delete id="deleteDummyInvoices">
         DELETE FROM invoices
-        WHERE tenant_id = 102 AND invoice_no = #{account_id} :: VARCHAR(50) AND subsidiary_id = #{subsidiary_id}
+        WHERE tenant_id = 102 AND invoice_description = 'Open Invoice for Unallocated Transactions'
     </delete>
 
     <insert id="insertDummyInvoices">
