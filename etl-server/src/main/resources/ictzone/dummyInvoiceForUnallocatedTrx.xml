@@ -12,9 +12,14 @@
         WHERE tenant_id = 102 AND invoice_id = 0
     </select>
 
+    <select id="oldDummyInvoices" resultType="hmap">
+        select id FROM invoices
+        WHERE tenant_id = 102 AND invoice_description = 'Open Invoice for Unallocated Transactions'
+    </select>
+
     <delete id="deleteDummyInvoices">
         DELETE FROM invoices
-        WHERE tenant_id = 102 AND invoice_description = 'Open Invoice for Unallocated Transactions'
+        WHERE tenant_id = 102 AND id = #{id}
     </delete>
 
     <insert id="insertDummyInvoices">

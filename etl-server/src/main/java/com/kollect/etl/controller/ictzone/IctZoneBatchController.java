@@ -80,7 +80,7 @@ public class IctZoneBatchController {
     @PostMapping("/ictzonedeletedummyinvoices")
     @ResponseBody
     public Object deleteDummyInvoices() {
-        return this.asyncBatchExecutorService.execute(102, dataSource, "getTrxWithZeroInvId", "deleteDummyInvoices",
+        return this.asyncBatchExecutorService.execute(102, dataSource, "oldDummyInvoices", "deleteDummyInvoices",
                 "ICTZONE_DELETE_DUMMY_INV");
     }
 
