@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="dummyInvoiceForUnallocatedTrx">
+    <select id="getTrxWithZeroInvId" resultType="hmap">
+        SELECT DISTINCT
+            account_id,
+            subsidiary_id
+        FROM transactions
+        WHERE tenant_id = 102 AND invoice_id = 0
+    </select>
+
+    <delete id="deleteDummyInvoices">
+        DELETE FROM invoices
+        WHERE tenant_id = 102 AND invoice_no = #{account_id} :: VARCHAR(50) AND subsidiary_id = #{subsidiary_id}
+    </delete>
+
+    <insert id="insertDummyInvoices">
+        INSERT INTO invoices (id, tenant_id, import_id, account_id, invoice_date, invoice_no, invoice_description, invoice_due_date,
+                              status_id, created_at, updated_at, created_by, updated_by, invoice_outstanding_with_interest, gst, import_status_id,
+                              void_flag, subsidiary_id, void_flag_char) VALUES (
+            nextval('invoices_id'),
+            102,
+            0,
+            #{account_id},
+            current_timestamp,
+            #{account_id} :: VARCHAR(50),
+            'Open Invoice for Unallocated Transactions',
+            cast('2050-01-01 00:00:00.000000' AS TIMESTAMP),
+            0,
+            current_timestamp,
+            current_timestamp,
+            0,
+            0,
+            0,
+            0,
+            2,
+            FALSE,
+            #{subsidiary_id},
+            'N'
+        )
+    </insert>
+
+    <update id="TrxWithZeroInvId">
+        UPDATE transactions
+        SET invoice_id =
+        (SELECT id
+         FROM invoices
+         WHERE invoices.tenant_id = 102 AND invoices.invoice_no = #{account_id} :: VARCHAR(50) AND
+               invoices.account_id = #{account_id}
+               AND invoices.subsidiary_id = #{subsidiary_id})
+        WHERE tenant_id = 102 AND invoice_id = 0 AND account_id = #{account_id} AND
+              subsidiary_id = #{subsidiary_id}
+    </update>
+</mapper>

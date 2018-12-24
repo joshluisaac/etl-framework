@@ -125,14 +125,14 @@
 
     <select id="getDailyIctZoneHistoryUat" resultType="hmap">
         <include refid="getHistoryForEmailUpdateFrag"/>
-        WHERE hist.batch_id in (67,68,69,70,71,72,94) and hist.updated_date >= now()::date
+        WHERE hist.batch_id in (67,68,69,70,71,72,94,102,100,101) and hist.updated_date >= now()::date
         and hist.data_source = 'KV_UAT'
         ORDER BY hist.updated_date desc
     </select>
 
     <select id="getDailyIctZoneHistoryProd" resultType="hmap">
         <include refid="getHistoryForEmailUpdateFrag"/>
-        WHERE hist.batch_id in (67,68,69,70,71,72,94) and hist.updated_date >= now()::date
+        WHERE hist.batch_id in (67,68,69,70,71,72,94,102,100,101) and hist.updated_date >= now()::date
         and hist.data_source = 'KV_Production'
         ORDER BY hist.updated_date desc
     </select>

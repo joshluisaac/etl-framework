@@ -1,11 +1,11 @@
 package com.kollect.etl.controller.ictzone;
 
-import com.kollect.etl.service.commonbatches.*;
+import com.kollect.etl.service.commonbatches.AsyncBatchExecutorService;
+import com.kollect.etl.service.commonbatches.UpdateDataDateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -75,5 +75,26 @@ public class IctZoneBatchController {
     public Object updateInvoiceOutstanding() {
         return this.asyncBatchExecutorService.execute(94, dataSource, "getInvoiceOutstanding", "updateInvoiceOutstanding",
                 "ICTZONE_OUTSTANDING_INVOICE");
+    }
+
+    @PostMapping("/ictzonedeletedummyinvoices")
+    @ResponseBody
+    public Object deleteDummyInvoices() {
+        return this.asyncBatchExecutorService.execute(102, dataSource, "getTrxWithZeroInvId", "deleteDummyInvoices",
+                "ICTZONE_DELETE_DUMMY_INV");
+    }
+
+    @PostMapping("/ictzoneinsertdummyinvoices")
+    @ResponseBody
+    public Object insertDummyInvoices() {
+        return this.asyncBatchExecutorService.execute(100, dataSource, "getTrxWithZeroInvId", "insertDummyInvoices",
+                "ICTZONE_DUMMY_INV");
+    }
+
+    @PostMapping("/ictzoneupdatetrxwith0invid")
+    @ResponseBody
+    public Object updateTrxWithZeroInvId() {
+        return this.asyncBatchExecutorService.execute(101, dataSource, "getTrxWithZeroInvId", "TrxWithZeroInvId",
+                "ICTZONE_UPDATE_TRX_ZERO_INV_ID");
     }
 }

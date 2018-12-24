@@ -126,6 +126,48 @@
                             <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
                     </td>
                 </tr>
+                <tr>
+                    <td>7</td>
+                    <td>ICT Zone - Delete Old Dummy Invoices</td>
+                    <td>
+                        <form class="submitBatchForm" action="/ictzonedeletedummyinvoices"
+                              method="POST" data-parsley-validate>
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="/batch_history?batch_id=102" class="btn-sm">
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td>ICT Zone - Insert Dummy Invoices</td>
+                    <td>
+                        <form class="submitBatchForm" action="/ictzoneinsertdummyinvoices"
+                              method="POST" data-parsley-validate>
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="/batch_history?batch_id=100" class="btn-sm">
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td>ICT Zone - Update Transactions with 0 Invoice ID</td>
+                    <td>
+                        <form class="submitBatchForm" action="/ictzoneupdatetrxwith0invid"
+                              method="POST" data-parsley-validate>
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="/batch_history?batch_id=101" class="btn-sm">
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>

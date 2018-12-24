@@ -177,6 +177,7 @@
         <mapper resource="app/dBConManagementService.xml" />
         <mapper resource="app/validatorManagementService.xml" />
         <mapper resource="app/dCLoadingXMLService.xml" />
+		<mapper resource="ictzone/dummyInvoiceForUnallocatedTrx.xml"/>
 	</mappers>
 
 </configuration>
