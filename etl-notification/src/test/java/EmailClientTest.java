@@ -1,12 +1,11 @@
-import org.junit.Test;
-import org.springframework.mail.javamail.JavaMailSender;
-
 import com.kollect.etl.notification.config.EmailConfig;
 import com.kollect.etl.notification.config.IEmailConfig;
 import com.kollect.etl.notification.entity.Email;
 import com.kollect.etl.notification.entity.EmailConfigEntity;
 import com.kollect.etl.notification.service.EmailClient;
 import com.kollect.etl.notification.service.IEmailClient;
+import org.junit.Test;
+import org.springframework.mail.javamail.JavaMailSender;
 
 public class EmailClientTest {
   IEmailConfig emailConfig;
