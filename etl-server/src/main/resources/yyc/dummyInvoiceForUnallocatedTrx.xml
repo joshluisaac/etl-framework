@@ -4,30 +4,30 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="dummyInvoiceForUnallocatedTrx">
-    <select id="getIctTrxWithZeroInvId" resultType="hmap">
+    <select id="getYycTrxWithZeroInvId" resultType="hmap">
         SELECT DISTINCT
             account_id,
             subsidiary_id
         FROM transactions
-        WHERE tenant_id = 102 AND invoice_id = 0
+        WHERE tenant_id = 65 AND invoice_id = 0
     </select>
 
-    <select id="getOldIctDummyInvoices" resultType="hmap">
+    <select id="getOldYycDummyInvoices" resultType="hmap">
         select id FROM invoices
-        WHERE tenant_id = 102 AND invoice_description = 'Open Invoice for Unallocated Transactions'
+        WHERE tenant_id = 65 AND invoice_description = 'Open Invoice for Unallocated Transactions'
     </select>
 
-    <delete id="deleteIctDummyInvoices">
+    <delete id="deleteYycDummyInvoices">
         DELETE FROM invoices
-        WHERE tenant_id = 102 AND id = #{id}
+        WHERE tenant_id = 65 AND id = #{id}
     </delete>
 
-    <insert id="insertIctDummyInvoices">
+    <insert id="insertYycDummyInvoices">
         INSERT INTO invoices (id, tenant_id, import_id, account_id, invoice_date, invoice_no, invoice_description, invoice_due_date,
                               status_id, created_at, updated_at, created_by, updated_by, invoice_outstanding_with_interest, gst, import_status_id,
                               void_flag, subsidiary_id, void_flag_char) VALUES (
             nextval('invoices_id'),
-            102,
+            65,
             0,
             #{account_id},
             current_timestamp,
@@ -48,15 +48,15 @@
         )
     </insert>
 
-    <update id="updateIctTrxWithZeroInvId">
+    <update id="updateYycTrxWithZeroInvId">
         UPDATE transactions
         SET invoice_id =
         (SELECT id
          FROM invoices
-         WHERE invoices.tenant_id = 102 AND invoices.invoice_no = #{account_id} :: VARCHAR(50) AND
+         WHERE invoices.tenant_id = 65 AND invoices.invoice_no = #{account_id} :: VARCHAR(50) AND
                invoices.account_id = #{account_id}
                AND invoices.subsidiary_id = #{subsidiary_id})
-        WHERE tenant_id = 102 AND invoice_id = 0 AND account_id = #{account_id} AND
+        WHERE tenant_id = 65 AND invoice_id = 0 AND account_id = #{account_id} AND
               subsidiary_id = #{subsidiary_id}
     </update>
 </mapper>

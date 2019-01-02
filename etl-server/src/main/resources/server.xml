@@ -178,6 +178,7 @@
         <mapper resource="app/validatorManagementService.xml" />
         <mapper resource="app/dCLoadingXMLService.xml" />
 		<mapper resource="ictzone/dummyInvoiceForUnallocatedTrx.xml"/>
+		<mapper resource="yyc/dummyInvoiceForUnallocatedTrx.xml"/>
 	</mappers>
 
 </configuration>

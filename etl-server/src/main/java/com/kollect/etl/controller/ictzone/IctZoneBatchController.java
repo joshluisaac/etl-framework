@@ -80,21 +80,21 @@ public class IctZoneBatchController {
     @PostMapping("/ictzonedeletedummyinvoices")
     @ResponseBody
     public Object deleteDummyInvoices() {
-        return this.asyncBatchExecutorService.execute(102, dataSource, "oldDummyInvoices", "deleteDummyInvoices",
+        return this.asyncBatchExecutorService.execute(102, dataSource, "getOldIctDummyInvoices", "deleteIctDummyInvoices",
                 "ICTZONE_DELETE_DUMMY_INV");
     }
 
     @PostMapping("/ictzoneinsertdummyinvoices")
     @ResponseBody
     public Object insertDummyInvoices() {
-        return this.asyncBatchExecutorService.execute(100, dataSource, "getTrxWithZeroInvId", "insertDummyInvoices",
+        return this.asyncBatchExecutorService.execute(100, dataSource, "getIctTrxWithZeroInvId", "insertIctDummyInvoices",
                 "ICTZONE_DUMMY_INV");
     }
 
     @PostMapping("/ictzoneupdatetrxwith0invid")
     @ResponseBody
     public Object updateTrxWithZeroInvId() {
-        return this.asyncBatchExecutorService.execute(101, dataSource, "getTrxWithZeroInvId", "TrxWithZeroInvId",
+        return this.asyncBatchExecutorService.execute(101, dataSource, "getIctTrxWithZeroInvId", "updateIctTrxWithZeroInvId",
                 "ICTZONE_UPDATE_TRX_ZERO_INV_ID");
     }
 }
