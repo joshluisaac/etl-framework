@@ -198,6 +198,15 @@ public class ScheduledTasks {
     }
 
     private void runIctZoneBatches(List<String> dataSource) {
+        asyncBatchExecutorService.execute(102, dataSource, "getOldIctDummyInvoices", "deleteIctDummyInvoices",
+                "ICTZONE_DELETE_DUMMY_INV");
+        this.componentProvider.taskSleep();
+        asyncBatchExecutorService.execute(100, dataSource, "getIctTrxWithZeroInvId", "insertIctDummyInvoices",
+                "ICTZONE_DUMMY_INV");
+        this.componentProvider.taskSleep();
+        asyncBatchExecutorService.execute(101, dataSource, "getIctTrxWithZeroInvId", "updateIctTrxWithZeroInvId",
+                "ICTZONE_UPDATE_TRX_ZERO_INV_ID");
+        this.componentProvider.taskSleep();
         this.asyncBatchExecutorService.execute(68,
                 dataSource,
                 "getIctZoneInvoiceAmountAfterTax",
@@ -223,15 +232,6 @@ public class ScheduledTasks {
         this.componentProvider.taskSleep();
         this.updateDataDateService.runUpdateDataDate(71, dataSource,
                 "ictZoneUpdateDataDate");
-        this.componentProvider.taskSleep();
-        asyncBatchExecutorService.execute(102, dataSource, "getTrxWithZeroInvId", "deleteDummyInvoices",
-                "ICTZONE_DELETE_DUMMY_INV");
-        this.componentProvider.taskSleep();
-        asyncBatchExecutorService.execute(100, dataSource, "getTrxWithZeroInvId", "insertDummyInvoices",
-                "ICTZONE_DUMMY_INV");
-        this.componentProvider.taskSleep();
-        asyncBatchExecutorService.execute(101, dataSource, "getTrxWithZeroInvId", "TrxWithZeroInvId",
-                "ICTZONE_UPDATE_TRX_ZERO_INV_ID");
     }
 
     @Scheduled(cron = "${app.scheduler.runat3am}")

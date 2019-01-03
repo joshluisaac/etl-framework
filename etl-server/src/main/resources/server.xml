@@ -101,6 +101,16 @@
 				<property name="password" value="${kv_production_password}" />
 			</dataSource>
 		</environment>
+
+		<environment id="KV_SIT_20181207">
+			<transactionManager type="JDBC" />
+			<dataSource type="POOLED">
+				<property name="driver" value="${postgres_driver}" />
+				<property name="url" value="jdbc:postgresql://192.168.1.25:5432/kollectvalley_sit_20181207" />
+				<property name="username" value="${postgres_username}" />
+				<property name="password" value="${postgres_password}" />
+			</dataSource>
+		</environment>
 	</environments>
 
 	<mappers>

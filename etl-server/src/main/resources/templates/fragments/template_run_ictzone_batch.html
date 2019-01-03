@@ -39,6 +39,48 @@
                 <tbody>
                 <tr>
                     <td>1</td>
+                    <td>ICT Zone - Delete Old Dummy Invoices</td>
+                    <td>
+                        <form class="submitBatchForm" action="/ictzonedeletedummyinvoices"
+                              method="POST" data-parsley-validate>
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="/batch_history?batch_id=102" class="btn-sm">
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>ICT Zone - Insert Dummy Invoices</td>
+                    <td>
+                        <form class="submitBatchForm" action="/ictzoneinsertdummyinvoices"
+                              method="POST" data-parsley-validate>
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="/batch_history?batch_id=100" class="btn-sm">
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>ICT Zone - Update Transactions with 0 Invoice ID</td>
+                    <td>
+                        <form class="submitBatchForm" action="/ictzoneupdatetrxwith0invid"
+                              method="POST" data-parsley-validate>
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="/batch_history?batch_id=101" class="btn-sm">
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>4</td>
                     <td>ICT Zone - Compute Invoice Amount After Tax</td>
                     <td>
                         <form class="submitBatchForm" action="/ictzonecompinvamtafttax"
@@ -53,7 +95,7 @@
                 </tr>
 
                 <tr>
-                    <td>2</td>
+                    <td>5</td>
                     <td>ICT Zone - Compute Invoice Outstanding</td>
                     <td>
                         <form class="submitBatchForm" action="/ictzoneinvoiceoutstanding"
@@ -68,7 +110,7 @@
                 </tr>
 
                 <tr>
-                    <td>3</td>
+                    <td>6</td>
                     <td>ICT Zone - Invoice Status Evaluation</td>
                     <td>
                         <form class="submitBatchForm" action="/ictzoneinvstateval"
@@ -83,7 +125,7 @@
                 </tr>
 
                 <tr>
-                    <td>4</td>
+                    <td>7</td>
                     <td>ICT Zone - In Aging Invoice</td>
                     <td>
                         <form class="submitBatchForm" action="/ictzoneinaging"
@@ -98,7 +140,7 @@
                 </tr>
 
                 <tr>
-                    <td>5</td>
+                    <td>8</td>
                     <td>ICT Zone - Age Invoice</td>
                     <td>
                         <form class="submitBatchForm" action="/ictzoneageinvoice"
@@ -113,7 +155,7 @@
                 </tr>
 
                 <tr>
-                    <td>6</td>
+                    <td>9</td>
                     <td>ICT Zone - Update Data Date</td>
                     <td>
                         <form class="submitBatchForm" action="/ictzonedatadate"
@@ -123,48 +165,6 @@
                     </td>
                     <td>
                         <a href="/batch_history?batch_id=71" class="btn-sm">
-                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>7</td>
-                    <td>ICT Zone - Delete Old Dummy Invoices</td>
-                    <td>
-                        <form class="submitBatchForm" action="/ictzonedeletedummyinvoices"
-                              method="POST" data-parsley-validate>
-                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
-                        </form>
-                    </td>
-                    <td>
-                        <a href="/batch_history?batch_id=102" class="btn-sm">
-                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>8</td>
-                    <td>ICT Zone - Insert Dummy Invoices</td>
-                    <td>
-                        <form class="submitBatchForm" action="/ictzoneinsertdummyinvoices"
-                              method="POST" data-parsley-validate>
-                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
-                        </form>
-                    </td>
-                    <td>
-                        <a href="/batch_history?batch_id=100" class="btn-sm">
-                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>9</td>
-                    <td>ICT Zone - Update Transactions with 0 Invoice ID</td>
-                    <td>
-                        <form class="submitBatchForm" action="/ictzoneupdatetrxwith0invid"
-                              method="POST" data-parsley-validate>
-                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
-                        </form>
-                    </td>
-                    <td>
-                        <a href="/batch_history?batch_id=101" class="btn-sm">
                             <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
                     </td>
                 </tr>
