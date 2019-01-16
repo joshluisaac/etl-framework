@@ -111,14 +111,14 @@
     
     <select id="getDailyYycHistoryUat" resultType="hmap">
         <include refid="getHistoryForEmailUpdateFrag"/>
-        WHERE hist.batch_id in (63,64,65,66, 81, 82, 91, 93, 103, 104, 105) and hist.updated_date >= now()::date
+        WHERE hist.batch_id in (63,64,65,66, 81, 82, 91, 93, 103, 104, 105, 106) and hist.updated_date >= now()::date
         and hist.data_source = 'KV_UAT'
         ORDER BY hist.updated_date desc
     </select>
 
     <select id="getDailyYycHistoryProd" resultType="hmap">
         <include refid="getHistoryForEmailUpdateFrag"/>
-        WHERE hist.batch_id in (63,64,65,66, 81, 82, 91, 93, 103, 104, 105) and hist.updated_date >= now()::date
+        WHERE hist.batch_id in (63,64,65,66, 81, 82, 91, 93, 103, 104, 105, 106) and hist.updated_date >= now()::date
         and hist.data_source = 'KV_Production'
         ORDER BY hist.updated_date desc
     </select>
