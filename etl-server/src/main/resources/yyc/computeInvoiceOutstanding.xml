@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--Only for invoices created as dummy invoices for unallocated transactions-->
+<mapper namespace="computeInvoiceOutstanding">
+    <select id="getYycInvoiceOutstanding" resultType="hmap">
+        SELECT
+            i.id as id,
+            COALESCE(i.invoice_amount,0) + COALESCE(i.gst,0) + COALESCE(t.transaction,0) as outstanding
+            FROM invoices AS i
+            LEFT JOIN (
+            SELECT
+            t.invoice_id,
+            sum(COALESCE(t.debit,0) - COALESCE(t.credit,0)) AS transaction
+            FROM transactions AS t
+            WHERE initial_debit=false
+            GROUP BY t.invoice_id
+            ) AS t on t.invoice_id = i.id
+            WHERE i.tenant_id=65 and i.invoice_description = 'Open Invoice for Unallocated Transactions'
+    </select>
+
+    <update id="updateYycInvoiceOutstanding">
+        update invoices set invoice_outstanding = #{outstanding} where id = #{id}
+    </update>
+</mapper>

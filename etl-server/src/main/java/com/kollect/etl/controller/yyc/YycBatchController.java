@@ -100,20 +100,27 @@ public class YycBatchController {
     @ResponseBody
     public Object deleteDummyInvoices() {
         return this.asyncBatchExecutorService.execute(103, dataSource, "getOldYycDummyInvoices", "deleteYycDummyInvoices",
-                "ICTZONE_DELETE_DUMMY_INV");
+                "YYC_DELETE_DUMMY_INV");
     }
 
     @PostMapping("/yycinsertdummyinvoices")
     @ResponseBody
     public Object insertDummyInvoices() {
         return this.asyncBatchExecutorService.execute(104, dataSource, "getYycTrxWithZeroInvId", "insertYycDummyInvoices",
-                "ICTZONE_DUMMY_INV");
+                "YYC_DUMMY_INV");
     }
 
     @PostMapping("/yycupdatetrxwith0invid")
     @ResponseBody
     public Object updateTrxWithZeroInvId() {
         return this.asyncBatchExecutorService.execute(105, dataSource, "getYycTrxWithZeroInvId", "updateYycTrxWithZeroInvId",
-                "ICTZONE_UPDATE_TRX_ZERO_INV_ID");
+                "YYC_UPDATE_TRX_ZERO_INV_ID");
+    }
+
+    @PostMapping("/yyccalcinvoutstanding")
+    @ResponseBody
+    public Object calcInvOutstanding() {
+        return this.asyncBatchExecutorService.execute(106, dataSource, "getYycInvoiceOutstanding", "updateYycInvoiceOutstanding",
+                "YYC_CALC_INV_OUT");
     }
 }

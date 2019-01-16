@@ -189,6 +189,7 @@
         <mapper resource="app/dCLoadingXMLService.xml" />
 		<mapper resource="ictzone/dummyInvoiceForUnallocatedTrx.xml"/>
 		<mapper resource="yyc/dummyInvoiceForUnallocatedTrx.xml"/>
+		<mapper resource="yyc/computeInvoiceOutstanding.xml"/>
 	</mappers>
 
 </configuration>
