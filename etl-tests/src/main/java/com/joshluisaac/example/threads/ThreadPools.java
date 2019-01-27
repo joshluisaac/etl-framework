@@ -72,7 +72,7 @@ public class ThreadPools implements Runnable {
     ThreadPools tp = new ThreadPools();
     ExecutorService executorService = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
     List<Future<String>> ftureList = new ArrayList<>();
-    for (int i = 0; i < 12; i++) {
+    for (int i = 0; i < 1; i++) {
       //executorService.submit(new ThreadPools(i));
       //Future<?> fr = executorService.submit(tp.someRunnableTask);
       Future<String> future = executorService.submit(tp.callableTask);
