@@ -95,6 +95,20 @@
                 </tr>
                 <tr>
                     <td>5</td>
+                    <td>YYC - Calculate Invoice Outstanding For Unallocated Transactions</td>
+                    <td>
+                        <form class="submitBatchForm" action="/yyccalcinvoutstanding"
+                              method="POST" data-parsley-validate>
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
+                        </form>
+                    </td>
+                    <td>
+                        <a href="/batch_history?batch_id=106" class="btn-sm">
+                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>6</td>
                     <td>YYC - Invoice Status Evaluation</td>
                     <td>
                         <form class="submitBatchForm" action="/yycinvstatevaluation"
@@ -109,7 +123,7 @@
                 </tr>
 
                 <tr>
-                    <td>6</td>
+                    <td>7</td>
                     <td>YYC - Age Invoice</td>
                     <td>
                         <form class="submitBatchForm" action="/yycageinvoice"
@@ -124,7 +138,7 @@
                 </tr>
 
                 <tr>
-                    <td>7</td>
+                    <td>8</td>
                     <td>YYC - In Aging</td>
                     <td>
                         <form class="submitBatchForm" action="/yycinaging"
@@ -139,7 +153,7 @@
                 </tr>
 
                 <tr>
-                    <td>8</td>
+                    <td>9</td>
                     <td>YYC - Update Data Date</td>
                     <td>
                         <form class="submitBatchForm" action="/yycupdatedatadate"
@@ -154,7 +168,7 @@
                 </tr>
 
                 <tr>
-                    <td>9</td>
+                    <td>10</td>
                     <td>YYC - Update Phone No</td>
                     <td>
                         <form class="submitBatchForm" action="/yycupdatephonenos"
@@ -169,7 +183,7 @@
                 </tr>
 
                 <tr>
-                    <td>10</td>
+                    <td>11</td>
                     <td>YYC - Update PIC Names</td>
                     <td>
                         <form class="submitBatchForm" action="/yycupdatepic"
@@ -184,7 +198,7 @@
                 </tr>
 
                 <tr>
-                    <td>11</td>
+                    <td>12</td>
                     <td>YYC - Delete Default Addresses</td>
                     <td>
                         <form class="submitBatchForm" action="/yycdeletedefaddresses"
@@ -194,20 +208,6 @@
                     </td>
                     <td>
                         <a href="/batch_history?batch_id=93" class="btn-sm">
-                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>12</td>
-                    <td>YYC - Calculate Invoice Outstanding For Unallocated Transactions</td>
-                    <td>
-                        <form class="submitBatchForm" action="/yyccalcinvoutstanding"
-                              method="POST" data-parsley-validate>
-                            <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentSubmitBtn"></i>
-                        </form>
-                    </td>
-                    <td>
-                        <a href="/batch_history?batch_id=106" class="btn-sm">
                             <i th:replace="fragments/template_batch_table_fragment :: batchTableFragmentStats"></i></a>
                     </td>
                 </tr>
