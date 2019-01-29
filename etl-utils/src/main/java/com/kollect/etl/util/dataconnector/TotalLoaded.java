@@ -1,6 +1,5 @@
 package com.kollect.etl.util.dataconnector;
 
-import com.google.common.base.MoreObjects;
 
 public class TotalLoaded {
   
@@ -80,15 +79,15 @@ public class TotalLoaded {
 
   @Override
   public String toString() {
-    return MoreObjects.toStringHelper(this)
-            .add("key", key)
-            .add("loaded", loaded)
-            .add("eligible", eligible)
-            .add("duration", duration)
-            .add("rowsPerSec", rowsPerSec)
-            .add("context", context)
-            .add("percentageLoaded", percentageLoaded)
-            .add("percentageRejected", percentageRejected)
-            .toString();
+    return "TotalLoaded{" +
+            "key='" + key + '\'' +
+            ", loaded=" + loaded +
+            ", eligible=" + eligible +
+            ", duration=" + duration +
+            ", rowsPerSec=" + rowsPerSec +
+            ", context='" + context + '\'' +
+            ", percentageLoaded=" + percentageLoaded +
+            ", percentageRejected=" + percentageRejected +
+            '}';
   }
 }
