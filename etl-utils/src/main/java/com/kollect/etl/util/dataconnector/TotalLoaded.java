@@ -1,5 +1,6 @@
 package com.kollect.etl.util.dataconnector;
 
+
 public class TotalLoaded {
   
   String key;
@@ -54,7 +55,13 @@ public class TotalLoaded {
   }
 
   public void setPercentageLoaded() {
-    this.percentageLoaded = ((double)this.loaded/this.eligible) * 100;
+    if (this.loaded <= 0) {
+      this.percentageLoaded = 0.0;
+    }
+    else {
+      this.percentageLoaded = ((double)this.loaded/this.eligible) * 100;
+    }
+
   }
 
   public double getPercentageRejected() {
@@ -62,19 +69,25 @@ public class TotalLoaded {
   }
 
   public void setPercentageRejected() {
-    this.percentageRejected = ((double)(this.eligible - this.loaded)/this.eligible) * 100;
+    if ((this.eligible - this.loaded) <= 0) {
+      this.percentageLoaded = 0.0;
+    } else {
+      this.percentageRejected = ((double)(this.eligible - this.loaded)/this.eligible) * 100;
+    }
+
   }
 
   @Override
   public String toString() {
-    return "TotalLoaded [key=" + key + ", loaded=" + loaded + ", eligible=" + eligible + ", duration=" + duration
-        + ", rowsPerSec=" + rowsPerSec + ", context=" + context + "]";
+    return "TotalLoaded{" +
+            "key='" + key + '\'' +
+            ", loaded=" + loaded +
+            ", eligible=" + eligible +
+            ", duration=" + duration +
+            ", rowsPerSec=" + rowsPerSec +
+            ", context='" + context + '\'' +
+            ", percentageLoaded=" + percentageLoaded +
+            ", percentageRejected=" + percentageRejected +
+            '}';
   }
-  
-  
-  
-  
-  
-
-
 }
