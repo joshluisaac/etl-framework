@@ -35,3 +35,6 @@ etl-parent.iml
 /logs/
 target/
 etl-server/uploads
+
+.mvn
+.DS_Store
